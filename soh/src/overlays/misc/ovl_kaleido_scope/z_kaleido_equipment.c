@@ -503,12 +503,24 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
                 (gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] ==
                  ((void)0, gSaveContext.linkAge))) {
                 if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
+
+                     /* * Allow Link to manually un-equip his shield on the equipment subscreen * */
+
+                    // If our cursor is on the "shields" line of the equipment screen AND we have this enhancement toggled ON
+                    if (pauseCtx->cursorY[PAUSE_EQUIP] == 1 && CVar_GetS32("gUnequippableShields", 0)) {
+                        if (pauseCtx->cursorX[PAUSE_EQUIP] == CUR_EQUIP_VALUE(EQUIP_SHIELD)) { // If cursor is over a currently-equipped shield
+                            Inventory_ChangeEquipment(EQUIP_SHIELD, 0); // Unequip it
+                            goto RESUME_EQUIPMENT; // Skip the next few lines, which would otherwise re-equip the shield
+                        }
+                    }
+
                     if (CHECK_OWNED_EQUIP(pauseCtx->cursorY[PAUSE_EQUIP], pauseCtx->cursorX[PAUSE_EQUIP] - 1)) {
                         Inventory_ChangeEquipment(pauseCtx->cursorY[PAUSE_EQUIP], pauseCtx->cursorX[PAUSE_EQUIP]);
                     } else {
                         goto EQUIP_FAIL;
                     }
 
+                    RESUME_EQUIPMENT:
                     if (pauseCtx->cursorY[PAUSE_EQUIP] == 0) {
                         gSaveContext.infTable[29] = 0;
                         gSaveContext.equips.buttonItems[0] = cursorItem;
