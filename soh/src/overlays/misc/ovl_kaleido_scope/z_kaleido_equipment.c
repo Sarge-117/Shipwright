@@ -504,7 +504,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
                  ((void)0, gSaveContext.linkAge))) {
                 if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
 
-                    // Allow Link to remove his equipment from the equipment subscreen
+                    // Allow Link to remove his equipment from the equipment subscreen by toggling things off/on
                     // Shields will be un-equipped entirely, and tunics/boots will revert to Kokiri Tunic/Kokiri Boots
                     // Only BGS/Giant's Knife is affected, and it will revert to Master Sword.
 
