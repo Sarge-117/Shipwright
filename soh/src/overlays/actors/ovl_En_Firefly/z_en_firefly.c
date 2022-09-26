@@ -31,7 +31,8 @@ void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx);
 typedef enum {
     /* 0 */ KEESE_AURA_NONE,
     /* 1 */ KEESE_AURA_FIRE,
-    /* 2 */ KEESE_AURA_ICE
+    /* 2 */ KEESE_AURA_ICE,
+    /* 3 */ KEESE_AURA_ELEC
 } KeeseAuraType;
 
 const ActorInit En_Firefly_InitVars = {
@@ -148,6 +149,35 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
+    f32 rnd;
+    if (gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+        rnd = Rand_ZeroOne();
+
+        if (rnd < 0.2) {
+            this->actor.params = KEESE_NORMAL_FLY;
+            this->onFire = false;
+        }
+        if (rnd >= 0.2 && rnd < 0.4) {
+            this->actor.params = KEESE_NORMAL_FLY;
+            this->actor.flags |= ACTOR_FLAG_7;
+            this->actor.draw = EnFirefly_DrawInvisible;
+            this->actor.params &= 0x7FFF;
+            this->onFire = false;
+        }
+        if (rnd >= 0.4 && rnd < 0.6) {
+            this->actor.params = KEESE_FIRE_FLY;
+            this->onFire = true;
+        }
+        if (rnd >= 0.6 && rnd < 0.8) {
+            this->actor.params = KEESE_ICE_FLY;
+            this->onFire = false;
+        }
+        if (rnd >= 0.8) {
+            this->actor.params = KEESE_ELEC_FLY;
+            this->onFire = false;
+        }
+    }
+
     if ((this->actor.params & 0x8000) != 0) {
         this->actor.flags |= ACTOR_FLAG_7;
         this->actor.draw = EnFirefly_DrawInvisible;
@@ -189,6 +219,12 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->auraType = KEESE_AURA_NONE;
         }
+    }
+    if (rnd >= 0.8 && gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0) != 0)) {
+        this->actor.params == KEESE_ELEC_FLY;
+        this->collider.elements[0].info.toucher.effect = 3; // Electric
+        this->actor.naviEnemyId = 0x12;
+        this->auraType = KEESE_AURA_ELEC;
     }
 
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
@@ -417,6 +453,7 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
 
 // Fall to the ground after being hit
 void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
+    f32 rnd = Rand_ZeroOne();
     if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
         this->skelAnime.playSpeed = 0.0f;
     }
@@ -432,6 +469,18 @@ void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
             this->timer--;
         }
         if ((this->actor.bgCheckFlags & 1) || (this->timer == 0)) {
+            if (rnd < 0.55f) {
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
+            }
+            if (rnd < 0.25f) {
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.prevPos.x,
+                            this->actor.prevPos.y, this->actor.prevPos.z, 0, 0, 0, KEESE_NORMAL_FLY);
+            }
+            if (rnd > 0.92f) {
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_IK, this->actor.prevPos.x,
+                            this->actor.prevPos.y + 2, this->actor.prevPos.z, 0, 0, 0, 0002);
+            }
             EnFirefly_SetupDie(this);
         }
     }
@@ -548,6 +597,9 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
             this->auraType = KEESE_AURA_FIRE;
         } else if (this->actor.params == KEESE_ICE_FLY) {
             this->auraType = KEESE_AURA_ICE;
+        } else if (this->actor.params == KEESE_ELEC_FLY && gSaveContext.n64ddFlag &&
+                   (CVar_GetS32("gRandoKeeseSanity", 0) != 0)) {
+            this->auraType = KEESE_AURA_ELEC;
         }
         EnFirefly_SetupFlyIdle(this);
     }
@@ -735,6 +787,8 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     static Color_RGBA8 fireAuraEnvColor = { 255, 50, 0, 0 };
     static Color_RGBA8 iceAuraPrimColor = { 100, 200, 255, 255 };
     static Color_RGBA8 iceAuraEnvColor = { 0, 0, 255, 0 };
+    static Color_RGBA8 elecAuraPrimColor = { 242, 250, 110, 255 };
+    static Color_RGBA8 elecAuraEnvColor = { 75, 80, 200, 0 };
     static Color_RGB8 fireAuraPrimColor_ori = { 255, 255, 100 };
     static Color_RGB8 fireAuraEnvColor_ori = { 255, 50, 0 };
     static Color_RGB8 iceAuraPrimColor_ori = { 100, 200, 255 };
@@ -774,7 +828,8 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     if (!this->onFire && (limbIndex == 27)) {
         gSPDisplayList((*gfx)++, gKeeseEyesDL);
     } else {
-        if ((this->auraType == KEESE_AURA_FIRE) || (this->auraType == KEESE_AURA_ICE)) {
+        if ((this->auraType == KEESE_AURA_FIRE) || (this->auraType == KEESE_AURA_ICE) ||
+            (this->auraType == KEESE_AURA_ELEC)) {
             if ((limbIndex == 15) || (limbIndex == 21)) {
                 if (this->actionFunc != EnFirefly_Die) {
                     Matrix_Get(&mtx);
@@ -800,6 +855,9 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
                 if (this->auraType == KEESE_AURA_FIRE) {
                     effPrimColor = &fireAuraPrimColor;
                     effEnvColor = &fireAuraEnvColor;
+                } else if (this->auraType == KEESE_AURA_ELEC) {
+                    effPrimColor = &elecAuraPrimColor;
+                    effEnvColor = &elecAuraEnvColor;
                 } else {
                     effPrimColor = &iceAuraPrimColor;
                     effEnvColor = &iceAuraEnvColor;

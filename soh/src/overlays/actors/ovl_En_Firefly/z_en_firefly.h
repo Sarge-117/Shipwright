@@ -29,7 +29,8 @@ typedef enum {
     /* 1 */ KEESE_FIRE_PERCH,
     /* 2 */ KEESE_NORMAL_FLY,
     /* 3 */ KEESE_NORMAL_PERCH,
-    /* 4 */ KEESE_ICE_FLY
+    /* 4 */ KEESE_ICE_FLY,
+    /* 5 */ KEESE_ELEC_FLY
 } KeeseType;
 
 #endif
