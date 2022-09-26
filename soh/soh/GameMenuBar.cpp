@@ -1502,6 +1502,8 @@ namespace GameMenuBar {
                     "Play unique fanfares when obtaining quest items "
                     "(medallions/stones/songs). Note that these fanfares are longer than usual."
                 );
+                UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gRandoKeeseSanity", true, false);
+                UIWidgets::Tooltip("Oh God.");
                 ImGui::EndMenu();
             }
 

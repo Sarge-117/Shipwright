@@ -220,7 +220,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->auraType = KEESE_AURA_NONE;
         }
     }
-    if (rnd >= 0.8 && gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0) != 0)) {
+    if (rnd >= 0.8 && gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
         this->actor.params == KEESE_ELEC_FLY;
         this->collider.elements[0].info.toucher.effect = 3; // Electric
         this->actor.naviEnemyId = 0x12;
@@ -469,17 +469,13 @@ void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
             this->timer--;
         }
         if ((this->actor.bgCheckFlags & 1) || (this->timer == 0)) {
-            if (rnd < 0.55f) {
+            if (rnd < 0.55f && (CVar_GetS32("gRandoKeeseSanity", 0))) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
             }
-            if (rnd < 0.25f) {
+            if (rnd < 0.25f && (CVar_GetS32("gRandoKeeseSanity", 0))) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.prevPos.x,
                             this->actor.prevPos.y, this->actor.prevPos.z, 0, 0, 0, KEESE_NORMAL_FLY);
-            }
-            if (rnd > 0.92f) {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_IK, this->actor.prevPos.x,
-                            this->actor.prevPos.y + 2, this->actor.prevPos.z, 0, 0, 0, 0002);
             }
             EnFirefly_SetupDie(this);
         }
