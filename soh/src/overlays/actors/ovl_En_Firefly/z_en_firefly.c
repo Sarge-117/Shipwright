@@ -226,24 +226,21 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->auraType = KEESE_AURA_NONE;
         }
     }
-
-    if (rnd >= 0.592 && rnd < 0.776 && gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-        this->actor.params == KEESE_ELEC_FLY;
-        this->collider.elements[0].info.toucher.effect = 3; // Electric
+    if (gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+        if (rnd >= 0.592 && rnd < 0.776) {
+            this->actor.params == KEESE_ELEC_FLY;
+            this->collider.elements[0].info.toucher.effect = 3; // Electric
+            this->auraType = KEESE_AURA_ELEC;
+        }
+        if (rnd >= 0.776 && rnd < 0.96) {
+            this->actor.params == KEESE_WIND_FLY;
+            this->auraType = KEESE_AURA_WIND;
+        }
+        if (rnd >= 0.96) {
+            this->actor.params == KEESE_VOID_FLY;
+            this->auraType = KEESE_AURA_VOID;
+        }
         this->actor.naviEnemyId = 0x12;
-        this->auraType = KEESE_AURA_ELEC;
-    }
-    if (rnd >= 0.776 && rnd < 0.96 && gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-        this->actor.params == KEESE_WIND_FLY;
-        this->collider.elements[0].info.toucher.effect = 0; // Nothing
-        this->actor.naviEnemyId = 0x12;
-        this->auraType = KEESE_AURA_WIND;
-    }
-    if (rnd >= 0.96 && gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-        this->actor.params == KEESE_VOID_FLY;
-        this->collider.elements[0].info.toucher.effect = 0; // Nothing
-        this->actor.naviEnemyId = 0x12;
-        this->auraType = KEESE_AURA_VOID;
     }
 
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
