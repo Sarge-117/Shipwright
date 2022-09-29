@@ -1492,6 +1492,8 @@ namespace GameMenuBar {
             }
             ImGui::PopStyleVar(3);
             ImGui::PopStyleColor(1);
+            UIWidgets::PaddedEnhancementCheckbox("Crowd Control", "gCrowdControl", true, false);
+            UIWidgets::Tooltip("Requires a full SoH restart to take effect!\n\nEnables CrowdControl. Will attempt to connect to the local Crowd Control server.");
 
             UIWidgets::PaddedSeparator();
 
