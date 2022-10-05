@@ -1542,6 +1542,37 @@ namespace GameMenuBar {
                 );
                 UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gRandoKeeseSanity", true, false);
                 UIWidgets::Tooltip("Oh God.");
+                if (CVar_GetS32("gRandoKeeseSanity", 0)) {
+                    UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity", "gKeeseSanityIntensity", 0, 6,
+                                                    "", 0, false);
+                    switch (CVar_GetS32("gKeeseSanityIntensity", 0)) {
+                        default:
+                            UIWidgets::Tooltip("Intensity");
+                            break;
+                        case 0:
+                            UIWidgets::Tooltip("EZ Mode");
+                            break;
+                        case 1:
+                            UIWidgets::Tooltip("Still EZ");
+                            break;
+                        case 2:
+                            UIWidgets::Tooltip("Quite Mild");
+                            break;
+                        case 3:
+                            UIWidgets::Tooltip("All Right");
+                            break;
+                        case 4:
+                            UIWidgets::Tooltip("Not That Bad");
+                            break;
+                        case 5:
+                            UIWidgets::Tooltip("Getting A Little Crazy Now");
+                            break;
+                        case 6:
+                            UIWidgets::Tooltip("Holy Shit");
+                            break;
+                    }
+                }
+               
                 ImGui::EndMenu();
             }
 
