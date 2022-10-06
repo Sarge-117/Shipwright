@@ -501,15 +501,10 @@ void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
         }
         if ((this->actor.bgCheckFlags & 1) || (this->timer == 0)) {
             // In Keese-Sanity, there's a chance to spawn a new random Keese
-            if (rnd < (0.15f + 0.1 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+            if (rnd < (0.125 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
             }
-            /* // And a smaller chance to spawn two random Keese
-            if (rnd < (0.10f + 0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.prevPos.x,
-                            this->actor.prevPos.y, this->actor.prevPos.z, 0, 0, 0, KEESE_NORMAL_FLY);
-            }*/
             EnFirefly_SetupDie(this);
         }
     }
