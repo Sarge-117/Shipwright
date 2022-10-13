@@ -6031,8 +6031,12 @@ void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
             }
         }
 
-        if (CVar_GetS32("gMMBunnyHood", 0) != 0 && this->currentMask == PLAYER_MASK_BUNNY) {
+        if (CVar_GetS32("gMMBunnyHood", 0) && this->currentMask == PLAYER_MASK_BUNNY) {
             maxSpeed *= 1.5f;
+        } else if (CVar_GetS32("gEnableWalkModify", 0) && CHECK_BTN_ALL(sControlInput->cur.button, BTN_MODIFIER1)) {
+            maxSpeed *= CVar_GetFloat("gWalkModifierOne", 1.0f);
+        } else if (CVar_GetS32("gEnableWalkModify", 0) && CHECK_BTN_ALL(sControlInput->cur.button, BTN_MODIFIER2)) {
+            maxSpeed *= CVar_GetFloat("gWalkModifierTwo", 1.0f);
         }
 
         this->linearVelocity = CLAMP(this->linearVelocity, -maxSpeed, maxSpeed);
@@ -7650,8 +7654,12 @@ void func_80842180(Player* this, GlobalContext* globalCtx) {
                 }
             }
 
-            if (CVar_GetS32("gMMBunnyHood", 0) != 0 && this->currentMask == PLAYER_MASK_BUNNY) {
+            if (CVar_GetS32("gMMBunnyHood", 0) && this->currentMask == PLAYER_MASK_BUNNY) {
                 sp2C *= 1.5f;
+            } else if (CVar_GetS32("gEnableWalkModify", 0) && CHECK_BTN_ALL(sControlInput->cur.button, BTN_MODIFIER1)) {
+                sp2C *= CVar_GetFloat("gWalkModifierOne", 1.0f);
+            } else if (CVar_GetS32("gEnableWalkModify", 0) && CHECK_BTN_ALL(sControlInput->cur.button, BTN_MODIFIER2)) {
+                sp2C *= CVar_GetFloat("gWalkModifierTwo", 1.0f);
             }
 
             func_8083DF68(this, sp2C, sp2A);
@@ -10968,11 +10976,14 @@ void Player_DrawGameplay(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* c
                   this);
 
     if ((overrideLimbDraw == func_80090014) && (this->currentMask != PLAYER_MASK_NONE)) {
+        // Fixes a bug in vanilla where ice traps are rendered extremely large while wearing a bunny hood
+        if (CVar_GetS32("gFixIceTrapWithBunnyHood", 1)) Matrix_Push();
         Mtx* sp70 = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Mtx));
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             Vec3s sp68;
 
+            FrameInterpolation_RecordActorPosRotMatrix();
             gSPSegment(POLY_OPA_DISP++, 0x0B, sp70);
 
             sp68.x = D_80858AC8.unk_02 + 0x3E2;
@@ -10989,6 +11000,7 @@ void Player_DrawGameplay(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* c
         }
 
         gSPDisplayList(POLY_OPA_DISP++, sMaskDlists[this->currentMask - 1]);
+        if (CVar_GetS32("gFixIceTrapWithBunnyHood", 1)) Matrix_Pop();
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) &&
