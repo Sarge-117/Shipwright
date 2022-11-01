@@ -128,8 +128,6 @@ void SaveManager::LoadRandomizerVersion1() {
 }
 
 void SaveManager::LoadRandomizerVersion2() {
-    if(!CVar_GetS32("gRandomizer", 0)) return;
-
     SaveManager::Instance->LoadArray("itemLocations", RC_MAX, [&](size_t i) {
         gSaveContext.itemLocations[i].check = RandomizerCheck(i);
         SaveManager::Instance->LoadStruct("", [&]() {
@@ -179,12 +177,7 @@ void SaveManager::LoadRandomizerVersion2() {
     std::shared_ptr<Randomizer> randomizer = OTRGlobals::Instance->gRandomizer;
 
     size_t merchantPricesSize = 0;
-    if (randomizer->GetRandoSettingValue(RSK_SHUFFLE_SCRUBS) > 0) {
-        merchantPricesSize += NUM_SCRUBS;
-    }
-    if (randomizer->GetRandoSettingValue(RSK_SHOPSANITY) > 0) {
-        merchantPricesSize += NUM_SHOP_ITEMS;
-    }
+    SaveManager::Instance->LoadData("merchantPricesSize", merchantPricesSize);
 
     SaveManager::Instance->LoadArray("merchantPrices", merchantPricesSize, [&](size_t i) {
         SaveManager::Instance->LoadStruct("", [&]() {
@@ -196,10 +189,10 @@ void SaveManager::LoadRandomizerVersion2() {
         });
     });
 
-    SaveManager::Instance->LoadData("masterQuestDungeonCount", gSaveContext.mqDungeonCount);
+    SaveManager::Instance->LoadData("masterQuestDungeonCount", gSaveContext.mqDungeonCount, (uint8_t)0);
 
     OTRGlobals::Instance->gRandomizer->masterQuestDungeons.clear();
-    SaveManager::Instance->LoadArray("masterQuestDungeons", randomizer->GetRandoSettingValue(RSK_MQ_DUNGEON_COUNT), [&](size_t i) {
+    SaveManager::Instance->LoadArray("masterQuestDungeons", gSaveContext.mqDungeonCount, [&](size_t i) {
         uint16_t scene;
         SaveManager::Instance->LoadData("", scene);
         randomizer->masterQuestDungeons.emplace(scene);
@@ -249,6 +242,7 @@ void SaveManager::SaveRandomizer() {
         merchantPrices.push_back(std::make_pair(check, price));
     }
 
+    SaveManager::Instance->SaveData("merchantPricesSize", merchantPrices.size());
     SaveManager::Instance->SaveArray("merchantPrices", merchantPrices.size(), [&](size_t i) {
         SaveManager::Instance->SaveStruct("", [&]() {
             SaveManager::Instance->SaveData("check", merchantPrices[i].first);
@@ -338,8 +332,11 @@ void SaveManager::InitMeta(int fileNum) {
     }
 
     fileMetaInfo[fileNum].randoSave = gSaveContext.n64ddFlag;
-    fileMetaInfo[fileNum].requiresMasterQuest = gSaveContext.isMasterQuest || gSaveContext.mqDungeonCount > 0;
-    fileMetaInfo[fileNum].requiresOriginal = !gSaveContext.isMasterQuest || gSaveContext.mqDungeonCount < 12;
+    // If the file is marked as a Master Quest file or if we're randomized and have at least one master quest dungeon, we need the mq otr.
+    fileMetaInfo[fileNum].requiresMasterQuest = gSaveContext.isMasterQuest > 0 || (gSaveContext.n64ddFlag && gSaveContext.mqDungeonCount > 0);
+    // If the file is not marked as Master Quest, it could still theoretically be a rando save with all 12 MQ dungeons, in which case
+    // we don't actually require a vanilla OTR.
+    fileMetaInfo[fileNum].requiresOriginal = !gSaveContext.isMasterQuest && (!gSaveContext.n64ddFlag || gSaveContext.mqDungeonCount < 12);
 }
 
 void SaveManager::InitFile(bool isDebug) {
@@ -688,14 +685,13 @@ void SaveManager::LoadFile(int fileNum) {
 }
 
 bool SaveManager::SaveFile_Exist(int fileNum) {
-    
     try {
-        std::filesystem::exists(GetFileName(fileNum));
-        printf("File[%d] - exist \n",fileNum);
-        return true;
+        bool exists = std::filesystem::exists(GetFileName(fileNum));
+        SPDLOG_INFO("File[{}] - {}", fileNum, exists ? "exists" : "does not exist" );
+        return exists;
     }
     catch(std::filesystem::filesystem_error const& ex) {
-        printf("File[%d] - do not exist \n",fileNum);
+        SPDLOG_ERROR("Filesystem error");
         return false;
     }
 }
@@ -1196,7 +1192,7 @@ void SaveManager::SaveBase() {
     SaveManager::Instance->SaveArray("randomizerInf", ARRAY_COUNT(gSaveContext.randomizerInf), [](size_t i) {
         SaveManager::Instance->SaveData("", gSaveContext.randomizerInf[i]);
     });
-    SaveManager::Instance->SaveData("isMasterQuest", ResourceMgr_IsGameMasterQuest());
+    SaveManager::Instance->SaveData("isMasterQuest", gSaveContext.isMasterQuest);
 }
 
 void SaveManager::SaveArray(const std::string& name, const size_t size, SaveArrayFunc func) {
