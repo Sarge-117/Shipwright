@@ -152,9 +152,8 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     // Every time a Keese spawns, it will choose a random type. Invis and Void have lower chance than the others.
-    f32 rnd;
-    if (gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-        rnd = Rand_ZeroOne();
+    f32 rnd = Rand_ZeroOne(), rnd2 = Rand_ZeroOne(), rnd3 = Rand_ZeroOne();
+    if (CVar_GetS32("gRandoKeeseSanity", 0)) {
         this->onFire = false;
 
         if (rnd < 0.04) { // Invis Keese
@@ -226,7 +225,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->auraType = KEESE_AURA_NONE;
         }
     }
-    if (gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+    if (CVar_GetS32("gRandoKeeseSanity", 0)) {
         if (rnd >= 0.592 && rnd < 0.776) {
             this->actor.params == KEESE_ELEC_FLY;
             this->collider.elements[0].info.toucher.effect = 3; // Electric
@@ -245,11 +244,18 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
 
-    f32 rnd2 = Rand_ZeroOne();
+    if (rnd == rnd2 == rnd3) {
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+
     // In Keese-Sanity, there's a chance to spawn additional random Keese
     if (rnd2 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
+    }
+    if (rnd3 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)/2) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
+                    this->actor.world.pos.z, 0, 0, 0, 0);
     }
 }
 
@@ -392,7 +398,7 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, GlobalContext* globalCtx) {
     Vec3f flamePos;
 
     // Special Keese types don't seek torches to ignite themselves
-    if (gSaveContext.n64ddFlag && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+    if (CVar_GetS32("gRandoKeeseSanity", 0)) {
         if (this->actor.params == KEESE_ICE_FLY || this->actor.params == KEESE_ELEC_FLY ||
             this->actor.params == KEESE_VOID_FLY || this->actor.params == KEESE_WIND_FLY) {
             return 0;
@@ -621,14 +627,11 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
             this->auraType = KEESE_AURA_FIRE;
         } else if (this->actor.params == KEESE_ICE_FLY) {
             this->auraType = KEESE_AURA_ICE;
-        } else if (this->actor.params == KEESE_ELEC_FLY && gSaveContext.n64ddFlag &&
-                   (CVar_GetS32("gRandoKeeseSanity", 0))) {
+        } else if (this->actor.params == KEESE_ELEC_FLY && CVar_GetS32("gRandoKeeseSanity", 0)) {
             this->auraType = KEESE_AURA_ELEC;
-        } else if (this->actor.params == KEESE_VOID_FLY && gSaveContext.n64ddFlag &&
-                   (CVar_GetS32("gRandoKeeseSanity", 0))) {
+        } else if (this->actor.params == KEESE_VOID_FLY && CVar_GetS32("gRandoKeeseSanity", 0)) {
             this->auraType = KEESE_AURA_VOID;
-        } else if (this->actor.params == KEESE_WIND_FLY && gSaveContext.n64ddFlag &&
-                   (CVar_GetS32("gRandoKeeseSanity", 0))) {
+        } else if (this->actor.params == KEESE_WIND_FLY && CVar_GetS32("gRandoKeeseSanity", 0)) {
             this->auraType = KEESE_AURA_WIND;
         }
         EnFirefly_SetupFlyIdle(this);
