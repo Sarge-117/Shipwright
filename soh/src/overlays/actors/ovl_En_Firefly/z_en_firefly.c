@@ -250,11 +250,11 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
 
     // In Keese-Sanity, there's a chance to spawn additional random Keese
     if (rnd2 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
     }
     if (rnd3 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)/2) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 0);
     }
 }
@@ -508,7 +508,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
         if ((this->actor.bgCheckFlags & 1) || (this->timer == 0)) {
             // In Keese-Sanity, there's a chance to spawn a new random Keese
             if (rnd < (0.125 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
+                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
             }
             EnFirefly_SetupDie(this);
@@ -763,11 +763,11 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
         }
         if (!(this->collider.base.atFlags & AT_BOUNCED)) { // If Keese does not hit Link's shield
             if (this->actor.params == KEESE_VOID_FLY) { // Void Keese cause player to void out
-                Gameplay_TriggerRespawn(globalCtx);
+                Play_TriggerRespawn(play);
                 func_800788CC(NA_SE_OC_ABYSS);
             }
             if (this->actor.params == KEESE_WIND_FLY) { // Wind Keese cause a large knockback
-                func_8002F71C(globalCtx, &this->actor, (350.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
+                func_8002F71C(play, &this->actor, (350.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
                               this->actor.world.rot.y, 8.0f);
             }
         }
