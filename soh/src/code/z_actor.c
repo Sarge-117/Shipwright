@@ -3226,8 +3226,9 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     objBankIndex = Object_GetIndex(&play->objectCtx, actorInit->objectId);
 
-    if (objBankIndex < 0 && !gMapLoading)
+    if ((objBankIndex < 0 && !gMapLoading) || CVar_GetS32("gRandoKeeseSanity", 0)) {
         objBankIndex = 0;
+    }
 
     if ((objBankIndex < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
