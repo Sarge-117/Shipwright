@@ -675,19 +675,19 @@ void Randomizer::ParseRandomizerSettingsFile(const char* spoilerFileName) {
                         break;
                     case RSK_SHOPSANITY:
                         if(it.value() == "Off") {
-                            gSaveContext.randoSettings[index].value = SHOPSANITY_OFF;         
+                            gSaveContext.randoSettings[index].value = RO_SHOPSANITY_OFF;         
                         } else if(it.value() == "0 Items") {
-                            gSaveContext.randoSettings[index].value = SHOPSANITY_ZERO;
+                            gSaveContext.randoSettings[index].value = RO_SHOPSANITY_ZERO_ITEMS;
                         } else if(it.value() == "1 Item") {
-                            gSaveContext.randoSettings[index].value = SHOPSANITY_ONE;
+                            gSaveContext.randoSettings[index].value = RO_SHOPSANITY_ONE_ITEM;
                         } else if(it.value() == "2 Items") {
-                            gSaveContext.randoSettings[index].value = SHOPSANITY_TWO;
+                            gSaveContext.randoSettings[index].value = RO_SHOPSANITY_TWO_ITEMS;
                         } else if(it.value() == "3 Items") {
-                            gSaveContext.randoSettings[index].value = SHOPSANITY_THREE;
+                            gSaveContext.randoSettings[index].value = RO_SHOPSANITY_THREE_ITEMS;
                         } else if(it.value() == "4 Items") {
-                            gSaveContext.randoSettings[index].value = SHOPSANITY_FOUR;
+                            gSaveContext.randoSettings[index].value = RO_SHOPSANITY_FOUR_ITEMS;
                         } else if(it.value() == "Random") {
-                            gSaveContext.randoSettings[index].value = SHOPSANITY_RANDOM;
+                            gSaveContext.randoSettings[index].value = RO_SHOPSANITY_RANDOM;
                         }
                         break;
                     case RSK_SHUFFLE_SCRUBS:
@@ -1287,7 +1287,7 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
     // Shopsanity with at least one item shuffled allows for a third wallet upgrade.
     // This is needed since Plentiful item pool also adds a third progressive wallet
     // but we should *not* get Tycoon's Wallet in that mode.
-    u8 numWallets = GetRandoSettingValue(RSK_SHOPSANITY) > 1 ? 3 : 2;
+    u8 numWallets = GetRandoSettingValue(RSK_SHOPSANITY) > RO_SHOPSANITY_ZERO_ITEMS ? 3 : 2;
     switch (randoGet) {
         case RG_NONE:
         case RG_TRIFORCE:
@@ -2568,7 +2568,7 @@ void GenerateRandomizerImgui() {
     cvarSettings[RSK_ZORAS_FOUNTAIN] = CVar_GetS32("gRandomizeZorasFountain", 0);
     cvarSettings[RSK_STARTING_AGE] = CVar_GetS32("gRandomizeStartingAge", 0);
     cvarSettings[RSK_GERUDO_FORTRESS] = CVar_GetS32("gRandomizeGerudoFortress", RO_GF_NORMAL);
-    cvarSettings[RSK_RAINBOW_BRIDGE] = CVar_GetS32("gRandomizeRainbowBridge", 0);
+    cvarSettings[RSK_RAINBOW_BRIDGE] = CVar_GetS32("gRandomizeRainbowBridge", RO_BRIDGE_VANILLA);
     cvarSettings[RSK_RAINBOW_BRIDGE_STONE_COUNT] = CVar_GetS32("gRandomizeStoneCount", 3);
     cvarSettings[RSK_RAINBOW_BRIDGE_MEDALLION_COUNT] = CVar_GetS32("gRandomizeMedallionCount", 6);
     cvarSettings[RSK_RAINBOW_BRIDGE_REWARD_COUNT] = CVar_GetS32("gRandomizeRewardCount", 9);
@@ -2588,7 +2588,7 @@ void GenerateRandomizerImgui() {
     cvarSettings[RSK_SHUFFLE_DUNGEON_REWARDS] = CVar_GetS32("gRandomizeShuffleDungeonReward", RO_DUNGEON_REWARDS_END_OF_DUNGEON);
     cvarSettings[RSK_SHUFFLE_SONGS] = CVar_GetS32("gRandomizeShuffleSongs", 0);
     cvarSettings[RSK_SHUFFLE_TOKENS] = CVar_GetS32("gRandomizeShuffleTokens", 0);
-    cvarSettings[RSK_SHOPSANITY] = CVar_GetS32("gRandomizeShopsanity", 0);
+    cvarSettings[RSK_SHOPSANITY] = CVar_GetS32("gRandomizeShopsanity", RO_SHOPSANITY_OFF);
     cvarSettings[RSK_SHUFFLE_SCRUBS] = CVar_GetS32("gRandomizeShuffleScrubs", 0);
     cvarSettings[RSK_SHUFFLE_COWS] = CVar_GetS32("gRandomizeShuffleCows", 0);
     cvarSettings[RSK_SHUFFLE_ADULT_TRADE] = CVar_GetS32("gRandomizeShuffleAdultTrade", 0);
@@ -2960,32 +2960,32 @@ void DrawRandoEditor(bool& open) {
 
                 UIWidgets::EnhancementCombobox("gRandomizeRainbowBridge", randoRainbowBridge, 7, RO_BRIDGE_VANILLA);
                 ImGui::PopItemWidth();
-                switch (CVar_GetS32("gRandomizeRainbowBridge", 0)) {
-                    case 0:
+                switch (CVar_GetS32("gRandomizeRainbowBridge", RO_BRIDGE_VANILLA)) {
+                    case RO_BRIDGE_ALWAYS_OPEN:
                         break;
-                    case 1:
+                    case RO_BRIDGE_VANILLA:
                         break;
-                    case 2:
+                    case RO_BRIDGE_STONES:
                         ImGui::Dummy(ImVec2(0.0f, 0.0f));
                         UIWidgets::EnhancementSliderInt("Stone Count: %d", "##RandoStoneCount",
                                                         "gRandomizeStoneCount", 1, 3, "", 3, true);
                         break;
-                    case 3:
+                    case RO_BRIDGE_MEDALLIONS:
                         ImGui::Dummy(ImVec2(0.0f, 0.0f));
                         UIWidgets::EnhancementSliderInt("Medallion Count: %d", "##RandoMedallionCount",
                                                         "gRandomizeMedallionCount", 1, 6, "", 6, true);
                         break;
-                    case 4:
+                    case RO_BRIDGE_DUNGEON_REWARDS:
                         ImGui::Dummy(ImVec2(0.0f, 0.0f));
                         UIWidgets::EnhancementSliderInt("Reward Count: %d", "##RandoRewardCount",
                                                         "gRandomizeRewardCount", 1, 9, "", 9, true);
                         break;
-                    case 5:
+                    case RO_BRIDGE_DUNGEONS:
                         ImGui::Dummy(ImVec2(0.0f, 0.0f));
                         UIWidgets::EnhancementSliderInt("Dungeon Count: %d", "##RandoDungeonCount",
                                                         "gRandomizeDungeonCount", 1, 8, "", 8, true);
                         break;
-                    case 6:
+                    case RO_BRIDGE_TOKENS:
                         ImGui::Dummy(ImVec2(0.0f, 0.0f));
                         UIWidgets::EnhancementSliderInt("Token Count: %d", "##RandoTokenCount",
                                                         "gRandomizeTokenCount", 1, 100, "", 100, true);
