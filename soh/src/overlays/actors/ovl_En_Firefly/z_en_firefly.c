@@ -251,11 +251,11 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     // In Keese-Sanity, there's a chance to spawn additional random Keese
     if (rnd2 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
+                    this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, true);
     }
     if (rnd3 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)/2) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, 0);
+                    this->actor.world.pos.z, 0, 0, 0, 0, true);
     }
 }
 
@@ -533,7 +533,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
             // In Keese-Sanity, there's a chance to spawn a new random Keese
             if (rnd < (0.125 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
-                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY);
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, true);
             }
             EnFirefly_SetupDie(this);
         }
@@ -869,6 +869,12 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
     Color_RGBA8 customFireAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_FireKeeseSecondary.Value", fireAuraEnvColor);
     Color_RGBA8 customIceAuraPrimColor = CVar_GetRGBA("gCosmetics.NPC_IceKeesePrimary.Value", iceAuraPrimColor);
     Color_RGBA8 customIceAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_IceKeeseSecondary.Value", iceAuraEnvColor);
+    Color_RGBA8 customElecAuraPrimColor = CVar_GetRGBA("gCosmetics.NPC_ElecKeesePrimary.Value", elecAuraPrimColor);
+    Color_RGBA8 customElecAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_ElecKeeseSecondary.Value", elecAuraEnvColor);
+    Color_RGBA8 customVoidAuraPrimColor = CVar_GetRGBA("gCosmetics.NPC_VoidKeesePrimary.Value", voidAuraPrimColor);
+    Color_RGBA8 customVoidAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_VoidKeeseSecondary.Value", voidAuraEnvColor);
+    Color_RGBA8 customWindAuraPrimColor = CVar_GetRGBA("gCosmetics.NPC_WindKeesePrimary.Value", windAuraPrimColor);
+    Color_RGBA8 customWindAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_WindKeeseSecondary.Value", windAuraEnvColor);
     static Vec3f effVelocity = { 0.0f, 0.5f, 0.0f };
     static Vec3f effAccel = { 0.0f, 0.5f, 0.0f };
     static Vec3f limbSrc = { 0.0f, 0.0f, 0.0f };
@@ -910,17 +916,6 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
                 }
 
                 if (this->auraType == KEESE_AURA_FIRE) {
-                    effPrimColor = &fireAuraPrimColor;
-                    effEnvColor = &fireAuraEnvColor;
-                } else if (this->auraType == KEESE_AURA_ELEC) {
-                    effPrimColor = &elecAuraPrimColor;
-                    effEnvColor = &elecAuraEnvColor;
-                } else if (this->auraType == KEESE_AURA_VOID) {
-                    effPrimColor = &voidAuraPrimColor;
-                    effEnvColor = &voidAuraEnvColor;
-                } else if (this->auraType == KEESE_AURA_WIND) {
-                        effPrimColor = &windAuraPrimColor;
-                        effEnvColor = &windAuraEnvColor;
                     if (CVar_GetS32("gCosmetics.NPC_FireKeesePrimary.Changed", 0)) {
                         effPrimColor = &customFireAuraPrimColor;
                     } else {
@@ -930,6 +925,39 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
                         effEnvColor = &customFireAuraEnvColor;
                     } else {
                         effEnvColor = &fireAuraEnvColor;
+                    }
+                } else if (this->auraType == KEESE_AURA_ELEC) {
+                    if (CVar_GetS32("gCosmetics.NPC_ElecKeesePrimary.Changed", 0)) {
+                        effPrimColor = &customElecAuraPrimColor;
+                    } else {
+                        effPrimColor = &elecAuraPrimColor;
+                    }
+                    if (CVar_GetS32("gCosmetics.NPC_ElecKeeseSecondary.Changed", 0)) {
+                        effEnvColor = &customElecAuraEnvColor;
+                    } else {
+                        effEnvColor = &elecAuraEnvColor;
+                    }
+                } else if (this->auraType == KEESE_AURA_VOID) {
+                    if (CVar_GetS32("gCosmetics.NPC_VoidKeesePrimary.Changed", 0)) {
+                        effPrimColor = &customVoidAuraPrimColor;
+                    } else {
+                        effPrimColor = &voidAuraPrimColor;
+                    }
+                    if (CVar_GetS32("gCosmetics.NPC_VoidKeeseSecondary.Changed", 0)) {
+                        effEnvColor = &customVoidAuraEnvColor;
+                    } else {
+                        effEnvColor = &voidAuraEnvColor;
+                    }
+                } else if (this->auraType == KEESE_AURA_WIND) {
+                    if (CVar_GetS32("gCosmetics.NPC_WindKeesePrimary.Changed", 0)) {
+                        effPrimColor = &customWindAuraPrimColor;
+                    } else {
+                        effPrimColor = &windAuraPrimColor;
+                    }
+                    if (CVar_GetS32("gCosmetics.NPC_WindKeeseSecondary.Changed", 0)) {
+                        effEnvColor = &customWindAuraEnvColor;
+                    } else {
+                        effEnvColor = &windAuraEnvColor;
                     }
                 } else {
                     if (CVar_GetS32("gCosmetics.NPC_IceKeesePrimary.Changed", 0)) {

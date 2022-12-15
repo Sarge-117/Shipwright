@@ -123,7 +123,7 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
 
     if (rnd2 < (0.045 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, 2);
+                    this->actor.world.pos.z, 0, 0, 0, 2, true);
     }
 }
 
@@ -351,7 +351,7 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play) {
             // In Keese-Sanity, there's a chance to spawn a new random Keese
             if (rnd < (0.125 * CVar_GetS32("gKeeseSanityIntensity", 0)/2) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
-                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 2);
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 2, true);
             }
         }
     }
