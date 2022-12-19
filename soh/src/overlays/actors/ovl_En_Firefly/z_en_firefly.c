@@ -34,7 +34,8 @@ typedef enum {
     /* 2 */ KEESE_AURA_ICE,
     /* 3 */ KEESE_AURA_ELEC,
     /* 4 */ KEESE_AURA_VOID,
-    /* 5 */ KEESE_AURA_WIND
+    /* 5 */ KEESE_AURA_WIND,
+    /* 6 */ KEESE_AURA_BLOOD
 } KeeseAuraType;
 
 const ActorInit En_Firefly_InitVars = {
@@ -162,24 +163,27 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
             this->actor.draw = EnFirefly_DrawInvisible;
             this->actor.params &= 0x7FFF;
         }
-        if (rnd >= 0.04 && rnd < 0.224) {
+        if (rnd >= 0.04 && rnd < 0.222) {
             this->actor.params = KEESE_NORMAL_FLY;
         }
-        if (rnd >= 0.224 && rnd < 0.408) {
+        if (rnd >= 0.222 && rnd < 0.404) {
             this->actor.params = KEESE_FIRE_FLY;
             this->onFire = true;
         }
-        if (rnd >= 0.408 && rnd < 0.592) {
+        if (rnd >= 0.404 && rnd < 0.586) {
             this->actor.params = KEESE_ICE_FLY;
         }
-        if (rnd >= 0.592 && rnd < 0.776) {
+        if (rnd >= 0.586 && rnd < 0.768) {
             this->actor.params = KEESE_ELEC_FLY;
         }
-        if (rnd >= 0.776 && rnd < 0.96) {
+        if (rnd >= 0.768 && rnd < 0.95) {
             this->actor.params = KEESE_WIND_FLY;
         }
-        if (rnd >= 0.96) {
+        if (rnd >= 0.95 && rnd < 0.975) {
             this->actor.params = KEESE_VOID_FLY;
+        }
+        if (rnd >= 0.975) {
+            this->actor.params = KEESE_BLOOD_FLY;
         }
     }
 
@@ -226,36 +230,36 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         }
     }
     if (CVar_GetS32("gRandoKeeseSanity", 0)) {
-        if (rnd >= 0.592 && rnd < 0.776) {
+        if (rnd >= 0.586 && rnd < 0.768) {
             this->actor.params == KEESE_ELEC_FLY;
             this->collider.elements[0].info.toucher.effect = 3; // Electric
             this->auraType = KEESE_AURA_ELEC;
         }
-        if (rnd >= 0.776 && rnd < 0.96) {
+        if (rnd >= 0.768 && rnd < 0.95) {
             this->actor.params == KEESE_WIND_FLY;
             this->auraType = KEESE_AURA_WIND;
         }
-        if (rnd >= 0.96) {
+        if (rnd >= 0.95 && rnd < 0.975) {
             this->actor.params == KEESE_VOID_FLY;
             this->auraType = KEESE_AURA_VOID;
+        }
+        if (rnd >= 0.975) {
+            this->actor.params == KEESE_BLOOD_FLY;
+            this->auraType = KEESE_AURA_BLOOD;
         }
         this->actor.naviEnemyId = 0x12;
     }
 
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
 
-    if (rnd == rnd2 == rnd3) {
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    }
-
     // In Keese-Sanity, there's a chance to spawn additional random Keese
     if (rnd2 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, true);
+                    this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
     }
-    if (rnd3 < (0.05 * CVar_GetS32("gKeeseSanityIntensity", 0)/2) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+    if (rnd3 < (0.035 * CVar_GetS32("gKeeseSanityIntensity", 0)/2) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, 0, true);
+                    this->actor.world.pos.z, 0, 0, 0, 0, false);
     }
 }
 
@@ -308,6 +312,9 @@ void EnFirefly_SetupDie(EnFirefly* this) {
             break;
         case KEESE_WIND_FLY:
             gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_WIND]++;
+            break;
+        case KEESE_BLOOD_FLY:
+            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_BLOOD]++;
             break;
         default:
             break;
@@ -423,8 +430,7 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, PlayState* play) {
 
     // Special Keese types don't seek torches to ignite themselves
     if (CVar_GetS32("gRandoKeeseSanity", 0)) {
-        if (this->actor.params == KEESE_ICE_FLY || this->actor.params == KEESE_ELEC_FLY ||
-            this->actor.params == KEESE_VOID_FLY || this->actor.params == KEESE_WIND_FLY) {
+        if (this->actor.params >= KEESE_ICE_FLY) {
             return 0;
         }
     }
@@ -533,7 +539,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
             // In Keese-Sanity, there's a chance to spawn a new random Keese
             if (rnd < (0.125 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
-                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, true);
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
             }
             EnFirefly_SetupDie(this);
         }
@@ -657,6 +663,8 @@ void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
             this->auraType = KEESE_AURA_VOID;
         } else if (this->actor.params == KEESE_WIND_FLY && CVar_GetS32("gRandoKeeseSanity", 0)) {
             this->auraType = KEESE_AURA_WIND;
+        } else if (this->actor.params == KEESE_BLOOD_FLY && CVar_GetS32("gRandoKeeseSanity", 0)) {
+            this->auraType = KEESE_AURA_BLOOD;
         }
         EnFirefly_SetupFlyIdle(this);
     }
@@ -794,6 +802,15 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
                 func_8002F71C(play, &this->actor, (350.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
                               this->actor.world.rot.y, 8.0f);
             }
+            if (this->actor.params == KEESE_BLOOD_FLY) { // Blood Keese take a large percentage of Link's health, but can't kill him
+                gSaveContext.health += 8;
+                if (gSaveContext.health > gSaveContext.healthCapacity) {
+                    gSaveContext.health = gSaveContext.healthCapacity;
+                }
+                if (gSaveContext.health >= 5) {
+                    Health_ChangeBy(play, -gSaveContext.health * 0.75);
+                }
+            }
         }
     }
 
@@ -860,6 +877,8 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
     static Color_RGBA8 elecAuraEnvColor = { 75, 80, 200, 0 };
     static Color_RGBA8 windAuraEnvColor = { 10, 160, 40, 255 };
     static Color_RGBA8 windAuraPrimColor = { 136, 241, 182, 0 };
+    static Color_RGBA8 bloodAuraEnvColor = { 100, 0, 90, 255 };
+    static Color_RGBA8 bloodAuraPrimColor = { 150, 0, 0, 0 };
     static Color_RGB8 fireAuraPrimColor_ori = { 255, 255, 100 };
     static Color_RGB8 fireAuraEnvColor_ori = { 255, 50, 0 };
     static Color_RGB8 iceAuraPrimColor_ori = { 100, 200, 255 };
@@ -875,6 +894,8 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
     Color_RGBA8 customVoidAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_VoidKeeseSecondary.Value", voidAuraEnvColor);
     Color_RGBA8 customWindAuraPrimColor = CVar_GetRGBA("gCosmetics.NPC_WindKeesePrimary.Value", windAuraPrimColor);
     Color_RGBA8 customWindAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_WindKeeseSecondary.Value", windAuraEnvColor);
+    Color_RGBA8 customBloodAuraPrimColor = CVar_GetRGBA("gCosmetics.NPC_BloodKeesePrimary.Value", bloodAuraPrimColor);
+    Color_RGBA8 customBloodAuraEnvColor = CVar_GetRGBA("gCosmetics.NPC_BloodKeeseSecondary.Value", bloodAuraEnvColor);
     static Vec3f effVelocity = { 0.0f, 0.5f, 0.0f };
     static Vec3f effAccel = { 0.0f, 0.5f, 0.0f };
     static Vec3f limbSrc = { 0.0f, 0.0f, 0.0f };
@@ -890,9 +911,7 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
     if (!this->onFire && (limbIndex == 27)) {
         gSPDisplayList((*gfx)++, gKeeseEyesDL);
     } else {
-        if ((this->auraType == KEESE_AURA_FIRE) || (this->auraType == KEESE_AURA_ICE) ||
-            (this->auraType == KEESE_AURA_ELEC) || (this->auraType == KEESE_AURA_VOID) ||
-            (this->auraType == KEESE_AURA_WIND)) {
+        if ((this->auraType >= KEESE_AURA_FIRE)) {
             if ((limbIndex == 15) || (limbIndex == 21)) {
                 if (this->actionFunc != EnFirefly_Die) {
                     Matrix_Get(&mtx);
@@ -958,7 +977,18 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
                         effEnvColor = &customWindAuraEnvColor;
                     } else {
                         effEnvColor = &windAuraEnvColor;
+                    } 
+                } else if (this->auraType == KEESE_AURA_BLOOD) {
+                    if (CVar_GetS32("gCosmetics.NPC_BloodKeesePrimary.Changed", 0)) {
+                        effPrimColor = &customBloodAuraPrimColor;
+                    } else {
+                        effPrimColor = &bloodAuraPrimColor;
                     }
+                    if (CVar_GetS32("gCosmetics.NPC_BloodKeeseSecondary.Changed", 0)) {
+                        effEnvColor = &customBloodAuraEnvColor;
+                    } else {
+                        effEnvColor = &bloodAuraEnvColor;
+                    } 
                 } else {
                     if (CVar_GetS32("gCosmetics.NPC_IceKeesePrimary.Changed", 0)) {
                         effPrimColor = &customIceAuraPrimColor;

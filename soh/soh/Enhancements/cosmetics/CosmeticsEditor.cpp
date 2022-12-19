@@ -312,6 +312,8 @@ static std::map<std::string, CosmeticOption> cosmeticOptions = {
     COSMETIC_OPTION("NPC_VoidKeeseSecondary",        "Void Keese Secondary", GROUP_NPC,          ImVec4(255, 255, 255, 255), false, true, true),
     COSMETIC_OPTION("NPC_WindKeesePrimary",          "Wind Keese Primary",   GROUP_NPC,          ImVec4(255, 255, 255, 255), false, true, false),
     COSMETIC_OPTION("NPC_WindKeeseSecondary",        "Wind Keese Secondary", GROUP_NPC,          ImVec4(255, 255, 255, 255), false, true, true),
+    COSMETIC_OPTION("NPC_BloodKeesePrimary",         "Blood Keese Primary",  GROUP_NPC,          ImVec4(255, 255, 255, 255), false, true, false),
+    COSMETIC_OPTION("NPC_BloodKeeseSecondary",       "Blood Keese Secondary",GROUP_NPC,          ImVec4(255, 255, 255, 255), false, true, true),
     // Todo (Cosmetics): Health fairy
     COSMETIC_OPTION("NPC_Dog1",                      "Dog 1",                GROUP_NPC,          ImVec4(255, 255, 200, 255), false, true, true),
     COSMETIC_OPTION("NPC_Dog2",                      "Dog 2",                GROUP_NPC,          ImVec4(150, 100,  50, 255), false, true, true),

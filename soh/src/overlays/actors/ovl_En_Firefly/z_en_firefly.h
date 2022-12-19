@@ -32,7 +32,9 @@ typedef enum {
     /* 4 */ KEESE_ICE_FLY,
     /* 5 */ KEESE_ELEC_FLY,
     /* 6 */ KEESE_VOID_FLY,
-    /* 7 */ KEESE_WIND_FLY
+    /* 7 */ KEESE_WIND_FLY,
+    /* 8 */ KEESE_BLOOD_FLY
+
 } KeeseType;
 
 #endif
