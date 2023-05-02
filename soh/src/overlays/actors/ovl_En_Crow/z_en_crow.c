@@ -121,7 +121,7 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
 
     f32 rnd2 = Rand_ZeroOne();
 
-    if (rnd2 < (0.045 * CVar_GetS32("gKeeseSanityIntensity", 0)) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+    if (rnd2 < (0.045 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gRandoKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 2, false);
     }
@@ -349,7 +349,7 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play) {
             EnCrow_SetupDie(this);
 
             // In Keese-Sanity, there's a chance to spawn a new random Keese
-            if (rnd < (0.125 * CVar_GetS32("gKeeseSanityIntensity", 0)/2) && (CVar_GetS32("gRandoKeeseSanity", 0))) {
+            if (rnd < (0.125 * CVarGetInteger("gKeeseSanityIntensity", 0)/2) && (CVarGetInteger("gRandoKeeseSanity", 0))) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 2, false);
             }
@@ -373,7 +373,7 @@ void EnCrow_Die(EnCrow* this, PlayState* play) {
         } else {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
-        if (!CVar_GetS32("gRandomizedEnemies", 0) && !CVar_GetS32("gRandoKeeseSanity", 0)) {
+        if (!CVarGetInteger("gRandomizedEnemies", 0) && !CVarGetInteger("gRandoKeeseSanity", 0)) {
             EnCrow_SetupRespawn(this);
         } else {
             Actor_Kill(this);

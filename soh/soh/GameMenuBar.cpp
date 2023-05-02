@@ -1339,11 +1339,11 @@ namespace GameMenuBar {
                 );
                 UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gRandoKeeseSanity", true, false);
                 UIWidgets::Tooltip("Oh God.");
-                if (CVar_GetS32("gRandoKeeseSanity", 0)) {
-                    CVar_SetS32("gUseKeeseCol", 0); // Don't use custom Keese colours with Keese-Sanity
+                if (CVarGetInteger("gRandoKeeseSanity", 0)) {
+                    CVarGetInteger("gUseKeeseCol", 0); // Don't use custom Keese colours with Keese-Sanity
                     UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity", "gKeeseSanityIntensity", 0, 6,
                                                     "", 0, false);
-                    switch (CVar_GetS32("gKeeseSanityIntensity", 0)) {
+                    switch (CVarGetInteger("gKeeseSanityIntensity", 0)) {
                         default:
                             UIWidgets::Tooltip("Intensity");
                             break;
