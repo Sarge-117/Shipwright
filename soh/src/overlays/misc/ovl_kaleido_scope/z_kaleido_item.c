@@ -94,7 +94,7 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
     u16 cursorSlot;
 
     // If we aren't paused or we aren't on the inventory subscreen, return false
-    if (!(CVar_GetS32("gItemUseFromInventory", 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) &&
+    if (!(CVarGetInteger("gItemUseFromInventory", 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) &&
           (pauseCtx->pageIndex == PAUSE_ITEM))) {
         return false;
     }
@@ -164,7 +164,7 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
         if (interfaceCtx->restrictions.tradeItems == 0 && 
             (cursorSlot == SLOT_TRADE_ADULT && !(gSaveContext.n64ddFlag && Randomizer_GetSettingValue(RSK_SHUFFLE_ADULT_TRADE))) || 
             (cursorSlot == SLOT_TRADE_CHILD && !(cursorItem >= ITEM_MASK_KEATON && cursorItem <= ITEM_MASK_TRUTH)
-                                            && !(CVar_GetS32("gMaskSelect", 0)))) {
+                                            && !(CVarGetInteger("gMaskSelect", 0)))) {
             return true;
         }
     }
@@ -447,7 +447,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
                     // For enhancement "Item Use From Inventory"
-                    if (CVar_GetS32("gItemUseFromInventory", 0) && ItemUseFromInventory_IsValidItemForUse(play)) {
+                    if (CVarGetInteger("gItemUseFromInventory", 0) && ItemUseFromInventory_IsValidItemForUse(play)) {
                         pauseCtx->cursorColorSet = 8;
                         if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                             ItemUseFromInventory_SetItemAndSlot(cursorItem, cursorSlot); // In z_player.c

@@ -2779,7 +2779,7 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
         (item == ITEM_BOTTLE)) {
         item = ITEM_MILK_HALF;
     }
-    if (ItemUseFromInventory_BottleWasUsed() && CVar_GetS32("gItemUseFromInventory", 0)) {
+    if (ItemUseFromInventory_BottleWasUsed() && CVarGetInteger("gItemUseFromInventory", 0)) {
         // If the bottle was used from the inventory screen, only update the inventory slot (not any C-buttons)
         ItemUseFromInventory_UpdateBottleSlot(item);
     } else {

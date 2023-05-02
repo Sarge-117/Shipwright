@@ -10674,7 +10674,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     // Item use from inventory: If an item was used from inventory, update these bools so that
     // the item's action is performed on the NEXT call of "Player_UpdateCommon()".
     // This one cycle delay is needed for showing items to NPCs (i.e. bottles/trade items)
-    if (itemWasUsedFromInventory && CVar_GetS32("gItemUseFromInventory", 0)) {
+    if (itemWasUsedFromInventory && CVarGetInteger("gItemUseFromInventory", 0)) {
        usingItemFromInventory = true;
        itemWasUsedFromInventory = false;
     }
