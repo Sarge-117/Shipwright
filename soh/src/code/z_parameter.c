@@ -4,6 +4,7 @@
 #include "textures/do_action_static/do_action_static.h"
 #include "textures/icon_item_static/icon_item_static.h"
 #include "soh/Enhancements/randomizer/adult_trade_shuffle.h"
+#include "soh/Enhancements/item_use_from_inventory.h"
 #include "soh/Enhancements/randomizer/randomizer_entrance.h"
 #include "libultraship/bridge.h"
 
@@ -2778,14 +2779,18 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
         (item == ITEM_BOTTLE)) {
         item = ITEM_MILK_HALF;
     }
+    if (ItemUseFromInventory_BottleWasUsed() && CVar_GetS32("gItemUseFromInventory", 0)) {
+        // If the bottle was used from the inventory screen, only update the inventory slot (not any C-buttons)
+        ItemUseFromInventory_UpdateBottleSlot(item);
+    } else {
+        gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+        gSaveContext.equips.buttonItems[button] = item;
 
-    gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
-    gSaveContext.equips.buttonItems[button] = item;
+        Interface_LoadItemIcon1(play, button);
 
-    Interface_LoadItemIcon1(play, button);
-
-    play->pauseCtx.cursorItem[PAUSE_ITEM] = item;
-    gSaveContext.buttonStatus[BUTTON_STATUS_INDEX(button)] = BTN_ENABLED;
+        play->pauseCtx.cursorItem[PAUSE_ITEM] = item;
+        gSaveContext.buttonStatus[BUTTON_STATUS_INDEX(button)] = BTN_ENABLED;
+    }
 }
 
 s32 Inventory_ConsumeFairy(PlayState* play) {
