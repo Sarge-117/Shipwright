@@ -390,6 +390,10 @@ void DrawStatsTracker(bool& open) {
                     DisplayStatIfNonZero("Keese:              ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE]);
                     DisplayStatIfNonZero("Keese (Fire):       ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_FIRE]);
                     DisplayStatIfNonZero("Keese (Ice):        ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_ICE]);
+                    DisplayStatIfNonZero("Keese (Electric):   ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_ELEC]);
+                    DisplayStatIfNonZero("Keese (Void):       ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_VOID]);
+                    DisplayStatIfNonZero("Keese (Wind):       ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_WIND]);
+                    DisplayStatIfNonZero("Keese (Blood):      ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_BLOOD]);
                     DisplayStatIfNonZero("Leever:             ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_LEEVER]);
                     DisplayStatIfNonZero("Leever (Big):       ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_LEEVER_BIG]);
                     DisplayStatIfNonZero("Like-Like:          ", gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_LIKE_LIKE]);
