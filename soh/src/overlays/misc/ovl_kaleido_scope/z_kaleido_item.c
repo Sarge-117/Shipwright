@@ -102,29 +102,29 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
 
     // To use an item from within inventory, Link must not be in any of the following states
     if (this->swordState != 0 ||                // Swinging sword
-        this->stateFlags1 & PLAYER_STATE1_0  || // Transitioning scenes
-        this->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE  ||
-        this->stateFlags1 & PLAYER_STATE1_6  || // Talking to NPC/reading a sign
-        this->stateFlags1 & PLAYER_STATE1_10 || // Getting an item/opening a chest
-        this->stateFlags1 & PLAYER_STATE1_11 || // Carrying an object (i.e. rock/bomb)
-        this->stateFlags1 & PLAYER_STATE1_12 || // Charging spin attack
-        this->stateFlags1 & PLAYER_STATE1_13 || // Hanging onto a ledge
-        this->stateFlags1 & PLAYER_STATE1_14 || // Climbing onto a ledge
-        this->stateFlags1 & PLAYER_STATE1_18 || // Airborne/jumping
-        this->stateFlags1 & PLAYER_STATE1_19 || // Falling into a grave? / Using moonjump?
-        this->stateFlags1 & PLAYER_STATE1_20 || // In first person or aiming
-        this->stateFlags1 & PLAYER_STATE1_21 || // On a ladder or climbable surface
-        this->stateFlags1 & PLAYER_STATE1_22 || // Shielding
-        this->stateFlags1 & PLAYER_STATE1_23 || // On Epona
-        this->stateFlags1 & PLAYER_STATE1_26 || // Taking damage/in invincibility frames
-        this->stateFlags1 & PLAYER_STATE1_27 || // In water/swimming
-        this->stateFlags1 & PLAYER_STATE1_28 || // Holding out a cutscene item or ocarina
-        this->stateFlags1 & PLAYER_STATE1_29 || // Busy in various other ways
+        this->stateFlags1 & PLAYER_STATE1_LOADING              || 
+        this->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE      ||
+        this->stateFlags1 & PLAYER_STATE1_TEXT_ON_SCREEN       ||
+        this->stateFlags1 & PLAYER_STATE1_GETTING_ITEM         || 
+        this->stateFlags1 & PLAYER_STATE1_ITEM_OVER_HEAD       || 
+        this->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK ||
+        this->stateFlags1 & PLAYER_STATE1_HANGING_OFF_LEDGE    || 
+        this->stateFlags1 & PLAYER_STATE1_CLIMBING_LEDGE       || 
+        this->stateFlags1 & PLAYER_STATE1_JUMPING              || 
+        this->stateFlags1 & PLAYER_STATE1_FREEFALL             || 
+        this->stateFlags1 & PLAYER_STATE1_FIRST_PERSON         || 
+        this->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER      || 
+        this->stateFlags1 & PLAYER_STATE1_SHIELDING            || 
+        this->stateFlags1 & PLAYER_STATE1_ON_HORSE             || 
+        this->stateFlags1 & PLAYER_STATE1_DAMAGED              || 
+        this->stateFlags1 & PLAYER_STATE1_IN_WATER             || 
+        this->stateFlags1 & PLAYER_STATE1_IN_ITEM_CS           || 
+        this->stateFlags1 & PLAYER_STATE1_IN_CUTSCENE          || 
         
-        this->stateFlags2 & PLAYER_STATE2_6  || // Pushing a block?
+        this->stateFlags2 & PLAYER_STATE2_DISABLE_ROTATION_ALWAYS ||
         this->stateFlags2 & PLAYER_STATE2_CRAWLING ||
         
-        this->stateFlags3 & PLAYER_STATE3_1  ){ // Jumpslashing
+        this->stateFlags3 & PLAYER_STATE3_MIDAIR) { 
         return false;
     }
 
