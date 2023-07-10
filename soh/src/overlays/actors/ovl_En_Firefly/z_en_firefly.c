@@ -159,7 +159,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
 
         if (rnd < 0.04) { // Invis Keese
             this->actor.params = KEESE_NORMAL_FLY;
-            this->actor.flags |= ACTOR_FLAG_7;
+            this->actor.flags |= ACTOR_FLAG_LENS;
             this->actor.draw = EnFirefly_DrawInvisible;
             this->actor.params &= 0x7FFF;
         }
