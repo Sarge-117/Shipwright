@@ -262,6 +262,7 @@ const std::vector<const char*> cheatCvars = {
     "gSwitchAge",
     "gSwitchTimeline",
     "gNoRedeadFreeze",
+    "gItemUseFromInventory"
 };
 
 const std::vector<const char*> randomizerCvars = {
