@@ -121,7 +121,7 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
 
     f32 rnd2 = Rand_ZeroOne();
 
-    if (rnd2 < (0.045 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gRandoKeeseSanity", 0))) {
+    if (rnd2 < (0.045 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 2, false);
     }
@@ -338,7 +338,6 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
 void EnCrow_Damaged(EnCrow* this, PlayState* play) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
-    f32 rnd = Rand_ZeroOne();
 
     if (!(this->actor.flags & ACTOR_FLAG_DRAGGED_BY_ARROW)) {
         if (this->actor.colorFilterParams & 0x4000) {
@@ -349,12 +348,6 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play) {
             EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);
-
-            // In Keese-Sanity, there's a chance to spawn a new random Keese
-            if (rnd < (0.125 * CVarGetInteger("gKeeseSanityIntensity", 0)/2) && (CVarGetInteger("gRandoKeeseSanity", 0))) {
-                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
-                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 2, false);
-            }
         }
     }
 }
@@ -375,7 +368,10 @@ void EnCrow_Die(EnCrow* this, PlayState* play) {
         } else {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
-        if (!CVarGetInteger("gRandomizedEnemies", 0) && !CVarGetInteger("gRandoKeeseSanity", 0)) {
+        // Keese-Sanity: Allow Guays to respawn only in Lon Lon, Lake Hylia, and Colossus
+        if (( !CVarGetInteger("gRandomizedEnemies", 0) && !CVarGetInteger("gKeeseSanity", 0)) || 
+            (CVarGetInteger("gKeeseSanity", 0) && (play->sceneNum == SCENE_SPOT20 || play->sceneNum == SCENE_SPOT06 ||
+            play->sceneNum == SCENE_SPOT11))) {
             EnCrow_SetupRespawn(this);
         } else {
             Actor_Kill(this);

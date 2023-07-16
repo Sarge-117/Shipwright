@@ -152,9 +152,9 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
-    // Every time a Keese spawns, it will choose a random type. Invis and Void have lower chance than the others.
+    // Every time a Keese spawns, it will choose a random type. Invis, Void, and Blood have lower odds than the others.
     f32 rnd = Rand_ZeroOne(), rnd2 = Rand_ZeroOne(), rnd3 = Rand_ZeroOne();
-    if (CVarGetInteger("gRandoKeeseSanity", 0)) {
+    if (CVarGetInteger("gKeeseSanity", 0)) {
         this->onFire = false;
 
         if (rnd < 0.04) { // Invis Keese
@@ -229,35 +229,29 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
             this->auraType = KEESE_AURA_NONE;
         }
     }
-    if (CVarGetInteger("gRandoKeeseSanity", 0)) {
-        if (rnd >= 0.586 && rnd < 0.768) {
-            this->actor.params == KEESE_ELEC_FLY;
-            this->collider.elements[0].info.toucher.effect = 3; // Electric
-            this->auraType = KEESE_AURA_ELEC;
-        }
-        if (rnd >= 0.768 && rnd < 0.95) {
-            this->actor.params == KEESE_WIND_FLY;
-            this->auraType = KEESE_AURA_WIND;
-        }
-        if (rnd >= 0.95 && rnd < 0.975) {
-            this->actor.params == KEESE_VOID_FLY;
-            this->auraType = KEESE_AURA_VOID;
-        }
-        if (rnd >= 0.975) {
-            this->actor.params == KEESE_BLOOD_FLY;
-            this->auraType = KEESE_AURA_BLOOD;
-        }
-        this->actor.naviEnemyId = 0x12;
+    // Keese-Sanity
+    if (this->actor.params == KEESE_ELEC_FLY) {
+        this->collider.elements[0].info.toucher.effect = 3; // Electric
+        this->auraType = KEESE_AURA_ELEC;
+    }
+    if (this->actor.params == KEESE_WIND_FLY) {
+        this->auraType = KEESE_AURA_WIND;
+    }
+    if (this->actor.params == KEESE_VOID_FLY) {
+        this->auraType = KEESE_AURA_VOID;
+    }
+    if (this->actor.params == KEESE_BLOOD_FLY) {
+        this->auraType = KEESE_AURA_BLOOD;
     }
 
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
 
     // In Keese-Sanity, there's a chance to spawn additional random Keese
-    if (rnd2 < (0.05 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gRandoKeeseSanity", 0))) {
+    if (rnd2 < (0.05 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
-    }
-    if (rnd3 < (0.035 * CVarGetInteger("gKeeseSanityIntensity", 0)/2) && (CVarGetInteger("gRandoKeeseSanity", 0))) {
+    } // And you might even get a Guay mixed in there
+    if (rnd3 < (0.035 * CVarGetInteger("gKeeseSanityIntensity", 0)/2) && (CVarGetInteger("gKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 0, false);
     }
@@ -431,7 +425,7 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, PlayState* play) {
     Vec3f flamePos;
 
     // Special Keese types don't seek torches to ignite themselves
-    if (CVarGetInteger("gRandoKeeseSanity", 0)) {
+    if (CVarGetInteger("gKeeseSanity", 0)) {
         if (this->actor.params >= KEESE_ICE_FLY) {
             return 0;
         }
@@ -539,7 +533,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
         }
         if ((this->actor.bgCheckFlags & 1) || (this->timer == 0)) {
             // In Keese-Sanity, there's a chance to spawn a new random Keese
-            if (rnd < (0.125 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gRandoKeeseSanity", 0))) {
+            if (rnd < (0.125 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gKeeseSanity", 0))) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
             }
@@ -659,13 +653,13 @@ void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
             this->auraType = KEESE_AURA_FIRE;
         } else if (this->actor.params == KEESE_ICE_FLY) {
             this->auraType = KEESE_AURA_ICE;
-        } else if (this->actor.params == KEESE_ELEC_FLY && CVarGetInteger("gRandoKeeseSanity", 0)) {
+        } else if (this->actor.params == KEESE_ELEC_FLY) {
             this->auraType = KEESE_AURA_ELEC;
-        } else if (this->actor.params == KEESE_VOID_FLY && CVarGetInteger("gRandoKeeseSanity", 0)) {
+        } else if (this->actor.params == KEESE_VOID_FLY) {
             this->auraType = KEESE_AURA_VOID;
-        } else if (this->actor.params == KEESE_WIND_FLY && CVarGetInteger("gRandoKeeseSanity", 0)) {
+        } else if (this->actor.params == KEESE_WIND_FLY) {
             this->auraType = KEESE_AURA_WIND;
-        } else if (this->actor.params == KEESE_BLOOD_FLY && CVarGetInteger("gRandoKeeseSanity", 0)) {
+        } else if (this->actor.params == KEESE_BLOOD_FLY) {
             this->auraType = KEESE_AURA_BLOOD;
         }
         EnFirefly_SetupFlyIdle(this);
@@ -805,12 +799,14 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
                               this->actor.world.rot.y, 8.0f);
             }
             if (this->actor.params == KEESE_BLOOD_FLY) { // Blood Keese take a large percentage of Link's health, but can't kill him
-                gSaveContext.health += 8;
-                if (gSaveContext.health > gSaveContext.healthCapacity) {
-                    gSaveContext.health = gSaveContext.healthCapacity;
-                }
-                if (gSaveContext.health >= 5) {
-                    Health_ChangeBy(play, -gSaveContext.health * 0.75);
+                if (gSaveContext.nayrusLoveTimer == 0) { // Nayru's Love still protects you from this damage
+                    gSaveContext.health += 8;
+                    if (gSaveContext.health > gSaveContext.healthCapacity) {
+                        gSaveContext.health = gSaveContext.healthCapacity;
+                    }
+                    if (gSaveContext.health >= 5) {
+                        Health_ChangeBy(play, -gSaveContext.health * 0.75);
+                    }
                 }
             }
         }
