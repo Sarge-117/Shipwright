@@ -3147,11 +3147,16 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     objBankIndex = Object_GetIndex(&gPlayState->objectCtx, dbEntry->objectId);
 
-    // Keese-Sanity: Allow Keese to spawn among the Guays at Lon-Lon, Lake Hylia, and Colossus
-    if (objBankIndex < 0 && (!gMapLoading || CVarGetInteger("gRandomizedEnemies", 0) || 
-        (CVarGetInteger("gKeeseSanity", 0) && (play->sceneNum == SCENE_SPOT20 || play->sceneNum == SCENE_SPOT06 ||
-            play->sceneNum == SCENE_SPOT11)))) {
+    if (objBankIndex < 0 && (!gMapLoading || CVarGetInteger("gRandomizedEnemies", 0))) {
         objBankIndex = 0;
+    }
+    
+    // Keese-Sanity: Keese have a small chance to spawn among the Guays at Lon-Lon, Lake Hylia, and Colossus
+    // Therefore set this to zero to allow for it in those scenes
+    if (objBankIndex < 0 && CVarGetInteger("gKeeseSanity", 0)) {
+        if (play->sceneNum == SCENE_SPOT20 || play->sceneNum == SCENE_SPOT06 || play->sceneNum == SCENE_SPOT11) {
+            objBankIndex = 0;
+        }
     }
 
     if ((objBankIndex < 0) ||
