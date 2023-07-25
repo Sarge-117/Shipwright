@@ -5598,7 +5598,7 @@ void CreateNaviKeeseSanityDescriptions() {
           "\x08Saigneur de Vent&%cDétruis-le avant qu'il ne t'attaque!\x09", 
           TEXTBOX_TYPE_BLUE },
 
-        { "\x08Void Keese&%cIf you let it touch you, you'll voidout!\x09",
+        { "\x08Void Keese&%cIf you let it touch you, you'll void&out!\x09",
           "\x08""Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
           "\x08Saigneur d'Obscurité&%cDétruis-le avant qu'il ne t'attaque!\x09", 
           TEXTBOX_TYPE_BLUE },

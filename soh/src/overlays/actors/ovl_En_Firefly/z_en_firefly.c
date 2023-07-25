@@ -257,7 +257,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
     } // And you might even get a Guay mixed in there
-    if (rnd3 < (0.035 * CVarGetInteger("gKeeseSanityIntensity", 0)/2) && (CVarGetInteger("gKeeseSanity", 0))) {
+    if (rnd3 < (0.017 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 0, false);
     }
