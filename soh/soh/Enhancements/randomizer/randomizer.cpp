@@ -56,6 +56,7 @@ const std::string Randomizer::hintMessageTableID = "RandomizerHints";
 const std::string Randomizer::merchantMessageTableID = "RandomizerMerchants";
 const std::string Randomizer::rupeeMessageTableID = "RandomizerRupees";
 const std::string Randomizer::NaviRandoMessageTableID = "RandomizerNavi";
+const std::string Randomizer::NaviKeeseSanityDescriptionsTableID = "KeeseSanityNavi";
 const std::string Randomizer::IceTrapRandoMessageTableID = "RandomizerIceTrap";
 const std::string Randomizer::randoMiscHintsTableID = "RandomizerMiscHints";
 
@@ -5583,6 +5584,37 @@ void CreateNaviRandoMessages() {
     }
 }
 
+// Keese-Sanity
+void CreateNaviKeeseSanityDescriptions() {
+    CustomMessage NaviKeeseSanityDescriptions[NUM_NAVI_KEESE_SANITY_DESCRIPTIONS] = {
+
+        { "\x08""Electric Keese&%cIf it touches you, you'll be shocked!\x09",
+          "\x08""Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+          "\x08Saigneur Électrique&%cDétruis-le avant qu'il ne t'attaque!\x09", 
+          TEXTBOX_TYPE_BLUE },
+
+        { "\x08Wind Keese&%cIf it touches you, you'll be sent&flying!\x09",
+          "\x08""Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+          "\x08Saigneur de Vent&%cDétruis-le avant qu'il ne t'attaque!\x09", 
+          TEXTBOX_TYPE_BLUE },
+
+        { "\x08Void Keese&%cIf you let it touch you, you'll voidout!\x09",
+          "\x08""Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+          "\x08Saigneur d'Obscurité&%cDétruis-le avant qu'il ne t'attaque!\x09", 
+          TEXTBOX_TYPE_BLUE },
+
+        { "\x08""Blood Keese&%cIt hurts a lot, but it can't kill you!\x09",
+          "\x08""Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+          "\x08Saigneur de Sang&%cDétruis-le avant qu'il ne t'attaque!\x09", 
+          TEXTBOX_TYPE_BLUE },
+    };
+    CustomMessageManager* customMessageManager = CustomMessageManager::Instance;
+    customMessageManager->AddCustomMessageTable(Randomizer::NaviKeeseSanityDescriptionsTableID);
+    for (unsigned int i = 0; i <= (NUM_NAVI_KEESE_SANITY_DESCRIPTIONS - 1); i++) {
+        customMessageManager->CreateMessage(Randomizer::NaviKeeseSanityDescriptionsTableID, i, NaviKeeseSanityDescriptions[i]);
+    }
+}
+
 void CreateIceTrapRandoMessages() {
     CustomMessage IceTrapMessages[NUM_ICE_TRAP_MESSAGES] = {
         { "You are a %bFOOL%w!", "Du bist ein %bDUMMKOPF%w!", "%bPauvre fou%w..." },
@@ -5994,6 +6026,7 @@ void Randomizer::CreateCustomMessages() {
     CreateGetItemMessages(&getItemMessages);
     CreateRupeeMessages();
     CreateNaviRandoMessages();
+    CreateNaviKeeseSanityDescriptions();
     CreateIceTrapRandoMessages();
     CreateFireTempleGoronMessages();
 }

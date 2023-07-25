@@ -230,18 +230,24 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         }
     }
     // Keese-Sanity
+    // Using TextIDs starting at 0x0660 to hook into the custom message system
+    // for Navi's enemy descriptions
     if (this->actor.params == KEESE_ELEC_FLY) {
         this->collider.elements[0].info.toucher.effect = 3; // Electric
         this->auraType = KEESE_AURA_ELEC;
+        this->actor.naviEnemyId = 0x0660; 
     }
     if (this->actor.params == KEESE_WIND_FLY) {
         this->auraType = KEESE_AURA_WIND;
+        this->actor.naviEnemyId = 0x0661;
     }
     if (this->actor.params == KEESE_VOID_FLY) {
         this->auraType = KEESE_AURA_VOID;
+        this->actor.naviEnemyId = 0x0662;
     }
     if (this->actor.params == KEESE_BLOOD_FLY) {
         this->auraType = KEESE_AURA_BLOOD;
+        this->actor.naviEnemyId = 0x0663;
     }
 
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
