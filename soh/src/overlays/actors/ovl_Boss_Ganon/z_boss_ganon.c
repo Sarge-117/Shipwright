@@ -352,7 +352,11 @@ void BossGanon_Init(Actor* thisx, PlayState* play2) {
         }
 
         sBossGanonGanondorf = this;
-        thisx->colChkInfo.health = 41;
+        if (CVarGetInteger("gBossSurprise", 0)) {
+            thisx->colChkInfo.health = 41;
+        } else {
+            thisx->colChkInfo.health = 40;
+        }
         Actor_ProcessInitChain(thisx, sInitChain);
         ActorShape_Init(&thisx->shape, 0, NULL, 0);
         Actor_SetScale(thisx, 0.01f);
@@ -2038,7 +2042,11 @@ void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
 
 void BossGanon_SetupChargeBigMagic(BossGanon* this, PlayState* play) {
     this->unk_1C2 = 0;
-    this->timers[0] = 10;
+    if (CVarGetInteger("gBossSurprise", 0)) {
+        this->timers[0] = 10;
+    } else {
+        this->timers[0] = 30;
+    }
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->fwork[GDF_CENTER_POS] = 100.0f;
@@ -2267,40 +2275,45 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->legSwayEnabled = true;
-
-    sBossGanonCape->backPush = -3.0f;
-    sBossGanonCape->backSwayMagnitude = 0.25f;
-    sBossGanonCape->sideSwayMagnitude = -3.0f;
-    sBossGanonCape->minDist = 20.0f;
+    if (CVarGetInteger("gBossSurprise", 0)) {
+        sBossGanonCape->backPush = -4.0f;
+        sBossGanonCape->backSwayMagnitude = 0.333f;
+        sBossGanonCape->sideSwayMagnitude = -4.0f;
+        sBossGanonCape->minDist = 26.66f;
+    } else {
+        sBossGanonCape->backPush = -3.0f;
+        sBossGanonCape->backSwayMagnitude = 0.25f;
+        sBossGanonCape->sideSwayMagnitude = -3.0f;
+        sBossGanonCape->minDist = 20.0f;
+    }
 
     SkelAnime_Update(&this->skelAnime);
 
     f32 rnd = Rand_ZeroOne();
 
-    if ((this->unk_1C2 == 0) /* && !(player->actor.world.pos.y < 0.0f)*/) {
+    if ((this->unk_1C2 == 0) && (!(player->actor.world.pos.y < 0.0f) || CVarGetInteger("gBossSurprise", 0))) {
         if (!(player->stateFlags1 & 0x2000) && (fabsf(player->actor.world.pos.x) < 110.0f) &&
             (fabsf(player->actor.world.pos.z) < 110.0f)) {
             BossGanon_SetupPoundFloor(this, play);
         } else if ((this->timers[0] == 0) && !(player->stateFlags1 & 0x2000)) {
             this->timers[0] = (s16)Rand_ZeroFloat(30.0f) + 30;
 
-            if (player->actor.world.pos.y < 0.0f) {
-                BossGanon_SetupChargeLightBall(this, play);
-            } else {
-
-                if (rnd <= 0.450) {
+            if (CVarGetInteger("gBossSurprise", 0)) {
+                if (player->actor.world.pos.y < 0.0f) {
                     BossGanon_SetupChargeLightBall(this, play);
-                }
-                if (rnd > 0.450 && rnd <= 0.820) {
-                    BossGanon_SetupPoundFloor(this, play);
-                }
-                if (rnd > 0.820) {
-                    BossGanon_SetupChargeBigMagic(this, play);
-                }
-            }
+                } else {
 
-            /*
-            if ((s8)this->actor.colChkInfo.health >= 0) {
+                    if (rnd <= 0.450) {
+                        BossGanon_SetupChargeLightBall(this, play);
+                    }
+                    if (rnd > 0.450 && rnd <= 0.820) {
+                        BossGanon_SetupPoundFloor(this, play);
+                    }
+                    if (rnd > 0.820) {
+                        BossGanon_SetupChargeBigMagic(this, play);
+                    }
+                }
+            } else if ((s8)this->actor.colChkInfo.health >= 20) {
                 BossGanon_SetupChargeLightBall(this, play);
             } else if (Rand_ZeroOne() >= 0.5f) {
                 if ((Rand_ZeroOne() >= 0.5f) || (this->actor.xzDistToPlayer > 350.0f)) {
@@ -2310,7 +2323,7 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
                 }
             } else {
                 BossGanon_SetupChargeLightBall(this, play);
-            }*/
+            }
         }
     }
 
@@ -2322,8 +2335,13 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
     Math_ApproachF(&this->actor.world.pos.z, cos, 0.05f, this->fwork[GDF_FWORK_0]);
     Math_ApproachF(&this->fwork[GDF_FWORK_0], 50.0f, 1.0f, 0.5f);
 
-    this->actor.velocity.x = (this->actor.world.pos.x - this->actor.prevPos.x)*2.9f;
-    this->actor.velocity.z = (this->actor.world.pos.z - this->actor.prevPos.z)*2.9f;
+    if (CVarGetInteger("gBossSurprise", 0)) {
+        this->actor.velocity.x = (this->actor.world.pos.x - this->actor.prevPos.x) * 2.9f;
+        this->actor.velocity.z = (this->actor.world.pos.z - this->actor.prevPos.z) * 2.9f;
+    } else {
+        this->actor.velocity.x = (this->actor.world.pos.x - this->actor.prevPos.x);
+        this->actor.velocity.z = (this->actor.world.pos.z - this->actor.prevPos.z);
+    }
 
     sin = Math_SinS(this->unk_1A2 * 1500);
     this->actor.velocity.y = this->fwork[GDF_FWORK_0] * sin * 0.04f;
@@ -2344,28 +2362,50 @@ void BossGanon_SetupChargeLightBall(BossGanon* this, PlayState* play) {
 void BossGanon_ChargeLightBall(BossGanon* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
-    sBossGanonCape->backPush = -6.0f;
-    sBossGanonCape->backSwayMagnitude = 2.55f;
-    sBossGanonCape->sideSwayMagnitude = -4.0f;
-    sBossGanonCape->minDist = 15.0f;
+    sBossGanonCape->backPush = -3.0f;
+    sBossGanonCape->backSwayMagnitude = 1.25f;
+    sBossGanonCape->sideSwayMagnitude = -2.0f;
+    sBossGanonCape->minDist = 10.0f;
 
-    if (this->timers[0] < 20) {
-        this->envLightMode = 1;
-    }
+    if (CVarGetInteger("gBossSurprise", 0)) {
+        if (this->timers[0] < 20) {
+            this->envLightMode = 1;
+        }
 
-    if (this->timers[0] == 20) {
-        this->unk_26C = 10;
-        this->unk_270 = Rand_ZeroFloat(M_PI);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_SPARK);
-    }
+        if (this->timers[0] == 20) {
+            this->unk_26C = 10;
+            this->unk_270 = Rand_ZeroFloat(M_PI);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_SPARK);
+        }
 
-    if (this->timers[0] < 20) {
-        this->unk_258 += (Rand_ZeroFloat(M_PI / 2) + (M_PI / 2));
-        Math_ApproachF(&this->handLightBallScale, 10.0f, 0.5f, 1.25f);
+        if (this->timers[0] < 20) {
+            this->unk_258 += (Rand_ZeroFloat(M_PI / 2) + (M_PI / 2));
+            Math_ApproachF(&this->handLightBallScale, 10.0f, 0.5f, 1.25f);
 
-        if (this->timers[0] == 19) {
-            BossGanon_SetupPlayTennis(this, play);
-            this->timers[0] = 0;
+            if (this->timers[0] == 19) {
+                BossGanon_SetupPlayTennis(this, play);
+                this->timers[0] = 0;
+            }
+        }
+    } else {
+        if (this->timers[0] < 17) {
+            this->envLightMode = 1;
+        }
+
+        if (this->timers[0] == 17) {
+            this->unk_26C = 10;
+            this->unk_270 = Rand_ZeroFloat(M_PI);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_SPARK);
+        }
+
+        if (this->timers[0] < 10) {
+            this->unk_258 += (Rand_ZeroFloat(M_PI / 2) + (M_PI / 2));
+            Math_ApproachF(&this->handLightBallScale, 10.0f, 0.5f, 1.25f);
+
+            if (this->timers[0] == 0) {
+                BossGanon_SetupPlayTennis(this, play);
+                this->timers[0] = 0;
+            }
         }
     }
 
