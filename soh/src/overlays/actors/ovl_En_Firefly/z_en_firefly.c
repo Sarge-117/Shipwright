@@ -234,6 +234,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     // for Navi's enemy descriptions
     if (this->actor.params == KEESE_ELEC_FLY) {
         this->collider.elements[0].info.toucher.effect = 3; // Electric
+        this->collider.elements[0].info.bumper.effect = 1; // Link gets shocked if attacking them with a sword
         this->auraType = KEESE_AURA_ELEC;
         this->actor.naviEnemyId = 0x0660; 
     }
