@@ -173,6 +173,8 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
         }
     }
     return false;
+}
+
 // Vertices for the extra items
 static Vtx sCycleExtraItemVtx[] = {
     // Left Item
