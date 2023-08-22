@@ -1447,7 +1447,7 @@ void DrawRandomizerMenu() {
                 "Play unique fanfares when obtaining quest items "
                 "(medallions/stones/songs). Note that these fanfares are longer than usual."
             );
-            UIWidgets::PaddedEnhancementCheckbox("Surprise", "gBossSurprise", true, false);
+            UIWidgets::PaddedEnhancementCheckbox("Ganondorf Means Business", "gBossSurprise", true, false);
             UIWidgets::Tooltip("Gaymer");
             ImGui::EndMenu();
         }
