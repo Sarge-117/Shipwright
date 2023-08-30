@@ -4665,7 +4665,7 @@ void Audio_PlayFanfare(u16 seqId)
     u8* sp18;
 
     sp26 = func_800FA0B4(SEQ_PLAYER_FANFARE);
-    sp1C = func_800E5E84(sp26 & 0xFF, &sp20);
+    sp1C = func_800E5E84(sp26 /* & 0xFF*/, &sp20);
     sp18 = func_800E5E84(seqId, &sp20);
 	if (!sp1C || !sp18) {
 		// disable BGM, we're about to null deref!

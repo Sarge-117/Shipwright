@@ -1605,7 +1605,7 @@ void HintTable_Init() {
 
     hintTable[JUNK10] = HintText::Junk({
         // obscure text
-        Text{ "Save your future, end the Happy Mask Salesman.",
+        Text{ "Save your future. End the Happy Mask Salesman.",
               /*french*/ "Selon moi, tu t'éviteras des jours de malheur si tu vaincs le vendeur de masques...",
               /*spanish*/ "Salva tu futuro, acaba con el dueño de La Máscara Feliz." },
     });
@@ -2030,7 +2030,7 @@ void HintTable_Init() {
 
     hintTable[JUNK72] = HintText::Junk({
         // obscure text
-        Text{ "Hi @, we've been trying to reach you about your car's extended warranty. ",
+        Text{ "They say AJ is dead^serious about enlarging the boys.",
               /*french*/ "Bonjour, @. Vous avez une voiture? Vous savez, nous offrons des assurances abordables...",
               /*spanish*/
               "Buenas, @. Le llamamos para ofrecerle un nuevo seguro de hogar que puede pagar en cómodos plazos, sin "
@@ -2079,7 +2079,7 @@ void HintTable_Init() {
 
     hintTable[JUNK78] = HintText::Junk({
         //obscure text
-        Text{"They say blarg...^...or at least briaguya does.", /*french*/"Tout ce que j'ai à dire, c'est blarg...^... 'fin c'est plutôt ce que briaguya dirait.", /*spanish*/"blarg"},
+        Text{"They say that outside the Temple of Time are four identical statues.^Each more identical than the last...", /*french*/"Tout ce que j'ai à dire, c'est blarg...^... 'fin c'est plutôt ce que briaguya dirait.", /*spanish*/"blarg"},
     });
 
     hintTable[JUNK79] = HintText::Junk({
@@ -2106,7 +2106,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_WTC_3] = HintText::Junk({
-        Text{ "They say its all in the name of guiding&humanity down the right path.", HINT_TEXT_NEEDS_TRANSLATION_FR,
+        Text{ "They say that if we can hit that bullseye, the rest of the dominoes will fall like a house of cards.^Checkmate.", HINT_TEXT_NEEDS_TRANSLATION_FR,
               "blarg" },
     });
 
