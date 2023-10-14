@@ -104,7 +104,7 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
     }
 
     // To use an item from within inventory, Link must not be in any of the following states
-    if (this->swordState != 0 ||                // Swinging sword
+    if (this->meleeWeaponState != 0 ||                // Swinging sword
         this->stateFlags1 & PLAYER_STATE1_LOADING              || 
         this->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE      ||
         this->stateFlags1 & PLAYER_STATE1_TEXT_ON_SCREEN       ||
