@@ -1585,11 +1585,51 @@ void DrawRandomizerMenu() {
                 "Play unique fanfares when obtaining quest items "
                 "(medallions/stones/songs). Note that these fanfares are longer than usual."
             );
-            UIWidgets::PaddedEnhancementCheckbox("Ganondorf Means Business", "gBossSurprise", true, false);
-            UIWidgets::Tooltip("Gaymer");
             ImGui::EndMenu();
         }
 
+        ImGui::EndMenu();
+    }
+}
+
+void DrawSargeMenu() {
+    if (ImGui::BeginMenu("Sarge")) {
+        UIWidgets::PaddedEnhancementCheckbox("Ganondorf Surprise", "gBossSurprise", true, false);
+        UIWidgets::Tooltip("Gaymer");
+
+        UIWidgets::PaddedEnhancementCheckbox("Use Items Directly From Inventory", "gItemUseFromInventory", true, false);
+        UIWidgets::Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen.");
+
+        UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gKeeseSanity", true, false);
+        UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
+                           "controls the likelihood of additional Keese spawns.");
+        if (CVarGetInteger("gKeeseSanity", 0)) {
+            UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity", "gKeeseSanityIntensity",
+                                            0, 5, "", 0, false);
+            switch (CVarGetInteger("gKeeseSanityIntensity", 0)) {
+                default:
+                    UIWidgets::Tooltip("Intensity");
+                    break;
+                case 0:
+                    UIWidgets::Tooltip("Off");
+                    break;
+                case 1:
+                    UIWidgets::Tooltip("Easy");
+                    break;
+                case 2:
+                    UIWidgets::Tooltip("Mild");
+                    break;
+                case 3:
+                    UIWidgets::Tooltip("Normal");
+                    break;
+                case 4:
+                    UIWidgets::Tooltip("Crazy");
+                    break;
+                case 5:
+                    UIWidgets::Tooltip("Madness");
+                    break;
+            }
+        }
         ImGui::EndMenu();
     }
 }
@@ -1624,8 +1664,12 @@ void SohMenuBar::DrawElement() {
 
         DrawRandomizerMenu();
 
+        ImGui::SetCursorPosY(0.0f);
+
+        DrawSargeMenu();
+
         ImGui::PopStyleVar(1);
         ImGui::EndMenuBar();
     }
 }
-} // namespace SohGui 
+} // namespace SohGui
