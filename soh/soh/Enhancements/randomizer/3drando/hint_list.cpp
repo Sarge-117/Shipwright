@@ -28,7 +28,7 @@ void HintTable_Init() {
     hintTable[PREFIX] =
         HintText::Exclude({ Text{ "They say that ", /*french*/ "Selon moi, ", /*spanish*/ "Según dicen, " } });
     hintTable[WAY_OF_THE_HERO] =
-        HintText::Exclude({ Text{ " is on the way of the hero.", /*french*/ " est sur la voie du héros.",
+        HintText::Exclude({ Text{ " is on the way of the Phoenix.", /*french*/ " est sur la voie du héros.",
                                   /*spanish*/ " conduce a la senda del héroe." } });
     hintTable[PLUNDERING] =
         HintText::Exclude({ Text{ "plundering ", /*french*/ "explorer ", /*spanish*/ "inspeccionar " } });
@@ -1605,7 +1605,7 @@ void HintTable_Init() {
 
     hintTable[JUNK10] = HintText::Junk({
         // obscure text
-        Text{ "Save your future, end the Happy Mask Salesman.",
+        Text{ "Save your future. End the Happy Mask Salesman.",
               /*french*/ "Selon moi, tu t'éviteras des jours de malheur si tu vaincs le vendeur de masques...",
               /*spanish*/ "Salva tu futuro, acaba con el dueño de La Máscara Feliz." },
     });
@@ -1746,9 +1746,9 @@ void HintTable_Init() {
 
     hintTable[JUNK32] = HintText::Junk({
         // obscure text
-        Text{ "May the way of the Hero lead to the Triforce.",
+        Text{ "May the way of the Phoenix lead to the Triforce.",
               /*french*/ "Que le chemin du héros te mène à la Triforce.",
-              /*spanish*/ "Puede que la senda del héroe te lleve hacia la Trifuerza." },
+              /*spanish*/ "Puede que la senda del héroe te lleve hacia la Trifuerza." }, 
     });
 
     hintTable[JUNK33] = HintText::Junk({
@@ -1939,49 +1939,49 @@ void HintTable_Init() {
 
     hintTable[JUNK60] = HintText::Junk({
         // obscure text
-        Text{ "You found a spiritual Stone! By which I mean, I worship Nayru.",
+        Text{ "They say AJ isn't really a gaymer.",
               /*french*/ "Vous avez trouvé une Pierre Ancestrale! En effet, je vénère la déesse Hylia.",
               /*spanish*/ "¡Has encontrado una piedra espiritual! Es que le rindo culto a Nayru..." },
     });
 
     hintTable[JUNK61] = HintText::Junk({
         // obscure text
-        Text{ "They say that a flying strike with a Deku Stick is no stronger than a grounded one.",
+        Text{ "They say you can get something good from the pot room Skulltula if your name is food-related.",
               /*french*/ "Selon moi, un coup de bâton sauté n'est pas meilleur qu'au sol.",
               /*spanish*/ "Según dicen, los golpes aéreos con palos deku son tan fuertes como los normales." },
     });
 
     hintTable[JUNK62] = HintText::Junk({
         // obscure text
-        Text{ "Open your eyes.^Open your eyes.^Wake up, @.",
+        Text{ "They say Final Fantasy isn't really an education.",
               /*french*/ "Réveille-toi...^Réveille-toi.^Ouvre les yeux, @.",
               /*spanish*/ "Abre los ojos...^Abre los ojos...^Despierta, @..." },
     });
 
     hintTable[JUNK63] = HintText::Junk({
         // obscure text
-        Text{ "They say that the Nocturne of Shadow can bring you very close to Ganon.",
+        Text{ "They say AJ loves Phantom Ganon's rainbow charge attack.",
               /*french*/ "Selon moi, le nocturne de l'ombre peut t'amener très près de Ganon.",
               /*spanish*/ "Según dicen, el Nocturno de la sombra te puede acercar mucho a Ganon." },
     });
 
     hintTable[JUNK64] = HintText::Junk({
         // obscure text
-        Text{ "They say that Twinrova always casts the same spell the first three times.",
+        Text{ "They say Keese-Sanity is for true gaymers.",
               /*french*/ "Selon moi, Twinrova lance toujours les mêmes trois premiers sorts.",
               /*spanish*/ "Según dicen, Birova siempre lanza el mismo hechizo las tres primeras veces." },
     });
 
     hintTable[JUNK65] = HintText::Junk({
         // obscure text
-        Text{ "They say that the nightly builds may be unstable.",
+        Text{ "They say that Bueller and Jasper were very good boys.",
               /*french*/ "Selon moi, les \"nightly builds\" peuvent être instables.",
               /*spanish*/ "Según dicen, las últimas nightlies pueden llegar a ser algo inestables." },
     });
 
     hintTable[JUNK66] = HintText::Junk({
         // obscure text
-        Text{ "You're playing a Randomizer. I'm randomized!^Here's a random number:  #4#.&Enjoy your Randomizer!",
+        Text{ "They say that enlarging the boys is always worthwhile.",
               /*french*/ "Tu joues à un randomizer. Je suis aléatoire!^Voici un nombre aléatoire: #4#.&Bonne partie!",
               /*spanish*/
               "¡Estás jugando un Randomizer! ¡Yo también estoy aleatorizada!^Aquí tienes un número aleatorio:  "
@@ -1990,7 +1990,7 @@ void HintTable_Init() {
 
     hintTable[JUNK67] = HintText::Junk({
         // obscure text
-        Text{ "They say Ganondorf's bolts can be reflected with glass or steel.",
+        Text{ "They say the boys must be enlarged.",
               /*french*/ "Selon moi, les éclairs de Ganon se reflètent sur l'acier et le verre.",
               /*spanish*/ "Según dicen, puedes reflejar las esferas de energía de Ganondorf con cristal y acero." },
     });
@@ -2010,7 +2010,7 @@ void HintTable_Init() {
     hintTable[JUNK69] = HintText::Junk({
         // obscure text
         Text{
-            "They say that you're wasting time reading this hint, but I disagree. Talk to me again!",
+            "They say that Jason Kenney awaits AJ's return to Alberta.",
             /*french*/ "Selon moi... tu sais quoi? Parle-moi encore, et je te le dirai!", /*spanish*/
             "Según dicen, pierdes el tiempo en leer esta pista, pero no pienso igual. ¡Vuelve a hablarme, ya verás!" },
     });
@@ -2030,7 +2030,7 @@ void HintTable_Init() {
 
     hintTable[JUNK72] = HintText::Junk({
         // obscure text
-        Text{ "Hi @, we've been trying to reach you about your car's extended warranty. ",
+        Text{ "They say AJ is dead^serious about enlarging the boys.",
               /*french*/ "Bonjour, @. Vous avez une voiture? Vous savez, nous offrons des assurances abordables...",
               /*spanish*/
               "Buenas, @. Le llamamos para ofrecerle un nuevo seguro de hogar que puede pagar en cómodos plazos, sin "
@@ -2079,7 +2079,7 @@ void HintTable_Init() {
 
     hintTable[JUNK78] = HintText::Junk({
         //obscure text
-        Text{"They say blarg...^...or at least briaguya does.", /*french*/"Tout ce que j'ai à dire, c'est blarg...^... 'fin c'est plutôt ce que briaguya dirait.", /*spanish*/"blarg"},
+        Text{"They say that outside the Temple of Time are four identical statues.^Each more identical than the last...", /*french*/"Tout ce que j'ai à dire, c'est blarg...^... 'fin c'est plutôt ce que briaguya dirait.", /*spanish*/"blarg"},
     });
 
     hintTable[JUNK79] = HintText::Junk({
@@ -2106,7 +2106,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_WTC_3] = HintText::Junk({
-        Text{ "They say its all in the name of guiding&humanity down the right path.", HINT_TEXT_NEEDS_TRANSLATION_FR,
+        Text{ "They say that if we can hit that bullseye, the rest of the dominoes will fall like a house of cards.^Checkmate.", HINT_TEXT_NEEDS_TRANSLATION_FR,
               "blarg" },
     });
 
@@ -2984,7 +2984,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE03] = HintText::GanonLine({
         // obscure text
-        Text{ "Looks like it's time for a round of tennis.",
+        Text{ "My leadership of Hyrule is very legal and very cool.",
               /*french*/ "C'est l'heure de jouer au tennis.",
               /*spanish*/ "Parece que es hora de una pachanga de tenis." },
     });
