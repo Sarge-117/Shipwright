@@ -2,6 +2,7 @@
 #include <nlohmann/json.hpp>
 #include "randomizerTypes.h"
 #include "randomizer_check_objects.h"
+#include "soh/Enhancements/item-tables/ItemTableTypes.h"
 
 #include <libultraship/libultraship.h>
 
@@ -49,6 +50,9 @@ void UpdateAllOrdering();
 bool IsVisibleInCheckTracker(RandomizerCheckObject rcObj);
 void InitTrackerData(bool isDebug);
 void SetLastItemGetRC(RandomizerCheck rc);
+void AddToChecksCollected(RandomizerCheck rc);
+void AddItemReceived(GetItemEntry giEntry);
+void ClearAreaTotals();
 RandomizerCheckArea GetCheckArea();
 void CheckTrackerDialogClosed();
 void ToggleShopRightChecks();
