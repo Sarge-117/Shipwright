@@ -4,6 +4,7 @@
 #include "soh/Enhancements/randomizer/adult_trade_shuffle.h"
 #include "soh/Enhancements/randomizer/randomizerTypes.h"
 #include "soh/Enhancements/enhancementTypes.h"
+#include "soh/Enhancements/item_use_from_inventory.h"
 #include "soh/Enhancements/cosmetics/cosmeticsTypes.h"
 
 u8 gAmmoItems[] = {
@@ -85,6 +86,93 @@ void KaleidoScope_SetCursorVtx(PauseContext* pauseCtx, u16 index, Vtx* vtx) {
 
 void KaleidoScope_SetItemCursorVtx(PauseContext* pauseCtx) {
     KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
+}
+
+// For enhancement "Item Use From Inventory"
+bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
+    InterfaceContext* interfaceCtx = &play->interfaceCtx;
+    PauseContext* pauseCtx = &play->pauseCtx;
+    Player* this = GET_PLAYER(play);
+
+    u16 cursorItem;
+    u16 cursorSlot;
+
+    // If we aren't paused or we aren't on the inventory subscreen, return false
+    if (!(CVarGetInteger("gItemUseFromInventory", 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) &&
+          (pauseCtx->pageIndex == PAUSE_ITEM))) {
+        return false;
+    }
+
+    // To use an item from within inventory, Link must not be in any of the following states
+    if (this->meleeWeaponState != 0 ||                // Swinging sword
+        this->stateFlags1 & PLAYER_STATE1_LOADING              || 
+        this->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE      ||
+        this->stateFlags1 & PLAYER_STATE1_TEXT_ON_SCREEN       ||
+        this->stateFlags1 & PLAYER_STATE1_GETTING_ITEM         || 
+        this->stateFlags1 & PLAYER_STATE1_ITEM_OVER_HEAD       || 
+        this->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK ||
+        this->stateFlags1 & PLAYER_STATE1_HANGING_OFF_LEDGE    || 
+        this->stateFlags1 & PLAYER_STATE1_CLIMBING_LEDGE       || 
+        this->stateFlags1 & PLAYER_STATE1_JUMPING              || 
+        this->stateFlags1 & PLAYER_STATE1_FREEFALL             || 
+        this->stateFlags1 & PLAYER_STATE1_FIRST_PERSON         || 
+        this->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER      || 
+        this->stateFlags1 & PLAYER_STATE1_SHIELDING            || 
+        this->stateFlags1 & PLAYER_STATE1_ON_HORSE             || 
+        this->stateFlags1 & PLAYER_STATE1_DAMAGED              || 
+        this->stateFlags1 & PLAYER_STATE1_IN_WATER             || 
+        this->stateFlags1 & PLAYER_STATE1_IN_ITEM_CS           || 
+        this->stateFlags1 & PLAYER_STATE1_IN_CUTSCENE          || 
+        
+        this->stateFlags2 & PLAYER_STATE2_DISABLE_ROTATION_ALWAYS ||
+        this->stateFlags2 & PLAYER_STATE2_CRAWLING ||
+        
+        this->stateFlags3 & PLAYER_STATE3_MIDAIR) { 
+        return false;
+    }
+
+    cursorItem = pauseCtx->cursorItem[PAUSE_ITEM];
+    cursorSlot = pauseCtx->cursorSlot[PAUSE_ITEM];
+
+    // Check that we have the item and that it passes age restrictions
+    if (((gSlotAgeReqs[cursorSlot] == 9) || (gSlotAgeReqs[cursorSlot] == ((void)0, gSaveContext.linkAge))) &&
+        (cursorItem != ITEM_SOLD_OUT) && (cursorItem != ITEM_NONE)) {
+
+        // For bottles, make sure this bottle is not already equipped (to prevent accidental bottle duping)
+        if (interfaceCtx->restrictions.bottles == 0 && cursorItem >= ITEM_BOTTLE && cursorItem <= ITEM_POE) {
+            for (int i = 0; i <= 7; i++) {
+                if (gSaveContext.equips.cButtonSlots[i] == cursorSlot) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // For regular inventory items, make sure it isn't restricted by scene, ammo, or magic
+        // Items that have to be taken out and held or aimed are not supported
+        if (interfaceCtx->restrictions.ocarina    == 0 && cursorSlot == SLOT_OCARINA ||
+            interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_NUT          && AMMO(ITEM_NUT)     > 0 ||
+            interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_BOMB         && AMMO(ITEM_BOMB)    > 0 ||
+            interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_BOMBCHU      && AMMO(ITEM_BOMBCHU) > 0 ||
+            interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_BEAN         && AMMO(ITEM_BEAN)    > 0 ||
+            interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_LENS         && gSaveContext.isMagicAcquired && gSaveContext.magic >=  1 ||
+            interfaceCtx->restrictions.dinsNayrus == 0 && cursorSlot == SLOT_DINS_FIRE    && gSaveContext.isMagicAcquired && gSaveContext.magic >= 12 ||
+            interfaceCtx->restrictions.dinsNayrus == 0 && cursorSlot == SLOT_NAYRUS_LOVE  && gSaveContext.isMagicAcquired && gSaveContext.magic >= 24 ||
+            interfaceCtx->restrictions.farores    == 0 && cursorSlot == SLOT_FARORES_WIND && gSaveContext.isMagicAcquired && gSaveContext.magic >= 12 ){
+
+            return true;
+        }
+
+        // For trade items, make sure we are not conflicting with selectable masks or adult trade items
+        // Also make sure we aren't on any mask at all (Link can't wear a mask without it being equipped to a C button)
+        if (interfaceCtx->restrictions.tradeItems == 0 && 
+            (cursorSlot == SLOT_TRADE_ADULT && !(gSaveContext.n64ddFlag && Randomizer_GetSettingValue(RSK_SHUFFLE_ADULT_TRADE))) || 
+            (cursorSlot == SLOT_TRADE_CHILD && !(cursorItem >= ITEM_MASK_KEATON && cursorItem <= ITEM_MASK_TRUTH)
+                                            && !(CVarGetInteger("gMaskSelect", 0)))) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // Vertices for the extra items
@@ -499,6 +587,18 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 KaleidoScope_SetCursorVtx(pauseCtx, index, pauseCtx->itemVtx);
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
+                    // For enhancement "Item Use From Inventory"
+                    if (CVarGetInteger("gItemUseFromInventory", 0) && ItemUseFromInventory_IsValidItemForUse(play)) {
+                        pauseCtx->cursorColorSet = 8;
+                        if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
+                            ItemUseFromInventory_SetItemAndSlot(cursorItem, cursorSlot); // In z_player.c
+                            // Unpause
+                            Interface_SetDoAction(play, DO_ACTION_NONE);
+                            pauseCtx->state = 0x12;
+                            WREG(2) = -6240;
+                            func_800F64E0(0);
+                        }
+                    }
                     if (canMaskSelect && cursorSlot == SLOT_TRADE_CHILD && CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         gSelectingMask = !gSelectingMask;

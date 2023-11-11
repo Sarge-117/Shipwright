@@ -16,6 +16,7 @@
 #define MAX_SEED_STRING_SIZE 1024
 #define NUM_TRIFORCE_PIECE_MESSAGES 6
 #define NUM_NAVI_MESSAGES 19
+#define NUM_NAVI_KEESE_SANITY_DESCRIPTIONS 4
 #define NUM_ICE_TRAP_MESSAGES 23
 #define NUM_GORON_MESSAGES 9
 
@@ -50,6 +51,7 @@ class Randomizer {
     static const std::string rupeeMessageTableID;
     static const std::string triforcePieceMessageTableID;
     static const std::string NaviRandoMessageTableID;
+    static const std::string NaviKeeseSanityDescriptionsTableID;
     static const std::string IceTrapRandoMessageTableID;
     static const std::string randoMiscHintsTableID;
 
