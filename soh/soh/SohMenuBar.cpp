@@ -617,6 +617,8 @@ void DrawEnhancementsMenu() {
                 UIWidgets::Tooltip("Prevent bombchus from forcing the camera into first-person mode when released.");
                 UIWidgets::PaddedEnhancementCheckbox("Aiming reticle for the bow/slingshot", "gBowReticle", true, false);
                 UIWidgets::Tooltip("Aiming with a bow or slingshot will display a reticle as with the hookshot when the projectile is ready to fire.");
+                UIWidgets::PaddedEnhancementCheckbox("Use Items Directly From Inventory", "gItemUseFromInventory", true, false);
+                UIWidgets::Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen.");
                 ImGui::EndMenu();
             }
 
@@ -1140,6 +1142,36 @@ void DrawEnhancementsMenu() {
             UIWidgets::PaddedEnhancementCheckbox("Shadow Tag Mode", "gShadowTag", true, false);
             UIWidgets::Tooltip("A wallmaster follows Link everywhere, don't get caught!");
 
+            UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gKeeseSanity", true, false);
+            UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
+                                "controls the likelihood of additional Keese spawns.");
+            if (CVarGetInteger("gKeeseSanity", 0)) {
+                UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity",
+                                                "gKeeseSanityIntensity", 0, 5, "", 0, false);
+                switch (CVarGetInteger("gKeeseSanityIntensity", 0)) {
+                    default:
+                        UIWidgets::Tooltip("Intensity");
+                        break;
+                    case 0:
+                        UIWidgets::Tooltip("Off");
+                        break;
+                    case 1:
+                        UIWidgets::Tooltip("Easy");
+                        break;
+                    case 2:
+                        UIWidgets::Tooltip("Mild");
+                        break;
+                    case 3:
+                        UIWidgets::Tooltip("Normal");
+                        break;
+                    case 4:
+                        UIWidgets::Tooltip("Crazy");
+                        break;
+                    case 5:
+                        UIWidgets::Tooltip("Madness");
+                        break;
+                }
+            }
             UIWidgets::Spacer(0);
 
             UIWidgets::PaddedEnhancementCheckbox("Additional Traps", "gAddTraps.enabled", true, false);
@@ -1791,6 +1823,48 @@ void DrawRandomizerMenu() {
     }
 }
 
+void DrawSargeMenu() {
+    if (ImGui::BeginMenu("Sarge")) {
+        UIWidgets::PaddedEnhancementCheckbox("Ganondorf Surprise", "gBossSurprise", true, false);
+        UIWidgets::Tooltip("Gaymer");
+
+        UIWidgets::PaddedEnhancementCheckbox("Use Items Directly From Inventory", "gItemUseFromInventory", true, false);
+        UIWidgets::Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen.");
+
+        UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gKeeseSanity", true, false);
+        UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
+                           "controls the likelihood of additional Keese spawns.");
+        if (CVarGetInteger("gKeeseSanity", 0)) {
+            UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity", "gKeeseSanityIntensity",
+                                            0, 5, "", 0, false);
+            switch (CVarGetInteger("gKeeseSanityIntensity", 0)) {
+                default:
+                    UIWidgets::Tooltip("Intensity");
+                    break;
+                case 0:
+                    UIWidgets::Tooltip("Off");
+                    break;
+                case 1:
+                    UIWidgets::Tooltip("Easy");
+                    break;
+                case 2:
+                    UIWidgets::Tooltip("Mild");
+                    break;
+                case 3:
+                    UIWidgets::Tooltip("Normal");
+                    break;
+                case 4:
+                    UIWidgets::Tooltip("Crazy");
+                    break;
+                case 5:
+                    UIWidgets::Tooltip("Madness");
+                    break;
+            }
+        }
+        ImGui::EndMenu();
+    }
+}
+
 void SohMenuBar::DrawElement() {
     if (ImGui::BeginMenuBar()) {
         DrawMenuBarIcon();
@@ -1827,8 +1901,12 @@ void SohMenuBar::DrawElement() {
 
         DrawRandomizerMenu();
 
+        ImGui::SetCursorPosY(0.0f);
+
+        DrawSargeMenu();
+
         ImGui::PopStyleVar(1);
         ImGui::EndMenuBar();
     }
 }
-} // namespace SohGui 
+} // namespace SohGui
