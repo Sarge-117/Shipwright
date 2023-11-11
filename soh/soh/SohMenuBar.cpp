@@ -1861,6 +1861,9 @@ void DrawSargeMenu() {
                     break;
             }
         }
+
+        UIWidgets::PaddedEnhancementCheckbox("Fanfares on Receiving Items", "gRemote.AnchorFanfares", true, false);
+        UIWidgets::Tooltip("Play get-item fanfares when receiving major items from other players.");
         ImGui::EndMenu();
     }
 }
