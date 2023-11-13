@@ -166,7 +166,7 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
         // For trade items, make sure we are not conflicting with selectable masks or adult trade items
         // Also make sure we aren't on any mask at all (Link can't wear a mask without it being equipped to a C button)
         if (interfaceCtx->restrictions.tradeItems == 0 && 
-            (cursorSlot == SLOT_TRADE_ADULT && !(gSaveContext.n64ddFlag && Randomizer_GetSettingValue(RSK_SHUFFLE_ADULT_TRADE))) || 
+            (cursorSlot == SLOT_TRADE_ADULT && !(IS_RANDO && Randomizer_GetSettingValue(RSK_SHUFFLE_ADULT_TRADE))) || 
             (cursorSlot == SLOT_TRADE_CHILD && !(cursorItem >= ITEM_MASK_KEATON && cursorItem <= ITEM_MASK_TRUTH)
                                             && !(CVarGetInteger("gMaskSelect", 0)))) {
             return true;
