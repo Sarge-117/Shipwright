@@ -2383,7 +2383,11 @@ extern "C" int CustomMessage_RetrieveIfExists(PlayState* play) {
         } else if (CVarGetInteger("gRandoRelevantNavi", 1) && textId >= 0x0140 && textId <= 0x015F) {
             u16 naviTextId = Random(0, NUM_NAVI_MESSAGES);
             messageEntry = CustomMessageManager::Instance->RetrieveMessage(Randomizer::NaviRandoMessageTableID, naviTextId);
-        } else if (Randomizer_GetSettingValue(RSK_SHUFFLE_MAGIC_BEANS) && textId == TEXT_BEAN_SALESMAN) {
+        // Keese-Sanity: For custom keese types, hook into the custom message system with textIDs starting at 0x0660
+        } else if (textId >= 0x0660 && textId <= 0x0663) {
+            u16 naviTextId = textId - 0x0660;
+            messageEntry = CustomMessageManager::Instance->RetrieveMessage(Randomizer::NaviKeeseSanityDescriptionsTableID, naviTextId);
+        }else if (Randomizer_GetSettingValue(RSK_SHUFFLE_MAGIC_BEANS) && textId == TEXT_BEAN_SALESMAN) {
             messageEntry = CustomMessageManager::Instance->RetrieveMessage(Randomizer::merchantMessageTableID, TEXT_BEAN_SALESMAN);
         } else if (Randomizer_GetSettingValue(RSK_SHUFFLE_MERCHANTS) != RO_SHUFFLE_MERCHANTS_OFF && (textId == TEXT_MEDIGORON ||
           (textId == TEXT_GRANNYS_SHOP && !Flags_GetRandomizerInf(RAND_INF_MERCHANTS_GRANNYS_SHOP) &&
