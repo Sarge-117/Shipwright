@@ -614,6 +614,8 @@ void DrawEnhancementsMenu() {
                 UIWidgets::Tooltip("Prevent bombchus from forcing the camera into first-person mode when released.");
                 UIWidgets::PaddedEnhancementCheckbox("Aiming reticle for the bow/slingshot", "gBowReticle", true, false);
                 UIWidgets::Tooltip("Aiming with a bow or slingshot will display a reticle as with the hookshot when the projectile is ready to fire.");
+                UIWidgets::PaddedEnhancementCheckbox("Use Items Directly From Inventory", "gItemUseFromInventory", true, false);
+                UIWidgets::Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen.");
                 ImGui::EndMenu();
             }
 
