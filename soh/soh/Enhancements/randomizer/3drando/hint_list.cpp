@@ -1937,7 +1937,7 @@ void HintTable_Init() {
 
     hintTable[JUNK59] = HintText::Junk({
         // obscure text
-        Text{ "They say Ingo is not very good at planning ahead.",
+        Text{ "They say the Lalafell are the worst.",
               /*french*/ "Selon moi, Ingo ne fait pas un très bon geôlier.",
               /*spanish*/ "Según dicen, a Ingo no se le da especialmente bien planificar con antelación." },
     });
@@ -3003,7 +3003,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE03] = HintText::GanonLine({
         // obscure text
-        Text{ "My leadership of Hyrule is very legal and very cool.",
+        Text{ "My leadership of Hyrule is very legal, very cool.",
               /*french*/ "C'est l'heure de jouer au tennis.",
               /*spanish*/ "Parece que es hora de una pachanga de tenis." },
     });
@@ -3053,7 +3053,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE08] = HintText::GanonLine({
         // obscure text
-        Text{ "I've learned this spell,&it's really neat,&I'll keep it later&for your treat!",
+        Text{ "IT WAS A PERFECT PHONE CALL.",
               /*french*/
               "Gamin, ton destin achève,&sous mon sort tu périras!&Cette partie ne fut pas brève,&et cette mort, tu "
               "subiras!",
@@ -3064,7 +3064,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE09] = HintText::GanonLine({
         // obscure text
-        Text{ "Many tricks are up my sleeve,&to save yourself&you'd better leave!",
+        Text{ "Person, woman, man, camera, TV.",
               /*french*/ "Sale petit garnement,&tu fais erreur!&C'est maintenant que marque&ta dernière heure!",
               /*spanish*/ "¿No osarás a mí enfrentarte?&Rimas aparte,&¡voy a matarte!" },
     });
