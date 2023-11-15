@@ -172,7 +172,8 @@ void Gfx_RegisterBlendedTexture(const char* name, u8* mask, u8* replacement);
 void SaveManager_ThreadPoolWait();
 void CheckTracker_OnMessageClose();
 
-int32_t GetGIID(uint32_t itemID);
+GetItemID RetrieveGetItemIDFromItemID(ItemID itemID);
+RandomizerGet RetrieveRandomizerGetFromItemID(ItemID itemID);
 #endif
 
 #ifdef __cplusplus
