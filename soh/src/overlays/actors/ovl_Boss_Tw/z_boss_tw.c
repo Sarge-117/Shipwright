@@ -1442,7 +1442,7 @@ void BossTw_SetupWait(BossTw* this, PlayState* play) {
 void BossTw_Wait(BossTw* this, PlayState* play) {
     if ((this->actor.params == TW_TWINROVA) && (sKoumePtr->actionFunc == BossTw_FlyTo) &&
         (sKotakePtr->actionFunc == BossTw_FlyTo) &&
-        ((sKoumePtr->actor.colChkInfo.health + sKotakePtr->actor.colChkInfo.health) >= 4)) {
+        ((sKoumePtr->actor.colChkInfo.health + sKotakePtr->actor.colChkInfo.health) >= 0)) {
 
         BossTw_TwinrovaSetupMergeCS(this, play);
         BossTw_SetupMergeCS(sKotakePtr, play);
@@ -3023,6 +3023,25 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     }
 
     this->actionFunc(this, play);
+    
+    if (this->actionFunc != BossTw_TwinrovaShootBlast && this->actionFunc != BossTw_TwinrovaChargeBlast) {
+
+        if (this->collider.base.acFlags & AC_HIT) {
+            if ((this->collider.base.ac != NULL) && (this->collider.base.ac->id == ACTOR_EN_ARROW)) {
+                if (this->collider.base.ac->child != NULL) {
+                    if ((this->actor.params == TW_TWINROVA && this->collider.base.ac->child->id == ACTOR_ARROW_LIGHT)) {
+
+                        if (this->work[INVINC_TIMER] == 0) {
+                            if (this->actionFunc != BossTw_TwinrovaStun) {
+                                this->twinrovaStun = 1;
+                                this->collider.base.acFlags &= ~AC_HIT;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     if (this->actionFunc != BossTw_TwinrovaShootBlast && this->actionFunc != BossTw_TwinrovaChargeBlast &&
         this->visible && this->unk_5F8 == 0 &&
