@@ -281,7 +281,7 @@ void from_json(const json& j, SaveContext& saveContext) {
 
 std::map<uint32_t, AnchorClient> GameInteractorAnchor::AnchorClients = {};
 std::vector<uint32_t> GameInteractorAnchor::ActorIndexToClientId = {};
-std::string GameInteractorAnchor::clientVersion = "Anchor + Player Models 3 (alpha 3)";
+std::string GameInteractorAnchor::clientVersion = "Anchor + Player Models 3 (alpha 5)";
 std::vector<std::pair<uint16_t, int16_t>> receivedItems = {};
 std::vector<uint16_t> discoveredEntrances = {};
 std::vector<AnchorMessage> anchorMessages = {};
@@ -599,6 +599,9 @@ void GameInteractorAnchor::HandleRemoteJson(nlohmann::json payload) {
     if (payload["type"] == "UPDATE_KEY_COUNT" && GameInteractor::IsSaveLoaded()) {
         gSaveContext.inventory.dungeonKeys[payload["sceneNum"].get<int16_t>()] = payload["amount"].get<int8_t>();
     }
+    if (payload["type"] == "GIVE_DUNGEON_ITEM" && GameInteractor::IsSaveLoaded()) {
+        gSaveContext.inventory.dungeonItems[payload["sceneNum"].get<int16_t>()] |= gBitFlags[payload["itemId"].get<uint16_t>() - ITEM_KEY_BOSS];
+    }
     if (payload["type"] == "GAME_COMPLETE") {
         AnchorClient anchorClient = GameInteractorAnchor::AnchorClients[payload["clientId"].get<uint32_t>()];
         Anchor_DisplayMessage({
@@ -859,7 +862,7 @@ void Anchor_RegisterHooks() {
     });
     
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnItemReceive>([](GetItemEntry itemEntry) {
-        if (itemEntry.modIndex == MOD_NONE && (itemEntry.itemId == ITEM_KEY_SMALL || itemEntry.itemId == ITEM_KEY_BOSS || itemEntry.itemId == ITEM_SWORD_MASTER)) {
+        if (itemEntry.modIndex == MOD_NONE && ((itemEntry.itemId >= ITEM_KEY_BOSS && itemEntry.itemId <= ITEM_KEY_SMALL) || itemEntry.itemId == ITEM_SWORD_MASTER)) {
             return;
         }
 
@@ -1086,6 +1089,18 @@ void Anchor_UpdateKeyCount(int16_t sceneNum, int8_t amount) {
     payload["type"] = "UPDATE_KEY_COUNT";
     payload["sceneNum"] = sceneNum;
     payload["amount"] = amount;
+
+    GameInteractorAnchor::Instance->TransmitJsonToRemote(payload);
+}
+
+void Anchor_GiveDungeonItem(int16_t sceneNum, uint16_t itemId) {
+    if (!GameInteractor::Instance->isRemoteInteractorConnected || !GameInteractor::Instance->IsSaveLoaded()) return;
+
+    nlohmann::json payload;
+
+    payload["type"] = "GIVE_DUNGEON_ITEM";
+    payload["sceneNum"] = sceneNum;
+    payload["itemId"] = itemId;
 
     GameInteractorAnchor::Instance->TransmitJsonToRemote(payload);
 }

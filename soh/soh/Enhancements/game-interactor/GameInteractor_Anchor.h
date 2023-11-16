@@ -96,6 +96,7 @@ void Anchor_UpdateBeansBought(uint8_t amount);
 void Anchor_UpdateBeansCount(uint8_t amount);
 void Anchor_ConsumeAdultTradeItem(uint8_t itemId);
 void Anchor_UpdateKeyCount(int16_t sceneNum, int8_t amount);
+void Anchor_GiveDungeonItem(int16_t sceneNum, uint16_t itemId);
 void Anchor_DamagePlayer(uint32_t actorIndex, u8 damageEffect, u8 damageValue);
 void Anchor_GameComplete();
 void Anchor_RequestTeleport(uint32_t clientId);
