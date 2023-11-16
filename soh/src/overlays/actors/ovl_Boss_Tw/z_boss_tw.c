@@ -2874,6 +2874,46 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
+    if (this->actionFunc == BossTw_FlyTo || this->actionFunc == BossTw_Wait ||
+        this->actionFunc == BossTw_TurnToPlayer || this->actionFunc == BossTw_Spin) {
+
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
+            if ((this->collider.base.ac != NULL) && (this->collider.base.ac->id == ACTOR_EN_ARROW)) {
+                if (this->collider.base.ac->child != NULL) {
+                    if ((this->actor.params == TW_KOUME  && this->collider.base.ac->child->id == ACTOR_ARROW_ICE) ||
+                        (this->actor.params == TW_KOTAKE && this->collider.base.ac->child->id == ACTOR_ARROW_FIRE)) {
+                        for (i = 0; i < 50; i++) {
+                            Vec3f pos;
+                            Vec3f velocity;
+                            Vec3f accel;
+
+                            pos.x = this->actor.world.pos.x + Rand_CenteredFloat(50.0f);
+                            pos.y = this->actor.world.pos.y + Rand_CenteredFloat(50.0f);
+                            pos.z = this->actor.world.pos.z + Rand_CenteredFloat(50.0f);
+
+                            velocity.x = Rand_CenteredFloat(20.0f);
+                            velocity.y = Rand_CenteredFloat(20.0f);
+                            velocity.z = Rand_CenteredFloat(20.0f);
+
+                            accel.x = 0.0f;
+                            accel.y = 0.0f;
+                            accel.z = 0.0f;
+
+                            BossTw_AddFlameEffect(play, &pos, &velocity, &accel, Rand_ZeroFloat(10.0f) + 25.0f,
+                                                  this->actor.params);
+                        }
+
+                        BossTw_SetupHitByBeam(this, play);
+                        Audio_PlayActorSound2(this, NA_SE_EN_TWINROBA_DAMAGE_VOICE);
+                        play->envCtx.unk_D8 = 1.0f;
+                        this->actor.colChkInfo.health++;
+                    }
+                }
+            }
+        }
+    }
+
     if (this->actionFunc != BossTw_Wait) {
         this->collider.dim.radius = 45;
 
