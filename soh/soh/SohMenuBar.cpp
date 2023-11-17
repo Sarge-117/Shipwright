@@ -1834,6 +1834,12 @@ void DrawSargeMenu() {
         UIWidgets::PaddedEnhancementCheckbox("Ganondorf Surprise", "gBossSurprise", true, false);
         UIWidgets::Tooltip("Gaymer");
 
+        UIWidgets::PaddedEnhancementCheckbox("Elemental Arrows on Twinrova", "gTwinrovaArrows", true, false);
+        UIWidgets::Tooltip("Elemental arrows become effective against Twinrova.");
+
+        UIWidgets::PaddedEnhancementCheckbox("One-Shottable KD", "gKDOneShot", true, false);
+        UIWidgets::Tooltip("King Dodongo can be one-shot by a BGS jumpslash.");
+
         UIWidgets::PaddedEnhancementCheckbox("Use Items Directly From Inventory", "gItemUseFromInventory", true, false);
         UIWidgets::Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen.");
 
