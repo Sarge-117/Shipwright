@@ -1160,18 +1160,6 @@ void RegisterInventoryUsedItem() {
     });
 }
 
-void RegisterKeeseTest() {
-    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnEnemyDefeat>([](void* refActor) {
-        Actor* actor = (Actor*)refActor;
-        if (actor->id == ACTOR_EN_FIREFLY) {
-            
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_FIREFLY, actor->world.pos.x, actor->world.pos.y,
-                        actor->world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
-        }
-        
-    });
-}
-
 void InitMods() {
     RegisterTTS();
     RegisterInfiniteMoney();
@@ -1200,7 +1188,6 @@ void InitMods() {
     RegisterAltTrapTypes();
     RegisterRandomizerSheikSpawn();
     RegisterRandomizedEnemySizes();
-    RegisterKeeseTest();
     RegisterInventoryUseableItems();
     RegisterInventoryUsedItem();
     NameTag_RegisterHooks();
