@@ -1056,6 +1056,7 @@ void RegisterRandomizedEnemySizes() {
 
 uint16_t inventoryUsedItem = ITEM_NONE;
 bool usedInventoryItem = false;
+bool executeItemAction = false;
 
 void RegisterInventoryUseableItems() {
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnItemSubscreen>([](uint16_t cursorItem, uint16_t cursorSlot) {
@@ -1152,9 +1153,15 @@ void RegisterInventoryUseableItems() {
 }
 
 void RegisterInventoryUsedItem() {
-    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnPlayerUpdate>([]() {
+    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnPlayerUpdateCommon>([]() {
+        Player* player = GET_PLAYER(gPlayState);
+
+        if (executeItemAction) {
+            func_80835F44(gPlayState, player, inventoryUsedItem); // Do action
+            executeItemAction = false;
+        }
         if (usedInventoryItem) {
-            func_80835F44(gPlayState, GET_PLAYER(gPlayState), inventoryUsedItem); // Do action
+            executeItemAction = true;
             usedInventoryItem = false;
         }
     });
