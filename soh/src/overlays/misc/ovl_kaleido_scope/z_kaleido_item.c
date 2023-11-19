@@ -499,6 +499,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 KaleidoScope_SetCursorVtx(pauseCtx, index, pauseCtx->itemVtx);
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
+                    GameInteractor_ExecuteOnItemSubscreen(cursorItem, cursorSlot);
+
                     if (canMaskSelect && cursorSlot == SLOT_TRADE_CHILD && CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         gSelectingMask = !gSelectingMask;

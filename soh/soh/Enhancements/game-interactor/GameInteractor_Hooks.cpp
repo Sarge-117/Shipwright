@@ -90,6 +90,10 @@ void GameInteractor_ExecuteOnPlayDrawEnd() {
     GameInteractor::Instance->ExecuteHooks<GameInteractor::OnPlayDrawEnd>();
 }
 
+void GameInteractor_ExecuteOnItemSubscreen(uint16_t cursorItem, uint16_t cursorSlot) {
+    GameInteractor::Instance->ExecuteHooks<GameInteractor::OnItemSubscreen>(cursorItem, cursorSlot);
+}
+
 // MARK: -  Save Files
 
 void GameInteractor_ExecuteOnSaveFile(int32_t fileNum) {

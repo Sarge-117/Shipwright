@@ -9,6 +9,7 @@
 #include "soh/Enhancements/cosmetics/authenticGfxPatches.h"
 #include <soh/Enhancements/item-tables/ItemTableManager.h>
 #include "soh/Enhancements/nametag.h"
+#include "macros.h"
 
 #include "src/overlays/actors/ovl_En_Bb/z_en_bb.h"
 #include "src/overlays/actors/ovl_En_Dekubaba/z_en_dekubaba.h"
@@ -33,6 +34,7 @@ extern "C" {
 extern SaveContext gSaveContext;
 extern PlayState* gPlayState;
 extern void Overlay_DisplayText(float duration, const char* text);
+extern void func_80835F44(PlayState* play, Player* player, s32 item); // z_player.c
 uint32_t ResourceMgr_IsSceneMasterQuest(s16 sceneNum);
 }
 
@@ -1052,6 +1054,124 @@ void RegisterRandomizedEnemySizes() {
     });
 }
 
+uint16_t inventoryUsedItem = ITEM_NONE;
+bool usedInventoryItem = false;
+
+void RegisterInventoryUseableItems() {
+    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnItemSubscreen>([](uint16_t cursorItem, uint16_t cursorSlot) {
+        InterfaceContext* interfaceCtx = &gPlayState->interfaceCtx;
+        PauseContext* pauseCtx = &gPlayState->pauseCtx;
+        Player* player = GET_PLAYER(gPlayState);
+        Input* input = &gPlayState->state.input[0];
+
+        bool validItem = false;
+
+        // To use an item from within inventory, Link must not be in any of the following states
+        if (player->meleeWeaponState != 0 ||                // Swinging sword
+            player->stateFlags1 & PLAYER_STATE1_LOADING              || 
+            player->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE      ||
+            player->stateFlags1 & PLAYER_STATE1_TEXT_ON_SCREEN       ||
+            player->stateFlags1 & PLAYER_STATE1_GETTING_ITEM         || 
+            player->stateFlags1 & PLAYER_STATE1_ITEM_OVER_HEAD       || 
+            player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK ||
+            player->stateFlags1 & PLAYER_STATE1_HANGING_OFF_LEDGE    || 
+            player->stateFlags1 & PLAYER_STATE1_CLIMBING_LEDGE       || 
+            player->stateFlags1 & PLAYER_STATE1_JUMPING              || 
+            player->stateFlags1 & PLAYER_STATE1_FREEFALL             || 
+            player->stateFlags1 & PLAYER_STATE1_FIRST_PERSON         || 
+            player->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER      || 
+            player->stateFlags1 & PLAYER_STATE1_SHIELDING            || 
+            player->stateFlags1 & PLAYER_STATE1_ON_HORSE             || 
+            player->stateFlags1 & PLAYER_STATE1_DAMAGED              || 
+            player->stateFlags1 & PLAYER_STATE1_IN_WATER             || 
+            player->stateFlags1 & PLAYER_STATE1_IN_ITEM_CS           || 
+            player->stateFlags1 & PLAYER_STATE1_IN_CUTSCENE          || 
+
+            player->stateFlags2 & PLAYER_STATE2_DISABLE_ROTATION_ALWAYS ||
+            player->stateFlags2 & PLAYER_STATE2_CRAWLING ||
+
+            player->stateFlags3 & PLAYER_STATE3_MIDAIR) { 
+
+                return;
+        }
+
+        // Check that we have the item and that it passes age restrictions
+        if (((gSlotAgeReqs[cursorSlot] == 9) || (gSlotAgeReqs[cursorSlot] == ((void)0, gSaveContext.linkAge))) &&
+            (cursorItem != ITEM_SOLD_OUT) && (cursorItem != ITEM_NONE)) {
+
+            // For bottles, make sure this bottle is not already equipped (to prevent accidental bottle duping)
+            if (interfaceCtx->restrictions.bottles == 0 && cursorItem >= ITEM_BOTTLE && cursorItem <= ITEM_POE) {
+                for (int i = 0; i <= 7; i++) {
+                    if (gSaveContext.equips.cButtonSlots[i] == cursorSlot) {
+                        return;
+                    }
+                }
+                validItem = true;
+
+            // For trade items, make sure we are not conflicting with selectable masks or adult trade items
+            // Also make sure we aren't on any mask at all (Link can't wear a mask without it being equipped to a C button)
+            } else if (interfaceCtx->restrictions.tradeItems == 0 && 
+                (cursorSlot == SLOT_TRADE_ADULT && !(IS_RANDO && OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_ADULT_TRADE))) || 
+                (cursorSlot == SLOT_TRADE_CHILD && !(cursorItem >= ITEM_MASK_KEATON && cursorItem <= ITEM_MASK_TRUTH)
+                                            && !(CVarGetInteger("gMaskSelect", 0)))) {
+                        validItem = true;
+        
+            // For regular inventory items, make sure it isn't restricted by scene, ammo, or magic
+            // Items that have to be taken out and held or aimed are not supported
+            } else if (interfaceCtx->restrictions.ocarina == 0 && cursorSlot == SLOT_OCARINA ||
+                    interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_NUT          && AMMO(ITEM_NUT)     > 0 ||
+                    interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_BOMB         && AMMO(ITEM_BOMB)    > 0 ||
+                    interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_BOMBCHU      && AMMO(ITEM_BOMBCHU) > 0 ||
+                    interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_BEAN         && AMMO(ITEM_BEAN)    > 0 ||
+                    interfaceCtx->restrictions.all        == 0 && cursorSlot == SLOT_LENS         && gSaveContext.isMagicAcquired && gSaveContext.magic >=  1 ||
+                    interfaceCtx->restrictions.dinsNayrus == 0 && cursorSlot == SLOT_DINS_FIRE    && gSaveContext.isMagicAcquired && gSaveContext.magic >= 12 ||
+                    interfaceCtx->restrictions.dinsNayrus == 0 && cursorSlot == SLOT_NAYRUS_LOVE  && gSaveContext.isMagicAcquired && gSaveContext.magic >= 24 ||
+                    interfaceCtx->restrictions.farores    == 0 && cursorSlot == SLOT_FARORES_WIND && gSaveContext.isMagicAcquired && gSaveContext.magic >= 12 ){
+
+                        validItem = true;
+                   }
+        
+        }
+
+        if (!validItem) {
+            return;
+        } else {
+            pauseCtx->cursorColorSet = 8;
+            if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
+                //ItemUseFromInventory_SetItemAndSlot(cursorItem, cursorSlot); // In z_player.c
+                inventoryUsedItem = cursorItem;
+                usedInventoryItem = true;
+                // Unpause
+                Interface_SetDoAction(gPlayState, DO_ACTION_NONE);
+                pauseCtx->state = 0x12;
+                WREG(2) = -6240;
+                func_800F64E0(0);
+            }
+        }
+    });
+}
+
+void RegisterInventoryUsedItem() {
+    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnPlayerUpdate>([]() {
+        if (usedInventoryItem) {
+            func_80835F44(gPlayState, GET_PLAYER(gPlayState), inventoryUsedItem); // Do action
+            usedInventoryItem = false;
+        }
+    });
+}
+
+void RegisterKeeseTest() {
+    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnEnemyDefeat>([](void* refActor) {
+        Actor* actor = (Actor*)refActor;
+        if (actor->id == ACTOR_EN_FIREFLY) {
+            
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_FIREFLY, actor->world.pos.x, actor->world.pos.y,
+                        actor->world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
+        }
+        
+    });
+}
+
 void InitMods() {
     RegisterTTS();
     RegisterInfiniteMoney();
@@ -1080,5 +1200,8 @@ void InitMods() {
     RegisterAltTrapTypes();
     RegisterRandomizerSheikSpawn();
     RegisterRandomizedEnemySizes();
+    RegisterKeeseTest();
+    RegisterInventoryUseableItems();
+    RegisterInventoryUsedItem();
     NameTag_RegisterHooks();
 }
