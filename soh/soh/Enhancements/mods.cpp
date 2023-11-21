@@ -1055,8 +1055,12 @@ void RegisterRandomizedEnemySizes() {
 }
 
 uint16_t inventoryUsedItem = ITEM_NONE;
-bool usedInventoryItem = false;
-bool executeItemAction = false;
+uint16_t inventoryUsedSlot = SLOT_NONE;
+uint8_t inventoryPrevCLeftItem = ITEM_NONE;
+uint8_t inventoryPrevCLeftSlot = SLOT_NONE;
+bool usingItemFromInventory = false;
+bool bottleWasUsedFromInventory = false;
+bool swingingBottle = false;
 
 void RegisterInventoryUseableItems() {
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnItemSubscreen>([](uint16_t cursorItem, uint16_t cursorSlot) {
@@ -1064,6 +1068,10 @@ void RegisterInventoryUseableItems() {
         PauseContext* pauseCtx = &gPlayState->pauseCtx;
         Player* player = GET_PLAYER(gPlayState);
         Input* input = &gPlayState->state.input[0];
+
+        if (!CVarGetInteger("gItemUseFromInventory", 0) || usingItemFromInventory) {
+            return;
+        }
 
         bool validItem = false;
 
@@ -1100,18 +1108,9 @@ void RegisterInventoryUseableItems() {
         if (((gSlotAgeReqs[cursorSlot] == 9) || (gSlotAgeReqs[cursorSlot] == ((void)0, gSaveContext.linkAge))) &&
             (cursorItem != ITEM_SOLD_OUT) && (cursorItem != ITEM_NONE)) {
 
-            // For bottles, make sure this bottle is not already equipped (to prevent accidental bottle duping)
-            if (interfaceCtx->restrictions.bottles == 0 && cursorItem >= ITEM_BOTTLE && cursorItem <= ITEM_POE) {
-                for (int i = 0; i <= 7; i++) {
-                    if (gSaveContext.equips.cButtonSlots[i] == cursorSlot) {
-                        return;
-                    }
-                }
-                validItem = true;
-
             // For trade items, make sure we are not conflicting with selectable masks or adult trade items
             // Also make sure we aren't on any mask at all (Link can't wear a mask without it being equipped to a C button)
-            } else if (interfaceCtx->restrictions.tradeItems == 0 && 
+            if (interfaceCtx->restrictions.tradeItems == 0 && 
                 (cursorSlot == SLOT_TRADE_ADULT && !(IS_RANDO && OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_ADULT_TRADE))) || 
                 (cursorSlot == SLOT_TRADE_CHILD && !(cursorItem >= ITEM_MASK_KEATON && cursorItem <= ITEM_MASK_TRUTH)
                                             && !(CVarGetInteger("gMaskSelect", 0)))) {
@@ -1139,9 +1138,9 @@ void RegisterInventoryUseableItems() {
         } else {
             pauseCtx->cursorColorSet = 8;
             if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
-                //ItemUseFromInventory_SetItemAndSlot(cursorItem, cursorSlot); // In z_player.c
                 inventoryUsedItem = cursorItem;
-                usedInventoryItem = true;
+                inventoryUsedSlot = cursorSlot;
+                usingItemFromInventory = true;
                 // Unpause
                 Interface_SetDoAction(gPlayState, DO_ACTION_NONE);
                 pauseCtx->state = 0x12;
@@ -1152,18 +1151,22 @@ void RegisterInventoryUseableItems() {
     });
 }
 
+Actor* lastTargetActor;
+
 void RegisterInventoryUsedItem() {
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnPlayerUpdateCommon>([]() {
         Player* player = GET_PLAYER(gPlayState);
 
-        if (executeItemAction) {
-            func_80835F44(gPlayState, player, inventoryUsedItem); // Do action
-            executeItemAction = false;
+        if (!CVarGetInteger("gItemUseFromInventory", 0) || !usingItemFromInventory) {
+            return;
         }
-        if (usedInventoryItem) {
-            executeItemAction = true;
-            usedInventoryItem = false;
+
+        if (player->targetActor != NULL) {
+            lastTargetActor = player->targetActor; // For showing items to NPCs
         }
+        player->targetActor = lastTargetActor;
+        func_80835F44(gPlayState, player, inventoryUsedItem); // Use the item (z_player.c)
+        usingItemFromInventory = false;
     });
 }
 
