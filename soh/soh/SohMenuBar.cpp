@@ -1158,38 +1158,6 @@ void DrawEnhancementsMenu() {
             UIWidgets::PaddedEnhancementCheckbox("Shadow Tag Mode", "gShadowTag", true, false);
             UIWidgets::Tooltip("A wallmaster follows Link everywhere, don't get caught!");
 
-            UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gKeeseSanity", true, false);
-            UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
-                                "controls the likelihood of additional Keese spawns.");
-            if (CVarGetInteger("gKeeseSanity", 0)) {
-                UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity",
-                                                "gKeeseSanityIntensity", 0, 5, "", 0, false);
-                switch (CVarGetInteger("gKeeseSanityIntensity", 0)) {
-                    default:
-                        UIWidgets::Tooltip("Intensity");
-                        break;
-                    case 0:
-                        UIWidgets::Tooltip("Off");
-                        break;
-                    case 1:
-                        UIWidgets::Tooltip("Easy");
-                        break;
-                    case 2:
-                        UIWidgets::Tooltip("Mild");
-                        break;
-                    case 3:
-                        UIWidgets::Tooltip("Normal");
-                        break;
-                    case 4:
-                        UIWidgets::Tooltip("Crazy");
-                        break;
-                    case 5:
-                        UIWidgets::Tooltip("Madness");
-                        break;
-                }
-            }
-            UIWidgets::Spacer(0);
-
             UIWidgets::PaddedEnhancementCheckbox("Additional Traps", "gAddTraps.enabled", true, false);
             UIWidgets::Tooltip("Enables additional Trap variants.");
 
@@ -1221,6 +1189,43 @@ void DrawEnhancementsMenu() {
                 }
             }
 
+            UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gKeeseSanity", true, false);
+            UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
+                                "controls the likelihood of additional Keese spawns.");
+            if (CVarGetInteger("gKeeseSanity", 0)) {
+                UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity",
+                                                "gKeeseSanityIntensity", 0, 5, "", 0, false);
+                switch (CVarGetInteger("gKeeseSanityIntensity", 0)) {
+                    default:
+                        UIWidgets::Tooltip("Intensity");
+                        break;
+                    case 0:
+                        UIWidgets::Tooltip("Off");
+                        break;
+                    case 1:
+                        UIWidgets::Tooltip("Easy");
+                        break;
+                    case 2:
+                        UIWidgets::Tooltip("Mild");
+                        break;
+                    case 3:
+                        UIWidgets::Tooltip("Normal");
+                        break;
+                    case 4:
+                        UIWidgets::Tooltip("Crazy");
+                        break;
+                    case 5:
+                        UIWidgets::Tooltip("Madness");
+                        break;
+                }
+
+                if (CVarGetInteger("gKeeseSanityIntensity", 0) > 0) {
+                    UIWidgets::PaddedEnhancementCheckbox("Keese Can Spawn Random Enemies", "gKeeseEnemyRandoType", true, false,
+                                                   !CVarGetInteger("gRandomizedEnemies", 0),"",UIWidgets::CheckboxGraphics::Cross, true);
+                    UIWidgets::Tooltip("Determines whether Keese should only spawn new random Keese or spawn any random "
+                                   "enemy (when enemy rando is enabled)");
+                }
+            }
             ImGui::EndMenu();
         }
 

@@ -764,6 +764,14 @@ void RegisterEnemyDefeatCounts() {
                         gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_FIRE]++;
                     } else if (actor->params == KEESE_ICE_FLY) {
                         gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_ICE]++;
+                    } else if (actor->params == KEESE_ELEC_FLY) {
+                        gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_ELEC]++;
+                    } else if (actor->params == KEESE_WIND_FLY) {
+                        gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_WIND]++;
+                    } else if (actor->params == KEESE_VOID_FLY) {
+                        gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_VOID]++;
+                    } else if (actor->params == KEESE_BLOOD_FLY) {
+                        gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_BLOOD]++;
                     }
                     break;
 
