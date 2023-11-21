@@ -107,7 +107,11 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
     if (this->meleeWeaponState != 0 ||                // Swinging sword
         this->stateFlags1 & PLAYER_STATE1_LOADING              || 
         this->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE      ||
+        this->stateFlags1 & PLAYER_STATE1_HOOKSHOT_FALLING     ||
+        this->stateFlags1 & PLAYER_STATE1_INPUT_DISABLED       ||
         this->stateFlags1 & PLAYER_STATE1_TEXT_ON_SCREEN       ||
+        this->stateFlags1 & PLAYER_STATE1_DEAD                 ||
+        this->stateFlags1 & PLAYER_STATE1_READY_TO_FIRE        ||
         this->stateFlags1 & PLAYER_STATE1_GETTING_ITEM         || 
         this->stateFlags1 & PLAYER_STATE1_ITEM_OVER_HEAD       || 
         this->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK ||
@@ -119,16 +123,27 @@ bool ItemUseFromInventory_IsValidItemForUse(PlayState* play) {
         this->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER      || 
         this->stateFlags1 & PLAYER_STATE1_SHIELDING            || 
         this->stateFlags1 & PLAYER_STATE1_ON_HORSE             || 
+        this->stateFlags1 & PLAYER_STATE1_BOOMERANG_IN_HAND    ||
+        this->stateFlags1 & PLAYER_STATE1_THREW_BOOMERANG      ||
         this->stateFlags1 & PLAYER_STATE1_DAMAGED              || 
         this->stateFlags1 & PLAYER_STATE1_IN_WATER             || 
         this->stateFlags1 & PLAYER_STATE1_IN_ITEM_CS           || 
         this->stateFlags1 & PLAYER_STATE1_IN_CUTSCENE          || 
-        
+        this->stateFlags1 & PLAYER_STATE1_FLOOR_DISABLED       ||
+
         this->stateFlags2 & PLAYER_STATE2_DISABLE_ROTATION_ALWAYS ||
-        this->stateFlags2 & PLAYER_STATE2_CRAWLING ||
-        
-        this->stateFlags3 & PLAYER_STATE3_MIDAIR) { 
-        return false;
+        this->stateFlags2 & PLAYER_STATE2_GRABBED_BY_ENEMY        ||
+        this->stateFlags2 & PLAYER_STATE2_UNDERWATER              ||
+        this->stateFlags2 & PLAYER_STATE2_DIVING                  ||
+        this->stateFlags2 & PLAYER_STATE2_FROZEN                  ||
+        this->stateFlags2 & PLAYER_STATE2_CRAWLING                ||
+        this->stateFlags2 & PLAYER_STATE2_HOPPING                 ||
+        this->stateFlags2 & PLAYER_STATE2_SWORD_LUNGE             ||
+        this->stateFlags2 & PLAYER_STATE2_FORCED_VOID_OUT         ||
+
+        this->stateFlags3 & PLAYER_STATE3_MIDAIR              ||
+        this->stateFlags3 & PLAYER_STATE3_HOOKSHOT_TRAVELLING ){ 
+            return false;
     }
 
     cursorItem = pauseCtx->cursorItem[PAUSE_ITEM];
