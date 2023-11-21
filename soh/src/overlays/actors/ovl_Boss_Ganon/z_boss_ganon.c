@@ -2299,13 +2299,13 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
                     BossGanon_SetupChargeLightBall(this, play);
                 } else {
 
-                    if (rnd <= 0.480) {
+                    if (rnd <= 0.490) {
                         BossGanon_SetupChargeLightBall(this, play);
                     }
-                    if (rnd > 0.480 && rnd <= 0.800) {
+                    if (rnd > 0.490 && rnd <= 0.760) {
                         BossGanon_SetupPoundFloor(this, play);
                     }
-                    if (rnd > 0.800) {
+                    if (rnd > 0.760) {
                         BossGanon_SetupChargeBigMagic(this, play);
                     }
                 }
