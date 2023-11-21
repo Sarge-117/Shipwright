@@ -1079,7 +1079,11 @@ void RegisterInventoryUseableItems() {
         if (player->meleeWeaponState != 0 ||                // Swinging sword
             player->stateFlags1 & PLAYER_STATE1_LOADING              || 
             player->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE      ||
+            player->stateFlags1 & PLAYER_STATE1_HOOKSHOT_FALLING     ||
+            player->stateFlags1 & PLAYER_STATE1_INPUT_DISABLED       ||
             player->stateFlags1 & PLAYER_STATE1_TEXT_ON_SCREEN       ||
+            player->stateFlags1 & PLAYER_STATE1_DEAD                 ||
+            player->stateFlags1 & PLAYER_STATE1_READY_TO_FIRE        ||
             player->stateFlags1 & PLAYER_STATE1_GETTING_ITEM         || 
             player->stateFlags1 & PLAYER_STATE1_ITEM_OVER_HEAD       || 
             player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK ||
@@ -1091,15 +1095,26 @@ void RegisterInventoryUseableItems() {
             player->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER      || 
             player->stateFlags1 & PLAYER_STATE1_SHIELDING            || 
             player->stateFlags1 & PLAYER_STATE1_ON_HORSE             || 
+            player->stateFlags1 & PLAYER_STATE1_BOOMERANG_IN_HAND    ||
+            player->stateFlags1 & PLAYER_STATE1_THREW_BOOMERANG      ||
             player->stateFlags1 & PLAYER_STATE1_DAMAGED              || 
             player->stateFlags1 & PLAYER_STATE1_IN_WATER             || 
             player->stateFlags1 & PLAYER_STATE1_IN_ITEM_CS           || 
             player->stateFlags1 & PLAYER_STATE1_IN_CUTSCENE          || 
+            player->stateFlags1 & PLAYER_STATE1_FLOOR_DISABLED       ||
 
             player->stateFlags2 & PLAYER_STATE2_DISABLE_ROTATION_ALWAYS ||
-            player->stateFlags2 & PLAYER_STATE2_CRAWLING ||
+            player->stateFlags2 & PLAYER_STATE2_GRABBED_BY_ENEMY        ||
+            player->stateFlags2 & PLAYER_STATE2_UNDERWATER              ||
+            player->stateFlags2 & PLAYER_STATE2_DIVING                  ||
+            player->stateFlags2 & PLAYER_STATE2_FROZEN                  ||
+            player->stateFlags2 & PLAYER_STATE2_CRAWLING                ||
+            player->stateFlags2 & PLAYER_STATE2_HOPPING                 ||
+            player->stateFlags2 & PLAYER_STATE2_SWORD_LUNGE             ||
+            player->stateFlags2 & PLAYER_STATE2_FORCED_VOID_OUT         ||
 
-            player->stateFlags3 & PLAYER_STATE3_MIDAIR) { 
+            player->stateFlags3 & PLAYER_STATE3_MIDAIR              ||
+            player->stateFlags3 & PLAYER_STATE3_HOOKSHOT_TRAVELLING ){ 
 
                 return;
         }
