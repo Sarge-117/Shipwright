@@ -470,7 +470,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, PlayState* play) {
                 if (thisx->colChkInfo.health < 5 || CVarGetInteger("gBossSurprise", 0)) {
                     if (rand01 < 0.25f) {
                         BossGanondrof_SetupThrow(this, play);
-                    } else if (rand01 >= 0.8f - (CVarGetInteger("gBossSurprise", 0)*0.3f)) {
+                    } else if (rand01 >= 0.8f) {
                         this->flyMode = GND_FLY_CHARGE;
                         this->timers[0] = 60;
                         this->fwork[GND_FLOAT_SPEED] = 0.0f;
