@@ -296,33 +296,6 @@ void EnFirefly_SetupDie(EnFirefly* this) {
     this->timer = 15;
     this->actor.speedXZ = 0.0f;
     this->actionFunc = EnFirefly_Die;
-    switch (this->actor.params) { 
-        case KEESE_NORMAL_FLY:
-        case KEESE_NORMAL_PERCH:
-            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE]++;
-            break;
-        case KEESE_FIRE_FLY:
-        case KEESE_FIRE_PERCH:
-            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_FIRE]++;
-            break;
-        case KEESE_ICE_FLY:
-            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_ICE]++;
-            break;
-        case KEESE_ELEC_FLY:
-            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_ELEC]++;
-            break;
-        case KEESE_VOID_FLY:
-            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_VOID]++;
-            break;
-        case KEESE_WIND_FLY:
-            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_WIND]++;
-            break;
-        case KEESE_BLOOD_FLY:
-            gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_KEESE_BLOOD]++;
-            break;
-        default:
-            break;
-    }
 
     GameInteractor_ExecuteOnEnemyDefeat(&this->actor);
 }
