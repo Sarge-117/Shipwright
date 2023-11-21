@@ -257,11 +257,11 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     // In Keese-Sanity, there's a chance to spawn additional random Keese
     if (rnd2 < (0.05 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
+                    this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, CVarGetInteger("gKeeseEnemyRandoType", 0));
     } // And you might even get a Guay mixed in there
     if (rnd3 < (0.017 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gKeeseSanity", 0))) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CROW, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, 0, false);
+                    this->actor.world.pos.z, 0, 0, 0, 0, CVarGetInteger("gKeeseEnemyRandoType", 0));
     }
 }
 
@@ -545,7 +545,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
             // In Keese-Sanity, there's a chance to spawn a new random Keese
             if (rnd < (0.125 * CVarGetInteger("gKeeseSanityIntensity", 0)) && (CVarGetInteger("gKeeseSanity", 0))) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x,
-                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, false);
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, KEESE_NORMAL_FLY, CVarGetInteger("gKeeseEnemyRandoType", 0));
             }
             EnFirefly_SetupDie(this);
         }
