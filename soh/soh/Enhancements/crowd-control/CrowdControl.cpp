@@ -329,13 +329,13 @@ CrowdControl::Effect* CrowdControl::ParseMessage(nlohmann::json dataReceived) {
             effect->category = kEffectCatBoots;
             effect->timeRemaining = 30000;
             effect->giEffect = new GameInteractionEffect::ForceEquipBoots();
-            dynamic_cast<ParameterizedGameInteractionEffect*>(effect->giEffect)->parameters[0] = PLAYER_BOOTS_IRON;
+            dynamic_cast<ParameterizedGameInteractionEffect*>(effect->giEffect)->parameters[0] = EQUIP_VALUE_BOOTS_IRON;
             break;
         case kEffectForceHoverBoots:
             effect->category = kEffectCatBoots;
             effect->timeRemaining = 30000;
             effect->giEffect = new GameInteractionEffect::ForceEquipBoots();
-            dynamic_cast<ParameterizedGameInteractionEffect*>(effect->giEffect)->parameters[0] = PLAYER_BOOTS_HOVER;
+            dynamic_cast<ParameterizedGameInteractionEffect*>(effect->giEffect)->parameters[0] = EQUIP_VALUE_BOOTS_HOVER;
             break;
         case kEffectSlipperyFloor:
             effect->category = kEffectCatSlipperyFloor;
