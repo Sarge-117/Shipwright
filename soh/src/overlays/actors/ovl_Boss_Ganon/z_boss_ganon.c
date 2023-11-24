@@ -352,11 +352,7 @@ void BossGanon_Init(Actor* thisx, PlayState* play2) {
         }
 
         sBossGanonGanondorf = this;
-        if (CVarGetInteger("gBossSurprise", 0)) {
-            thisx->colChkInfo.health = 41;
-        } else {
-            thisx->colChkInfo.health = 40;
-        }
+        thisx->colChkInfo.health = 40;
         Actor_ProcessInitChain(thisx, sInitChain);
         ActorShape_Init(&thisx->shape, 0, NULL, 0);
         Actor_SetScale(thisx, 0.01f);
@@ -2303,13 +2299,13 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
                     BossGanon_SetupChargeLightBall(this, play);
                 } else {
 
-                    if (rnd <= 0.450) {
+                    if (rnd <= 0.490) {
                         BossGanon_SetupChargeLightBall(this, play);
                     }
-                    if (rnd > 0.450 && rnd <= 0.820) {
+                    if (rnd > 0.490 && rnd <= 0.760) {
                         BossGanon_SetupPoundFloor(this, play);
                     }
-                    if (rnd > 0.820) {
+                    if (rnd > 0.760) {
                         BossGanon_SetupChargeBigMagic(this, play);
                     }
                 }
@@ -2335,7 +2331,7 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
     Math_ApproachF(&this->actor.world.pos.z, cos, 0.05f, this->fwork[GDF_FWORK_0]);
     Math_ApproachF(&this->fwork[GDF_FWORK_0], 50.0f, 1.0f, 0.5f);
 
-    if (CVarGetInteger("gBossSurprise", 0)) {
+    if (CVarGetInteger("gBossSurprise", 0) && player->actor.world.pos.y < 0.0f) {
         this->actor.velocity.x = (this->actor.world.pos.x - this->actor.prevPos.x) * 2.9f;
         this->actor.velocity.z = (this->actor.world.pos.z - this->actor.prevPos.z) * 2.9f;
     } else {
