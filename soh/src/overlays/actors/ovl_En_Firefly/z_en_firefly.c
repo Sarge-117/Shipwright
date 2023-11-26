@@ -158,32 +158,32 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     if (CVarGetInteger("gKeeseSanity", 0)) {
         this->onFire = false;
 
-        if (rnd < 0.04) { // Invis Keese
+        if (rnd < 0.04) { // Invis Keese (rare)
             this->actor.params = KEESE_NORMAL_FLY;
             this->actor.flags |= ACTOR_FLAG_LENS;
             this->actor.draw = EnFirefly_DrawInvisible;
             this->actor.params &= 0x7FFF;
         }
-        if (rnd >= 0.04 && rnd < 0.222) {
+        if (rnd >= 0.04 && rnd < 0.222) { // Common
             this->actor.params = KEESE_NORMAL_FLY;
         }
-        if (rnd >= 0.222 && rnd < 0.404) {
+        if (rnd >= 0.222 && rnd < 0.404) { // Common
             this->actor.params = KEESE_FIRE_FLY;
             this->onFire = true;
         }
-        if (rnd >= 0.404 && rnd < 0.586) {
+        if (rnd >= 0.404 && rnd < 0.586) { // Common
             this->actor.params = KEESE_ICE_FLY;
         }
-        if (rnd >= 0.586 && rnd < 0.768) {
+        if (rnd >= 0.586 && rnd < 0.768) { // Common
             this->actor.params = KEESE_ELEC_FLY;
         }
-        if (rnd >= 0.768 && rnd < 0.95) {
+        if (rnd >= 0.768 && rnd < 0.95) { // Common
             this->actor.params = KEESE_WIND_FLY;
         }
-        if (rnd >= 0.95 && rnd < 0.975) {
+        if (rnd >= 0.95 && rnd < 0.975) { // Rare
             this->actor.params = KEESE_VOID_FLY;
         }
-        if (rnd >= 0.975) {
+        if (rnd >= 0.975) { // Rare
             this->actor.params = KEESE_BLOOD_FLY;
         }
     }
