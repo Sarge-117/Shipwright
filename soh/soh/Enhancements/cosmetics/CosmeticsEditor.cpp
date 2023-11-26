@@ -325,7 +325,7 @@ static std::map<std::string, CosmeticOption> cosmeticOptions = {
     COSMETIC_OPTION("NPC_ElecKeeseSecondary",        "Elec Keese Secondary", GROUP_NPC,          ImVec4( 75,  80, 200,   0), false, true, true),
     COSMETIC_OPTION("NPC_VoidKeesePrimary",          "Void Keese Primary",   GROUP_NPC,          ImVec4( 23,  10,  46, 255), false, true, false),
     COSMETIC_OPTION("NPC_VoidKeeseSecondary",        "Void Keese Secondary", GROUP_NPC,          ImVec4( 67,  31, 185,   0), false, true, true),
-    COSMETIC_OPTION("NPC_WindKeesePrimary",          "Wind Keese Primary",   GROUP_NPC,          ImVec4( 10, 160,  40 , 255), false, true, false),
+    COSMETIC_OPTION("NPC_WindKeesePrimary",          "Wind Keese Primary",   GROUP_NPC,          ImVec4( 10, 160,  40, 255), false, true, false),
     COSMETIC_OPTION("NPC_WindKeeseSecondary",        "Wind Keese Secondary", GROUP_NPC,          ImVec4(136, 241, 182,   0), false, true, true),
     COSMETIC_OPTION("NPC_BloodKeesePrimary",         "Blood Keese Primary",  GROUP_NPC,          ImVec4(100,   0,  90, 255), false, true, false),
     COSMETIC_OPTION("NPC_BloodKeeseSecondary",       "Blood Keese Secondary",GROUP_NPC,          ImVec4(150,   0,   0,   0), false, true, true),
