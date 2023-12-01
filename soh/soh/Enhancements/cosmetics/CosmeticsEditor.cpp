@@ -1493,6 +1493,7 @@ void Draw_Placements(){
 }
 
 void DrawSillyTab() {
+    ImGui::BeginDisabled(CVarGetInteger("gDisableChangingSettings", 0));
     if (CVarGetInteger("gLetItSnow", 0)) {
         if (UIWidgets::EnhancementCheckbox("Let It Snow", "gLetItSnow")) {
             LUS::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesOnNextTick();
@@ -1577,6 +1578,7 @@ void DrawSillyTab() {
         CVarClear("gCosmetics.Kak_Windmill_Speed.Changed");
         LUS::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesOnNextTick();
     }
+    ImGui::EndDisabled();
 }
 
 // Copies the RGB values from one cosmetic option to another, multiplied by the passed in amount, this
