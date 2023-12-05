@@ -1279,7 +1279,7 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
             BossTw_SetupHitByBeam(otherTw, play);
             Audio_PlayActorSound2(&otherTw->actor, NA_SE_EN_TWINROBA_DAMAGE_VOICE);
             play->envCtx.unk_D8 = 1.0f;
-            otherTw->actor.colChkInfo.health++;
+            otherTw->actor.colChkInfo.health += 2;
         }
     }
 }
@@ -1442,7 +1442,7 @@ void BossTw_SetupWait(BossTw* this, PlayState* play) {
 void BossTw_Wait(BossTw* this, PlayState* play) {
     if ((this->actor.params == TW_TWINROVA) && (sKoumePtr->actionFunc == BossTw_FlyTo) &&
         (sKotakePtr->actionFunc == BossTw_FlyTo) &&
-        ((sKoumePtr->actor.colChkInfo.health + sKotakePtr->actor.colChkInfo.health) >= 4)) {
+        ((sKoumePtr->actor.colChkInfo.health + sKotakePtr->actor.colChkInfo.health) >= 8)) {
 
         BossTw_TwinrovaSetupMergeCS(this, play);
         BossTw_SetupMergeCS(sKotakePtr, play);
@@ -2874,6 +2874,49 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
+    if (CVarGetInteger("gTwinrovaArrows", 0)) {
+        if (this->actionFunc == BossTw_FlyTo || this->actionFunc == BossTw_Wait ||
+            this->actionFunc == BossTw_TurnToPlayer || this->actionFunc == BossTw_Spin) {
+
+            if (this->collider.base.acFlags & AC_HIT) {
+                this->collider.base.acFlags &= ~AC_HIT;
+                if ((this->collider.base.ac != NULL) && (this->collider.base.ac->id == ACTOR_EN_ARROW)) {
+                    if (this->collider.base.ac->child != NULL) {
+                        if ((this->actor.params == TW_KOUME && this->collider.base.ac->child->id == ACTOR_ARROW_ICE) ||
+                            (this->actor.params == TW_KOTAKE &&
+                             this->collider.base.ac->child->id == ACTOR_ARROW_FIRE)) {
+                            for (i = 0; i < 50; i++) {
+                                Vec3f pos;
+                                Vec3f velocity;
+                                Vec3f accel;
+
+                                pos.x = this->actor.world.pos.x + Rand_CenteredFloat(50.0f);
+                                pos.y = this->actor.world.pos.y + Rand_CenteredFloat(50.0f);
+                                pos.z = this->actor.world.pos.z + Rand_CenteredFloat(50.0f);
+
+                                velocity.x = Rand_CenteredFloat(20.0f);
+                                velocity.y = Rand_CenteredFloat(20.0f);
+                                velocity.z = Rand_CenteredFloat(20.0f);
+
+                                accel.x = 0.0f;
+                                accel.y = 0.0f;
+                                accel.z = 0.0f;
+
+                                BossTw_AddFlameEffect(play, &pos, &velocity, &accel, Rand_ZeroFloat(10.0f) + 25.0f,
+                                                      this->actor.params);
+                            }
+
+                            BossTw_SetupHitByBeam(this, play);
+                            Audio_PlayActorSound2(this, NA_SE_EN_TWINROBA_DAMAGE_VOICE);
+                            play->envCtx.unk_D8 = 1.0f;
+                            this->actor.colChkInfo.health++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     if (this->actionFunc != BossTw_Wait) {
         this->collider.dim.radius = 45;
 
@@ -2983,6 +3026,26 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     }
 
     this->actionFunc(this, play);
+    
+    if (CVarGetInteger("gTwinrovaArrows", 0)) {
+        if (this->collider.base.acFlags & AC_HIT) {
+            if ((this->collider.base.ac != NULL) && (this->collider.base.ac->id == ACTOR_EN_ARROW)) {
+                if (this->collider.base.ac->child != NULL) {
+                    if ((this->actor.params == TW_TWINROVA && this->collider.base.ac->child->id == ACTOR_ARROW_LIGHT)) {
+
+                        if (this->work[INVINC_TIMER] == 0) {
+                            if (this->actionFunc != BossTw_TwinrovaStun) {
+                                this->twinrovaStun = 1;
+                                this->collider.base.acFlags &= ~AC_HIT;
+                                this->actor.colChkInfo.health += 2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+   
 
     if (this->actionFunc != BossTw_TwinrovaShootBlast && this->actionFunc != BossTw_TwinrovaChargeBlast &&
         this->visible && this->unk_5F8 == 0 &&
