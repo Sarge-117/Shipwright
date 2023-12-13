@@ -412,6 +412,11 @@ void GameInteractorAnchor::HandleRemoteJson(nlohmann::json payload) {
                         .suffix = anchorClient.name
                     });
                 }
+                if (CVarGetInteger("gRemote.AnchorFanfares", 0)) {
+                    if (getItemEntry.getItemCategory == ITEM_CATEGORY_MAJOR || getItemEntry.getItemCategory == ITEM_CATEGORY_BOSS_KEY) {
+                        Audio_PlayFanfare_Rando(getItemEntry);
+                    }
+                }
             }
         }
         CVarClear("gFromGI");
