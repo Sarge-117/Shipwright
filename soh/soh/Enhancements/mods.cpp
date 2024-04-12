@@ -758,6 +758,7 @@ void RegisterEnemyDefeatCounts() {
                     } else {
                         gSaveContext.sohStats.count[COUNT_ENEMIES_DEFEATED_GIBDO]++;
                     }
+
                     break;
 
                 case ACTOR_EN_IK:
