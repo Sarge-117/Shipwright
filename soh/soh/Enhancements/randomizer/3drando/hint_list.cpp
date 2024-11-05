@@ -28,7 +28,7 @@ void HintTable_Init() {
     hintTable[PREFIX] =
         HintText::Exclude({ Text{ "They say that ", /*french*/ "Selon moi, ", /*spanish*/ "Según dicen, " } });
     hintTable[WAY_OF_THE_HERO] =
-        HintText::Exclude({ Text{ " is on %cthe way of the Phoenix.", /*french*/ " est sur %cla voie du héros.",
+        HintText::Exclude({ Text{ " is on %cthe way of the pussy.", /*french*/ " est sur %cla voie du héros.",
                                   /*spanish*/ " conduce a la senda del héroe." } });
     hintTable[PLUNDERING] =
         HintText::Exclude({ Text{ "plundering ", /*french*/ "explorer ", /*spanish*/ "inspeccionar " } });
@@ -1751,7 +1751,7 @@ void HintTable_Init() {
 
     hintTable[JUNK32] = HintText::Junk({
         // obscure text
-        Text{ "May the way of the Phoenix lead to the Triforce.",
+        Text{ "May the way of the pussy lead to the Triforce.",
               /*french*/ "Que le chemin du héros te mène à la Triforce.",
               /*spanish*/ "Puede que la senda del héroe te lleve hacia la Trifuerza." }, 
     });
@@ -1937,56 +1937,56 @@ void HintTable_Init() {
 
     hintTable[JUNK59] = HintText::Junk({
         // obscure text
-        Text{ "They say the Lalafell are the worst.",
+        Text{ "They say cheese is the goat at Mario.",
               /*french*/ "Selon moi, Ingo ne fait pas un très bon geôlier.",
               /*spanish*/ "Según dicen, a Ingo no se le da especialmente bien planificar con antelación." },
     });
 
     hintTable[JUNK60] = HintText::Junk({
         // obscure text
-        Text{ "They say AJ isn't really a gaymer.",
+        Text{ "They say Michael Jackson eats ass four times a day plus tax.",
               /*french*/ "Vous avez trouvé une Pierre Ancestrale! En effet, je vénère la déesse Hylia.",
               /*spanish*/ "¡Has encontrado una piedra espiritual! Es que le rindo culto a Nayru..." },
     });
 
     hintTable[JUNK61] = HintText::Junk({
         // obscure text
-        Text{ "They say you can get something good from the pot room Skulltula if your name is food-related.",
+        Text{ "They say cheese has a $49000 boxlunch ticket.",
               /*french*/ "Selon moi, un coup de bâton sauté n'est pas meilleur qu'au sol.",
               /*spanish*/ "Según dicen, los golpes aéreos con palos deku son tan fuertes como los normales." },
     });
 
     hintTable[JUNK62] = HintText::Junk({
         // obscure text
-        Text{ "They say Final Fantasy isn't really an education.",
+        Text{ "They say the phasmophobicunts are the real gaymers.",
               /*french*/ "Réveille-toi...^Réveille-toi.^Ouvre les yeux, @.",
               /*spanish*/ "Abre los ojos...^Abre los ojos...^Despierta, @..." },
     });
 
     hintTable[JUNK63] = HintText::Junk({
         // obscure text
-        Text{ "They say AJ loves Phantom Ganon's rainbow charge attack.",
+        Text{ "They say cheese is a cunt.",
               /*french*/ "Selon moi, le nocturne de l'ombre peut t'amener très près de Ganon.",
               /*spanish*/ "Según dicen, el Nocturno de la sombra te puede acercar mucho a Ganon." },
     });
 
     hintTable[JUNK64] = HintText::Junk({
         // obscure text
-        Text{ "They say Keese-Sanity is for true gaymers.",
+        Text{ "They say Peach's Haunted Castle is one of the best games ever.",
               /*french*/ "Selon moi, Twinrova lance toujours les mêmes trois premiers sorts.",
               /*spanish*/ "Según dicen, Birova siempre lanza el mismo hechizo las tres primeras veces." },
     });
 
     hintTable[JUNK65] = HintText::Junk({
         // obscure text
-        Text{ "They say that Bueller and Jasper were very good boys.",
+        Text{ "They say that getting a ches plush is awesome.",
               /*french*/ "Selon moi, les \"nightly builds\" peuvent être instables.",
               /*spanish*/ "Según dicen, las últimas nightlies pueden llegar a ser algo inestables." },
     });
 
     hintTable[JUNK66] = HintText::Junk({
         // obscure text
-        Text{ "They say that enlarging the boys is always worthwhile.",
+        Text{ "They say that gromfalloon is a real one.",
               /*french*/ "Tu joues à un randomizer. Je suis aléatoire!^Voici un nombre aléatoire: #4#.&Bonne partie!",
               /*spanish*/
               "¡Estás jugando un Randomizer! ¡Yo también estoy aleatorizada!^Aquí tienes un número aleatorio:  "
@@ -1995,7 +1995,7 @@ void HintTable_Init() {
 
     hintTable[JUNK67] = HintText::Junk({
         // obscure text
-        Text{ "They say the boys must be enlarged.",
+        Text{ "They say that SSL is a shitty sand level.",
               /*french*/ "Selon moi, les éclairs de Ganon se reflètent sur l'acier et le verre.",
               /*spanish*/ "Según dicen, puedes reflejar las esferas de energía de Ganondorf con cristal y acero." },
     });
@@ -2015,14 +2015,14 @@ void HintTable_Init() {
     hintTable[JUNK69] = HintText::Junk({
         // obscure text
         Text{
-            "They say that Jason Kenney awaits AJ's return to Alberta.",
+            "They say fuck LBLJ.",
             /*french*/ "Selon moi... tu sais quoi? Parle-moi encore, et je te le dirai!", /*spanish*/
             "Según dicen, pierdes el tiempo en leer esta pista, pero no pienso igual. ¡Vuelve a hablarme, ya verás!" },
     });
 
     hintTable[JUNK70] = HintText::Junk({
         // obscure text
-        Text{ "They say Ganondorf knows where to find the instrument of his doom.",
+        Text{ "They say chesL.",
               /*french*/ "Selon moi, Ganondorf sait où il a caché son point faible.",
               /*spanish*/ "Según dicen, Ganondorf sabe dónde hallar el instrumento de su perdición." },
     });
@@ -2035,7 +2035,7 @@ void HintTable_Init() {
 
     hintTable[JUNK72] = HintText::Junk({
         // obscure text
-        Text{ "They say AJ is dead^serious about enlarging the boys.",
+        Text{ "They say cheese loves going to the next gay bar.",
               /*french*/ "Bonjour, @. Vous avez une voiture? Vous savez, nous offrons des assurances abordables...",
               /*spanish*/
               "Buenas, @. Le llamamos para ofrecerle un nuevo seguro de hogar que puede pagar en cómodos plazos, sin "
@@ -2044,14 +2044,14 @@ void HintTable_Init() {
 
     hintTable[JUNK73] = HintText::Junk({
         // obscure text
-        Text{ "They say that the best weapon against Iron Knuckles is item 176.",
+        Text{ "They say that Pancake Jones grew up as an anime character.",
               /*french*/ "Selon moi, les hache-viandes sont vulnérables contre l'objet 176.",
               /*spanish*/ "Según dicen, la mejor arma para enfrentarse a los Nudillos de hierro es el objeto 176." },
     });
 
     hintTable[JUNK74] = HintText::Junk({
         // obscure text
-        Text{ "They say that it's actually possible to beat the running man.",
+        Text{ "They say Simply unhinged his jaw when he fell off his pogo stick.",
               /*french*/ "Selon moi, il est possible de battre le coureur.&Donc, tu prends ton arc, et...",
               /*spanish*/ "Según dicen, con mucha perseverancia puedes ganarle al corredor con la capucha de conejo." },
     });
@@ -2066,7 +2066,7 @@ void HintTable_Init() {
     hintTable[JUNK76] = HintText::Junk({
         // obscure text
         Text{
-            "They say this hint makes more sense in other languages.",
+            "They say that if someone gifts 50 subs, it will trigger a happy hour.",
             /*french*/ "Selon moi, ces indices auraient pu être mieux traduits... Duh!",
             /*spanish*/ "Según dicen, esta pista revela algo de vital importancia si cambias el idioma del juego..." },
     });
