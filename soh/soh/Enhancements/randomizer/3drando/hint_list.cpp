@@ -2073,7 +2073,7 @@ void HintTable_Init() {
 
     hintTable[JUNK77] = HintText::Junk({
         // obscure text
-        Text{ "BOK? No way.", /*french*/ "BD'accord? Hors de question.", /*spanish*/ "¿BVale? Ni hablar." },
+        Text{ "They say chesFell.", /*french*/ "BD'accord? Hors de question.", /*spanish*/ "¿BVale? Ni hablar." },
     });
 
     // ^ junk hints above are from 3drando
@@ -2089,25 +2089,25 @@ void HintTable_Init() {
 
     hintTable[JUNK79] = HintText::Junk({
         //obscure text
-        Text{"They say this peace is what all true warriors strive for.", /*french*/"Selon moi, cette paix est ce pour quoi luttent tous les vrais guerriers.", /*spanish*/"blarg"},
+        Text{"They say chesBounce.", /*french*/"Selon moi, cette paix est ce pour quoi luttent tous les vrais guerriers.", /*spanish*/"blarg"},
     });
 
     hintTable[JUNK80] = HintText::Junk({
         //obscure text
-        Text{"They say this ship is what all true gamers strive for.", /*french*/"Selon moi, cette version du port est ce pour quoi luttent tous les vrais gamers.", /*spanish*/"blarg"},
+        Text{"They say Dampe is a Hantu.", /*french*/"Selon moi, cette version du port est ce pour quoi luttent tous les vrais gamers.", /*spanish*/"blarg"},
     });
 
     hintTable[JUNK81] = HintText::Junk({
         //obscure text
-        Text{"They say that Glowsticks can be found in the Raveyard.", /*french*/"On peut trouver des Bâtons Lumineux sur le dancefloor du cimetière.", /*spanish*/"blarg"},
+        Text{"They say that Sarge is a coin.", /*french*/"On peut trouver des Bâtons Lumineux sur le dancefloor du cimetière.", /*spanish*/"blarg"},
     });
 
     hintTable[JUNK_WTC_1] = HintText::Junk({
-        Text{ "They say %rthere are no more than 18&people on this island.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you're a cunt.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_2] = HintText::Junk({
-        Text{ "They say I am one yet many", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say CUNT.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_3] = HintText::Junk({
@@ -2116,50 +2116,49 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_WTC_4] = HintText::Junk({
-        Text{ "They say \"Repetition requested\"", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_5] = HintText::Junk({
-        Text{ "They say %rThe red tells only the truth!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Michael Jackson eats ass four times a day plus tax.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_6] = HintText::Junk({
-        Text{ "They say good tidings to you^my traitorous @", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Michael Jackson eats ass four times a day plus tax.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_7] = HintText::Junk({
-        Text{ "They say when the seagulls cried,&none were left alive.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Michael Jackson eats ass four times a day plus tax.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_7] = HintText::Junk({
-        Text{ "They say when the seagulls cried,&none were left alive.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese has a $49000 boxlunch ticket.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_8] = HintText::Junk({
-        Text{ "They say she is lying with the red letters!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese has a $49000 boxlunch ticket.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_9] = HintText::Junk({
-        Text{ "They say we'll meet again,&when something else cries.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese has a $49000 boxlunch ticket.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_10] = HintText::Junk({
-        Text{ "They say \"Forgive me, but-^Your script will not be used.&....After all...^The one writing the rest of "
-              "the script...&will be me.\"",
+        Text{ "They say cheese has a $49000 boxlunch ticket.",
               HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_11] = HintText::Junk({
-        Text{ "They say tea is best enjoyed...^\"\"With your fellow monsters.\"\"", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese loves going to the next gay bar.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_WTC_12] = HintText::Junk({
-        Text{ "They say I shall make you some black tea. With my own hands, not magic.", HINT_TEXT_NEEDS_TRANSLATION_FR,
+        Text{ "They say cheese loves going to the next gay bar.", HINT_TEXT_NEEDS_TRANSLATION_FR,
               "blarg" },
     });
 
     hintTable[JUNK_SEI_1] = HintText::Junk({
-        Text{ "They say you know I've kiboshed before...^and I will kibosh again.", HINT_TEXT_NEEDS_TRANSLATION_FR,
+        Text{ "They say cheese loves going to the next gay bar.", HINT_TEXT_NEEDS_TRANSLATION_FR,
               "blarg" },
     });
 
@@ -2177,11 +2176,13 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_5] = HintText::Junk({
-        Text{ "They say there are no houses in Tuscany to rent.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say as a matter of fact, the MAN streaming on the account cheese is homosexual. chesNODDERS",
+              HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_6] = HintText::Junk({
-        Text{ "They say my last boyfriend had a real&Kroner comprehension problem.", HINT_TEXT_NEEDS_TRANSLATION_FR,
+        Text{ "They say Allan Alvarez (known on twitch as cheese) is not heterosexual. chesNOPERS",
+              HINT_TEXT_NEEDS_TRANSLATION_FR,
               "blarg" },
     });
 
@@ -2190,11 +2191,11 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_8] = HintText::Junk({
-        Text{ "They say Louis quit the importing&to focus on the exporting.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Peach's Haunted Castle is one of the best games ever.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_9] = HintText::Junk({
-        Text{ "They say no thanks, I can't drink coffee&late at night, it keeps me up.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Peach's Haunted Castle is one of the best games ever.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     
     hintTable[JUNK_SEI_10] = HintText::Junk({
@@ -2214,7 +2215,7 @@ void HintTable_Init() {
     });
     
     hintTable[JUNK_SEI_14] = HintText::Junk({
-        Text{ "They say when you look annoyed all the time,&people thing you are busy.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say FUCK!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_15] = HintText::Junk({
@@ -2223,7 +2224,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_16] = HintText::Junk({
-        Text{ "They say he fires people like its a bodily function.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say FUCK!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_17] = HintText::Junk({
@@ -2239,7 +2240,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_20] = HintText::Junk({
-        Text{ "They say if it wasn't for the toilet there'd be no books.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say FUCK!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_21] = HintText::Junk({
@@ -2259,11 +2260,11 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_25] = HintText::Junk({
-        Text{ "They say @ hasn't vomited since 1983.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_26] = HintText::Junk({
-        Text{ "They say you gotta have the early bird special.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_27] = HintText::Junk({
@@ -2271,7 +2272,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_28] = HintText::Junk({
-        Text{ "They say you want to be my latex salesman.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_29] = HintText::Junk({
@@ -2279,49 +2280,49 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_OTR_MEANS_1] = HintText::Junk({
-        Text{ "They say OTR stands for&Over the Rainbow", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say the phasmophobicunts are the real gaymers.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_2] = HintText::Junk({
-        Text{ "They say that OTR stands for&Onions, Tomatoes, and Radishes", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say the phasmophobicunts are the real gaymers.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_3] = HintText::Junk({
-        Text{ "They say that OTR stands for&Ocarina of Time Resources", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say the phasmophobicunts are the real gaymers.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_4] = HintText::Junk({
-        Text{ "They say that OTR stands for&Over the Road", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say the phasmophobicunts are the real gaymers.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_5] = HintText::Junk({
-        Text{ "They say that OTR stands for&Off the Record", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is a cunt.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_6] = HintText::Junk({
-        Text{ "They say that OTR stands for&Office of Tax and Revenue", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is a cunt.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_7] = HintText::Junk({
-        Text{ "They say OTR stands for&Over the Rainbow", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is a cunt.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_8] = HintText::Junk({
-        Text{ "They say that OTR stands for&Office of Trade Relations", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is a cunt.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_9] = HintText::Junk({
-        Text{ "They say that OTR stands for&Original Theatrical Release", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Allan Alvarez (known on twitch as cheese) is not heterosexual. chesNOPERS", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_10] = HintText::Junk({
-        Text{ "They say that OTR stands for&Operational Test Requirement", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Allan Alvarez (known on twitch as cheese) is not heterosexual. chesNOPERS", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_11] = HintText::Junk({
-        Text{ "They say that OTR stands for&Operational Trouble Report", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Allan Alvarez (known on twitch as cheese) is not heterosexual. chesNOPERS", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_12] = HintText::Junk({
-        Text{ "They say that OTR stands for&Oxygen Transmission Rate", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say as a matter of fact, the MAN streaming on the account cheese is homosexual. chesNODDERS", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_13] = HintText::Junk({
-        Text{ "They say that OTR stands for&One Touch Recording", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say as a matter of fact, the MAN streaming on the account cheese is homosexual. chesNODDERS", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_14] = HintText::Junk({
         Text{ "They say that OTR stands for&Olympic Torch Relay", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_15] = HintText::Junk({
-        Text{ "They say that OTR stands for&Off the Rack", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say as a matter of fact, the MAN streaming on the account cheese is homosexual. chesNODDERS", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_16] = HintText::Junk({
         Text{ "They say that OTR stands for&Overhead Transfer Rate", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
