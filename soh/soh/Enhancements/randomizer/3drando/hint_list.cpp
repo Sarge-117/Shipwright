@@ -1575,14 +1575,14 @@ void HintTable_Init() {
 
     hintTable[JUNK05] = HintText::Junk({
         // obscure text
-        Text{ "They say that the Lizalfos in Dodongo's Cavern like to play in lava.",
+        Text{ "They say cheese looks pretty hot dressed up as a blonde princess.",
               /*french*/ "Selon moi, les Lézalfos de la Caverne Dodongo aiment patauger dans la lave.",
               /*spanish*/ "Según dicen, a los Lizalfos de la Cueva de los Dodongos les gusta jugar en la lava." },
     });
 
     hintTable[JUNK06] = HintText::Junk({
         // obscure text
-        Text{ "They say that all the Zora drowned in Wind Waker.",
+        Text{ "They say cheese looks pretty hot dressed up as a blonde princess.",
               /*french*/ "Selon moi, les Zoras se sont noyés dans Wind Waker.",
               /*spanish*/ "Según dicen, en Wind Waker todos los zora se ahogaron." },
     });
@@ -1597,7 +1597,7 @@ void HintTable_Init() {
     hintTable[JUNK08] = HintText::Junk({
         // obscure text
         Text{
-            "'Member when Ganon was a blue pig?^I 'member.",
+            "They say cheese looks pretty hot dressed up as a blonde princess.",
             /*french*/ "Dans mon temps, Ganon était un cochon bleu...^Pff! Les jeunes de nos jours, et leur Ganondorf!",
             /*spanish*/ "¿T'acuerdas cuando Ganon era un cerdo azul?^Qué tiempos, chico." },
     });
@@ -1631,7 +1631,7 @@ void HintTable_Init() {
 
     hintTable[JUNK13] = HintText::Junk({
         // obscure text
-        Text{ "Hoot! Hoot! Would you like me to repeat that?", /*french*/ "Hou hou! Veux-tu que je répète tout ça?",
+        Text{ "cunt", /*french*/ "Hou hou! Veux-tu que je répète tout ça?",
               /*spanish*/ "¡Buuu, buuu! ¿Te lo vuelvo a repetir?" },
     });
 
@@ -1643,7 +1643,7 @@ void HintTable_Init() {
 
     hintTable[JUNK15] = HintText::Junk({
         // obscure text
-        Text{ "They say that Lon Lon Ranch prospered under Ingo.",
+        Text{ "cunt",
               /*french*/ "Selon moi, le Ranch Lon Lon était plus prospère sous Ingo.",
               /*spanish*/ "Según dicen, el Rancho Lon Lon prosperó gracias a Ingo." },
     });
@@ -1669,13 +1669,13 @@ void HintTable_Init() {
 
     hintTable[JUNK19] = HintText::Junk({
         // obscure text
-        Text{ "They say that Volvagia hates splinters", /*french*/ "Selon moi, Volvagia déteste les échardes.",
+        Text{ "cunt", /*french*/ "Selon moi, Volvagia déteste les échardes.",
               /*spanish*/ "Según dicen, Volvagia le teme a las astillas." },
     });
 
     hintTable[JUNK20] = HintText::Junk({
         // obscure text
-        Text{ "They say that funky monkeys can be spotted on Friday.",
+        Text{ "They say that Shadow the Hedgehog is a bitch-ass motherfucker.",
               /*french*/ "Selon moi, des capucins coquins sortent le vendredi.",
               /*spanish*/ "Según dicen, en los viernes puedes hallar monos marchosos." },
     });
@@ -1687,7 +1687,7 @@ void HintTable_Init() {
 
     hintTable[JUNK22] = HintText::Junk({
         // obscure text
-        Text{ "They say the Groose is loose.", /*french*/ "Selon moi, Hergo est le vrai héros.",
+        Text{ "They say that Shadow the Hedgehog is a bitch-ass motherfucker.", /*french*/ "Selon moi, Hergo est le vrai héros.",
               /*spanish*/ "Según dicen, Malton es un espanto." },
     });
 
@@ -1702,13 +1702,13 @@ void HintTable_Init() {
 
     hintTable[JUNK24] = HintText::Junk({
         // obscure text
-        Text{ "What happened to Sheik?", /*french*/ "Donc... Qu'est-ce qui arrive avec Sheik?",
+        Text{ "They say that Shadow the Hedgehog is a bitch-ass motherfucker.", /*french*/ "Donc... Qu'est-ce qui arrive avec Sheik?",
               /*spanish*/ "¿Qué la habrá pasado a Sheik?" },
     });
 
     hintTable[JUNK25] = HintText::Junk({
         // obscure text
-        Text{ "L2P @.", /*french*/ "Arrête de lire les indices et joue comme un grand, @.",
+        Text{ "They say that Shadow the Hedgehog is a bitch-ass motherfucker.", /*french*/ "Arrête de lire les indices et joue comme un grand, @.",
               /*spanish*/ "Mira que eres novato, @." },
     });
 
@@ -2244,7 +2244,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_21] = HintText::Junk({
-        Text{ "They say don't trust men in capes.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is having sex with a man.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     
     hintTable[JUNK_SEI_22] = HintText::Junk({
@@ -2252,7 +2252,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_23] = HintText::Junk({
-        Text{ "They say @'s stole the marble rye.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is having sex with a man.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_24] = HintText::Junk({
@@ -2325,69 +2325,69 @@ void HintTable_Init() {
         Text{ "They say as a matter of fact, the MAN streaming on the account cheese is homosexual. chesNODDERS", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_16] = HintText::Junk({
-        Text{ "They say that OTR stands for&Overhead Transfer Rate", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say gay sex is good for you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_17] = HintText::Junk({
-        Text{ "They say that OTR stands for&Operational TurnaRound", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say gay sex is good for you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_18] = HintText::Junk({
-        Text{ "They say that OTR stands for&Opportunity to Recall", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say gay sex is good for you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_19] = HintText::Junk({
-        Text{ "They say that OTR stands for&Operability Test Report", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say gay cum is good for you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_20] = HintText::Junk({
-        Text{ "They say that OTR stands for&Overall Tuning Range", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say gay cum is good for you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_21] = HintText::Junk({
-        Text{ "They say that OTR stands for&One Time Requisition", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say gay cum is good for you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_22] = HintText::Junk({
-        Text{ "They say that OTR stands for&Oblivious to Reality", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese's viewers are all cunts.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_23] = HintText::Junk({
-        Text{ "They say that OTR stands for&On the Run", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese's viewers are all cunts.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_24] = HintText::Junk({
-        Text{ "They say that OTR stands for&On Time Reporting", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese's viewers are all cunts.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_25] = HintText::Junk({
-        Text{ "They say that OTR stands for&Order to Receipt", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese's viewers are all cunts.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_26] = HintText::Junk({
-        Text{ "They say that OTR stands for&Other Terrestrial Radio", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say your mother is my father.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_27] = HintText::Junk({
-        Text{ "They say that OTR stands for&On Target Reports", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say your mother is my father.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_28] = HintText::Junk({
-        Text{ "They say that OTR stands for&One Time Repair", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say my mother is your father.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_29] = HintText::Junk({
-        Text{ "They say that OTR stands for&Own the Room", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say your mother is a piece of shit.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
     hintTable[JUNK_OTR_MEANS_30] = HintText::Junk({
-        Text{ "They say that OTR stands for&Online Text Repository", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say your mother is a piece of shit.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_1] = HintText::Junk({
-        Text{ "They say %gKenix%w isn't a developer...^...Just a PR guy", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say your mother is a piece of shit.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_2] = HintText::Junk({
-        Text {"They say... No", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg"},
+        Text {"They say your mother is a piece of shit.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg"},
      });
 
     hintTable[JUNK_MISC_3] = HintText::Junk({ 
-        Text{ "They say BIG RIGS: OTR", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" } 
+        Text{ "They say chesPog", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" } 
     });
 
     hintTable[JUNK_MISC_4] = HintText::Junk({
-        Text{ "They say you wanted to see me %pMr. Kenix%w?", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say chesPog", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_5] = HintText::Junk({
-        Text{ "They say Louis once saw an&equals not get set equals", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say chesPog", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_6] = HintText::Junk({
@@ -2989,7 +2989,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE01] = HintText::GanonLine({
         // obscure text
-        Text{ "Oh! It's @.&I was expecting someone called Sheik.&Do you know what happened to them?",
+        Text{ "I know why you're here, cheese.^You're here to have sex with a&man!^Well then, let's get on with it!",
               /*french*/ "Ah, c'est @.&J'attendais un certain Sheik.&Tu sais ce qui lui est arrivé?",
               /*spanish*/
               "¡Oh! Pero si es @.&Estaba esperando a alguien llamado Sheik. ¿Sabes qué puede haberle pasado?" },
@@ -2997,14 +2997,14 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE02] = HintText::GanonLine({
         // obscure text
-        Text{ "I knew I shouldn't have put the key on the other side of my door.",
+        Text{ "Welcome to the Michael Jackson&outlet!",
               /*french*/ "J'aurais dû garder la clé ici. Hélas...",
               /*spanish*/ "Sabía que no tendría que haber dejado la llave al otro lado de la puerta." },
     });
 
     hintTable[GANON_LINE03] = HintText::GanonLine({
         // obscure text
-        Text{ "My leadership of Hyrule is very legal, very cool.",
+        Text{ "Do you mind if we pause for a&minute? My Uber Eats order from&Fuck Burger is almost here.",
               /*french*/ "C'est l'heure de jouer au tennis.",
               /*spanish*/ "Parece que es hora de una pachanga de tenis." },
     });
@@ -3042,8 +3042,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE07] = HintText::GanonLine({
         // obscure text
-        Text{ "What about Zelda makes you think&she'd be a better ruler than I?^I saved Lon Lon Ranch,&fed the "
-              "hungry,&and my castle floats.",
+        Text{ "Is cheese gay or straight?^First he says he's gay, then he&says he's straight. Gay cum this,&straight cum that.^MAKE UP YOUR DAMN MIND!",
               /*french*/
               "Zelda ne sera jamais un meilleur monarque que moi!^J'ai un château volant, mes sujets sont des belles "
               "amazones... et mes Moblins sont clairement plus puissants que jamais!",
