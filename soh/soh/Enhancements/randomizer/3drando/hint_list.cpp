@@ -1562,13 +1562,13 @@ void HintTable_Init() {
 
     hintTable[JUNK03] = HintText::Junk({
         // obscure text
-        Text{ "They say that Zelda is a poor leader.", /*french*/ "Selon moi, Zelda ne ferait pas un bon monarque.",
+        Text{ "They say that Cheese-a-thon 2024 is VARY GOOD.", /*french*/ "Selon moi, Zelda ne ferait pas un bon monarque.",
               /*spanish*/ "Según dicen, Zelda es mala líder." },
     });
 
     hintTable[JUNK04] = HintText::Junk({
         // obscure text
-        Text{ "These hints can be quite useful. This is an exception.",
+        Text{ "They say that Cheese-a-thon 2024 is VARY GOOD.",
               /*french*/ "Ces indices sont très utiles, à l'exception de celui-ci.",
               /*spanish*/ "Las pistas suelen servir de ayuda. En cambio, esta no." },
     });
@@ -1589,7 +1589,7 @@ void HintTable_Init() {
 
     hintTable[JUNK07] = HintText::Junk({
         // obscure text
-        Text{ "If Gorons eat rocks, does that mean I'm in danger?",
+        Text{ "They say you don't belong in cheese's chat unless you're horny enough.",
               /*french*/ "Ne dis pas au Gorons que je suis ici. Ils mangent des roches, tu sais!",
               /*spanish*/ "Si los Goron se tragan las piedras, ¿no me hace ser una especia vulnarable o algo así" },
     });
@@ -1604,7 +1604,7 @@ void HintTable_Init() {
 
     hintTable[JUNK09] = HintText::Junk({
         // obscure text
-        Text{ "One who does not have Triforce can't go in.", /*french*/ "Ceux sans Triforce doivent rebrousser chemin.",
+        Text{ "They say you don't belong in cheese's chat unless you're horny enough.", /*french*/ "Ceux sans Triforce doivent rebrousser chemin.",
               /*spanish*/ "Aquel que no porte la Trifuerza no podrá pasar." },
     });
 
@@ -1637,7 +1637,7 @@ void HintTable_Init() {
 
     hintTable[JUNK14] = HintText::Junk({
         // obscure text
-        Text{ "Gorons are stupid. They eat rocks.", /*french*/ "Les Gorons sont des vraies têtes dures.",
+        Text{ "They say you don't belong in cheese's chat unless you're horny enough.", /*french*/ "Les Gorons sont des vraies têtes dures.",
               /*spanish*/ "Los Goron son tontos. Se comen las piedras." },
     });
 
@@ -1694,7 +1694,7 @@ void HintTable_Init() {
     hintTable[JUNK23] = HintText::Junk({
         // obscure text
         Text{
-            "They say that players who select the \"ON\" option for \"MOTION CONTROL\" are the real \"Zelda players!\"",
+            "They say you don't belong in cheese's chat unless you're horny enough.",
             /*french*/ "Selon moi, ceux qui utilisent les contrôles gyroscopiques sont les VRAIS joueurs.", /*spanish*/
             "Según dicen, aquellos que juegan usando el control por movimiento son los verdaderos jugadores de "
             "Zelda." },
@@ -1714,20 +1714,20 @@ void HintTable_Init() {
 
     hintTable[JUNK26] = HintText::Junk({
         // obscure text
-        Text{ "I've heard you can cheat at Sploosh Kaboom.",
+        Text{ "They say cheese loves you sexually.",
               /*french*/ "Selon moi, il y a une carte aux trésors à Mercantîle... Duh!",
               /*spanish*/ "He oído por ahí que puedes hacer trampa en el Sploosh Kaboom." },
     });
 
     hintTable[JUNK27] = HintText::Junk({
         // obscure text
-        Text{ "I'm Lonk from Pennsylvania.", /*french*/ "Je suis Lonk, le héros de Pennsylvanie!",
+        Text{ "They say cheese loves you sexually.", /*french*/ "Je suis Lonk, le héros de Pennsylvanie!",
               /*spanish*/ "Soy Lonk, de Pensilvania." },
     });
 
     hintTable[JUNK28] = HintText::Junk({
         // obscure text
-        Text{ "I bet you'd like to have more bombs.", /*french*/ "Je parie que tu veux plus de bombes.",
+        Text{ "They say cheese loves you sexually.", /*french*/ "Je parie que tu veux plus de bombes.",
               /*spanish*/ "Me apuesto a que quisieras tener más bombas." },
     });
 
@@ -2199,15 +2199,15 @@ void HintTable_Init() {
     });
     
     hintTable[JUNK_SEI_10] = HintText::Junk({
-        Text{ "They say it's not a lie if you believe it.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is an African snail.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_11] = HintText::Junk({
-        Text{ "They say there was a second spitter.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is an African snail.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_12] = HintText::Junk({
-        Text{ "They say there was a second spitter.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese is an African snail.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_13] = HintText::Junk({
@@ -2260,23 +2260,23 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_25] = HintText::Junk({
-        Text{ "Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_26] = HintText::Junk({
-        Text{ "Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_27] = HintText::Junk({
-        Text{ "They say a donation has been made in your name&to the human fund.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say if one person gifts 50 SUBS, 20k BITS, or $200 at once, it will trigger a HAPPY HOUR!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_28] = HintText::Junk({
-        Text{ "Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Snelms is starting her twitch career any day now.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_29] = HintText::Junk({
-        Text{ "They say if every instinct you have is wrong...^... then the opposite would have to be right.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say if one person gifts 50 SUBS, 20k BITS, or $200 at once, it will trigger a HAPPY HOUR!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_OTR_MEANS_1] = HintText::Junk({
@@ -2391,31 +2391,31 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_MISC_6] = HintText::Junk({
-        Text{ "They say only you can find your rom.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say babecoins are the best coins.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_7] = HintText::Junk({
-        Text{ "They say ZAPD is good software.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say babecoins are the best coins.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_8] = HintText::Junk({
-        Text{ "They say you can encounter&a parascode in tall grass.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say babecoins are the best coins.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_9] = HintText::Junk({
-        Text{ "They say the ship sails on March 32nd.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you should always rejuvinate the capillaries.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_10] = HintText::Junk({
-        Text{ "They say bombing dodongos is fun.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you should always rejuvinate the capillaries.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_11] = HintText::Junk({
-        Text{ "They say shopkeepers don't give credits.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you should always rejuvinate the capillaries.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_12] = HintText::Junk({
-        Text{ "They say shopkeepers don't give credits.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you should always rejuvinate the capillaries.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_13] = HintText::Junk({
@@ -2423,15 +2423,15 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_MISC_14] = HintText::Junk({
-        Text{ "They say do I look like I know&what a DList is?", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you're a babecoin of thy boobenshower.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_15] = HintText::Junk({
-        Text{ "They say do I look like I know&what an AList is?", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you're a babecoin of thy boobenshower.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_16] = HintText::Junk({
-        Text{ "They say the king drinks enthusiastically", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you're a babecoin of thy boobenshower.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_17] = HintText::Junk({
@@ -2443,7 +2443,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SG_2] = HintText::Junk({
-        Text{ "They say this is the choice of the&steins gate.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say if one person gifts 50 SUBS, 20k BITS, or $200 at once, it will trigger a HAPPY HOUR!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SG_3] = HintText::Junk({
@@ -2451,7 +2451,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SG_4] = HintText::Junk({
-        Text{ "They say tutturu~.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They if one person gifts 100 SUBS, 40k BITS, or $400 at once, it will trigger CRAZY HOUR!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
 
@@ -2460,7 +2460,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SG_6] = HintText::Junk({
-        Text{ "They say you know where to find an IBN5100.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They if one person gifts 100 SUBS, 40k BITS, or $400 at once, it will trigger CRAZY HOUR!", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SG_7] = HintText::Junk({
@@ -3011,8 +3011,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE04] = HintText::GanonLine({
         // obscure text
-        Text{ "You'll never deflect my bolts of energy with your sword, then shoot me with those Light Arrows you "
-              "happen to have.",
+        Text{ "You know, for a gay guy, you sure&talk about cunt and pussy a lot.",
               /*french*/
               "Ne perds pas ton temps à frapper mes éclairs d'énergie avec ton épée et me tirer avec tes flèches de "
               "Lumière!",
