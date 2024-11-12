@@ -1562,14 +1562,13 @@ void HintTable_Init() {
 
     hintTable[JUNK03] = HintText::Junk({
         // obscure text
-        Text{ "They say that Cheese-a-thon 2024 is VARY GOOD." + TWO_WAY_CHOICE() + "#Buy&Don't buy#", 
-        /*french*/ "Selon moi, Zelda ne ferait pas un bon monarque.",
+        Text{ "They say that Cheese-a-thon 2024 is VARY GOOD.", /*french*/ "Selon moi, Zelda ne ferait pas un bon monarque.",
               /*spanish*/ "Según dicen, Zelda es mala líder." },
     });
 
     hintTable[JUNK04] = HintText::Junk({
         // obscure text
-        Text{ "They say that Cheese-a-thon 2024 is VARY GOOD." + TWO_WAY_CHOICE() + "#Buy&Don't buy#",
+        Text{ "They say that Cheese-a-thon 2024 is VARY GOOD.",
               /*french*/ "Ces indices sont très utiles, à l'exception de celui-ci.",
               /*spanish*/ "Las pistas suelen servir de ayuda. En cambio, esta no." },
     });
