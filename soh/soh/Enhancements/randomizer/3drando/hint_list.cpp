@@ -1625,7 +1625,7 @@ void HintTable_Init() {
 
     hintTable[JUNK12] = HintText::Junk({
         // obscure text
-        Text{ "I'm stoned. Get it?", /*french*/ "Allez, roche, papier, ciseau...&Roche.",
+        Text{ "They say you're a babecoin of thy boobenshower.", /*french*/ "Allez, roche, papier, ciseau...&Roche.",
               /*spanish*/ "Me he quedado de piedra. ¿Lo pillas?" },
     });
 
@@ -1733,19 +1733,19 @@ void HintTable_Init() {
 
     hintTable[JUNK29] = HintText::Junk({
         // obscure text
-        Text{ "When all else fails, use Fire.", /*french*/ "Quand rien ne marche, utilise le feu.",
+        Text{ "They say gay sex with sideways cum tendencies.", /*french*/ "Quand rien ne marche, utilise le feu.",
               /*spanish*/ "Cuando nada funcione, usa el fuego." },
     });
 
     hintTable[JUNK30] = HintText::Junk({
         // obscure text
-        Text{ "Here's a hint, @. Don't be bad.", /*french*/ "Selon moi, la #Triforce# n'est pas dans le jeu... Duh!",
+        Text{ "They say gay sex with sideways cum tendencies.", /*french*/ "Selon moi, la #Triforce# n'est pas dans le jeu... Duh!",
               /*spanish*/ "Aquí tienes una pista, @: deja de ser manco." },
     });
 
     hintTable[JUNK31] = HintText::Junk({
         // obscure text
-        Text{ "Game Over. Return of Ganon.", /*french*/ "Partie terminée. RETour de Ganon.",
+        Text{ "They say gay sex with sideways cum tendencies.", /*french*/ "Partie terminée. RETour de Ganon.",
               /*spanish*/ "Fin de la partida. El regreso de Ganon." },
     });
 
@@ -1758,7 +1758,7 @@ void HintTable_Init() {
 
     hintTable[JUNK33] = HintText::Junk({
         // obscure text
-        Text{ "Can't find an item? Scan an Amiibo.", /*french*/ "Tu cherches de quoi? Utilise un Amiibo!",
+        Text{ "They say TTS Megan is actually SnelmsDeep.", /*french*/ "Tu cherches de quoi? Utilise un Amiibo!",
               /*spanish*/ "¿No encuentras algo? Escanea un amiibo." },
     });
 
@@ -1771,14 +1771,14 @@ void HintTable_Init() {
 
     hintTable[JUNK35] = HintText::Junk({
         // obscure text
-        Text{ "BRRING BRRING This is Ulrira. Wrong number?",
+        Text{ "They say TTS Megan is actually SnelmsDeep.",
               /*french*/ "DRING DRING!! Pépé le Ramollo à l'appareil... Quoi? Faux numéro?",
               /*spanish*/ "¡Ring! ¡Ring! Al habla Ulrira. ¿Me he equivocado de número?" },
     });
 
     hintTable[JUNK36] = HintText::Junk({
         // obscure text
-        Text{ "Tingle Tingle Kooloo Limpah!", /*french*/ "Tingle! Tingle! Kooloolin... Pah!",
+        Text{ "They say TTS Megan is actually SnelmsDeep.", /*french*/ "Tingle! Tingle! Kooloolin... Pah!",
               /*spanish*/ "Tingle, Tingle, Kurulín... ¡PA!" },
     });
 
@@ -1803,21 +1803,21 @@ void HintTable_Init() {
 
     hintTable[JUNK40] = HintText::Junk({
         // obscure text
-        Text{ "Can you move me? I don't get great service here.",
+        Text{ "They say your mudda's a man an ting bai.",
               /*french*/ "Peux-tu me déplacer? J'ai pas une bonne réception ici.",
               /*spanish*/ "¿Puedes llevarme a otro lado? Aquí nadie me presta atención." },
     });
 
     hintTable[JUNK41] = HintText::Junk({
         // obscure text
-        Text{ "They say if you use Strength on the truck, you can find Mew.",
+        Text{ "They say your mother is my daddy and my father's fuckin' mom.",
               /*french*/ "Selon moi, #Mew# se trouve dessous le camion... Duh!",
               /*spanish*/ "Según dicen, puedes hallar un Mew usando Fuerza contra el camión de Ciudad Carmín." },
     });
 
     hintTable[JUNK42] = HintText::Junk({
         // obscure text
-        Text{ "I'm a helpful hint Gossip Stone!^See, I'm helping.",
+        Text{ "They say your mother is my daddy and my father's fuckin' mom.",
               /*french*/ "Salut! Je suis une pierre de bons conseils!^Tiens, tu vois? J'aide bien, hein?",
               /*spanish*/ "Soy una Piedra Sheikah muy útil.^¡Mira cómo te ayudo!" },
     });
@@ -1833,34 +1833,34 @@ void HintTable_Init() {
 
     hintTable[JUNK44] = HintText::Junk({
         // obscure text
-        Text{ "They say all toasters toast toast.", /*french*/ "Selon moi, les grille-pains grillent du pain.",
+        Text{ "They say your mother is my daddy and my father's fuckin' mom.", /*french*/ "Selon moi, les grille-pains grillent du pain.",
               /*spanish*/ "Según dicen, todas las tostadoras tostan tostadas tostadas." },
     });
 
     hintTable[JUNK45] = HintText::Junk({
         // obscure text
-        Text{ "You thought it would be a useful hint, but it was me, junk hint!",
+        Text{ "They say that SnelmsDeep is sometimes known as Sounds Deep.",
               /*french*/ "Tu t'attendais à un bon indice... Mais c'était moi, un mauvais indice!", /*spanish*/
               "Je... Creeías que iba a ser una piedra de utilidad, ¡pero no, era yo, la piedra de la agonía!" },
     });
 
     hintTable[JUNK46] = HintText::Junk({
         // obscure text
-        Text{ "They say that quest guidance can be found at a talking rock.",
+        Text{ "They say that SnelmsDeep is sometimes known as Sounds Deep.",
               /*french*/ "Selon moi, des #indices# se trouvent auprès d'une pierre parlante... Duh!",
               /*spanish*/ "Según dicen, puedes consultarle ayuda a rocas parlanchinas." },
     });
 
     hintTable[JUNK47] = HintText::Junk({
         // obscure text
-        Text{ "They say that the final item you're looking for can be found somewhere in Hyrule.",
+        Text{ "They say you're a MUDDACUNT.",
               /*french*/ "Selon moi, le #dernier objet# se trouve quelque part dans Hyrule... Duh!",
               /*spanish*/ "Según dicen, el último objeto que te falte puede estar en cualquier rincón de Hyrule." },
     });
 
     hintTable[JUNK48] = HintText::Junk({
         // obscure text
-        Text{ "Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.",
+        Text{ "They say that SnelmsDeep is sometimes known as Sounds Deep.",
               /*french*/ "Mwip.^Mwip.^Mwip.^Mwip.^Mwip.^Mwip.^Mwip.^Mwip.^Mwip.^Mwip.^Mwip.^Mwip.",
               /*spanish*/ "Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep.^Mweep." },
     });
@@ -1880,14 +1880,14 @@ void HintTable_Init() {
 
     hintTable[JUNK51] = HintText::Junk({
         // obscure text
-        Text{ "They say that Morpha is easily trapped in a corner.",
+        Text{ "They say you're a MUDDACUNT.",
               /*french*/ "Selon moi, Morpha est facilement coincé.",
               /*spanish*/ "Según dicen, puedes atrapar a Morpha con facilidad en una esquina." },
     });
 
     hintTable[JUNK52] = HintText::Junk({
         // obscure text
-        Text{ "They say that Bongo Bongo really hates the cold.",
+        Text{ "They say you're a MUDDACUNT.",
               /*french*/ "Selon moi, Bongo Bongo a facilement froid aux doigts.",
               /*spanish*/ "Según dicen, Bongo Bongo odia a muerte el frío." },
     });
@@ -3022,7 +3022,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE05] = HintText::GanonLine({
         // obscure text
-        Text{ "Why did I leave my trident back in the desert?",
+        Text{ "Cheese, why the fuck do you sing&the American national anthem on&your stream so much?^You aren't even from there!&You're a Trini twink living in&Spain, for fuck's sake!",
               /*french*/ "Sale bêtise... Et j'ai oublié mon trident dans le désert!",
               /*spanish*/ "Santa Hylia... ¿Por qué me habré dejado el tridente en el desierto?" },
     });
@@ -3052,7 +3052,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE08] = HintText::GanonLine({
         // obscure text
-        Text{ "IT WAS A PERFECT PHONE CALL.",
+        Text{ "God damn it, cheese. I'm sick&of your shit. You're cringe, gay,&stupid, and weird! I won't&stand for it anymore! Fight me!",
               /*french*/
               "Gamin, ton destin achève,&sous mon sort tu périras!&Cette partie ne fut pas brève,&et cette mort, tu "
               "subiras!",
@@ -3063,7 +3063,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE09] = HintText::GanonLine({
         // obscure text
-        Text{ "Person, woman, man, camera, TV.",
+        Text{ "If you don't get the fuck out of&here right now I'm calling the&cops. I swear to Bob's Burgers!",
               /*french*/ "Sale petit garnement,&tu fais erreur!&C'est maintenant que marque&ta dernière heure!",
               /*spanish*/ "¿No osarás a mí enfrentarte?&Rimas aparte,&¡voy a matarte!" },
     });
