@@ -1555,7 +1555,7 @@ void HintTable_Init() {
 
     hintTable[JUNK02] = HintText::Junk({
         // obscure text
-        Text{ "They say you must read the names of \"Special Deal\" shop items carefully.",
+        Text{ "They say Mario 64 is a piece of shit^piece of shit^piece of shit^piece of shit^piece of shit^piece of shit game.",
               /*french*/ "Selon moi, les \"Offres spéciales\" sont parfois trompeuses... Lisez les attentivement!",
               /*spanish*/ "Según dicen, se debería prestar atención a los nombres de las ofertas especiales." },
     });
@@ -1617,7 +1617,7 @@ void HintTable_Init() {
 
     hintTable[JUNK11] = HintText::Junk({
         // obscure text
-        Text{ "Glitches are a pathway to many abilities some consider to be... Unnatural.", /*french*/
+        Text{ "They say Mario 64 is a piece of shit^piece of shit^piece of shit^piece of shit^piece of shit^piece of shit game.", /*french*/
               "Les glitchs sont un moyen d'acquérir de nombreuses facultés considérées par certains comme... contraire "
               "à la nature.",
               /*spanish*/ "Los glitches son el camino a muchas habilidades que varios consideran... nada natural." },
@@ -1656,7 +1656,7 @@ void HintTable_Init() {
 
     hintTable[JUNK17] = HintText::Junk({
         // obscure text
-        Text{ "Without the Lens of Truth, the Treasure Chest Mini-Game is a 1 out of 32 chance.^Good luck!",
+        Text{ "They say Mario 64 is a piece of shit^piece of shit^piece of shit^piece of shit^piece of shit^piece of shit game.",
               /*french*/ "Gagner la Chasse-aux-Trésors est 1 chance sur 32.^Bonne chance!", /*spanish*/
               "Sin la Lupa de la Verdad, ganarías 1/32 veces en el Cofre del Tesoro.^¡Buena suerte con ello!" },
     });
@@ -3029,8 +3029,7 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE06] = HintText::GanonLine({
         // obscure text
-        Text{ "Zelda is probably going to do something stupid, like send you back to your own timeline.^So this is "
-              "quite meaningless. Do you really want to save this moron?",
+        Text{ "Cheese, why the fuck do you sing&the American national anthem on&your stream so much?^You aren't even from there!&You're a Trini twink living in&Spain, for fuck's sake!",
               /*french*/
               "Même si je suis vaincu... Zelda te renverra dans ton ère, et je reviendrai conquérir!^Telle est la "
               "prophécie d'Hyrule Historia!",
@@ -3070,14 +3069,14 @@ void HintTable_Init() {
 
     hintTable[GANON_LINE10] = HintText::GanonLine({
         // obscure text
-        Text{ "After what you did to Koholint Island, how can you call me the bad guy?",
+        Text{ "Well chat, if you ever wanted to&see cheese have sex with a man&on stream, today is your lucky&day.^Because I'm about to pound this&twink harder than a Chinese&phonebook!",
               /*french*/ "J'admire ce que tu as fait à l'Île Koholint... Toi et moi, nous devrions faire équipe!",
               /*spanish*/ "Después de lo que le hiciste a la Isla Koholint, ¿cómo te atreves a llamarme malvado?" },
     });
 
     hintTable[GANON_LINE11] = HintText::GanonLine({
         // obscure text
-        Text{ "Today, let's begin down&'The Hero is Defeated' timeline.",
+        Text{ "Is cheese gay or straight?^First he says he's gay, then he&says he's straight. Gay cum this,&straight cum that.^MAKE UP YOUR DAMN MIND!",
               /*french*/
               "Si tu me vaincs, Hyrule sera englouti... mais si tu meurs, on aura A Link to the Past, le meilleur opus "
               "de la série!",
