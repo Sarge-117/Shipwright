@@ -1894,21 +1894,21 @@ void HintTable_Init() {
 
     hintTable[JUNK53] = HintText::Junk({
         // obscure text
-        Text{ "They say pray the gay away.",
+        Text{ "They say don't pray the gay away. Pray the gay to stay.",
               /*french*/ "Selon moi, ton épée est à pleine puissance quand tu la rengaines.",
               /*spanish*/ "Según dicen, tu espada se vuelve más poderosa si la guardas." },
     });
 
     hintTable[JUNK54] = HintText::Junk({
         // obscure text
-        Text{ "They say pray the gay away.",
+        Text{ "They say don't pray the gay away. Pray the gay to stay.",
               /*french*/ "Selon moi, le trou où se creuse Volvagia est vulnérable aux bombes.", /*spanish*/
               "Según dicen, trae buena suerte colocar una bomba en el último agujero de donde salió Volvagia." },
     });
 
     hintTable[JUNK55] = HintText::Junk({
         // obscure text
-        Text{ "They say pray the gay away.",
+        Text{ "They say don't pray the gay away. Pray the gay to stay.",
               /*french*/ "Selon moi, des fantômes invisibles apparaissent avec des noix Mojo.",
               /*spanish*/ "Según dicen, puedes exponer a los espectros invisibles con nueces deku." },
     });
