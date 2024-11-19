@@ -1650,7 +1650,7 @@ void HintTable_Init() {
 
     hintTable[JUNK16] = HintText::Junk({
         // obscure text
-        Text{ "The single rupee is a unique item.", /*french*/ "Nul objet n'est plus unique que le rubis vert.",
+        Text{ "They say cheese has been reborn as an OEM gaymer.", /*french*/ "Nul objet n'est plus unique que le rubis vert.",
               /*spanish*/ "La rupia de uno es un objeto singular." },
     });
 
@@ -1663,7 +1663,7 @@ void HintTable_Init() {
 
     hintTable[JUNK18] = HintText::Junk({
         // obscure text
-        Text{ "Use bombs wisely.", /*french*/ "Utilise les bombes avec précaution.",
+        Text{ "They say cheese has been reborn as an OEM gaymer.", /*french*/ "Utilise les bombes avec précaution.",
               /*spanish*/ "No desperdicies las bombas." },
     });
 
@@ -1682,7 +1682,7 @@ void HintTable_Init() {
 
     hintTable[JUNK21] = HintText::Junk({
         // obscure text
-        Text{ "I found you, faker!", /*french*/ "Ah-ha! Je t'ai trouvé!", /*spanish*/ "¡Ahí estás, impostor!" },
+        Text{ "They say I'm gay I'm in need of a guy.", /*french*/ "Ah-ha! Je t'ai trouvé!", /*spanish*/ "¡Ahí estás, impostor!" },
     });
 
     hintTable[JUNK22] = HintText::Junk({
@@ -1784,12 +1784,12 @@ void HintTable_Init() {
 
     hintTable[JUNK37] = HintText::Junk({
         // obscure text
-        Text{ "L is real 2401", /*french*/ "L is real 2401", /*spanish*/ "L es real 2401." },
+        Text{ "They say Dark World is really called bitch-ass piece of shit cunt cunt cunt world.", /*french*/ "L is real 2401", /*spanish*/ "L es real 2401." },
     });
 
     hintTable[JUNK38] = HintText::Junk({
         // obscure text
-        Text{ "They say that Ganondorf will appear in the next Mario Tennis.",
+        Text{ "They say that EPussy is a good name for a horse.",
               /*french*/ "Selon moi, Ganondorf sera la nouvelle recrue dans Mario Tennis.",
               /*spanish*/ "Según dicen, Ganondorf estará en el próximo Mario Tennis." },
     });
@@ -1825,7 +1825,7 @@ void HintTable_Init() {
     hintTable[JUNK43] = HintText::Junk({
         // obscure text
         Text{
-            "Dear @, please come to the castle. I've baked a cake for you.&Yours truly, Princess Zelda.", /*french*/
+            "They say that EPussy is a good name for a horse.", /*french*/
             "Mon très cher @:&Viens vite au château, je t'ai préparé&un délicieux gâteau...^À bientôt, Princesse Zelda",
             /*spanish*/
             "Querido @: Por favor, ven al castillo. He hecho una tarta para ti.&Sinceramente tuya: Princesa Zelda." },
@@ -1867,13 +1867,13 @@ void HintTable_Init() {
 
     hintTable[JUNK49] = HintText::Junk({
         // obscure text
-        Text{ "They say that Barinade fears Deku Nuts.", /*french*/ "Selon moi, Barinade a la frousse des noix Mojo.",
+        Text{ "They say that EPussy is a good name for a horse.", /*french*/ "Selon moi, Barinade a la frousse des noix Mojo.",
               /*spanish*/ "Según dicen, lo que más teme a Barinade son las nueces deku." },
     });
 
     hintTable[JUNK50] = HintText::Junk({
         // obscure text
-        Text{ "They say that Flare Dancers do not fear Goron-crafted blades.",
+        Text{ "They say fuck the pain away.",
               /*french*/ "Selon moi, le danse-flamme n'a pas peur des armes de Goron.",
               /*spanish*/ "Según dicen, los Bailafuegos no le temen a las armas forjadas por Gorons." },
     });
@@ -1894,35 +1894,35 @@ void HintTable_Init() {
 
     hintTable[JUNK53] = HintText::Junk({
         // obscure text
-        Text{ "They say that your sword is most powerful when you put it away.",
+        Text{ "They say pray the gay away.",
               /*french*/ "Selon moi, ton épée est à pleine puissance quand tu la rengaines.",
               /*spanish*/ "Según dicen, tu espada se vuelve más poderosa si la guardas." },
     });
 
     hintTable[JUNK54] = HintText::Junk({
         // obscure text
-        Text{ "They say that bombing the hole Volvagia last flew into can be rewarding.",
+        Text{ "They say pray the gay away.",
               /*french*/ "Selon moi, le trou où se creuse Volvagia est vulnérable aux bombes.", /*spanish*/
               "Según dicen, trae buena suerte colocar una bomba en el último agujero de donde salió Volvagia." },
     });
 
     hintTable[JUNK55] = HintText::Junk({
         // obscure text
-        Text{ "They say that invisible ghosts can be exposed with Deku Nuts.",
+        Text{ "They say pray the gay away.",
               /*french*/ "Selon moi, des fantômes invisibles apparaissent avec des noix Mojo.",
               /*spanish*/ "Según dicen, puedes exponer a los espectros invisibles con nueces deku." },
     });
 
     hintTable[JUNK56] = HintText::Junk({
         // obscure text
-        Text{ "They say that the real Phantom Ganon is bright and loud.",
+        Text{ "They say your mother is my daddy and my father's fuckin' mom.",
               /*french*/ "Selon moi, le vrai spectre de Ganon est clair et bruyant.",
               /*spanish*/ "Según dicen, el verdadero Ganon Fantasma es brillante y ruidoso." },
     });
 
     hintTable[JUNK57] = HintText::Junk({
         // obscure text
-        Text{ "They say that walking backwards is very fast.",
+        Text{ "They say your mother is my daddy and my father's fuckin' mom.",
               /*french*/ "Selon moi, tu fais marche arrière très rapidement pour un héros.",
               /*spanish*/ "Según dicen, es más rápido caminar hacia atrás." },
     });
@@ -1930,7 +1930,7 @@ void HintTable_Init() {
     hintTable[JUNK58] = HintText::Junk({
         // obscure text
         Text{
-            "They say that leaping above the Market entrance enriches most children.",
+            "They say your mother is my daddy and my father's fuckin' mom.",
             /*french*/ "Selon moi, les enfants riches se pavanent en haut du pont-levis.",
             /*spanish*/ "Según dicen, saltar por las cadenas a la entrada de la plaza enriquece a muchos chiquillos." },
     });
@@ -2002,8 +2002,7 @@ void HintTable_Init() {
 
     hintTable[JUNK68] = HintText::Junk({
         // obscure text
-        Text{ "They say Ganon's tail is vulnerable to nuts, arrows, swords, explosives, hammers...^...sticks, seeds, "
-              "boomerangs...^...rods, shovels, iron balls, angry bees...",
+        Text{ "They say cheese has been reborn as an OEM gaymer.",
               /*french*/
               "Selon moi, la queue de Ganon est vulnérable aux noix, flèches, épées, bombes, marteaux...^...bâtons, "
               "graines, boomerangs...^...baguettes, pelles, boulets de fer, abeilles enragées...",
@@ -2163,12 +2162,12 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_2] = HintText::Junk({
-        Text{ "They say if relationship @ walks through that door,^they will KILL independent @.",
+        Text{ "They say fuck the pain away.",
               HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_3] = HintText::Junk({
-        Text{ "They say you gotta have the BIG Salad.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say fuck the pain away.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_4] = HintText::Junk({
@@ -2228,15 +2227,15 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_17] = HintText::Junk({
-        Text{ "They say he threatened to move the ship to New Jersey&just to upset people.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese can't get that marbles theme song out of his head.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_18] = HintText::Junk({
-        Text{ "They say there was significant shrinkage.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say cheese gets confused when zenislev and zeeflip are in chat at the same time.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_19] = HintText::Junk({
-        Text{ "They say if it wasn't for the toilet there'd be no books.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you've been scared of ABOBA and what it did to you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_20] = HintText::Junk({
@@ -2248,7 +2247,7 @@ void HintTable_Init() {
     });
     
     hintTable[JUNK_SEI_22] = HintText::Junk({
-        Text{ "They say @'s uncle works for Nintendo.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say don't get have sexed on.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_23] = HintText::Junk({
@@ -2256,7 +2255,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SEI_24] = HintText::Junk({
-        Text{ "They say there is no better harmony&than the black and white cookie.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say you've been scared of ABOBA and what it did to you.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SEI_25] = HintText::Junk({
@@ -2419,7 +2418,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_MISC_13] = HintText::Junk({
-        Text{ "They say Malon is glitched.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say don't get have sexed on.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_MISC_14] = HintText::Junk({
@@ -2435,11 +2434,11 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_MISC_17] = HintText::Junk({
-        Text{ "They say Rubies are on the path to&Lamp Oil, Rope, and Bombs", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say chesSlorp.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SG_1] = HintText::Junk({
-        Text{ "They say %rError. Human is dead, mismatch.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say Shadow can't eat any more burjers without going into cardiac arrest.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SG_2] = HintText::Junk({
@@ -2447,7 +2446,7 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SG_3] = HintText::Junk({
-        Text{ "They say el psy kongroo.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say chesSing.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SG_4] = HintText::Junk({
@@ -2456,7 +2455,7 @@ void HintTable_Init() {
 
 
     hintTable[JUNK_SG_5] = HintText::Junk({
-        Text{ "They say im not Christina!.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say chesClap.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SG_6] = HintText::Junk({
@@ -2464,11 +2463,11 @@ void HintTable_Init() {
     });
 
     hintTable[JUNK_SG_7] = HintText::Junk({
-        Text{ "They say when you're on a chicken bender&grab a box of chicken tenders.", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
+        Text{ "They say...^and then...^and also...", HINT_TEXT_NEEDS_TRANSLATION_FR, "blarg" },
     });
 
     hintTable[JUNK_SG_8] = HintText::Junk({
-        Text{ "Juicy Chicken #1! Wow!.", HINT_TEXT_NEEDS_TRANSLATION_FR,
+        Text{ "They say GROUP MASTERBATION starts in five minutes.", HINT_TEXT_NEEDS_TRANSLATION_FR,
               "blarg" },
     });
 
