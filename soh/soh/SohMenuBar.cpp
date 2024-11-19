@@ -1958,6 +1958,9 @@ void DrawSargeMenu() {
         UIWidgets::PaddedEnhancementCheckbox("Use Items Directly From Inventory", "gItemUseFromInventory", true, false);
         UIWidgets::Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen.");
 
+        UIWidgets::PaddedEnhancementCheckbox("Fanfare for Remote Items", "gRemote.AnchorFanfares", true, false);
+        UIWidgets::Tooltip("Hear a get-item fanfare when receiving important items from other players.");
+
         UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", "gKeeseSanity", true, false);
         UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
                            "controls the likelihood of additional Keese spawns.");
