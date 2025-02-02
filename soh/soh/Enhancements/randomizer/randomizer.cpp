@@ -2926,7 +2926,7 @@ void CreateNaviRandoMessages() {
 // Keese-Sanity
 void CreateNaviKeeseSanityDescriptions() {
     CustomMessage NaviKeeseSanityDescriptions[NUM_NAVI_KEESE_SANITY_DESCRIPTIONS] = {
-
+        
         { "\x08"
           "Electric Keese&%cIf it touches you, you'll be shocked!\x09",
           "\x08"
@@ -2947,7 +2947,7 @@ void CreateNaviKeeseSanityDescriptions() {
           "Blood Keese&%cIt hurts a lot, but it can't kill you!\x09",
           "\x08"
           "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
-          "\x08Saigneur de Sang&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE },
+          "\x08Saigneur de Sang&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE }
     };
     CustomMessageManager* customMessageManager = CustomMessageManager::Instance;
     customMessageManager->AddCustomMessageTable(Randomizer::NaviKeeseSanityDescriptionsTableID);

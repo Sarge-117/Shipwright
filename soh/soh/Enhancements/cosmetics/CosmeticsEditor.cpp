@@ -423,10 +423,6 @@ static std::map<std::string, CosmeticOption> cosmeticOptions = {
     COSMETIC_OPTION("Ivan.IdlePrimary",             "Ivan Idle Primary",        COSMETICS_GROUP_IVAN,         ColorRGBA8(255, 255, 255, 255), false, true, false),
     COSMETIC_OPTION("Ivan.IdleSecondary",           "Ivan Idle Secondary",      COSMETICS_GROUP_IVAN,         ColorRGBA8(  0, 255,   0, 255), false, true, true),
 
-    COSMETIC_OPTION("NPC.FireKeesePrimary",         "Fire Keese Primary",       COSMETICS_GROUP_NPC,          ColorRGBA8(255, 255, 255, 255), false, true, false),
-    COSMETIC_OPTION("NPC.FireKeeseSecondary",       "Fire Keese Secondary",     COSMETICS_GROUP_NPC,          ColorRGBA8(255, 255, 255, 255), false, true, true),
-    COSMETIC_OPTION("NPC.IceKeesePrimary",          "Ice Keese Primary",        COSMETICS_GROUP_NPC,          ColorRGBA8(255, 255, 255, 255), false, true, false),
-    COSMETIC_OPTION("NPC.IceKeeseSecondary",        "Ice Keese Secondary",      COSMETICS_GROUP_NPC,          ColorRGBA8(255, 255, 255, 255), false, true, true),
     COSMETIC_OPTION("NPC_FireKeesePrimary",         "Fire Keese Primary",       COSMETICS_GROUP_NPC,          ColorRGBA8(255, 255, 100, 255), false, true, false),
     COSMETIC_OPTION("NPC_FireKeeseSecondary",       "Fire Keese Secondary",     COSMETICS_GROUP_NPC,          ColorRGBA8(255,  50,   0,   0), false, true, true),
     COSMETIC_OPTION("NPC_IceKeesePrimary",          "Ice Keese Primary",        COSMETICS_GROUP_NPC,          ColorRGBA8(100, 200, 255, 255), false, true, false),
