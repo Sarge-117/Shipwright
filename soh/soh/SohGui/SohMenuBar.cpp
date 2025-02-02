@@ -1708,6 +1708,44 @@ void DrawEnhancementsMenu() {
                 "- Each Heart Container or full Heart Piece reduces Links hearts by 1.\n"
                 "- Can be enabled retroactively after a File has already started.");
 
+            UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", CVAR_ENHANCEMENT("KeeseSanity"), true, false);
+            UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
+                                "controls the likelihood of additional Keese spawns.");
+            if (CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0)) {
+                UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity", CVAR_SETTING("KeeseSanityIntensity"), 0, 5, "", 0, false);
+                switch (CVarGetInteger(CVAR_SETTING("KeeseSanityIntensity"), 0)) {
+                    default:
+                        UIWidgets::Tooltip("Intensity");
+                        break;
+                    case 0:
+                        UIWidgets::Tooltip("Off");
+                        break;
+                    case 1:
+                        UIWidgets::Tooltip("Easy");
+                        break;
+                    case 2:
+                        UIWidgets::Tooltip("Mild");
+                        break;
+                    case 3:
+                        UIWidgets::Tooltip("Normal");
+                        break;
+                    case 4:
+                        UIWidgets::Tooltip("Crazy");
+                        break;
+                    case 5:
+                        UIWidgets::Tooltip("Madness");
+                        break;
+                }
+
+                if (CVarGetInteger(CVAR_SETTING("KeeseSanityIntensity"), 0) > 0) {
+                    UIWidgets::PaddedEnhancementCheckbox("Keese Can Spawn Random Enemies", CVAR_SETTING("KeeseEnemyRandoType"), true,
+                                                         false, !CVarGetInteger(CVAR_ENHANCEMENT("RandomizedEnemies"), 0), "",
+                                                         UIWidgets::CheckboxGraphics::Cross, true);
+                    UIWidgets::Tooltip("Determines whether Keese should only spawn new random Keese or spawn any random "
+                                   "enemy (when enemy rando is enabled)");
+                }
+            }
+
             ImGui::EndMenu();
         }
 
