@@ -2158,7 +2158,7 @@ extern "C" int CustomMessage_RetrieveIfExists(PlayState* play) {
             messageEntry = CustomMessageManager::Instance->RetrieveMessage(Randomizer::NaviRandoMessageTableID, naviTextId, MF_FORMATTED);
         } 
         // Keese-Sanity: For custom keese types, hook into the custom message system with textIDs starting at 0x0660
-        else if (textId >= 0x0660 && textId <= 0x0663) {
+        else if (textId >= 0x0660 && textId <= 0x0664) {
         u16 naviTextId = textId - 0x0660;
         messageEntry = CustomMessageManager::Instance->RetrieveMessage(Randomizer::NaviKeeseSanityDescriptionsTableID, naviTextId, MF_FORMATTED);
         } 

@@ -780,6 +780,8 @@ void RegisterEnemyDefeatCounts() {
                         gSaveContext.ship.stats.count[COUNT_ENEMIES_DEFEATED_KEESE_VOID]++;
                     } else if (actor->params == KEESE_BLOOD_FLY) {
                         gSaveContext.ship.stats.count[COUNT_ENEMIES_DEFEATED_KEESE_BLOOD]++;
+                    } else if (actor->params == KEESE_LOVE_FLY) {
+                        gSaveContext.ship.stats.count[COUNT_ENEMIES_DEFEATED_KEESE_LOVE]++;
                     }
                     break;
 

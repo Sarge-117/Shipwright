@@ -2947,7 +2947,13 @@ void CreateNaviKeeseSanityDescriptions() {
           "Blood Keese&%cIt hurts a lot, but it can't kill you!\x09",
           "\x08"
           "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
-          "\x08Saigneur de Sang&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE }
+          "\x08Saigneur de Sang&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE },
+
+        { "\x08"
+          "??? Keese&%cI've never seen this one before!\x09",
+          "\x08"
+          "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+          "\x08Saigneur de... ???&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE }
     };
     CustomMessageManager* customMessageManager = CustomMessageManager::Instance;
     customMessageManager->AddCustomMessageTable(Randomizer::NaviKeeseSanityDescriptionsTableID);

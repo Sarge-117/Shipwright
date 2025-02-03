@@ -176,6 +176,7 @@ const char* const countMappings[] = {
     "Keese (Void):",
     "Keese (Wind):",
     "Keese (Blood):",
+    "Keese (Love):",
     "Leever:",
     "Leever (Big):",
     "Like-Like:",

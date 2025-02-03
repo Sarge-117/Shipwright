@@ -435,6 +435,8 @@ static std::map<std::string, CosmeticOption> cosmeticOptions = {
     COSMETIC_OPTION("NPC_WindKeeseSecondary",       "Wind Keese Secondary",     COSMETICS_GROUP_NPC,          ColorRGBA8(136, 241, 182,   0), false, true, true),
     COSMETIC_OPTION("NPC_BloodKeesePrimary",        "Blood Keese Primary",      COSMETICS_GROUP_NPC,          ColorRGBA8(100,   0,  90, 255), false, true, false),
     COSMETIC_OPTION("NPC_BloodKeeseSecondary",      "Blood Keese Secondary",    COSMETICS_GROUP_NPC,          ColorRGBA8(150,   0,   0,   0), false, true, true),
+    COSMETIC_OPTION("NPC_LoveKeesePrimary",         "Love Keese Primary",       COSMETICS_GROUP_NPC,          ColorRGBA8(255,  49, 234, 255), false, true, false),
+    COSMETIC_OPTION("NPC_LoveKeeseSecondary",       "Love Keese Secondary",     COSMETICS_GROUP_NPC,          ColorRGBA8(255,  18,  18,   0), false, true, true),
         // Todo (Cosmetics): Health fairy
     COSMETIC_OPTION("NPC.Dog1",                     "Dog 1",                    COSMETICS_GROUP_NPC,          ColorRGBA8(255, 255, 200, 255), false, true, true),
     COSMETIC_OPTION("NPC.Dog2",                     "Dog 2",                    COSMETICS_GROUP_NPC,          ColorRGBA8(150, 100,  50, 255), false, true, true),
