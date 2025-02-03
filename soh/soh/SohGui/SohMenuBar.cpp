@@ -2334,7 +2334,7 @@ void DrawSargeMenu() {
         UIWidgets::PaddedEnhancementCheckbox("Aggressive Ganondorf", CVAR_ENHANCEMENT("AggressiveGanondorf"), true, false);
         UIWidgets::Tooltip("Gaymer");
 
-        UIWidgets::PaddedEnhancementCheckbox("Elemental Arrows on Twinrova", CVAR_ENHANCEMENT("Twinrova Arrows"), true, false);
+        UIWidgets::PaddedEnhancementCheckbox("Elemental Arrows on Twinrova", CVAR_ENHANCEMENT("TwinrovaArrows"), true, false);
         UIWidgets::Tooltip("Elemental arrows become effective against Twinrova.");
 
         UIWidgets::PaddedEnhancementCheckbox("One-Shottable KD", CVAR_ENHANCEMENT("KDOneShot"), true, false);
