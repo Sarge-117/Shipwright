@@ -439,7 +439,11 @@ void BossGanon_Init(Actor* thisx, PlayState* play2) {
             // light ball (anything from 0x64 - 0xC7)
             thisx->update = BossGanon_LightBall_Update;
             thisx->draw = BossGanon_LightBall_Draw;
-            thisx->speedXZ = 12.0f;
+            if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                thisx->speedXZ = 18.0f;
+            } else {
+                thisx->speedXZ = 12.0f;
+            }
 
             xDistFromPlayer = player->actor.world.pos.x - thisx->world.pos.x;
             yDistFromPlayer = (player->actor.world.pos.y + 30.0f) - thisx->world.pos.y;
@@ -2294,14 +2298,13 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
                 if (player->actor.world.pos.y < 0.0f) {
                     BossGanon_SetupChargeLightBall(this, play);
                 } else {
-
-                    if (rnd <= 0.460) {
+                    if (rnd <= 0.600) {
                         BossGanon_SetupChargeLightBall(this, play);
                     }
-                    if (rnd > 0.460 && rnd <= 0.800) {
+                    if (rnd > 0.600 && rnd <= 0.850) {
                         BossGanon_SetupPoundFloor(this, play);
                     }
-                    if (rnd > 0.800) {
+                    if (rnd > 0.850) {
                         BossGanon_SetupChargeBigMagic(this, play);
                     }
                 }
@@ -4109,7 +4112,11 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
 
                             // if a spin attack is used
                             if (player->meleeWeaponAnimation >= 0x18) {
-                                this->actor.speedXZ = 20.0f;
+                                if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                                    this->actor.speedXZ = 30.0f;
+                                } else {
+                                    this->actor.speedXZ = 20.0f;
+                                }
                             }
                             break;
                         } else {
@@ -4141,7 +4148,11 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
 
             case 1:
                 if ((ganondorf->actionFunc == BossGanon_PlayTennis) && (ganondorf->unk_1C2 == 1)) {
-                    minReflectDist = (this->actor.speedXZ >= 19.0f) ? 250.0f : 170.0f;
+                    if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                        minReflectDist = (this->actor.speedXZ >= 19.0f) ? 250.0f * 1.5 : 170.0f * 1.5;
+                    } else {
+                        minReflectDist = (this->actor.speedXZ >= 19.0f) ? 250.0f : 170.0f;
+                    }
 
                     if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf)) <
                         minReflectDist) {
@@ -4255,7 +4266,11 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                     BossGanon_SetupWait(ganondorf, play);
 
                     if (spBA == 5) {
-                        ganondorf->timers[0] = 125;
+                        if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                            ganondorf->timers[0] = 60;
+                        } else {
+                            ganondorf->timers[0] = 125;
+                        }
                     }
                 }
             }
