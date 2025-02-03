@@ -2714,17 +2714,28 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
         item = ITEM_MILK_HALF;
     }
 
-    if (CVarGetInteger(CVAR_ENHANCEMENT("RestoreRBAValues"),0)) {
-        byteSwapInventory();
-        gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
-        byteSwapInventory();
+    if (ItemUseFromInventory_BottleWasUsed() && CVarGetInteger(CVAR_ENHANCEMENT("ItemUseFromInventory"), 0)) {
+        // If the bottle was used from the inventory screen, only update the inventory slot (not any C-buttons)
+        ItemUseFromInventory_UpdateBottleSlot(item);
     } else {
         gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+        gSaveContext.equips.buttonItems[button] = item;
+
+        if (CVarGetInteger(CVAR_ENHANCEMENT("RestoreRBAValues"),0)) {
+            byteSwapInventory();
+            gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+            byteSwapInventory();
+        } else {
+            gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+        }
+
+        gSaveContext.equips.buttonItems[button] = item;
+
+        Interface_LoadItemIcon1(play, button);
+
+        play->pauseCtx.cursorItem[PAUSE_ITEM] = item;
+        gSaveContext.buttonStatus[BUTTON_STATUS_INDEX(button)] = BTN_ENABLED;
     }
-
-    gSaveContext.equips.buttonItems[button] = item;
-
-    Interface_LoadItemIcon1(play, button);
 
     play->pauseCtx.cursorItem[PAUSE_ITEM] = item;
     gSaveContext.buttonStatus[BUTTON_STATUS_INDEX(button)] = BTN_ENABLED;
