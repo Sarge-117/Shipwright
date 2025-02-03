@@ -2291,6 +2291,62 @@ void DrawRandomizerMenu() {
     }
 }
 
+void DrawSargeMenu() {
+    if (ImGui::BeginMenu("Sarge")) {
+        UIWidgets::PaddedEnhancementCheckbox("Aggressive Ganondorf", CVAR_ENHANCEMENT("AggressiveGanondorf"), true, false);
+        UIWidgets::Tooltip("Gaymer");
+
+        UIWidgets::PaddedEnhancementCheckbox("Elemental Arrows on Twinrova", CVAR_ENHANCEMENT("Twinrova Arrows"), true, false);
+        UIWidgets::Tooltip("Elemental arrows become effective against Twinrova.");
+
+        UIWidgets::PaddedEnhancementCheckbox("One-Shottable KD", CVAR_ENHANCEMENT("KDOneShot"), true, false);
+        UIWidgets::Tooltip("King Dodongo can be one-shot by a BGS jumpslash.");
+
+        UIWidgets::PaddedEnhancementCheckbox("Use Items Directly From Inventory", CVAR_ENHANCEMENT("ItemUseFromInventory"), true, false);
+        UIWidgets::Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen.");
+
+        UIWidgets::PaddedEnhancementCheckbox("Keese-Sanity", CVAR_ENHANCEMENT("KeeseSanity"), true, false);
+        UIWidgets::Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese! Intensity "
+                           "controls the likelihood of additional Keese spawns.");
+        if (CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0)) {
+            UIWidgets::EnhancementSliderInt("Keese-Sanity Intensity: %d", "##KeeseIntensity",
+                                            CVAR_SETTING("KeeseSanityIntensity"), 0, 5, "", 0, false);
+            switch (CVarGetInteger(CVAR_SETTING("KeeseSanityIntensity"), 0)) {
+                default:
+                    UIWidgets::Tooltip("Intensity");
+                    break;
+                case 0:
+                    UIWidgets::Tooltip("Off");
+                    break;
+                case 1:
+                    UIWidgets::Tooltip("Easy");
+                    break;
+                case 2:
+                    UIWidgets::Tooltip("Mild");
+                    break;
+                case 3:
+                    UIWidgets::Tooltip("Normal");
+                    break;
+                case 4:
+                    UIWidgets::Tooltip("Crazy");
+                    break;
+                case 5:
+                    UIWidgets::Tooltip("Madness");
+                    break;
+            }
+
+            if (CVarGetInteger(CVAR_SETTING("KeeseSanityIntensity"), 0) > 0) {
+                UIWidgets::PaddedEnhancementCheckbox("Keese Can Spawn Random Enemies",  CVAR_SETTING("KeeseEnemyRandoType"), true, false,
+                                                     !CVarGetInteger(CVAR_ENHANCEMENT("RandomizedEnemies"), 0), "",
+                                                     UIWidgets::CheckboxGraphics::Cross, true);
+                UIWidgets::Tooltip("Determines whether Keese should only spawn new random Keese or spawn any random "
+                                   "enemy (when enemy rando is enabled)");
+            }
+        }
+        ImGui::EndMenu();
+    }
+}
+
 void SohMenuBar::InitElement() {
     UpdateWindowBackendObjects();
 }
@@ -2330,6 +2386,10 @@ void SohMenuBar::DrawElement() {
         #endif
 
         DrawRandomizerMenu();
+
+        ImGui::SetCursorPosY(0.0f);
+
+        DrawSargeMenu();
 
         ImGui::PopStyleVar(1);
         ImGui::EndMenuBar();
