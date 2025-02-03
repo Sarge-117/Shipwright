@@ -115,6 +115,7 @@ EnGanonMant* sBossGanonCape;
 s32 sBossGanonSeed1;
 s32 sBossGanonSeed3;
 s32 sBossGanonSeed2;
+u8 sBossGanonAttackCount = 0;
 
 BossGanon* sBossGanonGanondorf;
 
@@ -2295,7 +2296,11 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
             this->timers[0] = (s16)Rand_ZeroFloat(30.0f) + 30;
 
             if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
-                if (player->actor.world.pos.y < 0.0f) {
+                if (sBossGanonAttackCount == 0) { // Aggressive Ganondorf - always do 1 extra pound, and then 1 normal attack
+                    BossGanon_SetupPoundFloor(this, play);
+                } else if (sBossGanonAttackCount == 1) {
+                    BossGanon_SetupChargeLightBall(this, play);
+                } else if (player->actor.world.pos.y < 0.0f) {
                     BossGanon_SetupChargeLightBall(this, play);
                 } else {
                     if (rnd <= 0.600) {
@@ -2308,6 +2313,7 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
                         BossGanon_SetupChargeBigMagic(this, play);
                     }
                 }
+                sBossGanonAttackCount++;
             } else if ((s8)this->actor.colChkInfo.health >= 20) {
                 BossGanon_SetupChargeLightBall(this, play);
             } else if (Rand_ZeroOne() >= 0.5f) {
@@ -5195,5 +5201,6 @@ void BossGanon_Reset(void) {
     sBossGanonGanondorf = NULL;
     sBossGanonZelda = NULL;
     sBossGanonCape = NULL;
+    sBossGanonAttackCount = 0;
     memset(sBossGanonEffectBuf, 0, sizeof(sBossGanonEffectBuf));
 }
