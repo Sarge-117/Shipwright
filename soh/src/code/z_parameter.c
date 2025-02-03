@@ -13,6 +13,7 @@
 #include "soh/Enhancements/custom-message/CustomMessageInterfaceAddon.h"
 #include "soh/Enhancements/cosmetics/cosmeticsTypes.h"
 #include "soh/Enhancements/enhancementTypes.h"
+#include "soh/Enhancements/item_use_from_inventory.h"
 
 #include <string.h>
 #include <stdlib.h>
