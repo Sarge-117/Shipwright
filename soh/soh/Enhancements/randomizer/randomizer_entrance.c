@@ -411,8 +411,8 @@ void Entrance_SetSavewarpEntrance(void) {
 }
 
 void Entrance_SetWarpSongEntrance(void) {
-    gPlayState->transitionTrigger = TRANS_TRIGGER_START;
-    gPlayState->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+    // gPlayState->transitionTrigger = TRANS_TRIGGER_START; // Restore sparkles
+    // gPlayState->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
     switch (gPlayState->msgCtx.lastPlayedSong) {
         case OCARINA_SONG_MINUET:
             gPlayState->nextEntranceIndex = Entrance_OverrideNextIndex(ENTR_SACRED_FOREST_MEADOW_WARP_PAD); // Minuet
@@ -445,7 +445,7 @@ void Entrance_SetWarpSongEntrance(void) {
         gSaveContext.respawnFlag = -3;
     } else if (gSaveContext.respawnFlag == -3) {
         // Unset Zoneout Type -3 to avoid cutscene at destination (technically it's not needed)
-        gSaveContext.respawnFlag = 0;
+        // gSaveContext.respawnFlag = 0; // Restore sparkles
     }
 }
 
