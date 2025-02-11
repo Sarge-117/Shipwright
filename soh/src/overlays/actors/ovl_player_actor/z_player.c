@@ -158,17 +158,17 @@ s32 func_80835C08(Player* this, PlayState* play);
 void Player_UseItem(PlayState* play, Player* this, s32 item);
 void func_80839F90(Player* this, PlayState* play);
 s32 func_8083C61C(PlayState* play, Player* this);
-void func_8083CA20(PlayState* play, Player* this);
-void func_8083CA54(PlayState* play, Player* this);
-void func_8083CA9C(PlayState* play, Player* this);
-void func_80846648(PlayState* play, Player* this);
-void func_80846660(PlayState* play, Player* this);
-void func_808467D4(PlayState* play, Player* this);
-void func_808468A8(PlayState* play, Player* this);
-void func_808468E8(PlayState* play, Player* this);
-void func_80846978(PlayState* play, Player* this);
-void func_808469BC(PlayState* play, Player* this);
-void func_80846A68(PlayState* play, Player* this);
+void Player_StartMode_Idle(PlayState* play, Player* this);
+void Player_StartMode_MoveForwardSlow(PlayState* play, Player* this);
+void Player_StartMode_MoveForward(PlayState* play, Player* this);
+void Player_StartMode_Nothing(PlayState* play, Player* this);
+void Player_StartMode_BlueWarp(PlayState* play, Player* this);
+void Player_StartMode_TimeTravel(PlayState* play, Player* this);
+void Player_StartMode_Door(PlayState* play, Player* this);
+void Player_StartMode_Grotto(PlayState* play, Player* this);
+void Player_StartMode_KnockedOver(PlayState* play, Player* this);
+void Player_StartMode_WarpSong(PlayState* play, Player* this);
+void Player_StartMode_FaroresWind(PlayState* play, Player* this);
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input);
 void func_8084FF7C(Player* this);
 void Player_UpdateBunnyEars(Player* this);
@@ -2245,16 +2245,12 @@ void Player_InitItemActionWithAnim(PlayState* play, Player* this, s8 itemAction)
 }
 
 s8 Player_ItemToItemAction(s32 item) {
-    if (item >= ITEM_NONE_FE) {
+    if (GameInteractor_Should(VB_ITEM_ACTION_BE_NONE, item >= ITEM_NONE_FE, item)) {
         return PLAYER_IA_NONE;
     } else if (item == ITEM_LAST_USED) {
         return PLAYER_IA_SWORD_CS;
     } else if (item == ITEM_FISHING_POLE) {
         return PLAYER_IA_FISHING_POLE;
-    // #region SOH [Enhancement] Added to prevent crashes with assignable equipment
-    } else if (item >= ITEM_TUNIC_KOKIRI && item <= ITEM_BOOTS_HOVER) {
-        return PLAYER_IA_NONE;
-    // #endregion
     } else {
         return sItemActions[item];
     }
@@ -2573,7 +2569,7 @@ void Player_ProcessItemButtons(Player* this, PlayState* play) {
             if ((item < ITEM_NONE_FE) && (Player_ItemToItemAction(item) == this->heldItemAction)) {
                 sHeldItemButtonIsHeldDown = true;
             }
-        } else {
+        } else if (GameInteractor_Should(VB_CHANGE_HELD_ITEM_AND_USE_ITEM, true, item)) {
             this->heldItemButton = i;
             Player_UseItem(play, this, item);
         }
@@ -6619,13 +6615,13 @@ s32 func_8083C910(PlayState* play, Player* this, f32 arg2) {
     return 1;
 }
 
-void func_8083CA20(PlayState* play, Player* this) {
+void Player_StartMode_Idle(PlayState* play, Player* this) {
     if (func_8083C910(play, this, 180.0f)) {
         this->av2.actionVar2 = -20;
     }
 }
 
-void func_8083CA54(PlayState* play, Player* this) {
+void Player_StartMode_MoveForwardSlow(PlayState* play, Player* this) {
     this->linearVelocity = 2.0f;
     gSaveContext.entranceSpeed = 2.0f;
     if (func_8083C910(play, this, 120.0f)) {
@@ -6633,7 +6629,7 @@ void func_8083CA54(PlayState* play, Player* this) {
     }
 }
 
-void func_8083CA9C(PlayState* play, Player* this) {
+void Player_StartMode_MoveForward(PlayState* play, Player* this) {
     if (gSaveContext.entranceSpeed < 0.1f) {
         gSaveContext.entranceSpeed = 0.1f;
     }
@@ -9473,16 +9469,7 @@ void func_80843AE8(PlayState* play, Player* this) {
                     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_link_derth_rebirth, 1.0f, 99.0f,
                                          Animation_GetLastFrame(&gPlayerAnim_link_derth_rebirth), ANIMMODE_ONCE, 0.0f);
                 }
-                if (CVarGetInteger(CVAR_ENHANCEMENT("FairyReviveEffect"), 0)) {
-                    if (CVarGetInteger(CVAR_ENHANCEMENT("FairyRevivePercentRestore"), 0)) {
-                        gSaveContext.healthAccumulator =
-                            (gSaveContext.healthCapacity * CVarGetInteger(CVAR_ENHANCEMENT("FairyReviveHealth"), 100) / 100 + 15) / 16 * 16;
-                    } else {
-                        gSaveContext.healthAccumulator = CVarGetInteger(CVAR_ENHANCEMENT("FairyReviveHealth"), 20) * 16;
-                    }
-                } else {
-                    gSaveContext.healthAccumulator = 0x140;
-                }
+                gSaveContext.healthAccumulator = 0x140;
                 this->av2.actionVar2 = -1;
             }
         } else if (gSaveContext.healthAccumulator == 0) {
@@ -10615,12 +10602,12 @@ static ColliderQuadInit D_808546A0 = {
 void func_8084663C(Actor* thisx, PlayState* play) {
 }
 
-void func_80846648(PlayState* play, Player* this) {
+void Player_StartMode_Nothing(PlayState* play, Player* this) {
     this->actor.update = func_8084663C;
     this->actor.draw = NULL;
 }
 
-void func_80846660(PlayState* play, Player* this) {
+void Player_StartMode_BlueWarp(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F710, 0);
     if ((play->sceneNum == SCENE_LAKE_HYLIA) && (gSaveContext.sceneSetupIndex >= 4)) {
         this->av1.actionVar1 = 1;
@@ -10653,7 +10640,7 @@ void func_80846720(PlayState* play, Player* this, s32 arg2) {
 
 static Vec3f D_808546F4 = { -1.0f, 69.0f, 20.0f };
 
-void func_808467D4(PlayState* play, Player* this) {
+void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084E9AC, 0);
     this->stateFlags1 |= PLAYER_STATE1_IN_CUTSCENE;
     Math_Vec3f_Copy(&this->actor.world.pos, &D_808546F4);
@@ -10667,12 +10654,12 @@ void func_808467D4(PlayState* play, Player* this) {
     this->av2.actionVar2 = 20;
 }
 
-void func_808468A8(PlayState* play, Player* this) {
+void Player_StartMode_Door(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F9A0, 0);
     Player_StartAnimMovement(play, this, 0x9B);
 }
 
-void func_808468E8(PlayState* play, Player* this) {
+void Player_StartMode_Grotto(PlayState* play, Player* this) {
     func_808389E8(this, &gPlayerAnim_link_normal_jump, 12.0f, play);
     Player_SetupAction(play, this, Player_Action_8084F9C0, 0);
     this->stateFlags1 |= PLAYER_STATE1_IN_CUTSCENE;
@@ -10680,11 +10667,11 @@ void func_808468E8(PlayState* play, Player* this) {
     OnePointCutscene_Init(play, 5110, 40, &this->actor, MAIN_CAM);
 }
 
-void func_80846978(PlayState* play, Player* this) {
+void Player_StartMode_KnockedOver(PlayState* play, Player* this) {
     func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE, 2.0f, 2.0f, this->actor.shape.rot.y + 0x8000, 0);
 }
 
-void func_808469BC(PlayState* play, Player* this) {
+void Player_StartMode_WarpSong(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F698, 0);
     this->actor.draw = NULL;
     this->stateFlags1 |= PLAYER_STATE1_IN_CUTSCENE;
@@ -10697,7 +10684,7 @@ Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0, true);
 }
 
-void func_80846A68(PlayState* play, Player* this) {
+void Player_StartMode_FaroresWind(PlayState* play, Player* this) {
     this->actor.draw = NULL;
     Player_SetupAction(play, this, Player_Action_8085076C, 0);
     this->stateFlags1 |= PLAYER_STATE1_IN_CUTSCENE;
@@ -10744,23 +10731,23 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
     this->ivanDamageMultiplier = 1;
 }
 
-static void (*D_80854738[])(PlayState* play, Player* this) = {
-    /* 0x0 */ func_80846648,
-    /* 0x1 */ func_808467D4, // From time travel
-    /* 0x2 */ func_80846660,
-    /* 0x3 */ func_808468A8,
-    /* 0x4 */ func_808468E8,
-    /* 0x5 */ func_808469BC,
-    /* 0x6 */ func_80846A68,
-    /* 0x7 */ func_80846978,
-    /* 0x8 */ func_8083CA54,
-    /* 0x9 */ func_8083CA54,
-    /* 0xA */ func_8083CA54,
-    /* 0xB */ func_8083CA54,
-    /* 0xC */ func_8083CA54,
-    /* 0xD */ func_8083CA20,
-    /* 0xE */ func_8083CA54,
-    /* 0xF */ func_8083CA9C,
+static void (*sStartModeFuncs[PLAYER_START_MODE_MAX])(PlayState* play, Player* this) = {
+    Player_StartMode_Nothing,         // PLAYER_START_MODE_NOTHING
+    Player_StartMode_TimeTravel,      // PLAYER_START_MODE_TIME_TRAVEL
+    Player_StartMode_BlueWarp,        // PLAYER_START_MODE_BLUE_WARP
+    Player_StartMode_Door,            // PLAYER_START_MODE_DOOR
+    Player_StartMode_Grotto,          // PLAYER_START_MODE_GROTTO
+    Player_StartMode_WarpSong,        // PLAYER_START_MODE_WARP_SONG
+    Player_StartMode_FaroresWind,     // PLAYER_START_MODE_FARORES_WIND
+    Player_StartMode_KnockedOver,     // PLAYER_START_MODE_KNOCKED_OVER
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_8
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_9
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_10
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_11
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_12
+    Player_StartMode_Idle,            // PLAYER_START_MODE_IDLE
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_MOVE_FORWARD_SLOW
+    Player_StartMode_MoveForward,     // PLAYER_START_MODE_MOVE_FORWARD
 };
 
 static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
@@ -10770,7 +10757,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     SceneTableEntry* scene = play->loadedScene;
     u32 titleFileSize;
-    s32 initMode;
+    s32 startMode;
     s32 respawnFlag;
     s32 respawnMode;
 
@@ -10859,16 +10846,17 @@ void Player_Init(Actor* thisx, PlayState* play2) {
         gSaveContext.infTable[26] |= gBitFlags[play->sceneNum];
     }
 
-    initMode = (thisx->params & 0xF00) >> 8;
-    if ((initMode == 5) || (initMode == 6)) {
+    startMode = PLAYER_GET_START_MODE(thisx);
+
+    if ((startMode == PLAYER_START_MODE_WARP_SONG) || (startMode == PLAYER_START_MODE_FARORES_WIND)) {
         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-            initMode = 13;
+            startMode = PLAYER_START_MODE_IDLE;
         }
     }
 
-    D_80854738[initMode](play, this);
+    sStartModeFuncs[startMode](play, this);
 
-    if (initMode != 0) {
+    if (startMode != PLAYER_START_MODE_NOTHING) {
         if ((gSaveContext.gameMode == 0) || (gSaveContext.gameMode == 3)) {
             this->naviActor = Player_SpawnFairy(play, this, &thisx->world.pos, &D_80854778, FAIRY_NAVI);
             if (gSaveContext.dogParams != 0) {
@@ -12296,9 +12284,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         sUseHeldItem = sHeldItemButtonIsHeldDown = 0;
         sSavedCurrentMask = this->currentMask;
 
-        if (!(this->stateFlags3 & PLAYER_STATE3_PAUSE_ACTION_FUNC)) {
+        if (GameInteractor_Should(VB_EXECUTE_PLAYER_ACTION_FUNC, !(this->stateFlags3 & PLAYER_STATE3_PAUSE_ACTION_FUNC), this, input)) {
             this->actionFunc(this, play);
-            Player_UseTunicBoots(this, play);
         }
 
         Player_UpdateCamAndSeqModes(play, this);
@@ -14603,13 +14590,13 @@ void Player_Action_8084E9AC(Player* this, PlayState* play) {
     }
 }
 
-static u8 D_808549FC[] = {
-    0x01, 0x03, 0x02, 0x04, 0x04,
-};
-
 void Player_Action_8084EAC0(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av2.actionVar2 == 0) {
+            static u8 D_808549FC[] = {
+                0x01, 0x03, 0x02, 0x04, 0x04,
+            };
+
             if (this->itemAction == PLAYER_IA_BOTTLE_POE) {
                 s32 rand = Rand_S16Offset(-1, 3);
 
@@ -14629,98 +14616,25 @@ void Player_Action_8084EAC0(Player* this, PlayState* play) {
             } else {
                 s32 sp28 = D_808549FC[this->itemAction - PLAYER_IA_BOTTLE_POTION_RED];
 
-                if (CVarGetInteger(CVAR_ENHANCEMENT("RedPotionEffect"), 0) && this->itemAction == PLAYER_IA_BOTTLE_POTION_RED) {
-                    if (CVarGetInteger(CVAR_ENHANCEMENT("RedPercentRestore"), 0)) {
-                        gSaveContext.healthAccumulator =
-                            (gSaveContext.healthCapacity * CVarGetInteger(CVAR_ENHANCEMENT("RedPotionHealth"), 100) / 100 + 15) / 16 * 16;
-                    } else {
-                        gSaveContext.healthAccumulator = CVarGetInteger(CVAR_ENHANCEMENT("RedPotionHealth"), 20) * 16;
-                    }
-                } else if (CVarGetInteger(CVAR_ENHANCEMENT("BluePotionEffects"), 0) &&
-                           this->itemAction == PLAYER_IA_BOTTLE_POTION_BLUE) {
-                    if (CVarGetInteger(CVAR_ENHANCEMENT("BlueHealthPercentRestore"), 0)) {
-                        gSaveContext.healthAccumulator =
-                            (gSaveContext.healthCapacity * CVarGetInteger(CVAR_ENHANCEMENT("BluePotionHealth"), 100) / 100 + 15) / 16 * 16;
-                    } else {
-                        gSaveContext.healthAccumulator = CVarGetInteger(CVAR_ENHANCEMENT("BluePotionHealth"), 20) * 16;
-                    }
+                if (sp28 & 1) {
+                    gSaveContext.healthAccumulator = 0x140;
+                }
 
-                    if (CVarGetInteger(CVAR_ENHANCEMENT("BlueManaPercentRestore"), 0)) {
-                        if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-                            Magic_Fill(play);
-                        }
+                if (sp28 & 2) {
+                    Magic_Fill(play);
+                }
 
-                        Magic_RequestChange(play,
-                                      (gSaveContext.magicLevel * 48 * CVarGetInteger(CVAR_ENHANCEMENT("BluePotionMana"), 100) / 100 + 15) /
-                                          16 * 16,
-                                      MAGIC_ADD);
-                    } else {
-                        if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-                            Magic_Fill(play);
-                        }
-
-                        Magic_RequestChange(play, CVarGetInteger(CVAR_ENHANCEMENT("BluePotionMana"), 100), MAGIC_ADD);
-                        ;
-                    }
-                } else if (CVarGetInteger(CVAR_ENHANCEMENT("GreenPotionEffect"), 0) &&
-                           this->itemAction == PLAYER_IA_BOTTLE_POTION_GREEN) {
-                    if (CVarGetInteger(CVAR_ENHANCEMENT("GreenPercentRestore"), 0)) {
-                        if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-                            Magic_Fill(play);
-                        }
-
-                        Magic_RequestChange(play,
-                                      (gSaveContext.magicLevel * 48 * CVarGetInteger(CVAR_ENHANCEMENT("GreenPotionMana"), 100) / 100 + 15) /
-                                          16 * 16,
-                                      MAGIC_ADD);
-                    } else {
-                        if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-                            Magic_Fill(play);
-                        }
-
-                        Magic_RequestChange(play, CVarGetInteger(CVAR_ENHANCEMENT("GreenPotionMana"), 100), MAGIC_ADD);
-                        ;
-                    }
-                } else if (CVarGetInteger(CVAR_ENHANCEMENT("MilkEffect"), 0) && (this->itemAction == PLAYER_IA_BOTTLE_MILK_FULL ||
-                                                             this->itemAction == PLAYER_IA_BOTTLE_MILK_HALF)) {
-                    if (CVarGetInteger(CVAR_ENHANCEMENT("MilkPercentRestore"), 0)) {
-                        gSaveContext.healthAccumulator =
-                            (gSaveContext.healthCapacity * CVarGetInteger(CVAR_ENHANCEMENT("MilkHealth"), 100) / 100 + 15) / 16 * 16;
-                    } else {
-                        gSaveContext.healthAccumulator = CVarGetInteger(CVAR_ENHANCEMENT("MilkHealth"), 5) * 16;
-                    }
-                    if (CVarGetInteger(CVAR_ENHANCEMENT("SeparateHalfMilkEffect"), 0) &&
-                        this->itemAction == PLAYER_IA_BOTTLE_MILK_HALF) {
-                        if (CVarGetInteger(CVAR_ENHANCEMENT("HalfMilkPercentRestore"), 0)) {
-                            gSaveContext.healthAccumulator =
-                                (gSaveContext.healthCapacity * CVarGetInteger(CVAR_ENHANCEMENT("HalfMilkHealth"), 100) / 100 + 15) / 16 *
-                                16;
-                        } else {
-                            gSaveContext.healthAccumulator = CVarGetInteger(CVAR_ENHANCEMENT("HalfMilkHealth"), 5) * 16;
-                        }
-                    }
-                } else {
-                    if (sp28 & 1) {
-                        gSaveContext.healthAccumulator = 0x140;
-                    }
-
-                    if (sp28 & 2) {
-                        Magic_Fill(play);
-                    }
-
-                    if (sp28 & 4) {
-                        gSaveContext.healthAccumulator = 0x50;
-                    }
+                if (sp28 & 4) {
+                    gSaveContext.healthAccumulator = 0x50;
                 }
             }
 
             Player_AnimPlayLoopAdjusted(play, this, &gPlayerAnim_link_bottle_drink_demo_wait);
             this->av2.actionVar2 = 1;
-            return;
+        } else {
+            func_8083C0E8(this, play);
+            func_8005B1A4(Play_GetCamera(play, 0));
         }
-
-        func_8083C0E8(this, play);
-        func_8005B1A4(Play_GetCamera(play, 0));
     } else if (this->av2.actionVar2 == 1) {
         if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
             Player_AnimChangeOnceMorphAdjusted(play, this, &gPlayerAnim_link_bottle_drink_demo_end);
@@ -14846,16 +14760,7 @@ void Player_Action_8084EED8(Player* this, PlayState* play) {
         Player_PlaySfx(this, NA_SE_EV_BOTTLE_CAP_OPEN);
         Player_PlaySfx(this, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 47.0f)) {
-        if (CVarGetInteger(CVAR_ENHANCEMENT("FairyEffect"), 0)) {
-            if (CVarGetInteger(CVAR_ENHANCEMENT("FairyPercentRestore"), 0)) {
-                gSaveContext.healthAccumulator =
-                    (gSaveContext.healthCapacity * CVarGetInteger(CVAR_ENHANCEMENT("FairyHealth"), 100) / 100 + 15) / 16 * 16;
-            } else {
-                gSaveContext.healthAccumulator = CVarGetInteger(CVAR_ENHANCEMENT("FairyHealth"), 8) * 16;
-            }
-        } else {
-            gSaveContext.healthAccumulator = 0x140;
-        }
+        gSaveContext.healthAccumulator = 0x140;
     }
 }
 
