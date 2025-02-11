@@ -2336,32 +2336,32 @@ void StaticData::HintTable_Init() {
     |      GANON LINE TEXT     |
     ---------------------------*/
 
-    hintTextTable[RHT_GANON_JOKE01] = HintText(CustomMessage("Oh! It's @.&I was expecting someone called Sheik.&Do you know what happened to them?",
+    hintTextTable[RHT_GANON_JOKE01] = HintText(CustomMessage("I know why you're here, cheese.^You're here to have sex with a&man!^Well then, let's get on with it!",
                                                   /*german*/ "",
                                                   /*french*/ "Ah, c'est @.&J'attendais un certain Sheik.&Tu sais ce qui lui est arrivé?"));
                                                // /*spanish*/¡Oh! Pero si es @.&Estaba esperando a alguien llamado Sheik. ¿Sabes qué puede haberle pasado?
 
-    hintTextTable[RHT_GANON_JOKE02] = HintText(CustomMessage("I knew I shouldn't have put the key on the other side of my door.",
+    hintTextTable[RHT_GANON_JOKE02] = HintText(CustomMessage("Welcome to the Michael Jackson&outlet!",
                                                   /*german*/ "",
                                                   /*french*/ "J'aurais dû garder la clé ici. Hélas..."));
                                                // /*spanish*/Sabía que no tendría que haber dejado la llave al otro lado de la puerta.
 
-    hintTextTable[RHT_GANON_JOKE03] = HintText(CustomMessage("Looks like it's time for a round of tennis.",
+    hintTextTable[RHT_GANON_JOKE03] = HintText(CustomMessage("Do you mind if we pause for a&minute? My Uber Eats order from&Fuck Burger is almost here.",
                                                   /*german*/ "",
                                                   /*french*/ "C'est l'heure de jouer au tennis."));
                                                // /*spanish*/Parece que es hora de una pachanga de tenis.
 
-    hintTextTable[RHT_GANON_JOKE04] = HintText(CustomMessage("You'll never deflect my bolts of energy with your sword, then shoot me with those Light Arrows you happen to have.",
+    hintTextTable[RHT_GANON_JOKE04] = HintText(CustomMessage("You know, for a gay guy, you sure&talk about cunt and pussy a lot.",
                                                   /*german*/ "",
                                                   /*french*/ "Ne perds pas ton temps à frapper mes éclairs d'énergie avec ton épée et me tirer avec tes flèches de Lumière!"));
                                                // /*spanish*/Nunca reflejarás mis esferas de energía con tu espada, para después dispararme con las flechas de luz que tendrás.
 
-    hintTextTable[RHT_GANON_JOKE05] = HintText(CustomMessage("Why did I leave my trident back in the desert?",
+    hintTextTable[RHT_GANON_JOKE05] = HintText(CustomMessage("Cheese, why the fuck do you sing&the American national anthem on&your stream so much?^You aren't even from there!&You're a Trini twink living in&Spain, for fuck's sake!",
                                                   /*german*/ "",
                                                   /*french*/ "Sale bêtise... Et j'ai oublié mon trident dans le désert!"));
                                                // /*spanish*/Santa Hylia... ¿Por qué me habré dejado el tridente en el desierto?
 
-    hintTextTable[RHT_GANON_JOKE06] = HintText(CustomMessage("Zelda is probably going to do something stupid, like send you back to your own timeline.^So this is "
+    hintTextTable[RHT_GANON_JOKE06] = HintText(CustomMessage("Cheese, why the fuck do you sing&the American national anthem on&your stream so much?^You aren't even from there!&You're a Trini twink living in&Spain, for fuck's sake!"
                                                              "quite meaningless. Do you really want to save this moron?",
                                                   /*german*/ "",
                                                   /*french*/ "Même si je suis vaincu... Zelda te renverra dans ton ère, et je reviendrai conquérir!^Telle est la "
@@ -2369,31 +2369,30 @@ void StaticData::HintTable_Init() {
                                                // /*spanish*/Seguro que Zelda trata de hacer alguna tontería, como enviarte de vuelta a tu línea temporal.^No tiene
                                                          // ningún sentido alguno. ¿De verdad quieres salvar a esa tonta?
 
-    hintTextTable[RHT_GANON_JOKE07] = HintText(CustomMessage("What about Zelda makes you think&she'd be a better ruler than I?^I saved Lon Lon Ranch,&fed the "
-                                                             "hungry,&and my castle floats.",
+    hintTextTable[RHT_GANON_JOKE07] = HintText(CustomMessage("Is cheese gay or straight?^First he says he's gay, then he&says he's straight. Gay cum this,&straight cum that.^MAKE UP YOUR DAMN MIND!",
                                                   /*german*/ "",
                                                   /*french*/ "Zelda ne sera jamais un meilleur monarque que moi!^J'ai un château volant, mes sujets sont des belles "
                                                              "amazones... et mes Moblins sont clairement plus puissants que jamais!"));
                                                // /*spanish*/¿Qué te hace pensar que Zelda gobierna mejor que yo?^Yo he salvado el Rancho Lon Lon,&he alimentado a
                                                           // los hambrientos&y hasta hago que mi castillo flote.
 
-    hintTextTable[RHT_GANON_JOKE08] = HintText(CustomMessage("I've learned this spell,&it's really neat,&I'll keep it later&for your treat!",
+    hintTextTable[RHT_GANON_JOKE08] = HintText(CustomMessage("God damn it, cheese. I'm sick&of your shit. You're cringe, gay,&stupid, and weird! I won't&stand for it anymore! Fight me!",
                                                   /*german*/ "",
                                                   /*french*/ "Gamin, ton destin achève,&sous mon sort tu périras!&Cette partie ne fut pas brève,&et cette mort, tu subiras!"));
                                                // /*spanish*/Veamos ahora que harás,&la batalla ha de comenzar,&te enviaré de una vez al más allá,&¿listo para
                                                           // afrontar la verdad?
 
-    hintTextTable[RHT_GANON_JOKE09] = HintText(CustomMessage("Many tricks are up my sleeve,&to save yourself&you'd better leave!",
+    hintTextTable[RHT_GANON_JOKE09] = HintText(CustomMessage("If you don't get the fuck out of&here right now I'm calling the&cops. I swear to Bob's Burgers!",
                                                   /*german*/ "",
                                                   /*french*/ "Sale petit garnement,&tu fais erreur!&C'est maintenant que marque&ta dernière heure!"));
                                                // /*spanish*/¿No osarás a mí enfrentarte?&Rimas aparte,&¡voy a matarte!
 
-    hintTextTable[RHT_GANON_JOKE10] = HintText(CustomMessage("After what you did to Koholint Island, how can you call me the bad guy?",
+    hintTextTable[RHT_GANON_JOKE10] = HintText(CustomMessage("Well chat, if you ever wanted to&see cheese have sex with a man&on stream, today is your lucky&day.^Because I'm about to pound this&twink harder than a Chinese&phonebook!",
                                                   /*german*/ "",
                                                   /*french*/ "J'admire ce que tu as fait à l'Île Koholint... Toi et moi, nous devrions faire équipe!"));
                                                // /*spanish*/Después de lo que le hiciste a la Isla Koholint, ¿cómo te atreves a llamarme malvado?
 
-    hintTextTable[RHT_GANON_JOKE10] = HintText(CustomMessage("Today, let's begin down&'The Hero is Defeated' timeline.",
+    hintTextTable[RHT_GANON_JOKE11] = HintText(CustomMessage("Is cheese gay or straight?^First he says he's gay, then he&says he's straight. Gay cum this,&straight cum that.^MAKE UP YOUR DAMN MIND!",
                                                   /*german*/ "",
                                                   /*french*/ "Si tu me vaincs, Hyrule sera englouti... mais si tu meurs, on aura A Link to the Past, le meilleur opus "
                                                              "de la série!"));
