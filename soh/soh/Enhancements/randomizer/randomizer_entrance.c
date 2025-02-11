@@ -411,8 +411,10 @@ void Entrance_SetSavewarpEntrance(void) {
 }
 
 void Entrance_SetWarpSongEntrance(void) {
-    // gPlayState->transitionTrigger = TRANS_TRIGGER_START; // Restore sparkles
-    // gPlayState->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+    if (!CVarGetInteger(CVAR_ENHANCEMENT("RestoreWarpSparkles"), 0)) {
+        gPlayState->transitionTrigger = TRANS_TRIGGER_START; // Restore sparkles
+        gPlayState->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+    }
     switch (gPlayState->msgCtx.lastPlayedSong) {
         case OCARINA_SONG_MINUET:
             gPlayState->nextEntranceIndex = Entrance_OverrideNextIndex(ENTR_SACRED_FOREST_MEADOW_WARP_PAD); // Minuet
@@ -446,7 +448,7 @@ void Entrance_SetWarpSongEntrance(void) {
     } else if (gSaveContext.respawnFlag == -3) {
         // Unset Zoneout Type -3 to avoid cutscene at destination (technically it's not needed)
         // Restore sparkles, but not in fixed-camera scenes
-        if (!CVarGetInteger(CVAR_ENHANCEMENT("RestoreWarpSparkles"), 1) ||
+        if (!CVarGetInteger(CVAR_ENHANCEMENT("RestoreWarpSparkles"), 0) ||
             gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NEAR_GUARD_EXIT ||
             gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NORTH_EXIT ||
             gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_DAY_OUTSIDE_MAN_IN_GREEN_HOUSE ||
