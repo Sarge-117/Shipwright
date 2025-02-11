@@ -446,7 +446,8 @@ void Entrance_SetWarpSongEntrance(void) {
     } else if (gSaveContext.respawnFlag == -3) {
         // Unset Zoneout Type -3 to avoid cutscene at destination (technically it's not needed)
         // Restore sparkles, but not in fixed-camera scenes
-        if (gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NEAR_GUARD_EXIT ||
+        if (!CVarGetInteger(CVAR_ENHANCEMENT("RestoreWarpSparkles"), 1) ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NEAR_GUARD_EXIT ||
             gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NORTH_EXIT ||
             gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_DAY_OUTSIDE_MAN_IN_GREEN_HOUSE ||
             gPlayState->nextEntranceIndex == ENTR_CASTLE_COURTYARD_GUARDS_DAY_0 ||
