@@ -432,8 +432,10 @@ void Entrance_SetSavewarpEntrance(void) {
 }
 
 void Entrance_SetWarpSongEntrance(void) {
-    gPlayState->transitionTrigger = TRANS_TRIGGER_START;
-    gPlayState->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+    if (!CVarGetInteger(CVAR_ENHANCEMENT("RestoreWarpSparkles"), 0)) {
+        gPlayState->transitionTrigger = TRANS_TRIGGER_START; // Restore sparkles
+        gPlayState->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+    }
     switch (gPlayState->msgCtx.lastPlayedSong) {
         case OCARINA_SONG_MINUET:
             gPlayState->nextEntranceIndex = Entrance_OverrideNextIndex(ENTR_SACRED_FOREST_MEADOW_WARP_PAD); // Minuet
@@ -466,7 +468,68 @@ void Entrance_SetWarpSongEntrance(void) {
         gSaveContext.respawnFlag = -3;
     } else if (gSaveContext.respawnFlag == -3) {
         // Unset Zoneout Type -3 to avoid cutscene at destination (technically it's not needed)
-        gSaveContext.respawnFlag = 0;
+        // Restore sparkles, but not in fixed-camera scenes
+        if (!CVarGetInteger(CVAR_ENHANCEMENT("RestoreWarpSparkles"), 0) ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NEAR_GUARD_EXIT ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NORTH_EXIT ||
+            gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_DAY_OUTSIDE_MAN_IN_GREEN_HOUSE ||
+            gPlayState->nextEntranceIndex == ENTR_CASTLE_COURTYARD_GUARDS_DAY_0 ||
+            gPlayState->nextEntranceIndex == ENTR_TWINS_HOUSE_0 ||
+            gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_DAY_0 ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_SOUTH_EXIT ||
+            gPlayState->nextEntranceIndex == ENTR_BAZAAR_0 ||
+            gPlayState->nextEntranceIndex == ENTR_LINKS_HOUSE_CHILD_SPAWN ||
+            gPlayState->nextEntranceIndex == ENTR_KOKIRI_SHOP_0 ||
+            gPlayState->nextEntranceIndex == ENTR_KNOW_IT_ALL_BROS_HOUSE_0 ||
+            gPlayState->nextEntranceIndex == ENTR_SHOOTING_GALLERY_1 ||
+            gPlayState->nextEntranceIndex == ENTR_TEMPLE_OF_TIME_EXTERIOR_DAY_GOSSIP_STONE_EXIT ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_OUTSIDE_SHOOTING_GALLERY ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_OUTSIDE_HAPPY_MASK_SHOP ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_OUTSIDE_TREASURE_BOX_SHOP ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_CASTLE_EXIT ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_TEMPLE_EXIT ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_3 ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_OUTSIDE_GUARD_HOUSE ||
+            gPlayState->nextEntranceIndex == ENTR_LINKS_HOUSE_1 ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_ENTRANCE_NEAR_GUARD_EXIT ||
+            gPlayState->nextEntranceIndex == ENTR_CASTLE_COURTYARD_GUARDS_DAY_1 ||
+            gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_DAY_1 ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_4 ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_OUTSIDE_POTION_SHOP ||
+            gPlayState->nextEntranceIndex == ENTR_TEST_SHOOTING_GALLERY_0 ||
+            gPlayState->nextEntranceIndex == ENTR_TEST_SHOOTING_GALLERY_0_6 ||
+            gPlayState->nextEntranceIndex == ENTR_STABLE_0 ||
+            gPlayState->nextEntranceIndex == ENTR_KAKARIKO_CENTER_GUEST_HOUSE_0 ||
+            gPlayState->nextEntranceIndex == ENTR_GRAVEKEEPERS_HUT_0 ||
+            gPlayState->nextEntranceIndex == ENTR_GORON_SHOP_0 ||
+            gPlayState->nextEntranceIndex == ENTR_ZORA_SHOP_0 ||
+            gPlayState->nextEntranceIndex == ENTR_POTION_SHOP_KAKARIKO_FRONT ||
+            gPlayState->nextEntranceIndex == ENTR_POTION_SHOP_MARKET_0 ||
+            gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_DAY_4 ||
+            gPlayState->nextEntranceIndex == ENTR_BOMBCHU_SHOP_0 ||
+            gPlayState->nextEntranceIndex == ENTR_DOG_LADY_HOUSE_0 ||
+            gPlayState->nextEntranceIndex == ENTR_IMPAS_HOUSE_FRONT ||
+            gPlayState->nextEntranceIndex == ENTR_CARPENTERS_TENT_0 ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_OUTSIDE_BAZAAR ||
+            gPlayState->nextEntranceIndex == ENTR_MARKET_DAY_OUTSIDE_BOMBCHU_BOWLING ||
+            gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_DAY_OUTSIDE_BOMBCHU_SHOP ||
+            gPlayState->nextEntranceIndex == ENTR_POTION_SHOP_KAKARIKO_1 ||
+            gPlayState->nextEntranceIndex == ENTR_POTION_SHOP_KAKARIKO_BACK ||
+            gPlayState->nextEntranceIndex == ENTR_MIDOS_HOUSE_0 ||
+            gPlayState->nextEntranceIndex == ENTR_SARIAS_HOUSE_0 ||
+            gPlayState->nextEntranceIndex == ENTR_BACK_ALLEY_MAN_IN_GREEN_HOUSE ||
+            gPlayState->nextEntranceIndex == ENTR_TEMPLE_OF_TIME_EXTERIOR_DAY_OUTSIDE_TEMPLE ||
+            gPlayState->nextEntranceIndex == ENTR_BOMBCHU_SHOP_1 ||
+            gPlayState->nextEntranceIndex == ENTR_BAZAAR_1 ||
+            gPlayState->nextEntranceIndex == ENTR_HAPPY_MASK_SHOP_0 ||
+            gPlayState->nextEntranceIndex == ENTR_IMPAS_HOUSE_BACK ||
+            gPlayState->nextEntranceIndex == ENTR_ZORAS_RIVER_3 ||
+            gPlayState->nextEntranceIndex == ENTR_ZORAS_RIVER_UNDERWATER_SHORTCUT ||
+            gPlayState->nextEntranceIndex == ENTR_LAKE_HYLIA_UNDERWATER_SHORTCUT ||
+            gPlayState->nextEntranceIndex == ENTR_LAKE_HYLIA_OUTSIDE_TEMPLE
+            ) {
+            gSaveContext.respawnFlag = 0; 
+        }
     }
 }
 
