@@ -103,5 +103,8 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
                 .suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english,
             });
         }
+        if (getItemEntry.getItemCategory == ITEM_CATEGORY_MAJOR || getItemEntry.getItemCategory == ITEM_CATEGORY_BOSS_KEY) {
+            Audio_PlayFanfare_Rando(getItemEntry);
+        }
     }
 }

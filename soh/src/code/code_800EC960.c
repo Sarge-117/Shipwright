@@ -4362,6 +4362,9 @@ void Audio_PlayFanfare_Rando(GetItemEntry getItem) {
             // Just in case nothing else matches.
             temp1 = NA_BGM_ITEM_GET | 0x900;
         }
+        if (itemId == ITEM_SWORD_MASTER) {
+            temp1 = NA_BGM_MASTER_SWORD | 0x900;
+        }
         Audio_PlayFanfare(temp1);
     }
 }
