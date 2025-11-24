@@ -458,7 +458,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, PlayState* play) {
             if (this->timers[0] == 0) {
                 this->timers[0] = (s16)(Rand_ZeroOne() * 64.0f) + 30;
                 rand01 = Rand_ZeroOne();
-                if (thisx->colChkInfo.health < 5) {
+                if (thisx->colChkInfo.health < 5 || CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
                     if (rand01 < 0.25f) {
                         BossGanondrof_SetupThrow(this, play);
                     } else if (rand01 >= 0.8f) {

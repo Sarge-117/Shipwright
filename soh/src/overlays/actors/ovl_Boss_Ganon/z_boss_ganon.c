@@ -118,6 +118,7 @@ static EnGanonMant* sCape;
 static s32 sSeed1;
 static s32 sSeed3;
 static s32 sSeed2;
+u8 sBossGanonAttackCount = 0;
 
 static BossGanon* sGanondorf;
 
@@ -452,7 +453,11 @@ void BossGanon_Init(Actor* thisx, PlayState* play2) {
             // light ball (anything from 0x64 - 0xC7)
             thisx->update = BossGanon_LightBall_Update;
             thisx->draw = BossGanon_LightBall_Draw;
-            thisx->speedXZ = 12.0f;
+            if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                thisx->speedXZ = 18.0f;
+            } else {
+                thisx->speedXZ = 12.0f;
+            }
 
             xDistFromPlayer = player->actor.world.pos.x - thisx->world.pos.x;
             yDistFromPlayer = (player->actor.world.pos.y + 30.0f) - thisx->world.pos.y;
@@ -2045,7 +2050,11 @@ void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
 
 void BossGanon_SetupChargeBigMagic(BossGanon* this, PlayState* play) {
     this->unk_1C2 = 0;
-    this->timers[0] = 30;
+    if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+        this->timers[0] = 10;
+    } else {
+        this->timers[0] = 30;
+    }
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->fwork[GDF_CENTER_POS] = 100.0f;
@@ -2275,21 +2284,49 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
 
     this->legSwayEnabled = true;
 
-    sCape->backPush = -3.0f;
-    sCape->backSwayMagnitude = 0.25f;
-    sCape->sideSwayMagnitude = -3.0f;
-    sCape->minDist = 20.0f;
+    if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+        sCape->backPush = -4.0f;
+        sCape->backSwayMagnitude = 0.333f;
+        sCape->sideSwayMagnitude = -4.0f;
+        sCape->minDist = 26.66f;
+    } else {
+        sCape->backPush = -3.0f;
+        sCape->backSwayMagnitude = 0.25f;
+        sCape->sideSwayMagnitude = -3.0f;
+        sCape->minDist = 20.0f;
+    }
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->unk_1C2 == 0) && !(player->actor.world.pos.y < 0.0f)) {
+    f32 rnd = Rand_ZeroOne();
+
+    if ((this->unk_1C2 == 0) && (!(player->actor.world.pos.y < 0.0f) || CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0))) {
         if (!(player->stateFlags1 & PLAYER_STATE1_HANGING_OFF_LEDGE) && (fabsf(player->actor.world.pos.x) < 110.0f) &&
             (fabsf(player->actor.world.pos.z) < 110.0f)) {
             BossGanon_SetupPoundFloor(this, play);
         } else if ((this->timers[0] == 0) && !(player->stateFlags1 & PLAYER_STATE1_HANGING_OFF_LEDGE)) {
             this->timers[0] = (s16)Rand_ZeroFloat(30.0f) + 30;
 
-            if ((s8)this->actor.colChkInfo.health >= 20) {
+            if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                if (sBossGanonAttackCount == 0) { // Aggressive Ganondorf - always do 1 extra pound, and then 1 normal attack
+                    BossGanon_SetupPoundFloor(this, play);
+                } else if (sBossGanonAttackCount == 1) {
+                    BossGanon_SetupChargeLightBall(this, play);
+                } else if (player->actor.world.pos.y < 0.0f) {
+                    BossGanon_SetupChargeLightBall(this, play);
+                } else {
+                    if (rnd <= 0.600) {
+                        BossGanon_SetupChargeLightBall(this, play);
+                    }
+                    if (rnd > 0.600 && rnd <= 0.850) {
+                        BossGanon_SetupPoundFloor(this, play);
+                    }
+                    if (rnd > 0.850) {
+                        BossGanon_SetupChargeBigMagic(this, play);
+                    }
+                }
+                sBossGanonAttackCount++;
+            } else if ((s8)this->actor.colChkInfo.health >= 20) {
                 BossGanon_SetupChargeLightBall(this, play);
             } else if (Rand_ZeroOne() >= 0.5f) {
                 if ((Rand_ZeroOne() >= 0.5f) || (this->actor.xzDistToPlayer > 350.0f)) {
@@ -2311,8 +2348,13 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
     Math_ApproachF(&this->actor.world.pos.z, cos, 0.05f, this->fwork[GDF_FWORK_0]);
     Math_ApproachF(&this->fwork[GDF_FWORK_0], 50.0f, 1.0f, 0.5f);
 
-    this->actor.velocity.x = this->actor.world.pos.x - this->actor.prevPos.x;
-    this->actor.velocity.z = this->actor.world.pos.z - this->actor.prevPos.z;
+    if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0) && player->actor.world.pos.y < 0.0f) {
+        this->actor.velocity.x = (this->actor.world.pos.x - this->actor.prevPos.x) * 2.9f;
+        this->actor.velocity.z = (this->actor.world.pos.z - this->actor.prevPos.z) * 2.9f;
+    } else {
+        this->actor.velocity.x = (this->actor.world.pos.x - this->actor.prevPos.x);
+        this->actor.velocity.z = (this->actor.world.pos.z - this->actor.prevPos.z);
+    }
 
     sin = Math_SinS(this->unk_1A2 * 1500);
     this->actor.velocity.y = this->fwork[GDF_FWORK_0] * sin * 0.04f;
@@ -2338,22 +2380,43 @@ void BossGanon_ChargeLightBall(BossGanon* this, PlayState* play) {
     sCape->sideSwayMagnitude = -2.0f;
     sCape->minDist = 10.0f;
 
-    if (this->timers[0] < 17) {
-        this->envLightMode = 1;
-    }
+    if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+        if (this->timers[0] < 20) {
+            this->envLightMode = 1;
+        }
 
-    if (this->timers[0] == 17) {
-        this->unk_26C = 10;
-        this->unk_270 = Rand_ZeroFloat(M_PI);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_SPARK);
-    }
+        if (this->timers[0] == 20) {
+            this->unk_26C = 10;
+            this->unk_270 = Rand_ZeroFloat(M_PI);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_SPARK);
+        }
 
-    if (this->timers[0] < 10) {
-        this->unk_258 += (Rand_ZeroFloat(M_PI / 2) + (M_PI / 2));
-        Math_ApproachF(&this->handLightBallScale, 10.0f, 0.5f, 1.25f);
+        if (this->timers[0] < 20) {
+            this->unk_258 += (Rand_ZeroFloat(M_PI / 2) + (M_PI / 2));
+            Math_ApproachF(&this->handLightBallScale, 10.0f, 0.5f, 1.25f);
 
-        if (this->timers[0] == 0) {
-            BossGanon_SetupPlayTennis(this, play);
+            if (this->timers[0] == 19) {
+                BossGanon_SetupPlayTennis(this, play);
+            }
+        }
+    } else {
+        if (this->timers[0] < 20) {
+            this->envLightMode = 1;
+        }
+
+        if (this->timers[0] == 17) {
+            this->unk_26C = 10;
+            this->unk_270 = Rand_ZeroFloat(M_PI);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_SPARK);
+        }
+
+        if (this->timers[0] < 10) {
+            this->unk_258 += (Rand_ZeroFloat(M_PI / 2) + (M_PI / 2));
+            Math_ApproachF(&this->handLightBallScale, 10.0f, 0.5f, 1.25f);
+
+            if (this->timers[0] == 0) {
+                BossGanon_SetupPlayTennis(this, play);
+            }
         }
     }
 
@@ -4054,7 +4117,11 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
 
                             // if a spin attack is used
                             if (player->meleeWeaponAnimation >= 0x18) {
-                                this->actor.speedXZ = 20.0f;
+                                if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                                    this->actor.speedXZ = 30.0f;
+                                } else {
+                                    this->actor.speedXZ = 20.0f;
+                                }
                             }
                             break;
                         } else {
@@ -4086,7 +4153,11 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
 
             case 1:
                 if ((ganondorf->actionFunc == BossGanon_PlayTennis) && (ganondorf->unk_1C2 == 1)) {
-                    minReflectDist = (this->actor.speedXZ >= 19.0f) ? 250.0f : 170.0f;
+                    if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                        minReflectDist = (this->actor.speedXZ >= 19.0f) ? 250.0f * 1.5 : 170.0f * 1.5;
+                    } else {
+                        minReflectDist = (this->actor.speedXZ >= 19.0f) ? 250.0f : 170.0f;
+                    }
 
                     if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf)) <
                         minReflectDist) {
@@ -4199,7 +4270,11 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                     BossGanon_SetupWait(ganondorf, play);
 
                     if (spBA == 5) {
-                        ganondorf->timers[0] = 125;
+                        if (CVarGetInteger(CVAR_ENHANCEMENT("AggressiveGanondorf"), 0)) {
+                            ganondorf->timers[0] = 60;
+                        } else {
+                            ganondorf->timers[0] = 125;
+                        }
                     }
                 }
             }
@@ -5111,5 +5186,6 @@ void BossGanon_Reset(void) {
     sGanondorf = NULL;
     sZelda = NULL;
     sCape = NULL;
+    sBossGanonAttackCount = 0;
     memset(sEffects, 0, sizeof(sEffects));
 }
