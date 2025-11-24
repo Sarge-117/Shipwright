@@ -2064,6 +2064,61 @@ void SohMenu::AddMenuEnhancements() {
             .CVar(timer.timeEnable)
             .Callback([](WidgetInfo& info) { TimeDisplayUpdateDisplayOptions(); });
     }
+
+    // Sarge menu
+    path.sidebarName = "Sarge Menu";
+    AddSidebarEntry("Enhancements", path.sidebarName, 3);
+    path.column = SECTION_COLUMN_1;
+
+    AddWidget(path, "Sarge's Experiments", WIDGET_SEPARATOR_TEXT);
+
+    AddWidget(path, "Aggressive Ganondorf", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("AggressiveGanondorf"))
+        .Options(CheckboxOptions().Tooltip("Gaymer"));
+
+    AddWidget(path, "Elemental Arrows on Twinrova", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("TwinrovaArrows"))
+        .Options(CheckboxOptions().Tooltip("Elemental arrows become effective against Twinrova."));
+
+    AddWidget(path, "One-Shottable KD", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("KDOneShot"))
+        .Options(CheckboxOptions().Tooltip("King Dodongo can be one-shot by a Biggoron Sword jumpslash."));
+
+    AddWidget(path, "Use Items From Inventory", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("ItemUseFromInventory"))
+        .Options(CheckboxOptions().Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen."));
+
+    AddWidget(path, "Restore Warp Sparkles", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("RestoreWarpSparkles"))
+        .Options(CheckboxOptions().Tooltip("Show warp song scene outro/intro."));
+
+    path.column = SECTION_COLUMN_2;
+
+    AddWidget(path, "Keese-Sanity", WIDGET_SEPARATOR_TEXT);
+
+    AddWidget(path, "Keese_Sanity", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("KeeseSanity"))
+        .Options(CheckboxOptions().Tooltip("All Keese variants are randomized upon spawn. Includes 4 new types of Keese!"));
+
+    AddWidget(path, "Keese-Sanity Intensity: %d", WIDGET_CVAR_SLIDER_INT)
+        .CVar(CVAR_SETTING("KeeseSanityIntensity"))
+        .PreFunc([](WidgetInfo& info) {
+            info.options->disabled = !CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0);
+        })
+        .Options(IntSliderOptions()
+                     .Min(0)
+                     .Max(5)
+                     .DefaultValue(0)
+                     .Format("%d")
+                     .Tooltip("Controls likelihood of additional Keese spawns and re-spawns."));
+
+    AddWidget(path, "Keese Can Spawn Random Enemies", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("KeeseEnemyRandoType"))
+        .PreFunc([](WidgetInfo& info) {
+            info.options->disabled = !(CVarGetInteger(CVAR_ENHANCEMENT("RandomizedEnemies"), 0) && CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0));
+        })
+        .Options(
+            CheckboxOptions().Tooltip("With enemy rando enabled, Keese can spawn any random enemy instead of just more Keese."));
 }
 
 } // namespace SohGui
