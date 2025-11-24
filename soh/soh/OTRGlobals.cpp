@@ -2541,6 +2541,11 @@ extern "C" int CustomMessage_RetrieveIfExists(PlayState* play) {
             u16 naviTextId = Random(0, NUM_NAVI_MESSAGES);
             messageEntry = CustomMessageManager::Instance->RetrieveMessage(Randomizer::NaviRandoMessageTableID,
                                                                            naviTextId, MF_FORMATTED);
+            // Keese-Sanity: For custom keese types, hook into the custom message system with textIDs starting at 0x0660
+        } else if (textId >= 0x0660 && textId <= 0x0664) {
+                u16 naviTextId = textId - 0x0660;
+                messageEntry = CustomMessageManager::Instance->RetrieveMessage(
+                    Randomizer::NaviKeeseSanityDescriptionsTableID, naviTextId, MF_FORMATTED);
         } else if (textId == TEXT_BEAN_SALESMAN_BUY_FOR_10 &&
                    (ctx->GetOption(RSK_SHUFFLE_MERCHANTS).Is(RO_SHUFFLE_MERCHANTS_BEANS_ONLY) ||
                     ctx->GetOption(RSK_SHUFFLE_MERCHANTS).Is(RO_SHUFFLE_MERCHANTS_ALL))) {
