@@ -121,6 +121,19 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawCircle, 20.0f);
     sDeathCount = 0;
     EnCrow_SetupFlyIdle(this);
+
+    
+    // Keese-Sanity: Keese have a small chance to spawn among the Guays at Lon-Lon, Lake Hylia, and Colossus
+    if (!CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0)) {
+        return;
+    }
+    f32 rnd = Rand_ZeroOne();
+    if (play->sceneNum == SCENE_LON_LON_RANCH || play->sceneNum == SCENE_LAKE_HYLIA || play->sceneNum == SCENE_DESERT_COLOSSUS) {
+        if (rnd < (0.05 * CVarGetInteger(CVAR_SETTING("KeeseSanityIntensity"), 0))) {
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, 0, 0, 0, 2, false);
+        }
+    }
 }
 
 void EnCrow_Destroy(Actor* thisx, PlayState* play) {
@@ -365,7 +378,9 @@ void EnCrow_Die(EnCrow* this, PlayState* play) {
         } else {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
-        if (!CVarGetInteger(CVAR_ENHANCEMENT("RandomizedEnemies"), 0)) {
+        // Keese-Sanity: Allow Guays to respawn only in Lon-Lon, Lake Hylia, and Colossus (when enemy rando is off)
+        if (!CVarGetInteger(CVAR_ENHANCEMENT("RandomizedEnemies"), 0) &&
+            (play->sceneNum == SCENE_LON_LON_RANCH || play->sceneNum == SCENE_LAKE_HYLIA || play->sceneNum == SCENE_DESERT_COLOSSUS)) {
             EnCrow_SetupRespawn(this);
         } else {
             Actor_Kill(this);
