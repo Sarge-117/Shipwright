@@ -32,6 +32,7 @@
 #include "soh/OTRGlobals.h"
 #include "soh/ResourceManagerHelpers.h"
 #include "soh/Enhancements/savestate_serialize.h"
+#include "soh/Enhancements/item_use_from_inventory.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -11775,6 +11776,81 @@ static Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
 static f32 sWaterConveyorSpeeds[] = { 2.0f, 4.0f, 7.0f };
 static f32 sFloorConveyorSpeeds[] = { 0.5f, 1.0f, 3.0f };
 
+void Player_UseTunicBoots(Player* this, PlayState* play) {
+    // Boots and tunics equip despite state
+    if (
+        this->stateFlags1 & (PLAYER_STATE1_INPUT_DISABLED | PLAYER_STATE1_IN_ITEM_CS | PLAYER_STATE1_IN_CUTSCENE | PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD) ||
+        this->stateFlags2 & PLAYER_STATE2_OCARINA_PLAYING
+    ) {
+        return;
+    }
+
+    s32 i;
+    for (i = 0; i < ARRAY_COUNT(sItemButtons); i++) {
+        if (CHECK_BTN_ALL(sControlInput->press.button, sItemButtons[i])) {
+            break;
+        }
+    }
+    s32 item = Player_GetItemOnButton(play, i);
+    if (item >= ITEM_TUNIC_KOKIRI && item <= ITEM_BOOTS_HOVER) {
+        if (item >= ITEM_BOOTS_KOKIRI) {
+            u16 bootsValue = item - ITEM_BOOTS_KOKIRI + 1;
+            if (CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS) == bootsValue) {
+                Inventory_ChangeEquipment(EQUIP_TYPE_BOOTS, EQUIP_VALUE_BOOTS_KOKIRI);
+            } else {
+                Inventory_ChangeEquipment(EQUIP_TYPE_BOOTS, bootsValue);
+            }
+            Player_SetEquipmentData(play, this);
+            func_808328EC(this, CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS) == EQUIP_VALUE_BOOTS_IRON ? NA_SE_PL_WALK_HEAVYBOOTS : NA_SE_PL_CHANGE_ARMS);
+        } else {
+            u16 tunicValue = item - ITEM_TUNIC_KOKIRI + 1;
+            if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == tunicValue) {
+                Inventory_ChangeEquipment(EQUIP_TYPE_TUNIC, EQUIP_VALUE_TUNIC_KOKIRI);
+            } else {
+                Inventory_ChangeEquipment(EQUIP_TYPE_TUNIC, tunicValue);
+            }
+            Player_SetEquipmentData(play, this);
+            func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
+        }
+    }
+}
+
+// Variables for enhancement "Item Use From Inventory"
+ItemID        inventoryUsedItem = ITEM_NONE, inventoryPrevCLeftItem = ITEM_NONE;
+InventorySlot inventoryUsedSlot = SLOT_NONE, inventoryPrevCLeftSlot = SLOT_NONE;
+
+bool itemWasUsedFromInventory = false;
+bool usingItemFromInventory = false;
+bool bottleWasUsedFromInventory = false;
+bool swingingBottleFromInventory = false;
+
+void ItemUseFromInventory_SetItemAndSlot(ItemID item, InventorySlot slot) {
+    inventoryUsedItem = item;
+    inventoryUsedSlot = slot;
+    itemWasUsedFromInventory = true;
+}
+
+void ItemUseFromInventory_UpdateBottleSlot(ItemID item) {
+    bottleWasUsedFromInventory = false;
+    swingingBottleFromInventory = false;
+
+    // Special case for going from full milk to half milk
+    if (inventoryUsedItem == ITEM_MILK_BOTTLE) {
+        item = ITEM_MILK_HALF;
+    }
+    gSaveContext.inventory.items[inventoryUsedSlot] = item;
+
+    // If an empty bottle was being used, restore the previous C-Left equip
+    if (inventoryUsedItem == ITEM_BOTTLE) {
+        gSaveContext.equips.buttonItems[1] = inventoryPrevCLeftItem;
+        gSaveContext.equips.cButtonSlots[0] = inventoryPrevCLeftSlot;
+    }
+}
+
+bool ItemUseFromInventory_BottleWasUsed() {
+    return bottleWasUsedFromInventory;
+}
+
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     s32 pad;
 
@@ -11814,6 +11890,48 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
     Player_UpdateInterface(play, this);
     Player_UpdateZTargeting(this, play);
+
+    // Item use from inventory: If an item is being used from the inventory screen, perform its action
+    if (usingItemFromInventory) {
+        usingItemFromInventory = false;
+
+        if (inventoryUsedItem >= ITEM_BOTTLE && inventoryUsedSlot <= ITEM_POE) {
+            bottleWasUsedFromInventory = true;
+
+            // Borrow C-Left when using an empty bottle
+            if (inventoryUsedItem == ITEM_BOTTLE) {
+                this->heldItemButton = 1; // C-Left
+                inventoryPrevCLeftItem = gSaveContext.equips.buttonItems[1];
+                inventoryPrevCLeftSlot = gSaveContext.equips.cButtonSlots[0];
+                gSaveContext.equips.buttonItems[1] = inventoryUsedItem;
+                gSaveContext.equips.cButtonSlots[0] = inventoryUsedSlot;
+            }
+        }
+        Player_UseItem(play, this, inventoryUsedItem); // Do action
+    }
+
+    // Item use from inventory: If an item was used from inventory, update these bools so that
+    // the item's action is performed on the NEXT call of "Player_UpdateCommon()".
+    // This one cycle delay is needed for showing items to NPCs (i.e. bottles/trade items)
+    if (itemWasUsedFromInventory && CVarGetInteger(CVAR_ENHANCEMENT("ItemUseFromInventory"), 0)) {
+        usingItemFromInventory = true;
+        itemWasUsedFromInventory = false;
+    }
+    // If we used a bottle from inventory AND Link is in the "swinging a bottle" state
+    if (bottleWasUsedFromInventory && (this->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE)) {
+        swingingBottleFromInventory = true;
+        // If we interrupt the bottle swing by equipping over C-Left while it was in use, then stop everything here
+        if (gSaveContext.equips.buttonItems[1] != inventoryUsedItem) {
+            bottleWasUsedFromInventory = false;
+            swingingBottleFromInventory = false;
+        }
+    }
+    // If we used a bottle from inventory AND Link is no longer swinging it,
+    // then update the inventory and restore the previous C-Left equip
+    if (swingingBottleFromInventory && !(this->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE)) {
+        ItemUseFromInventory_UpdateBottleSlot(ITEM_BOTTLE);
+        Player_UseItem(play, this, ITEM_NONE); // Ensures the bottle is put away in the case that another empty bottle is equipped
+    } // End of code for "Item Use From Inventory" enhancement
 
     if (this->heldItemAction == PLAYER_IA_DEKU_STICK &&
         GameInteractor_Should(VB_DEKU_STICK_BE_ON_FIRE, this->unk_860 != 0)) {

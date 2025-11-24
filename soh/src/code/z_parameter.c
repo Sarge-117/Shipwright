@@ -10,6 +10,7 @@
 #include "soh/Enhancements/cosmetics/cosmeticsTypes.h"
 #include "soh/Enhancements/enhancementTypes.h"
 #include "soh/ShipUtils.h"
+#include "soh/Enhancements/item_use_from_inventory.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -2684,13 +2685,32 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
         item = ITEM_MILK_HALF;
     }
 
-    if (GameInteractor_Should(VB_UPDATE_BOTTLE_ITEM, true, button, item)) {
+    if (ItemUseFromInventory_BottleWasUsed() && CVarGetInteger(CVAR_ENHANCEMENT("ItemUseFromInventory"), 0)) {
+        // If the bottle was used from the inventory screen, only update the inventory slot (not any C-buttons)
+        ItemUseFromInventory_UpdateBottleSlot(item);
+    } else {
+
+        if (GameInteractor_Should(VB_UPDATE_BOTTLE_ITEM, true, button, item)) {
         gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+        }
+        
+        gSaveContext.equips.buttonItems[button] = item;
+
+        if (CVarGetInteger(CVAR_ENHANCEMENT("RestoreRBAValues"),0)) {
+            byteSwapInventory();
+            gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+            byteSwapInventory();
+        } else {
+            gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+        }
+
+        gSaveContext.equips.buttonItems[button] = item;
+
+        Interface_LoadItemIcon1(play, button);
+
+        play->pauseCtx.cursorItem[PAUSE_ITEM] = item;
+        gSaveContext.buttonStatus[BUTTON_STATUS_INDEX(button)] = BTN_ENABLED;
     }
-
-    gSaveContext.equips.buttonItems[button] = item;
-
-    Interface_LoadItemIcon1(play, button);
 
     play->pauseCtx.cursorItem[PAUSE_ITEM] = item;
     gSaveContext.buttonStatus[BUTTON_STATUS_INDEX(button)] = BTN_ENABLED;
