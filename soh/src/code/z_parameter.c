@@ -2691,19 +2691,9 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
     } else {
 
         if (GameInteractor_Should(VB_UPDATE_BOTTLE_ITEM, true, button, item)) {
-        gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+            gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
         }
         
-        gSaveContext.equips.buttonItems[button] = item;
-
-        if (CVarGetInteger(CVAR_ENHANCEMENT("RestoreRBAValues"),0)) {
-            byteSwapInventory();
-            gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
-            byteSwapInventory();
-        } else {
-            gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
-        }
-
         gSaveContext.equips.buttonItems[button] = item;
 
         Interface_LoadItemIcon1(play, button);
