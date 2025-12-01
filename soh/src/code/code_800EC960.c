@@ -4326,7 +4326,7 @@ void Audio_PlayFanfare_Rando(GetItemEntry getItem) {
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
             if (itemId == ITEM_HEART_CONTAINER ||
-                ((itemId == ITEM_HEART_PIECE_2) && ((gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000))) {
+                ((itemId == ITEM_HEART_PIECE_2) && ((gSaveContext.inventory.questItems & 0xF0000000) == 0x30000000))) {
                 temp1 = NA_BGM_HEART_GET | 0x900;
             } else {
                 temp1 = (itemId == ITEM_HEART_PIECE_2) ? NA_BGM_SMALL_ITEM_GET : NA_BGM_ITEM_GET | 0x900;
@@ -4334,7 +4334,7 @@ void Audio_PlayFanfare_Rando(GetItemEntry getItem) {
             // If we get a skulltula token or the "WINNER" heart, play "get small item"
             // Also make sure "WINNER" heart is not the 4th heart piece.
             if (itemId == ITEM_SKULL_TOKEN || (getItemId == GI_HEART_PIECE_WIN && itemId == ITEM_HEART_PIECE_2 &&
-                                               (gSaveContext.inventory.questItems & 0xF0000000) != 0x40000000)) {
+                                               (gSaveContext.inventory.questItems & 0xF0000000) != 0x30000000)) {
                 temp1 = NA_BGM_SMALL_ITEM_GET | 0x900;
             }
             // If the setting is toggled on and we get special quest items (longer fanfares):
