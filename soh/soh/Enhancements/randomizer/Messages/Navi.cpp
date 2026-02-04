@@ -9,6 +9,37 @@ extern "C" {
 #include <variables.h>
 }
 
+static CustomMessage NaviKeeseSanityDescriptions[] = {
+
+    { "\x08"
+      "Electric Keese&%cIf it touches you, you'll be shocked!\x09",
+      "\x08"
+      "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+      "\x08Saigneur Électrique&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE },
+
+    { "\x08Wind Keese&%cIf it touches you, you'll be sent&flying!\x09",
+      "\x08"
+      "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+      "\x08Saigneur de Vent&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE },
+
+    { "\x08Void Keese&%cIf you let it touch you, you'll void&out!\x09",
+      "\x08"
+      "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+      "\x08Saigneur d'Obscurité&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE },
+
+    { "\x08"
+      "Blood Keese&%cIt hurts a lot, but it can't kill you!\x09",
+      "\x08"
+      "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+      "\x08Saigneur de Sang&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE },
+
+    { "\x08"
+      "??? Keese&%cI've never seen this one before!\x09",
+      "\x08"
+      "Ein Flederbeißer!&%cZerstöre ihn, bevor er in dich&hineinfliegt!\x09",
+      "\x08Saigneur de... ???&%cDétruis-le avant qu'il ne t'attaque!\x09", TEXTBOX_TYPE_BLUE }
+};
+
 static CustomMessage NaviMessages[] = {
 
     { "%cMissing a small key in a dungeon?&Maybe the %rboss %chas it!",
@@ -119,6 +150,37 @@ void BuildNaviMessage(uint16_t* textId, bool* loadFromMessageTable) {
     *loadFromMessageTable = false;
 }
 
+void BuildNaviKeeseElecDesc(uint16_t* textId, bool* loadFromMessageTable) {
+    CustomMessage msg = NaviKeeseSanityDescriptions[0];
+    msg.AutoFormat();
+    msg.LoadIntoFont();
+    *loadFromMessageTable = false;
+}
+void BuildNaviKeeseWindDesc(uint16_t* textId, bool* loadFromMessageTable) {
+    CustomMessage msg = NaviKeeseSanityDescriptions[1];
+    msg.AutoFormat();
+    msg.LoadIntoFont();
+    *loadFromMessageTable = false;
+}
+void BuildNaviKeeseVoidDesc(uint16_t* textId, bool* loadFromMessageTable) {
+    CustomMessage msg = NaviKeeseSanityDescriptions[2];
+    msg.AutoFormat();
+    msg.LoadIntoFont();
+    *loadFromMessageTable = false;
+}
+void BuildNaviKeeseBloodDesc(uint16_t* textId, bool* loadFromMessageTable) {
+    CustomMessage msg = NaviKeeseSanityDescriptions[3];
+    msg.AutoFormat();
+    msg.LoadIntoFont();
+    *loadFromMessageTable = false;
+}
+void BuildNaviKeeseLoveDesc(uint16_t* textId, bool* loadFromMessageTable) {
+    CustomMessage msg = NaviKeeseSanityDescriptions[4];
+    msg.AutoFormat();
+    msg.LoadIntoFont();
+    *loadFromMessageTable = false;
+}
+
 void RegisterNaviMessages() {
     COND_ID_HOOK(OnOpenText, TEXT_NAVI_DEKU_TREE_SUMMONS,
                  IS_RANDO && CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("RandoRelevantNavi"), 1), BuildNaviMessage);
@@ -176,6 +238,12 @@ void RegisterNaviMessages() {
                  IS_RANDO && CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("RandoRelevantNavi"), 1), BuildNaviMessage);
     COND_ID_HOOK(OnOpenText, TEXT_NAVI_TRY_TO_KEEP_MOVING,
                  IS_RANDO && CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("RandoRelevantNavi"), 1), BuildNaviMessage);
+
+    COND_ID_HOOK(OnOpenText, 0x660, CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0), BuildNaviKeeseElecDesc);
+    COND_ID_HOOK(OnOpenText, 0x661, CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0), BuildNaviKeeseWindDesc);
+    COND_ID_HOOK(OnOpenText, 0x662, CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0), BuildNaviKeeseVoidDesc);
+    COND_ID_HOOK(OnOpenText, 0x663, CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0), BuildNaviKeeseBloodDesc);
+    COND_ID_HOOK(OnOpenText, 0x664, CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0), BuildNaviKeeseLoveDesc);
 }
 
 static RegisterShipInitFunc initFunc(RegisterNaviMessages,
