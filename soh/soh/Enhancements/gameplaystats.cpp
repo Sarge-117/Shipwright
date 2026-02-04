@@ -172,6 +172,11 @@ const char* const countMappings[] = {
     "Keese:",              // COUNT_ENEMIES_DEFEATED_KEESE
     "Keese (Fire):",       // COUNT_ENEMIES_DEFEATED_KEESE_FIRE
     "Keese (Ice):",        // COUNT_ENEMIES_DEFEATED_KEESE_ICE
+    "Keese (Electric):",
+    "Keese (Void):",
+    "Keese (Wind):",
+    "Keese (Blood):",
+    "Keese (Love):",
     "Leever:",             // COUNT_ENEMIES_DEFEATED_LEEVER
     "Leever (Big):",       // COUNT_ENEMIES_DEFEATED_LEEVER_BIG
     "Like-Like:",          // COUNT_ENEMIES_DEFEATED_LIKE_LIKE
