@@ -1,4 +1,5 @@
 #pragma once
+
 #include <nlohmann/json.hpp>
 #include "randomizerTypes.h"
 #include "randomizer_check_objects.h"
@@ -62,5 +63,5 @@ void UpdateAllAreas();
 void RecalculateAllAreaTotals();
 void SpoilAreaFromCheck(RandomizerCheck rc);
 void RecalculateAvailableChecks(RandomizerRegion startingRegion = RR_ROOT);
-void CheckTracker_LoadFromPreset(nlohmann::json info);
+void LoadFromPreset(nlohmann::json info);
 } // namespace CheckTracker
