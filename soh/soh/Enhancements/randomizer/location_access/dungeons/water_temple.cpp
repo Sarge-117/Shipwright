@@ -40,6 +40,9 @@ void RegionTable_Init_WaterTemple() {
         EVENT_ACCESS(LOGIC_WATER_PUSHED_1F_BLOCK, logic->WaterLevel(WL_LOW) && logic->HasItem(RG_GORONS_BRACELET)),
         EVENT_ACCESS(LOGIC_WATER_COULD_MIDDLE,    (logic->CanUse(RG_LONGSHOT) && (logic->HasFireSourceWithTorch() || logic->CanUse(RG_FAIRY_BOW))) ||
                                                   (logic->CanUse(RG_HOOKSHOT) && logic->SmallKeys(SCENE_WATER_TEMPLE, 5))),
+        //Assumes RR_WATER_TEMPLE_JET_LIFT and RR_WATER_TEMPLE_HIGH_EMBLEM access
+        EVENT_ACCESS(LOGIC_WATER_COULD_HIGH_FROM_MID, (logic->CanUse(RG_HOOKSHOT) || logic->CanUse(RG_HOVER_BOOTS) || logic->HasItem(RG_BRONZE_SCALE)) &&
+                                                      logic->CanHitSwitch(ED_BOMB_THROW)),
     }, {}, {
         //Exits
         ENTRANCE(RR_WATER_TEMPLE_ENTRANCE_LEDGE, logic->HasItem(RG_BRONZE_SCALE) && logic->WaterLevel(WL_HIGH)),
@@ -110,13 +113,7 @@ void RegionTable_Init_WaterTemple() {
     });
 
     //assumes checking for WL_LOW_OR_MID on entry
-    areaTable[RR_WATER_TEMPLE_2F_CENTRAL_LM] = Region("Water Temple 2F Central Low Or Mid Water", SCENE_WATER_TEMPLE, {
-        //Events
-        //Assumes RR_WATER_TEMPLE_JET_LIFT and RR_WATER_TEMPLE_HIGH_EMBLEM access
-        EVENT_ACCESS(LOGIC_WATER_COULD_HIGH_FROM_MID, logic->WaterLevel(WL_MID) &&
-                                                      (logic->CanUse(RG_HOOKSHOT) || logic->CanUse(RG_HOVER_BOOTS) || logic->HasItem(RG_BRONZE_SCALE)) &&
-                                                      logic->CanHitSwitch(ED_BOMB_THROW)),
-    }, {
+    areaTable[RR_WATER_TEMPLE_2F_CENTRAL_LM] = Region("Water Temple 2F Central Low Or Mid Water", SCENE_WATER_TEMPLE, {}, {
         //Locations
         LOCATION(RC_WATER_TEMPLE_MAIN_LEVEL_2_POT_1, logic->CanBreakPots()),
         LOCATION(RC_WATER_TEMPLE_MAIN_LEVEL_2_POT_2, logic->CanBreakPots()),
@@ -223,7 +220,7 @@ void RegionTable_Init_WaterTemple() {
         ENTRANCE(RR_WATER_TEMPLE_BOULDER_CANAL,     (logic->IsAdult && (logic->CanUse(RG_HOVER_BOOTS) || ctx->GetTrickOption(RT_WATER_NORTH_BASEMENT_LEDGE_JUMP))) ||
                                                     // A midair ground jump gets child onto the ledge, but they can't reasonably do anything without irons, and this may need TakeDamage due to the boulders
                                                     // swim can be skipped by boots changing during the ledge climb
-                                                    (ctx->GetTrickOption(RT_GROUND_JUMP_HARD) && logic->CanUse(RG_HOVER_BOOTS) && logic->CanGroundJump() && logic->CanUse(RG_IRON_BOOTS) && logic->WaterTimer() >= 8)),
+                                                    (logic->CanMiddairGroundJump() && logic->CanUse(RG_IRON_BOOTS) && logic->WaterTimer() >= 8)),
     });
 
     areaTable[RR_WATER_TEMPLE_BOULDERS_NORTH] = Region("Water Temple Boulders North", SCENE_WATER_TEMPLE, {}, {}, {
@@ -287,9 +284,9 @@ void RegionTable_Init_WaterTemple() {
         //Locations
         LOCATION(RC_WATER_TEMPLE_GS_NEAR_BOSS_KEY_CHEST, logic->CanGetEnemyDrop(RE_GOLD_SKULLTULA, ED_BOOMERANG) ||
                                                          //child can also do a hovers backwalk backflip to reach the token after killing the skull
-                                                         ((logic->IsAdult || (ctx->GetTrickOption(RT_GROUND_JUMP_HARD) && logic->CanGroundJump())) &&
+                                                         (((logic->IsAdult && logic->CanUse(RG_HOVER_BOOTS)) || logic->CanMiddairGroundJump()) &&
                                                          //killing with bombchu from here is hard due to the terrain, but adult can do it much easier from the river so it's only relevant for child
-                                                         logic->CanUse(RG_HOVER_BOOTS) && logic->CanKillEnemy(RE_GOLD_SKULLTULA, logic->HasItem(RG_BRONZE_SCALE) && logic->IsAdult ? ED_SHORT_JUMPSLASH : ED_BOOMERANG))),
+                                                          logic->CanKillEnemy(RE_GOLD_SKULLTULA, logic->HasItem(RG_BRONZE_SCALE) && logic->IsAdult ? ED_SHORT_JUMPSLASH : ED_BOOMERANG))),
     }, {
         //Exits
         ENTRANCE(RR_WATER_TEMPLE_3_JETS_SWITCH, true),
@@ -335,20 +332,20 @@ void RegionTable_Init_WaterTemple() {
         //Exits
         ENTRANCE(RR_WATER_TEMPLE_MAIN,      logic->CanUse(RG_IRON_BOOTS) && logic->HasItem(RG_BRONZE_SCALE) && logic->WaterTimer() >= 16),
         ENTRANCE(RR_WATER_TEMPLE_NEAR_CAGE, logic->CanUse(RG_HOOKSHOT) ||
-                                            (logic->CanUse(RG_HOVER_BOOTS) && (logic->IsAdult || (ctx->GetTrickOption(RT_GROUND_JUMP_HARD) && logic->CanGroundJump())))),
+                                            ((logic->IsAdult && logic->CanUse(RG_HOVER_BOOTS)) || logic->CanMiddairGroundJump())),
     });
 
     areaTable[RR_WATER_TEMPLE_NEAR_CAGE] = Region("Water Temple Near Cage", SCENE_WATER_TEMPLE, {}, {}, {
         //Exits
         ENTRANCE(RR_WATER_TEMPLE_NEAR_CAGE_STEPS, true),
         //Chus can hit the switch, but not bombs, and it's a kinda narrow timing so probably a trick
-        ENTRANCE(RR_WATER_TEMPLE_GS_CAGE,         logic->CanJumpslash() || (ctx->GetTrickOption(RT_HOOKSHOT_EXTENSION) && (logic->CanUse(RG_FAIRY_BOW) || logic->CanUse(RG_FAIRY_SLINGSHOT)))),
+        ENTRANCE(RR_WATER_TEMPLE_GS_CAGE,         logic->CanJumpslash() || (ctx->GetTrickOption(RT_ITEM_EXTENSION) && (logic->CanUse(RG_FAIRY_BOW) || logic->CanUse(RG_FAIRY_SLINGSHOT)))),
     });
 
     areaTable[RR_WATER_TEMPLE_GS_CAGE] = Region("Water Temple GS Cage", SCENE_WATER_TEMPLE, {}, {
         //Locations
         LOCATION(RC_WATER_TEMPLE_GS_BEHIND_GATE,    (logic->IsAdult && (logic->HasItem(RG_POWER_BRACELET) || logic->CanKillEnemy(RE_GOLD_SKULLTULA))) || 
-                                                    logic->HookshotOrBoomerang() || (ctx->GetTrickOption(RT_GROUND_JUMP_HARD) &&logic->CanGroundJump() && logic->CanJumpslash())),
+                                                    logic->CanGetEnemyDrop(RE_GOLD_SKULLTULA, ED_BOOMERANG) || logic->CanGroundJumpslash()),
         LOCATION(RC_WATER_TEMPLE_BEHIND_GATE_POT_1, logic->CanBreakPots()),
         LOCATION(RC_WATER_TEMPLE_BEHIND_GATE_POT_2, logic->CanBreakPots()),
         LOCATION(RC_WATER_TEMPLE_BEHIND_GATE_POT_3, logic->CanBreakPots()),
@@ -523,7 +520,7 @@ void RegionTable_Init_WaterTemple() {
     //This is specifically the initial entrance alcove and platform directly underneath
     areaTable[RR_WATER_TEMPLE_WATERFALL] = Region("Water Temple Waterfall", SCENE_WATER_TEMPLE, {}, {
         //Locations
-        LOCATION(RC_WATER_TEMPLE_GS_FALLING_PLATFORM_ROOM, logic->CanKillEnemy(RE_GOLD_SKULLTULA, ED_LONGSHOT) ||
+        LOCATION(RC_WATER_TEMPLE_GS_FALLING_PLATFORM_ROOM, logic->CanGetEnemyDrop(RE_GOLD_SKULLTULA, ED_LONGSHOT) ||
                                                            (ctx->GetTrickOption(RT_WATER_RANG_FALLING_PLATFORM_GS) && logic->CanUse(RG_BOOMERANG)) ||
                                                            (ctx->GetTrickOption(RT_WATER_HOOKSHOT_FALLING_PLATFORM_GS) && logic->IsAdult && logic->CanUse(RG_HOOKSHOT))),
     }, {
@@ -957,7 +954,7 @@ void RegionTable_Init_WaterTemple() {
         //Locations
         //Boxes can kill Gold Skulltulas.
         LOCATION(RC_WATER_TEMPLE_MQ_GS_BEFORE_UPPER_WATER_SWITCH,      (logic->CanBreakCrates() && logic->HasItem(RG_POWER_BRACELET)) ||
-                                                                       (logic->CanBreakCrates() || ctx->GetTrickOption(RT_VISIBLE_COLLISION)) && logic->CanKillEnemy(RE_GOLD_SKULLTULA)),
+                                                                       ((logic->CanBreakCrates() || ctx->GetTrickOption(RT_VISIBLE_COLLISION)) && logic->CanKillEnemy(RE_GOLD_SKULLTULA))),
         LOCATION(RC_WATER_TEMPLE_MQ_GS_STORAGE_ROOM_UPPER_CRATE_1,     logic->CanBreakCrates()),
         LOCATION(RC_WATER_TEMPLE_MQ_GS_STORAGE_ROOM_UPPER_CRATE_2,     logic->CanBreakCrates()),
         LOCATION(RC_WATER_TEMPLE_MQ_GS_STORAGE_ROOM_UPPER_SMALL_CRATE, logic->CanBreakSmallCrates()),
@@ -1010,7 +1007,7 @@ void RegionTable_Init_WaterTemple() {
     //Assumes WL_LOW_OR_MID is checked on entry
     areaTable[RR_WATER_TEMPLE_MQ_LIZALFOS_CAGE] = Region("Water Temple MQ Lizalfos Cage", SCENE_WATER_TEMPLE, {}, {
         //Locations
-        //Technically hidden within a crate, but the act of opening the cage kills it and spawns the token on top so it's except from RT_VISUAL_COLLISION
+        //Technically hidden within a crate, but the act of opening the cage kills it and spawns the token on top so it's exempt from RT_VISUAL_COLLISION
         LOCATION(RC_WATER_TEMPLE_MQ_GS_LIZALFOS_HALLWAY,           logic->CanKillEnemy(RE_GOLD_SKULLTULA)),
         LOCATION(RC_WATER_TEMPLE_MQ_LIZALFOS_CAGE_SOUTH_POT,       logic->CanBreakPots()),
         LOCATION(RC_WATER_TEMPLE_MQ_LIZALFOS_CAGE_NORTH_POT,       logic->CanBreakPots()),
@@ -1250,7 +1247,7 @@ void RegionTable_Init_WaterTemple() {
         //Exits
         ENTRANCE(RR_WATER_TEMPLE_MQ_TRIANGLE_TORCH_ROOM, true),
         ENTRANCE(RR_WATER_TEMPLE_MQ_TRIANGLE_TORCH_CAGE, logic->CanUse(RG_FIRE_ARROWS) &&
-                                                         (((logic->IsAdult || (ctx->GetTrickOption(RT_GROUND_JUMP_HARD) && logic->CanGroundJump())) && logic->CanUse(RG_HOVER_BOOTS)) ||
+                                                         ((logic->IsAdult && logic->CanUse(RG_HOVER_BOOTS)) || logic->CanMiddairGroundJump() ||
                                                           (logic->CanUse(RG_LONGSHOT) && AnyAgeTime([]{return logic->ScarecrowsSong();}))))
     });
 

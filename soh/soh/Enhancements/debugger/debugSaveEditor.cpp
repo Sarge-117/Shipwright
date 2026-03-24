@@ -359,7 +359,7 @@ void DrawInfoTab() {
 
     PushStyleInput(THEME_COLOR);
     ImGui::InputScalar("Bgs Day Count", ImGuiDataType_S32, &gSaveContext.bgsDayCount);
-    Tooltip("Total number of days elapsed since giving Biggoron the claim check");
+    Tooltip("Total number of days elapsed since receiving claim check from Biggoron");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
@@ -1204,7 +1204,9 @@ void DrawUpgrade(const std::string& categoryName, int32_t categoryId, const std:
     ImGui::PushID(categoryName.c_str());
     PushStyleCombobox(THEME_COLOR);
     ImGui::AlignTextToFramePadding();
-    if (ImGui::BeginCombo("##upgrade", names[CUR_UPG_VALUE(categoryId)].c_str())) {
+    auto value = (size_t)CUR_UPG_VALUE(categoryId);
+    auto name = value < names.size() ? names[value].c_str() : "Glitched";
+    if (ImGui::BeginCombo("##upgrade", name)) {
         for (size_t i = 0; i < names.size(); i++) {
             if (ImGui::Selectable(names[i].c_str())) {
                 Inventory_ChangeUpgrade(categoryId, i);
@@ -1225,7 +1227,8 @@ void DrawUpgradeIcon(const std::string& categoryName, int32_t categoryId, const 
     ImGui::PushID(categoryName.c_str());
 
     PushStyleButton(Colors::DarkGray);
-    uint8_t item = items[CUR_UPG_VALUE(categoryId)];
+    auto value = (size_t)CUR_UPG_VALUE(categoryId);
+    uint8_t item = value < items.size() ? items[value] : ITEM_NONE;
     if (item != ITEM_NONE) {
         const ItemMapEntry& slotEntry = itemMapping[item];
         if (ImGui::ImageButton(slotEntry.name.c_str(),

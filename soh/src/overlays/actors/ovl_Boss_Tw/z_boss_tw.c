@@ -543,7 +543,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
             }
 
             if (GameInteractor_Should(VB_SPAWN_HEART_CONTAINER, true)) {
-                Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -600.0f, 230.0f, 0.0f, 0, 0, 0, 0, true);
+                Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -600.0f, 230.0f, 0.0f, 0, 0, 0, 0);
             }
         } else {
             sKotakePtr =
@@ -2810,7 +2810,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
                 }
 
                 if (GameInteractor_Should(VB_SPAWN_HEART_CONTAINER, true)) {
-                    Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -600.0f, 230.f, 0.0f, 0, 0, 0, 0, true);
+                    Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -600.0f, 230.f, 0.0f, 0, 0, 0, 0);
                 }
 
                 this->actor.world.pos.y = -2000.0f;
@@ -3329,8 +3329,8 @@ void func_80941BC0(BossTw* this, PlayState* play) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 215, 215, 215, (s16)this->workf[UNK_F11] * this->workf[UNK_F14]);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, (u32)this->workf[UNK_F16] & 0x3F,
-                                (this->work[CS_TIMER_2] * 4) & 0x3F, 0x10, 0x10));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, (u32)this->workf[UNK_F16] & 0x3F,
+                                  (this->work[CS_TIMER_2] * 4) & 0x3F, 0x10, 0x10, 0, 0, 5, 4));
     Matrix_Push();
     Matrix_RotateY(this->workf[UNK_F15], MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(play->state.gfxCtx), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
@@ -3338,9 +3338,9 @@ void func_80941BC0(BossTw* this, PlayState* play) {
     Matrix_Pop();
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(play->state.gfxCtx), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPSegment(POLY_XLU_DISP++, 0xD,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->work[CS_TIMER_2] & 0x7F,
-                                (this->work[CS_TIMER_2] * 8) & 0xFF, 0x20, 0x40, 1,
-                                (-this->work[CS_TIMER_2] * 2) & 0x3F, 0, 0x10, 0x10));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, this->work[CS_TIMER_2] & 0x7F,
+                                  (this->work[CS_TIMER_2] * 8) & 0xFF, 0x20, 0x40, 1,
+                                  (-this->work[CS_TIMER_2] * 2) & 0x3F, 0, 0x10, 0x10, 1, 8, 2, 0));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, (s16)this->workf[UNK_F9]);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
     gDPSetRenderMode(POLY_XLU_DISP++,
@@ -3365,8 +3365,8 @@ void func_80942180(BossTw* this, PlayState* play) {
     Matrix_Translate(this->groundBlastPos2.x, this->groundBlastPos2.y, this->groundBlastPos2.z, MTXMODE_NEW);
     Matrix_Scale(this->workf[KM_GD_CRTR_SCL], this->workf[KM_GD_CRTR_SCL], this->workf[KM_GD_CRTR_SCL], MTXMODE_APPLY);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (-this->work[CS_TIMER_1]) & 0x7F, 0, 0x20, 0x20, 1,
-                                (this->work[CS_TIMER_1] * 2) & 0x7F, 0, 0x20, 0x20));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (-this->work[CS_TIMER_1]) & 0x7F, 0, 0x20, 0x20, 1,
+                                  (this->work[CS_TIMER_1] * 2) & 0x7F, 0, 0x20, 0x20, -1, 0, 2, 0));
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(play->state.gfxCtx), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 40, 00, (s16)this->workf[KM_GRND_CRTR_A]);
     gDPPipeSync(POLY_XLU_DISP++);
@@ -3376,17 +3376,18 @@ void func_80942180(BossTw* this, PlayState* play) {
     Matrix_ReplaceRotation(&play->billboardMtxF);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(play->state.gfxCtx), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->work[CS_TIMER_1] & 0x7F,
-                                (-this->work[CS_TIMER_1] * 6) & 0xFF, 0x20, 0x40, 1,
-                                (this->work[CS_TIMER_1] * 2) & 0x7F, (-this->work[CS_TIMER_1] * 6) & 0xFF, 0x20, 0x40));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, this->work[CS_TIMER_1] & 0x7F,
+                                  (-this->work[CS_TIMER_1] * 6) & 0xFF, 0x20, 0x40, 1,
+                                  (this->work[CS_TIMER_1] * 2) & 0x7F, (-this->work[CS_TIMER_1] * 6) & 0xFF, 0x20, 0x40,
+                                  1, -6, 2, -6));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 80, 0, 0, (s16)this->workf[KM_GD_SMOKE_A]);
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 100);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaFireSmokeDL));
 
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (-this->work[CS_TIMER_1] * 3) & 0x7F, 0, 0x20, 0x20, 1, 0,
-                                (-this->work[CS_TIMER_1] * 10) & 0xFF, 0x20, 0x40));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (-this->work[CS_TIMER_1] * 3) & 0x7F, 0, 0x20, 0x20, 1, 0,
+                                  (-this->work[CS_TIMER_1] * 10) & 0xFF, 0x20, 0x40, -3, 0, 0, -10));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 50, 0, (s16)(this->workf[KM_GD_FLM_A] * 0.7f));
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 235, 240, 128);
@@ -3406,8 +3407,8 @@ void func_809426F0(BossTw* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (u8)(-this->work[CS_TIMER_2] * 15), 0x20, 0x40, 1, 0, 0, 0x40,
-                                0x40));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, (u8)(-this->work[CS_TIMER_2] * 15), 0x20, 0x40, 1, 0, 0,
+                                  0x40, 0x40, 0, -15, 0, 0));
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 5000.0f, MTXMODE_APPLY);
     Matrix_Scale(this->spawnPortalScale / 2000.0f, this->spawnPortalScale / 2000.0f, this->spawnPortalScale / 2000.0f,
@@ -3441,8 +3442,9 @@ void func_809426F0(BossTw* this, PlayState* play) {
         Matrix_RotateZ(((i * M_PI) * 2.0f * 0.125f) + this->flameRotation, MTXMODE_APPLY);
         Matrix_Translate(0.0f, this->spawnPortalScale * 1.5f, 0.0f, MTXMODE_APPLY);
         gSPSegment(POLY_XLU_DISP++, 8,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, ((this->work[CS_TIMER_2] * 3) + (i * 10)) & 0x7F,
-                                    (u8)((-this->work[CS_TIMER_2] * 15) + (i * 50)), 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+                   Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, ((this->work[CS_TIMER_2] * 3) + (i * 10)) & 0x7F,
+                                      (u8)((-this->work[CS_TIMER_2] * 15) + (i * 50)), 0x20, 0x40, 1, 0, 0, 0x20, 0x20,
+                                      3, -15, 0, 0));
         Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(play->state.gfxCtx), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
@@ -3464,7 +3466,7 @@ void func_80942C70(Actor* thisx, PlayState* play) {
     if (this->beamDist != 0.0f) {
         Matrix_Push();
         gSPSegment(POLY_XLU_DISP++, 0xC,
-                   Gfx_TexScroll(play->state.gfxCtx, 0, (u8)(this->work[CS_TIMER_1] * -0xF), 0x20, 0x40));
+                   Gfx_TexScrollEx(play->state.gfxCtx, 0, (u8)(this->work[CS_TIMER_1] * -0xF), 0x20, 0x40, 0, -0xF));
         alpha = this->beamScale * 100.0f * 255.0f;
 
         if (this->actor.params == 1) {
@@ -3542,21 +3544,24 @@ void BossTw_Draw(Actor* thisx, PlayState* play2) {
         gSPSegment(POLY_OPA_DISP++, 10, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIdx]));
         gSPSegment(POLY_XLU_DISP++, 10, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIdx]));
         gSPSegment(POLY_XLU_DISP++, 8,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (s16)this->workf[OUTR_CRWN_TX_X1] & 0x7F,
-                                    (s16)this->workf[OUTR_CRWN_TX_Y1] & 0x7F, 0x20, 0x20, 1,
-                                    (s16)this->workf[OUTR_CRWN_TX_X2] & 0x7F, (s16)this->workf[OUTR_CRWN_TX_Y2] & 0xFF,
-                                    0x20, 0x40));
+                   Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (s16)this->workf[OUTR_CRWN_TX_X1] & 0x7F,
+                                      (s16)this->workf[OUTR_CRWN_TX_Y1] & 0x7F, 0x20, 0x20, 1,
+                                      (s16)this->workf[OUTR_CRWN_TX_X2] & 0x7F,
+                                      (s16)this->workf[OUTR_CRWN_TX_Y2] & 0xFF, 0x20, 0x40, 0, 0,
+                                      this->actor.params == 0 ? 1 : 0, this->actor.params == 0 ? -7 : -15));
 
         if (this->actor.params == TW_KOTAKE) {
             gSPSegment(POLY_XLU_DISP++, 9,
-                       Gfx_TexScroll(play->state.gfxCtx, (s16)this->workf[INNR_CRWN_TX_X1] & 0x7F,
-                                     (s16)this->workf[INNR_CRWN_TX_Y1] & 0xFF, 0x20, 0x40));
+                       Gfx_TexScrollEx(play->state.gfxCtx, (s16)this->workf[INNR_CRWN_TX_X1] & 0x7F,
+                                       (s16)this->workf[INNR_CRWN_TX_Y1] & 0xFF, 0x20, 0x40, 0,
+                                       this->actor.params == 0 ? 1 : 0));
         } else {
             gSPSegment(POLY_XLU_DISP++, 9,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (s16)this->workf[INNR_CRWN_TX_X1] & 0x7F,
-                                        (s16)this->workf[INNR_CRWN_TX_Y1] & 0x7F, 0x20, 0x20, 1,
-                                        (s16)this->workf[INNR_CRWN_TX_X2] & 0x7F,
-                                        (s16)this->workf[INNR_CRWN_TX_Y2] & 0xFF, 0x20, 0x40));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (s16)this->workf[INNR_CRWN_TX_X1] & 0x7F,
+                                          (s16)this->workf[INNR_CRWN_TX_Y1] & 0x7F, 0x20, 0x20, 1,
+                                          (s16)this->workf[INNR_CRWN_TX_X2] & 0x7F,
+                                          (s16)this->workf[INNR_CRWN_TX_Y2] & 0xFF, 0x20, 0x40, 0, 0, 0,
+                                          this->actor.params == 0 ? 0 : -10));
         }
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -3624,7 +3629,7 @@ s32 BossTw_TwinrovaOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList,
     switch (limbIndex) {
         case 21:
             gSPSegment(POLY_OPA_DISP++, 0xC,
-                       Gfx_TexScroll(play->state.gfxCtx, 0, (s16)(f32)this->work[CS_TIMER_1], 8, 8));
+                       Gfx_TexScrollEx(play->state.gfxCtx, 0, (s16)(f32)this->work[CS_TIMER_1], 8, 8, 0, 1));
             gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_8094A9B0[this->eyeTexIdx]));
             gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(D_8094A9B0[this->leftEyeTexIdx]));
             gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, this->work[UNK_S8]);
@@ -3633,27 +3638,28 @@ s32 BossTw_TwinrovaOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList,
         case 41:
             *dList = NULL;
             gSPSegment(POLY_XLU_DISP++, 0xA,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, -this->work[CS_TIMER_1] * 0xF,
-                                        0x20, 0x40));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, -this->work[CS_TIMER_1] * 0xF,
+                                          0x20, 0x40, 0, 0, 0, -0xF));
             break;
         case 18:
         case 42:
             *dList = NULL;
             gSPSegment(POLY_XLU_DISP++, 0xB,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, -this->work[CS_TIMER_1] * 0xA,
-                                        0x20, 0x40));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, -this->work[CS_TIMER_1] * 0xA,
+                                          0x20, 0x40, 0, 0, 0, -0xA));
             break;
         case 16:
         case 32:
             *dList = NULL;
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, this->work[CS_TIMER_1],
-                                        -this->work[CS_TIMER_1] * 7, 0x20, 0x40));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, this->work[CS_TIMER_1],
+                                          -this->work[CS_TIMER_1] * 7, 0x20, 0x40, 0, 0, 1, -7));
             break;
         case 15:
         case 31:
             *dList = NULL;
-            gSPSegment(POLY_XLU_DISP++, 9, Gfx_TexScroll(play->state.gfxCtx, 0, this->work[CS_TIMER_1], 0x20, 0x40));
+            gSPSegment(POLY_XLU_DISP++, 9,
+                       Gfx_TexScrollEx(play->state.gfxCtx, 0, this->work[CS_TIMER_1], 0x20, 0x40, 0, 1));
             break;
         case 19:
             if (this->unk_5F8 != 0) {
@@ -3764,16 +3770,18 @@ void BossTw_ShieldChargeDraw(BossTw* this, PlayState* play) {
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 245, 255, temp_a0);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaMirrorShieldFireChargeSidesDL));
                 gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, (this->work[CS_TIMER_1] * 2) * temp_t0, 0, 0x20,
-                                            0x20, 1, (-this->work[CS_TIMER_1] * 2) * temp_t0, 0, 0x20, 0x20));
+                           Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (this->work[CS_TIMER_1] * 2) * temp_t0, 0, 0x20,
+                                              0x20, 1, (-this->work[CS_TIMER_1] * 2) * temp_t0, 0, 0x20, 0x20, 0,
+                                              2 * temp_t0, -2 * temp_t0, 0));
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 20, 0, (s16)D_8094C854);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaMirrorShieldFireChargeCenterDL));
             } else {
                 gDPSetEnvColor(POLY_XLU_DISP++, 225, 255, 255, temp_a0);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaMirrorShieldIceChargeSidesDL));
                 gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (-this->work[CS_TIMER_1] * 5) * temp_t0, 0x20,
-                                            0x40, 1, (this->work[CS_TIMER_1] * 4) * temp_t0, 0, 0x20, 0x20));
+                           Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, (-this->work[CS_TIMER_1] * 5) * temp_t0, 0x20,
+                                              0x40, 1, (this->work[CS_TIMER_1] * 4) * temp_t0, 0, 0x20, 0x200, 0,
+                                              -5 * temp_t0, 4 * temp_t0, 0));
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 175, 205, 195, (s16)D_8094C854);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaMirrorShieldIceChargeCenterDL));
             }
@@ -3807,8 +3815,8 @@ void BossTw_ShieldChargeDraw(BossTw* this, PlayState* play) {
         }
 
         gSPSegment(POLY_XLU_DISP++, 8,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, this->work[CS_TIMER_1] * D_8094C872, 0x20, 0x40, 1, 0,
-                                    this->work[CS_TIMER_1] * D_8094C872, 0x20, 0x20));
+                   Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, this->work[CS_TIMER_1] * D_8094C872, 0x20, 0x40, 1, 0,
+                                      this->work[CS_TIMER_1] * D_8094C872, 0x20, 0x20, 0, D_8094C872, 0, D_8094C872));
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaShieldAbsorbAndReflectEffectDL));
     }
 
@@ -3823,9 +3831,9 @@ void BossTw_SpawnPortalDraw(BossTw* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPSegment(
-        POLY_XLU_DISP++, 8,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, -this->work[CS_TIMER_1] * 15, 0x20, 0x40, 1, 0, 0, 0x40, 0x40));
+    gSPSegment(POLY_XLU_DISP++, 8,
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, -this->work[CS_TIMER_1] * 15, 0x20, 0x40, 1, 0, 0, 0x40,
+                                  0x40, 0, -15, 0, 0));
 
     Matrix_Push();
 
@@ -3874,16 +3882,16 @@ void func_80944C50(BossTw* this, PlayState* play) {
 
     Matrix_Pop();
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -sKoumePtr->work[CS_TIMER_1] * 2, 0, 0x20, 0x20, 1,
-                                -sKoumePtr->work[CS_TIMER_1] * 2, 0, 0x20, 0x40));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, -sKoumePtr->work[CS_TIMER_1] * 2, 0, 0x20, 0x20, 1,
+                                  -sKoumePtr->work[CS_TIMER_1] * 2, 0, 0x20, 0x40, -2, 0, -2, 0));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s16)this->workf[UNK_F18] / 2);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(play->state.gfxCtx), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaLightRaysDL));
 
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -sKoumePtr->work[CS_TIMER_1] * 5,
-                                -sKoumePtr->work[CS_TIMER_1] * 2, 0x20, 0x40, 1, 0, -sKoumePtr->work[CS_TIMER_1] * 2,
-                                0x10, 0x10));
+               Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, -sKoumePtr->work[CS_TIMER_1] * 5,
+                                  -sKoumePtr->work[CS_TIMER_1] * 2, 0x20, 0x40, 1, 0, -sKoumePtr->work[CS_TIMER_1] * 2,
+                                  0x10, 0x10, -5, -2, 0, -2));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s16)(this->workf[UNK_F18] * 0.3f));
 
     scale = this->workf[UNK_F18] / 150.0f;
@@ -4478,9 +4486,9 @@ void BossTw_BlastDraw(Actor* thisx, PlayState* play2) {
                 FrameInterpolation_RecordOpenChild("Twinrova Fire Blast", i);
 
                 gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, ((this->work[CS_TIMER_1] * 3) + (i * 10)) & 0x7F,
-                                            ((-this->work[CS_TIMER_1] * 15) + (i * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0,
-                                            0x20, 0x20));
+                           Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, ((this->work[CS_TIMER_1] * 3) + (i * 10)) & 0x7F,
+                                              ((-this->work[CS_TIMER_1] * 15) + (i * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0,
+                                              0x20, 0x20, 3, -15, 0, 0));
                 tailIdx = ((this->work[TAIL_IDX] - i) + 30) % 30;
                 Matrix_Translate(this->blastTailPos[tailIdx].x, this->blastTailPos[tailIdx].y,
                                  this->blastTailPos[tailIdx].z, MTXMODE_NEW);
@@ -4506,9 +4514,9 @@ void BossTw_BlastDraw(Actor* thisx, PlayState* play2) {
                 FrameInterpolation_RecordOpenChild("Twinrova Ice Blast", i);
 
                 gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, ((this->work[CS_TIMER_1] * 3) + (i * 0xA)) & 0x7F,
-                                            (u8)((-this->work[CS_TIMER_1] * 0xF) + (i * 50)), 0x20, 0x40, 1, 0, 0, 0x20,
-                                            0x20));
+                           Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, ((this->work[CS_TIMER_1] * 3) + (i * 0xA)) & 0x7F,
+                                              (u8)((-this->work[CS_TIMER_1] * 0xF) + (i * 50)), 0x20, 0x40, 1, 0, 0,
+                                              0x20, 0x20, 3, -0xF, 0, 0));
                 tailIdx = ((this->work[TAIL_IDX] - i) + 30) % 30;
                 Matrix_Translate(this->blastTailPos[tailIdx].x, this->blastTailPos[tailIdx].y,
                                  this->blastTailPos[tailIdx].z, MTXMODE_NEW);
@@ -4550,9 +4558,9 @@ void BossTw_DrawDeathBall(Actor* thisx, PlayState* play2) {
             FrameInterpolation_RecordOpenChild("Twinrova Death Ball 0", i);
 
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (((this->work[CS_TIMER_1] * 3) + (i * 0xA))) & 0x7F,
-                                        (u8)((-this->work[CS_TIMER_1] * 0xF) + (i * 50)), 0x20, 0x40, 1, 0, 0, 0x20,
-                                        0x20));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (((this->work[CS_TIMER_1] * 3) + (i * 0xA))) & 0x7F,
+                                          (u8)((-this->work[CS_TIMER_1] * 0xF) + (i * 50)), 0x20, 0x40, 1, 0, 0, 0x20,
+                                          0x20, 3, -0xF, 0, 0));
             tailIdx = ((this->work[TAIL_IDX] - i) + 30) % 30;
             Matrix_Translate(this->blastTailPos[tailIdx].x, this->blastTailPos[tailIdx].y,
                              this->blastTailPos[tailIdx].z, MTXMODE_NEW);
@@ -4573,9 +4581,9 @@ void BossTw_DrawDeathBall(Actor* thisx, PlayState* play2) {
             FrameInterpolation_RecordOpenChild("Twinrova Death Ball 1", i);
 
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (((this->work[CS_TIMER_1] * 3) + (i * 0xA))) & 0x7F,
-                                        (u8)((-this->work[CS_TIMER_1] * 0xF) + (i * 50)), 0x20, 0x40, 1, 0, 0, 0x20,
-                                        0x20));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (((this->work[CS_TIMER_1] * 3) + (i * 0xA))) & 0x7F,
+                                          (u8)((-this->work[CS_TIMER_1] * 0xF) + (i * 50)), 0x20, 0x40, 1, 0, 0, 0x20,
+                                          0x20, 3, -0xF, 0, 0));
             tailIdx = ((this->work[TAIL_IDX] - i) + 30) % 30;
             Matrix_Translate(this->blastTailPos[tailIdx].x, this->blastTailPos[tailIdx].y,
                              this->blastTailPos[tailIdx].z, MTXMODE_NEW);
@@ -4986,8 +4994,9 @@ void BossTw_DrawEffects(PlayState* play) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, currentEffect->alpha);
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (currentEffect->frame * 3) & 0x7F,
-                                        (currentEffect->frame * 15) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (currentEffect->frame * 3) & 0x7F,
+                                          (currentEffect->frame * 15) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20, 3, 15, 0,
+                                          0));
             Matrix_Translate(currentEffect->pos.x, currentEffect->pos.y, currentEffect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(currentEffect->workf[EFF_SCALE], currentEffect->workf[EFF_SCALE], 1.0f, MTXMODE_APPLY);
@@ -5014,8 +5023,9 @@ void BossTw_DrawEffects(PlayState* play) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, currentEffect->alpha);
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (currentEffect->frame * 3) & 0x7F,
-                                        (currentEffect->frame * 15) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (currentEffect->frame * 3) & 0x7F,
+                                          (currentEffect->frame * 15) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20, 3, 15, 0,
+                                          0));
             Matrix_Translate(currentEffect->pos.x, currentEffect->pos.y, currentEffect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(currentEffect->workf[EFF_SCALE], currentEffect->workf[EFF_SCALE], 1.0f, MTXMODE_APPLY);
@@ -5040,9 +5050,9 @@ void BossTw_DrawEffects(PlayState* play) {
             }
 
             gSPSegment(POLY_XLU_DISP++, 0xD,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, currentEffect->frame & 0x7F,
-                                        (currentEffect->frame * 8) & 0xFF, 0x20, 0x40, 1,
-                                        (currentEffect->frame * -2) & 0x7F, 0, 0x10, 0x10));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, currentEffect->frame & 0x7F,
+                                          (currentEffect->frame * 8) & 0xFF, 0x20, 0x40, 1,
+                                          (currentEffect->frame * -2) & 0x7F, 0, 0x10, 0x10, 1, 8, -2, 0));
 
             if (currentEffect->work[EFF_ARGS] == 1) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 65, 0, currentEffect->alpha);
@@ -5089,8 +5099,9 @@ void BossTw_DrawEffects(PlayState* play) {
             if (sp18F == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaIceSurroundingPlayerMaterialDL));
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, 255);
-                gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+                gSPSegment(
+                    POLY_XLU_DISP++, 8,
+                    Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, 0, 0x20, 0x20, 0, 0, 0, 0));
                 sp18F++;
                 BossTw_InitRand(1, 0x71AC, 0x263A);
             }
@@ -5142,8 +5153,9 @@ void BossTw_DrawEffects(PlayState* play) {
             }
 
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (currentEffect->frame * 3) & 0x7F,
-                                        (-currentEffect->frame * 15) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+                       Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, (currentEffect->frame * 3) & 0x7F,
+                                          (-currentEffect->frame * 15) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20, 3, -15,
+                                          0, 0));
             Matrix_Translate(currentEffect->pos.x, currentEffect->pos.y, currentEffect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(currentEffect->workf[EFF_SCALE], currentEffect->workf[EFF_SCALE], 1.0f, MTXMODE_APPLY);

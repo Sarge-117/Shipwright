@@ -25,9 +25,6 @@ extern "C" {
 #include "functions.h"
 #include "macros.h"
 extern PlayState* gPlayState;
-
-#include "textures/icon_item_static/icon_item_static.h"
-#include "textures/icon_item_24_static/icon_item_24_static.h"
 }
 
 void DrawEquip(ItemTrackerItem item);
@@ -298,7 +295,7 @@ std::map<uint16_t, std::string> itemTrackerBeanShortNames = {
     { RG_GERUDO_VALLEY_BEAN_SOUL, "GV" },
     { RG_GRAVEYARD_BEAN_SOUL, "GY" },
     { RG_KOKIRI_FOREST_BEAN_SOUL, "KF" },
-    { RG_LAKE_HYLIA_BEAN_SOUL, "LA" },
+    { RG_LAKE_HYLIA_BEAN_SOUL, "LH" },
     { RG_LOST_WOODS_BRIDGE_BEAN_SOUL, "LWB" },
     { RG_LOST_WOODS_BEAN_SOUL, "LWT" },
     { RG_ZORAS_RIVER_BEAN_SOUL, "ZR" },
@@ -862,7 +859,7 @@ void DrawItem(ItemTrackerItem item) {
         case ITEM_BRACELET:
         case ITEM_GAUNTLETS_SILVER:
         case ITEM_GAUNTLETS_GOLD:
-            actualItemId = CUR_UPG_VALUE(UPG_STRENGTH) == 3   ? ITEM_GAUNTLETS_GOLD
+            actualItemId = CUR_UPG_VALUE(UPG_STRENGTH) >= 3   ? ITEM_GAUNTLETS_GOLD
                            : CUR_UPG_VALUE(UPG_STRENGTH) == 2 ? ITEM_GAUNTLETS_SILVER
                                                               : ITEM_BRACELET;
             hasItem = CUR_UPG_VALUE(UPG_STRENGTH) > 0;
@@ -2380,14 +2377,6 @@ void RegisterItemTrackerWidgets() {
                      .LabelPosition(LabelPositions::Far)
                      .Color(THEME_COLOR)
                      .ComboMap(displayTypes))
-        .PreFunc([&](WidgetInfo& info) {
-            if (CVarGetInteger(CVAR_TRACKER_ITEM("WindowType"), TRACKER_WINDOW_FLOATING) == TRACKER_WINDOW_FLOATING &&
-                CVarGetInteger(CVAR_TRACKER_ITEM("DisplayType.Main"), TRACKER_DISPLAY_ALWAYS) ==
-                    TRACKER_DISPLAY_COMBO_BUTTON) {
-                info.options.get()->disabled = true;
-                info.options.get()->disabledTooltip = notesDisabledTooltip;
-            }
-        })
         .Callback([](WidgetInfo& info) { shouldUpdateVectors = true; });
     ;
     SohGui::mSohMenu->AddSearchWidget({ personalNotesWiget, "Randomizer", "Item Tracker", "General Settings" });

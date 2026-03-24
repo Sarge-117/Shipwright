@@ -70,7 +70,7 @@ void RegionTable_Init_KokiriForest() {
     }, {
         //Exits
         ENTRANCE(RR_KF_BOULDER_LOOP,       logic->CanUse(RG_CRAWL)),
-        ENTRANCE(RR_KF_LINKS_PORCH,        logic->HasItem(RG_CLIMB) || logic->CanUse(RG_HOVER_BOOTS)),
+        ENTRANCE(RR_KF_LINKS_PORCH,        logic->IsChild ? logic->CanClimbLadder() : logic->HasItem(RG_CLIMB) || logic->CanUse(RG_HOVER_BOOTS)),
         ENTRANCE(RR_KF_MIDOS_HOUSE,        true),
         ENTRANCE(RR_KF_SARIAS_HOUSE,       true),
         ENTRANCE(RR_KF_HOUSE_OF_TWINS,     true),
@@ -123,7 +123,7 @@ void RegionTable_Init_KokiriForest() {
     areaTable[RR_KF_LINKS_HOUSE] = Region("KF Link's House", SCENE_LINKS_HOUSE, {}, {
         //Locations
         LOCATION(RC_KF_LINKS_HOUSE_COW, logic->IsAdult && logic->CanUse(RG_EPONAS_SONG) && logic->Get(LOGIC_LINKS_COW)),
-        LOCATION(RC_KF_LINKS_HOUSE_POT, logic->CanBreakPots()),
+        LOCATION(RC_KF_LINKS_HOUSE_POT, logic->HasItem(RG_POWER_BRACELET)), // TODO: CanBreakPots() restricted
     }, {
         //Exits
         ENTRANCE(RR_KF_LINKS_PORCH, true),
@@ -153,8 +153,8 @@ void RegionTable_Init_KokiriForest() {
 
     areaTable[RR_KF_HOUSE_OF_TWINS] = Region("KF House of Twins", SCENE_TWINS_HOUSE, {}, {
         //Locations
-        LOCATION(RC_KF_TWINS_HOUSE_POT_1, logic->CanBreakPots()),
-        LOCATION(RC_KF_TWINS_HOUSE_POT_2, logic->CanBreakPots()),
+        LOCATION(RC_KF_TWINS_HOUSE_POT_1, logic->HasItem(RG_POWER_BRACELET)), // TODO: CanBreakPots() restricted
+        LOCATION(RC_KF_TWINS_HOUSE_POT_2, logic->HasItem(RG_POWER_BRACELET)), // TODO: CanBreakPots() restricted
     }, {
         //Exits
         ENTRANCE(RR_KOKIRI_FOREST, true),
@@ -162,8 +162,8 @@ void RegionTable_Init_KokiriForest() {
 
     areaTable[RR_KF_KNOW_IT_ALL_HOUSE] = Region("KF Know It All House", SCENE_KNOW_IT_ALL_BROS_HOUSE, {}, {
         // Locations
-        LOCATION(RC_KF_BROTHERS_HOUSE_POT_1, logic->CanBreakPots()),
-        LOCATION(RC_KF_BROTHERS_HOUSE_POT_2, logic->CanBreakPots()),
+        LOCATION(RC_KF_BROTHERS_HOUSE_POT_1, logic->HasItem(RG_POWER_BRACELET)), // TODO: CanBreakPots() restricted
+        LOCATION(RC_KF_BROTHERS_HOUSE_POT_2, logic->HasItem(RG_POWER_BRACELET)), // TODO: CanBreakPots() restricted
     }, {
         //Exits
         ENTRANCE(RR_KOKIRI_FOREST, true),
