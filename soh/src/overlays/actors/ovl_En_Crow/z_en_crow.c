@@ -131,7 +131,7 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
     if (play->sceneNum == SCENE_LON_LON_RANCH || play->sceneNum == SCENE_LAKE_HYLIA || play->sceneNum == SCENE_DESERT_COLOSSUS) {
         if (rnd < (0.05 * CVarGetInteger(CVAR_SETTING("KeeseSanityIntensity"), 0))) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, 0, 0, 2, false);
+                        this->actor.world.pos.z, 0, 0, 0, 2);
         }
     }
 }
