@@ -48,6 +48,8 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         return;
     }
 
+    std::string message = "";
+
     uint32_t clientId = payload.at("clientId").get<uint32_t>();
     AnchorClient& client = clients[clientId];
     u16 modId = payload.at("modId").get<u16>();
@@ -89,17 +91,24 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
     }
 
     if (getItemEntry.getItemCategory != ITEM_CATEGORY_JUNK) {
+
+        if (getItemEntry.itemId >= ITEM_SONG_LULLABY && getItemEntry.itemId <= ITEM_SONG_PRELUDE) {
+            message = "learned";
+        } else {
+            message = "found";
+        }
+
         if (getItemEntry.modIndex == MOD_NONE) {
             Notification::Emit({
                 .itemIcon = GetTextureForItemId(getItemEntry.itemId),
                 .prefix = client.name,
-                .message = "found",
+                .message = message,
                 .suffix = SohUtils::GetItemName(getItemEntry.itemId),
             });
         } else if (getItemEntry.modIndex == MOD_RANDOMIZER) {
             Notification::Emit({
                 .prefix = client.name,
-                .message = "found",
+                .message = message,
                 .suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english,
             });
         }
