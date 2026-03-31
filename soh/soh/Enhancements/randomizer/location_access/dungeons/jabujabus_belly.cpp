@@ -317,7 +317,7 @@ void RegionTable_Init_JabuJabusBelly() {
 
     areaTable[RR_JABU_JABUS_BELLY_MQ_HOLES_ROOM] = Region("Jabu Jabus Belly MQ Holes Room", SCENE_JABU_JABU, {
         //Events
-        EVENT_ACCESS(LOGIC_JABU_MQ_FORKED_ROOM_DOOR, (logic->HasExplosives() || ctx->GetTrickOption(RT_DISTANT_BOULDER_COLLISION)) && logic->CanUse(RG_FAIRY_SLINGSHOT)),
+        EVENT_ACCESS(LOGIC_JABU_MQ_FORKED_ROOM_DOOR, (logic->HasExplosives() || ctx->GetTrickOption(RT_BOULDER_COLLISION)) && logic->CanUse(RG_FAIRY_SLINGSHOT)),
     }, {
         //Locations
         LOCATION(RC_JABU_JABUS_BELLY_MQ_PIT_GRASS_1, logic->CanCutShrubs() && logic->HasExplosives()),
@@ -329,7 +329,10 @@ void RegionTable_Init_JabuJabusBelly() {
         ENTRANCE(RR_JABU_JABUS_BELLY_MQ_HOLES_ROOM_PAST_JIGGLY, logic->CanUse(RG_BOOMERANG)),
     });
 
-    areaTable[RR_JABU_JABUS_BELLY_MQ_HOLES_ROOM_PAST_JIGGLY] = Region("Jabu Jabus Belly MQ Holes Room Past Jiggly", SCENE_JABU_JABU, {}, {}, {
+    areaTable[RR_JABU_JABUS_BELLY_MQ_HOLES_ROOM_PAST_JIGGLY] = Region("Jabu Jabus Belly MQ Holes Room Past Jiggly", SCENE_JABU_JABU, {
+        //Events
+        EVENT_ACCESS(LOGIC_JABU_MQ_FORKED_ROOM_DOOR, ctx->GetTrickOption(RT_BOULDER_COLLISION) && logic->CanUse(RG_FAIRY_SLINGSHOT)),
+    }, {}, {
         ENTRANCE(RR_JABU_JABUS_BELLY_MQ_HOLES_ROOM,      logic->CanUse(RG_BOOMERANG)),
         //It is possible to open the door here without crossing the jiggly using RT_DISTANT_BOULDER and good timing
         ENTRANCE(RR_JABU_JABUS_BELLY_MQ_FORKED_CORRIDOR, logic->Get(LOGIC_JABU_MQ_FORKED_ROOM_DOOR)),
@@ -456,7 +459,7 @@ void RegionTable_Init_JabuJabusBelly() {
         LOCATION(RC_JABU_JABUS_BELLY_MQ_GS_INVISIBLE_ENEMIES_ROOM, //firstly, we can just use FAs to clear the web and then longshot the skull
                                                                    logic->CanUse(RG_FIRE_ARROWS) && logic->CanGetEnemyDrop(RE_GOLD_SKULLTULA, ED_LONGSHOT) ||
                                                                    //Otherwise, we have to cross the gap and kill the skull.
-                                                                   ((logic->CanGetEnemyDrop(RE_GOLD_SKULLTULA, ED_BOOMERANG) || (ctx->GetTrickOption(RT_GROUND_JUMP_HARD) && logic->IsAdult && logic->CanGroundJump())) &&
+                                                                   ((logic->CanGetEnemyDrop(RE_GOLD_SKULLTULA, ED_BOOMERANG) || (logic->IsAdult && logic->CanGroundJumpslash())) &&
                                                                    //We can cheese the gap with hovers
                                                                     ((logic->CanUse(RG_HOVER_BOOTS) ||
                                                                    //Otherwise we have to kill the enemies to raise the platform. This persists so we can do it as the other age.

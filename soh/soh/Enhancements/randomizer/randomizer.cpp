@@ -9,37 +9,31 @@
 #include <textures/icon_item_static/icon_item_static.h>
 #include <textures/icon_item_24_static/icon_item_24_static.h>
 #include "3drando/rando_main.hpp"
-#include "3drando/random.hpp"
 #include "soh/ResourceManagerHelpers.h"
 #include "soh/SohGui/SohGui.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
-#include "../custom-message/CustomMessageTypes.h"
-#include "../item-tables/ItemTableManager.h"
-#include "../Presets/Presets.h"
 #include "../../../src/overlays/actors/ovl_En_GirlA/z_en_girla.h"
-#include <stdexcept>
 #include "randomizer_check_objects.h"
-#include "randomizer_check_tracker.h"
 #include <sstream>
 #include <tuple>
-#include <functional>
 #include "draw.h"
 #include "soh/OTRGlobals.h"
 #include <ship/window/FileDropMgr.h>
-#include "soh/SohGui/UIWidgets.hpp"
 #include "static_data.h"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
-#include "savefile.h"
-#include "entrance.h"
-#include "dungeon.h"
 #include "trial.h"
 #include "settings.h"
 #include "soh/util.h"
-#include "fishsanity.h"
 #include "randomizerTypes.h"
 #include "soh/Notification/Notification.h"
 #include "soh/ObjectExtension/ObjectExtension.h"
+
+extern "C" {
+#include "src/overlays/actors/ovl_Obj_Bean/z_obj_bean.h"
+
+extern void func_80B8FE00(ObjBean*); // trigger planting
+}
 
 static ObjectExtension::Register<CheckIdentity> RegisterIdentity;
 
@@ -52,8 +46,6 @@ std::unordered_map<std::string, RandomizerCheckArea> SpoilerfileAreaNameToEnum;
 std::unordered_map<std::string, HintType> SpoilerfileHintTypeNameToEnum;
 std::set<RandomizerCheck> excludedLocations;
 std::set<RandomizerCheck> spoilerExcludedLocations;
-std::set<RandomizerTrick> enabledTricks;
-std::set<RandomizerTrick> enabledGlitches;
 
 u8 generated;
 char* seedString;
@@ -120,7 +112,7 @@ std::unordered_map<std::string, SceneID> spoilerFileDungeonToScene = {
 };
 
 // used for items that only set a rand inf when obtained
-std::map<RandomizerGet, RandomizerInf> randomizerGetToRandInf = {
+std::unordered_map<RandomizerGet, RandomizerInf> randomizerGetToRandInf = {
     { RG_FISHING_POLE, RAND_INF_FISHING_POLE_FOUND },
     { RG_BRONZE_SCALE, RAND_INF_CAN_SWIM },
     { RG_POWER_BRACELET, RAND_INF_CAN_GRAB },
@@ -430,7 +422,7 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
             return OTRGlobals::Instance->gRandoContext->GetOption(RSK_BOMBCHU_BAG).Is(RO_BOMBCHU_BAG_NONE)
                        ? CAN_OBTAIN
                        : (INV_CONTENT(ITEM_BOMBCHU) != ITEM_NONE ? CAN_OBTAIN : CANT_OBTAIN_NEED_UPGRADE);
-        case RG_PROGRESSIVE_BOMBCHU_BAG: // RANDOTODO Do we want bombchu refills to exist separatly from bombchu bags?
+        case RG_PROGRESSIVE_BOMBCHU_BAG: // RANDOTODO Do we want bombchu refills to exist separately from bombchu bags?
                                          // If so, this needs changing.
             switch (OTRGlobals::Instance->gRandoContext->GetOption(RSK_BOMBCHU_BAG).Get()) {
                 case RO_BOMBCHU_BAG_NONE:
@@ -457,6 +449,8 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
                         }
                     }
             }
+            assert(false);
+            return CAN_OBTAIN;
         case RG_PROGRESSIVE_HOOKSHOT:
             switch (INV_CONTENT(ITEM_HOOKSHOT)) {
                 case ITEM_NONE:
@@ -1174,8 +1168,8 @@ std::map<RandomizerCheck, RandomizerInf> rcToRandomizerInf = {
     { RC_DEKU_TREE_LOBBY_GRASS_1, RAND_INF_DEKU_TREE_LOBBY_GRASS_1 },
     { RC_DEKU_TREE_LOBBY_GRASS_2, RAND_INF_DEKU_TREE_LOBBY_GRASS_2 },
     { RC_DEKU_TREE_LOBBY_GRASS_3, RAND_INF_DEKU_TREE_LOBBY_GRASS_3 },
-    { RC_DEKU_TREE_LOBBY_GRASS_4, RAND_INF_DEKU_TREE_LOBBY_GRASS_4 },
-    { RC_DEKU_TREE_LOBBY_GRASS_5, RAND_INF_DEKU_TREE_LOBBY_GRASS_5 },
+    { RC_DEKU_TREE_2F_GRASS_1, RAND_INF_DEKU_TREE_2F_GRASS_1 },
+    { RC_DEKU_TREE_2F_GRASS_2, RAND_INF_DEKU_TREE_2F_GRASS_2 },
     { RC_DEKU_TREE_SLINGSHOT_GRASS_1, RAND_INF_DEKU_TREE_SLINGSHOT_GRASS_1 },
     { RC_DEKU_TREE_SLINGSHOT_GRASS_2, RAND_INF_DEKU_TREE_SLINGSHOT_GRASS_2 },
     { RC_DEKU_TREE_SLINGSHOT_GRASS_3, RAND_INF_DEKU_TREE_SLINGSHOT_GRASS_3 },
@@ -1219,8 +1213,8 @@ std::map<RandomizerCheck, RandomizerInf> rcToRandomizerInf = {
     { RC_DEKU_TREE_MQ_LOBBY_GRASS_3, RAND_INF_DEKU_TREE_MQ_LOBBY_GRASS_3 },
     { RC_DEKU_TREE_MQ_LOBBY_GRASS_4, RAND_INF_DEKU_TREE_MQ_LOBBY_GRASS_4 },
     { RC_DEKU_TREE_MQ_LOBBY_GRASS_5, RAND_INF_DEKU_TREE_MQ_LOBBY_GRASS_5 },
-    { RC_DEKU_TREE_MQ_LOBBY_GRASS_6, RAND_INF_DEKU_TREE_MQ_LOBBY_GRASS_6 },
-    { RC_DEKU_TREE_MQ_LOBBY_GRASS_7, RAND_INF_DEKU_TREE_MQ_LOBBY_GRASS_7 },
+    { RC_DEKU_TREE_MQ_2F_GRASS_1, RAND_INF_DEKU_TREE_MQ_2F_GRASS_1 },
+    { RC_DEKU_TREE_MQ_2F_GRASS_2, RAND_INF_DEKU_TREE_MQ_2F_GRASS_2 },
     { RC_DEKU_TREE_MQ_SLINGSHOT_GRASS_1, RAND_INF_DEKU_TREE_MQ_SLINGSHOT_GRASS_1 },
     { RC_DEKU_TREE_MQ_SLINGSHOT_GRASS_2, RAND_INF_DEKU_TREE_MQ_SLINGSHOT_GRASS_2 },
     { RC_DEKU_TREE_MQ_SLINGSHOT_GRASS_3, RAND_INF_DEKU_TREE_MQ_SLINGSHOT_GRASS_3 },
@@ -2986,6 +2980,80 @@ std::map<RandomizerCheck, RandomizerInf> rcToRandomizerInf = {
     { RC_ZF_BUSH_4, RAND_INF_ZF_BUSH_4 },
     { RC_ZF_BUSH_5, RAND_INF_ZF_BUSH_5 },
     { RC_ZF_BUSH_6, RAND_INF_ZF_BUSH_6 },
+    { RC_KF_DEKU_TREE_RECTANGLE_SIGN, RAND_INF_KF_DEKU_TREE_RECTANGLE_SIGN },
+    { RC_KF_STEPPING_STONES_RECTANGLE_SIGN, RAND_INF_KF_STEPPING_STONES_RECTANGLE_SIGN },
+    { RC_KF_LINKS_HOUSE_RECTANGLE_SIGN, RAND_INF_KF_LINKS_HOUSE_RECTANGLE_SIGN },
+    { RC_KF_FIRST_TRAINING_CENTER_RECTANGLE_SIGN, RAND_INF_KF_FIRST_TRAINING_CENTER_RECTANGLE_SIGN },
+    { RC_KF_SECOND_TRAINING_CENTER_RECTANGLE_SIGN, RAND_INF_KF_SECOND_TRAINING_CENTER_RECTANGLE_SIGN },
+    { RC_KF_AFTER_CRAWLSPACE_RECTANGLE_SIGN, RAND_INF_KF_AFTER_CRAWLSPACE_RECTANGLE_SIGN },
+    { RC_KF_CRAWL_RECTANGLE_RECTANGLE_SIGN, RAND_INF_KF_CRAWL_RECTANGLE_RECTANGLE_SIGN },
+    { RC_KF_LOST_WOODS_RECTANGLE_SIGN, RAND_INF_KF_LOST_WOODS_RECTANGLE_SIGN },
+    { RC_KF_HOUSE_OF_TWINS_ARROW_SIGN, RAND_INF_KF_HOUSE_OF_TWINS_ARROW_SIGN },
+    { RC_KF_SHOP_ARROW_SIGN, RAND_INF_KF_SHOP_ARROW_SIGN },
+    { RC_KF_SARIAS_HOUSE_ARROW_SIGN, RAND_INF_KF_SARIAS_HOUSE_ARROW_SIGN },
+    { RC_KF_LOST_WOODS_ARROW_SIGN, RAND_INF_KF_LOST_WOODS_ARROW_SIGN },
+    { RC_KF_MIDOS_HOUSE_ARROW_SIGN, RAND_INF_KF_MIDOS_HOUSE_ARROW_SIGN },
+    { RC_KF_TRAINING_CENTER_ENTRANCE_ARROW_SIGN, RAND_INF_KF_TRAINING_CENTER_ENTRANCE_ARROW_SIGN },
+    { RC_KF_INNER_TRAINING_CENTER_ARROW_SIGN, RAND_INF_KF_INNER_TRAINING_CENTER_ARROW_SIGN },
+    { RC_KF_KNOW_IT_ALL_BROTHERS_HOUSE_ARROW_SIGN, RAND_INF_KF_KNOW_IT_ALL_BROTHERS_HOUSE_ARROW_SIGN },
+    { RC_KF_LINKS_HOUSE_SIGN, RAND_INF_KF_LINKS_HOUSE_SIGN },
+    { RC_LW_THEATER_RECTANGLE_SIGN, RAND_INF_LW_THEATER_RECTANGLE_SIGN },
+    { RC_HF_CASTLE_EXIT_ARROW_SIGN, RAND_INF_HF_CASTLE_EXIT_ARROW_SIGN },
+    { RC_HF_WOODED_EXIT_ARROW_SIGN, RAND_INF_HF_WOODED_EXIT_ARROW_SIGN },
+    { RC_HF_ROCKY_PATH_EXIT_ARROW_SIGN, RAND_INF_HF_ROCKY_PATH_EXIT_ARROW_SIGN },
+    { RC_HF_FENCED_ARROW_SIGN, RAND_INF_HF_FENCED_ARROW_SIGN },
+    { RC_HF_CENTER_EXIT_ARROW_SIGN, RAND_INF_HF_CENTER_EXIT_ARROW_SIGN },
+    { RC_HF_RIVER_EXIT_ARROW_SIGN, RAND_INF_HF_RIVER_EXIT_ARROW_SIGN },
+    { RC_HF_STAIRS_EXIT_ARROW_SIGN, RAND_INF_HF_STAIRS_EXIT_ARROW_SIGN },
+    { RC_MK_SHOOTING_GALLERY_RECTANGLE_SIGN, RAND_INF_MK_SHOOTING_GALLERY_RECTANGLE_SIGN },
+    { RC_MK_MASK_SHOP_SIGN, RAND_INF_MK_MASK_SHOP_SIGN },
+    { RC_TOT_ALTAR, RAND_INF_TOT_ALTAR },
+    { RC_HC_DEAD_END_RECTANGLE_SIGN, RAND_INF_HC_DEAD_END_RECTANGLE_SIGN },
+    { RC_KAK_GUARD_GATE_RECTANGLE_SIGN, RAND_INF_KAK_GUARD_GATE_RECTANGLE_SIGN },
+    { RC_KAK_WELL_RECTANGLE_SIGN, RAND_INF_KAK_WELL_RECTANGLE_SIGN },
+    { RC_KAK_SOUTHEAST_EXIT_ARROW_SIGN, RAND_INF_KAK_SOUTHEAST_EXIT_ARROW_SIGN },
+    { RC_KAK_FRONT_GATE_ARROW_SIGN, RAND_INF_KAK_FRONT_GATE_ARROW_SIGN },
+    { RC_KAK_SHOOTING_GALLERY_RECTANGLE_SIGN, RAND_INF_KAK_SHOOTING_GALLERY_RECTANGLE_SIGN },
+    { RC_GY_ENTRANCE_RECTANGLE_SIGN, RAND_INF_GY_ENTRANCE_RECTANGLE_SIGN },
+    { RC_GY_ENTRANCE_PLINTH, RAND_INF_GY_ENTRANCE_PLINTH },
+    { RC_GY_RIGHT_OF_ROYAL_TOMB_GRAVE, RAND_INF_GY_RIGHT_OF_ROYAL_TOMB_GRAVE },
+    { RC_GY_LEFT_OF_ROYAL_TOMB_GRAVE, RAND_INF_GY_LEFT_OF_ROYAL_TOMB_GRAVE },
+    { RC_GY_ROYAL_TOMB_GRAVE, RAND_INF_GY_ROYAL_TOMB_GRAVE },
+    { RC_DMT_ABOVE_DODONGO_RECTANGLE_SIGN, RAND_INF_DMT_ABOVE_DODONGO_RECTANGLE_SIGN },
+    { RC_DMT_ADULT_CENTER_EXIT_ARROW_SIGN, RAND_INF_DMT_ADULT_CENTER_EXIT_ARROW_SIGN },
+    { RC_DMT_CHILD_CENTER_EXIT_RECTANGLE_SIGN, RAND_INF_DMT_CHILD_CENTER_EXIT_RECTANGLE_SIGN },
+    { RC_DMT_DODONGOS_CAVERN_RECTANGLE_SIGN, RAND_INF_DMT_DODONGOS_CAVERN_RECTANGLE_SIGN },
+    { RC_DMT_CENTER_TRAIL_RECTANGLE_SIGN, RAND_INF_DMT_CENTER_TRAIL_RECTANGLE_SIGN },
+    { RC_DMT_TO_UPPER_TRAIL_ARROW_SIGN, RAND_INF_DMT_TO_UPPER_TRAIL_ARROW_SIGN },
+    { RC_DMT_UPPER_EXIT_ARROW_SIGN, RAND_INF_DMT_UPPER_EXIT_ARROW_SIGN },
+    { RC_DMT_TO_CENTER_EXIT_ARROW_SIGN, RAND_INF_DMT_TO_CENTER_EXIT_ARROW_SIGN },
+    { RC_DMT_LOWER_EXIT_ARROW_SIGN, RAND_INF_DMT_LOWER_EXIT_ARROW_SIGN },
+    { RC_GC_CHILD_ROLLING_GORON_RECTANGLE_SIGN, RAND_INF_GC_CHILD_ROLLING_GORON_RECTANGLE_SIGN },
+    { RC_DMC_BRIDGE_EXIT_ARROW_SIGN, RAND_INF_DMC_BRIDGE_EXIT_ARROW_SIGN },
+    { RC_ZR_SLEEPLESS_WATERFALL_PLAQUE, RAND_INF_ZR_SLEEPLESS_WATERFALL_PLAQUE },
+    { RC_ZD_SHOP_RECTANGLE_SIGN, RAND_INF_ZD_SHOP_RECTANGLE_SIGN },
+    { RC_ZD_ENTRANCE_RECTANGLE_SIGN, RAND_INF_ZD_ENTRANCE_RECTANGLE_SIGN },
+    { RC_ZD_KING_ZORA_PATH_ARROW_SIGN, RAND_INF_ZD_KING_ZORA_PATH_ARROW_SIGN },
+    { RC_ZD_NEAR_KING_ZORA_RECTANGLE_SIGN, RAND_INF_ZD_NEAR_KING_ZORA_RECTANGLE_SIGN },
+    { RC_ZD_NEAR_KING_ZORA_ARROW_SIGN, RAND_INF_ZD_NEAR_KING_ZORA_ARROW_SIGN },
+    { RC_ZF_JABU_JABU_PLATFORM_RECTANGLE_SIGN, RAND_INF_ZF_JABU_JABU_PLATFORM_RECTANGLE_SIGN },
+    { RC_ZF_ENTRANCE_ARROW_SIGN, RAND_INF_ZF_ENTRANCE_ARROW_SIGN },
+    { RC_LH_LAB_RECTANGLE_SIGN, RAND_INF_LH_LAB_RECTANGLE_SIGN },
+    { RC_LH_NORTH_EXIT_ARROW_SIGN, RAND_INF_LH_NORTH_EXIT_ARROW_SIGN },
+    { RC_LH_FISHING_SIGN, RAND_INF_LH_FISHING_SIGN },
+    { RC_LH_ISLAND_PEDESTAL, RAND_INF_LH_ISLAND_PEDESTAL },
+    { RC_LH_FISHING_POND_RECTANGLE_SIGN, RAND_INF_LH_FISHING_POND_RECTANGLE_SIGN },
+    { RC_GV_BRIDGE_RECTANGLE_SIGN, RAND_INF_GV_BRIDGE_RECTANGLE_SIGN },
+    { RC_GV_EAST_EXIT_ARROW_SIGN, RAND_INF_GV_EAST_EXIT_ARROW_SIGN },
+    { RC_GF_EAST_EXIT_ARROW_SIGN, RAND_INF_GF_EAST_EXIT_ARROW_SIGN },
+    { RC_GF_HBA_RECTANGLE_SIGN, RAND_INF_GF_HBA_RECTANGLE_SIGN },
+    { RC_GF_GATE_EXIT_RECTANGLE_SIGN, RAND_INF_GF_GATE_EXIT_RECTANGLE_SIGN },
+    { RC_GF_GTG_ENTRANCE_RECTANGLE_SIGN, RAND_INF_GF_GTG_ENTRANCE_RECTANGLE_SIGN },
+    { RC_HW_CARPET_SALESMAN_ARROW_SIGN, RAND_INF_HW_CARPET_SALESMAN_ARROW_SIGN },
+    { RC_HW_POE_ALTAR, RAND_INF_HW_POE_ALTAR },
+    { RC_DODONGOS_CAVERN_TOP_FLOOR_PEDESTAL, RAND_INF_DODONGOS_CAVERN_TOP_FLOOR_PEDESTAL },
+    { RC_SHADOW_TEMPLE_TRUTHSPINNER_RECTANGLE_SIGN, RAND_INF_SHADOW_TEMPLE_TRUTHSPINNER_RECTANGLE_SIGN },
+    { RC_SHADOW_TEMPLE_MQ_LOWER_PIT_RECTANGLE_SIGN, RAND_INF_SHADOW_TEMPLE_MQ_LOWER_PIT_RECTANGLE_SIGN },
 };
 
 CheckIdentity Randomizer::IdentifyBeehive(s32 sceneNum, s16 xPosition, s32 respawnData) {
@@ -3125,6 +3193,16 @@ Rando::Location* Randomizer::GetCheckObjectFromActor(s16 actorId, s16 sceneNum, 
             // special case for MQ DC Gossip Stone
             if (actorId == ACTOR_EN_GS && actorParams == 15892 && ResourceMgr_IsGameMasterQuest()) {
                 specialRc = RC_DODONGOS_CAVERN_GOSSIP_STONE;
+            }
+            break;
+        case SCENE_SHOOTING_GALLERY:
+            // special case for shooting gallery sign
+            if (actorId == ACTOR_EN_KANBAN) {
+                if (LINK_IS_ADULT) {
+                    specialRc = RC_KAK_SHOOTING_GALLERY_RECTANGLE_SIGN;
+                } else {
+                    specialRc = RC_MK_SHOOTING_GALLERY_RECTANGLE_SIGN;
+                }
             }
             break;
     }
@@ -3430,6 +3508,65 @@ CheckIdentity Randomizer::IdentifyTree(s32 sceneNum, s32 posX, s32 posZ) {
     return treeIdentity;
 }
 
+CheckIdentity Randomizer::IdentifySign(s32 sceneNum, s32 posX, s32 posZ, s32 id) {
+    struct CheckIdentity signIdentity;
+    uint32_t signSceneNum = sceneNum;
+    Rando::Location* location = nullptr;
+
+    // align child/adult signs
+    if (sceneNum == SCENE_KAKARIKO_VILLAGE && LINK_IS_ADULT && posX == 1165 && posZ == 1545) {
+        posZ = 1550;
+    } else if (sceneNum == SCENE_GRAVEYARD && LINK_IS_ADULT) {
+        if (id == ACTOR_EN_WONDER_TALK2 && posX == -807 && posZ == 266) {
+            posX = -805;
+        } else if (id == ACTOR_EN_WONDER_TALK) {
+            if (posX == 634 && posZ == 260) {
+                posX = 654;
+                posZ = 258;
+            } else if (posX == 634 && posZ == -100) {
+                posX = 654;
+                posZ = -102;
+            } else if (posX == 753 && posZ == 85) {
+                posX = 752;
+            }
+        }
+    } else if (sceneNum == SCENE_ZORAS_RIVER && LINK_IS_ADULT && posX == 4097 && posZ == -1399) {
+        posX = 4096;
+        posZ = -1401;
+    }
+
+    signIdentity.randomizerInf = RAND_INF_MAX;
+    signIdentity.randomizerCheck = RC_UNKNOWN_CHECK;
+
+    s32 actorParams = TWO_ACTOR_PARAMS(posX, posZ);
+
+    switch (id) {
+        case ACTOR_EN_KANBAN:
+            location = GetCheckObjectFromActor(ACTOR_EN_KANBAN, signSceneNum, actorParams);
+            break;
+        case ACTOR_EN_A_OBJ:
+            location = GetCheckObjectFromActor(ACTOR_EN_A_OBJ, signSceneNum, actorParams);
+            break;
+        case ACTOR_EN_WONDER_TALK2:
+            location = GetCheckObjectFromActor(ACTOR_EN_WONDER_TALK2, signSceneNum, actorParams);
+            break;
+        case ACTOR_EN_WONDER_TALK:
+            location = GetCheckObjectFromActor(ACTOR_EN_WONDER_TALK, signSceneNum, actorParams);
+            break;
+        default:
+            return signIdentity;
+    }
+
+    if (location == nullptr || location->GetRandomizerCheck() == RC_UNKNOWN_CHECK) {
+        LUSLOG_WARN("IdentifySign did not receive a valid RC value (%d).", location->GetRandomizerCheck());
+    } else {
+        signIdentity.randomizerInf = rcToRandomizerInf[location->GetRandomizerCheck()];
+        signIdentity.randomizerCheck = location->GetRandomizerCheck();
+    }
+
+    return signIdentity;
+}
+
 u8 Randomizer::GetRandoSettingValue(RandomizerSettingKey randoSettingKey) {
     return Rando::Context::GetInstance()->GetOption(randoSettingKey).Get();
 }
@@ -3469,7 +3606,7 @@ void GenerateRandomizerImgui(std::string seed = "") {
     // RANDOTODO proper UI for selecting if a spoiler loaded should be used for settings
     Rando::Settings::GetInstance()->SetAllToContext();
 
-    // todo: this efficently when we build out cvar array support
+    // todo: this efficiently when we build out cvar array support
     std::set<RandomizerCheck> excludedLocations;
     std::stringstream excludedLocationStringStream(CVarGetString(CVAR_RANDOMIZER_SETTING("ExcludedLocations"), ""));
     std::string excludedLocationString;
@@ -3483,7 +3620,9 @@ void GenerateRandomizerImgui(std::string seed = "") {
     std::stringstream enabledTrickStringStream(CVarGetString(CVAR_RANDOMIZER_SETTING("EnabledTricks"), ""));
     std::string enabledTrickString;
     while (getline(enabledTrickStringStream, enabledTrickString, ',')) {
-        enabledTricks.insert((RandomizerTrick)std::stoi(enabledTrickString));
+        if (Rando::StaticData::trickToEnum.contains(enabledTrickString)) {
+            enabledTricks.insert(Rando::StaticData::trickToEnum[enabledTrickString]);
+        }
     }
 
     // Update the visibilitiy before removing conflicting excludes (in case the locations tab wasn't viewed)
@@ -3873,14 +4012,47 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 AMMO(ITEM_BEAN) = 10;
                 if (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SKIP_PLANTING_BEANS)) {
                     gSaveContext.sceneFlags[SCENE_DEATH_MOUNTAIN_CRATER].swch |= (1 << 3);
+                    if (gPlayState->sceneNum == SCENE_DEATH_MOUNTAIN_CRATER) {
+                        Flags_SetSwitch(gPlayState, 3);
+                    }
                     gSaveContext.sceneFlags[SCENE_DEATH_MOUNTAIN_TRAIL].swch |= (1 << 6);
+                    if (gPlayState->sceneNum == SCENE_DEATH_MOUNTAIN_TRAIL) {
+                        Flags_SetSwitch(gPlayState, 6);
+                    }
                     gSaveContext.sceneFlags[SCENE_DESERT_COLOSSUS].swch |= (1 << 24);
+                    if (gPlayState->sceneNum == SCENE_DESERT_COLOSSUS) {
+                        Flags_SetSwitch(gPlayState, 24);
+                    }
                     gSaveContext.sceneFlags[SCENE_GERUDO_VALLEY].swch |= (1 << 3);
+                    if (gPlayState->sceneNum == SCENE_GERUDO_VALLEY) {
+                        Flags_SetSwitch(gPlayState, 3);
+                    }
                     gSaveContext.sceneFlags[SCENE_GRAVEYARD].swch |= (1 << 3);
+                    if (gPlayState->sceneNum == SCENE_GRAVEYARD) {
+                        Flags_SetSwitch(gPlayState, 3);
+                    }
                     gSaveContext.sceneFlags[SCENE_KOKIRI_FOREST].swch |= (1 << 9);
+                    if (gPlayState->sceneNum == SCENE_KOKIRI_FOREST) {
+                        Flags_SetSwitch(gPlayState, 9);
+                    }
                     gSaveContext.sceneFlags[SCENE_LAKE_HYLIA].swch |= (1 << 1);
+                    if (gPlayState->sceneNum == SCENE_LAKE_HYLIA) {
+                        Flags_SetSwitch(gPlayState, 1);
+                    }
                     gSaveContext.sceneFlags[SCENE_LOST_WOODS].swch |= (1 << 4) | (1 << 18);
+                    if (gPlayState->sceneNum == SCENE_LOST_WOODS) {
+                        Flags_SetSwitch(gPlayState, 4);
+                        Flags_SetSwitch(gPlayState, 18);
+                    }
                     gSaveContext.sceneFlags[SCENE_ZORAS_RIVER].swch |= (1 << 3);
+                    if (gPlayState->sceneNum == SCENE_ZORAS_RIVER) {
+                        Flags_SetSwitch(gPlayState, 3);
+                    }
+                    ObjBean* bean = (ObjBean*)Actor_Find(&gPlayState->actorCtx, ACTOR_OBJ_BEAN, ACTORCAT_BG);
+                    if (bean != nullptr) {
+                        Flags_SetSwitch(gPlayState, bean->dyna.actor.params & 0x3F);
+                        func_80B8FE00(bean);
+                    }
                     AMMO(ITEM_BEAN) = 0;
                 }
             }
