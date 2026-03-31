@@ -92,7 +92,9 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
 
     if (getItemEntry.getItemCategory != ITEM_CATEGORY_JUNK) {
 
-        if (getItemEntry.itemId >= ITEM_SONG_LULLABY && getItemEntry.itemId <= ITEM_SONG_PRELUDE) {
+        if ((getItemEntry.itemId >= ITEM_SONG_LULLABY && getItemEntry.itemId <= ITEM_SONG_PRELUDE) ||
+            (getItemEntry.getItemId >= 0xBB && getItemEntry.getItemId <= 0xC6) || 
+            (getItemEntry.objectId == OBJECT_GI_MELODY)){
             message = "learned";
         } else {
             message = "found";
