@@ -23,7 +23,7 @@ extern PlayState* gPlayState;
 nlohmann::json Anchor::PrepClientState() {
     nlohmann::json payload;
     payload["name"] = CVarGetString(CVAR_REMOTE_ANCHOR("Name"), "");
-    payload["color"] = CVarGetColor24(CVAR_REMOTE_ANCHOR("Color"), { 100, 255, 100 });
+    payload["color"] = CVarGetColor24(CVAR_REMOTE_ANCHOR("Color.Value"), { 100, 255, 100 });
     payload["clientVersion"] = clientVersion;
     payload["teamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
     payload["online"] = true;
@@ -33,12 +33,14 @@ nlohmann::json Anchor::PrepClientState() {
         payload["isSaveLoaded"] = true;
         payload["isGameComplete"] = gSaveContext.ship.stats.gameComplete;
         payload["sceneNum"] = gPlayState->sceneNum;
+        payload["curRoomNum"] = gPlayState->roomCtx.curRoom.num;
         payload["entranceIndex"] = gSaveContext.entranceIndex;
     } else {
         payload["seed"] = 0;
         payload["isSaveLoaded"] = false;
         payload["isGameComplete"] = false;
         payload["sceneNum"] = SCENE_ID_MAX;
+        payload["curRoomNum"] = -1;
         payload["entranceIndex"] = 0x00;
     }
 
@@ -54,7 +56,7 @@ void Anchor::SendPacket_UpdateClientState() {
 }
 
 void Anchor::HandlePacket_UpdateClientState(nlohmann::json payload) {
-    uint32_t clientId = payload["clientId"].get<uint32_t>();
+    uint32_t clientId = payload.at("clientId").get<uint32_t>();
 
     if (clients.contains(clientId)) {
         AnchorClient client = payload["state"].get<AnchorClient>();
@@ -68,6 +70,7 @@ void Anchor::HandlePacket_UpdateClientState(nlohmann::json payload) {
         clients[clientId].isSaveLoaded = client.isSaveLoaded;
         clients[clientId].isGameComplete = client.isGameComplete;
         clients[clientId].sceneNum = client.sceneNum;
+        clients[clientId].curRoomNum = client.curRoomNum;
         clients[clientId].entranceIndex = client.entranceIndex;
     }
 }
