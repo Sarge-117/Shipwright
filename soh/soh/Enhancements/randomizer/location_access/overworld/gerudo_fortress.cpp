@@ -9,8 +9,9 @@ void RegionTable_Init_GerudoFortress() {
 
     areaTable[RR_GF_OUTSKIRTS] = Region("Gerudo Fortress Outskirts", SCENE_GERUDOS_FORTRESS, {}, {
         //Locations
-        LOCATION(RC_GF_OUTSKIRTS_NE_CRATE, (logic->IsChild || logic->CanPassEnemy(RE_GERUDO_GUARD)) && logic->CanBreakCrates()),
-        LOCATION(RC_GF_OUTSKIRTS_NW_CRATE, (logic->IsChild || logic->CanPassEnemy(RE_GERUDO_GUARD)) && logic->CanBreakCrates()),
+        LOCATION(RC_GF_OUTSKIRTS_NE_CRATE,   (logic->IsChild || logic->CanPassEnemy(RE_GERUDO_GUARD)) && logic->CanBreakCrates()),
+        LOCATION(RC_GF_OUTSKIRTS_NW_CRATE,   (logic->IsChild || logic->CanPassEnemy(RE_GERUDO_GUARD)) && logic->CanBreakCrates()),
+        LOCATION(RC_GF_EAST_EXIT_ARROW_SIGN, logic->CanRead()),
     }, {
         //Exits
         ENTRANCE(RR_GV_FORTRESS_SIDE, true),
@@ -45,7 +46,10 @@ void RegionTable_Init_GerudoFortress() {
     areaTable[RR_GF_OUTSIDE_GTG] = Region("GF Outside GTG", SCENE_GERUDOS_FORTRESS, {
         //Events
         EVENT_ACCESS(LOGIC_GTG_GATE_OPEN, logic->IsAdult && logic->HasItem(RG_GERUDO_MEMBERSHIP_CARD) && logic->HasItem(RG_CHILD_WALLET) && logic->HasItem(RG_SPEAK_GERUDO)),
-    }, {}, {
+    }, {
+        //Locations
+        LOCATION(RC_GF_GTG_ENTRANCE_RECTANGLE_SIGN, logic->IsAdult && logic->CanRead()),
+    }, {
         //Exits
         ENTRANCE(RR_GF_TO_GTG,             logic->Get(LOGIC_GTG_GATE_OPEN) && (logic->IsAdult || ctx->GetOption(RSK_SHUFFLE_DUNGEON_ENTRANCES))),
         //Jail
@@ -200,9 +204,10 @@ void RegionTable_Init_GerudoFortress() {
         LOCATION(RC_GF_ABOVE_JAIL_CRATE, true),
     }, {
         //Exits
-        //you don't take fall damage if you land on the rock with the flag on for some reason
         //there's a trick to reach RR_GF_LONG_ROOF
-        ENTRANCE(RR_GF_OUTSKIRTS,           ctx->GetTrickOption(RT_UNINTUITIVE_JUMPS) || logic->TakeDamage()),
+        //For some reason, you take fall damage if you backflip onto the fortress but not onto the sand
+        //It's unintuitive to avoid being caught on landing, but that sends you to the same place anyway...
+        ENTRANCE(RR_GF_OUTSKIRTS,           true),
         ENTRANCE(RR_GF_NEAR_CHEST,          logic->CanUse(RG_LONGSHOT)),
         ENTRANCE(RR_GF_BELOW_CHEST,         logic->TakeDamage()),
         ENTRANCE(RR_GF_JAIL_WINDOW,         logic->CanUse(RG_HOOKSHOT)),
@@ -239,6 +244,7 @@ void RegionTable_Init_GerudoFortress() {
         LOCATION(RC_GF_NORTH_TARGET_CHILD_CRATE, logic->IsChild && logic->BlastOrSmash()),
         LOCATION(RC_GF_SOUTH_TARGET_EAST_CRATE,  logic->CanBreakCrates()),
         LOCATION(RC_GF_SOUTH_TARGET_WEST_CRATE,  logic->CanBreakCrates()),
+        LOCATION(RC_GF_HBA_RECTANGLE_SIGN,       logic->IsAdult && logic->CanRead()),
     }, {
         //Exits
         ENTRANCE(RR_GF_OUTSIDE_GTG, logic->IsChild || logic->HasItem(RG_GERUDO_MEMBERSHIP_CARD)),
@@ -247,7 +253,10 @@ void RegionTable_Init_GerudoFortress() {
     areaTable[RR_GF_OUTSIDE_GATE] = Region("GF Outside Gate", SCENE_GERUDOS_FORTRESS, {
         //Events
         EVENT_ACCESS(LOGIC_GF_GATE_OPEN, logic->IsAdult && logic->HasItem(RG_GERUDO_MEMBERSHIP_CARD) && logic->HasItem(RG_SPEAK_GERUDO)),
-    }, {}, {
+    }, {
+        //Locations
+        LOCATION(RC_GF_GATE_EXIT_RECTANGLE_SIGN, logic->IsAdult && logic->CanRead()),
+    }, {
         //Exits
         ENTRANCE(RR_GF_OUTSKIRTS,            logic->Get(LOGIC_GF_GATE_OPEN)),
         ENTRANCE(RR_WASTELAND_NEAR_FORTRESS, true),

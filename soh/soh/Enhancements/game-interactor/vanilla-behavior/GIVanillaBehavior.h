@@ -1373,6 +1373,14 @@ typedef enum {
 
     // #### `result`
     // ```c
+    // true
+    // ```
+    // #### `args`
+    // - `*EnMs`
+    VB_MAGIC_BEAN_SALESMAN_TAKE_MONEY,
+
+    // #### `result`
+    // ```c
     // CHECK_QUEST_ITEM(QUEST_SONG_EPONA)
     // ```
     // #### `args`
@@ -2099,6 +2107,14 @@ typedef enum {
     // #### `args`
     // - None
     VB_SHOW_TITLE_CARD,
+
+    // #### `result`
+    // ```c
+    // true
+    // ```
+    // #### `args`
+    // - None
+    VB_SKIP_TALKING,
 
     // #### `result`
     // ```c
