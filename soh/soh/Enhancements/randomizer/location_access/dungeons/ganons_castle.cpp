@@ -72,7 +72,7 @@ void RegionTable_Init_GanonsCastle() {
     });
 
     areaTable[RR_GANONS_CASTLE_FOREST_TRIAL_BEAMOS_ROOM] = Region("Ganon's Castle Forest Trial Beamos Room", SCENE_INSIDE_GANONS_CASTLE, {
-        EVENT_ACCESS(LOGIC_FOREST_TRIAL_SILVER_RUPEES, logic->IsAdult || logic->CanUse(RG_HOOKSHOT)), // child can get these by voiding after switch
+        EVENT_ACCESS(LOGIC_FOREST_TRIAL_SILVER_RUPEES, logic->IsAdult || logic->CanUse(RG_HOOKSHOT) || (logic->IsChild && ctx->GetTrickOption(RT_VOIDOUT_COLLECTION))), // child can get these by voiding after switch
     }, {}, {
         //Exits
         ENTRANCE(RR_GANONS_CASTLE_FOREST_TRIAL_WOLFOS_ROOM,     true),
@@ -564,7 +564,10 @@ void RegionTable_Init_GanonsCastle() {
         //Events
         //A torch run from RR_GANONS_CASTLE_MQ_SHADOW_TRIAL_STARTING_LEDGE is possible but tight, so would be a trick
         EVENT_ACCESS(LOGIC_SHADOW_TRIAL_FIRST_CHEST, logic->CanDetonateUprightBombFlower()),
-    }, {}, {
+    }, {
+        //Locations
+        LOCATION(RC_GANONS_CASTLE_MQ_WONDER_SHADOW_TRIAL, (logic->CanDetonateBombFlowers() || (ctx->GetTrickOption(RT_BLUE_FIRE_MUD_WALLS) && logic->CanUse(RG_BOTTLE_WITH_BLUE_FIRE))) && (logic->TakeDamage() || logic->CanUse(RG_NAYRUS_LOVE))),
+    }, {
         //Exits
         ENTRANCE(RR_GANONS_CASTLE_MQ_SHADOW_TRIAL_CHEST_PLATFORM, logic->IsAdult || logic->CanUse(RG_HOOKSHOT) || logic->CanUse(RG_HOVER_BOOTS)),
         ENTRANCE(RR_GANONS_CASTLE_MQ_SHADOW_TRIAL_BEAMOS_TORCH,   true),

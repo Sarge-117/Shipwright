@@ -1,6 +1,7 @@
 #include <soh/OTRGlobals.h>
 #include "soh/ObjectExtension/ObjectExtension.h"
 #include "item_category_adj.h"
+#include "particle_cmc.h"
 extern "C" {
 extern PlayState* gPlayState;
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
@@ -8,16 +9,6 @@ extern PlayState* gPlayState;
 #include "overlays/actors/ovl_En_Wonder_Talk/z_en_wonder_talk.h"
 #include "overlays/actors/ovl_En_Wonder_Talk2/z_en_wonder_talk2.h"
 }
-
-typedef enum {
-    PARTICLE_MAJOR,
-    PARTICLE_SKULLTULA_TOKEN,
-    PARTICLE_SMALL_KEY,
-    PARTICLE_BOSS_KEY,
-    PARTICLE_HEALTH,
-    PARTICLE_LESSER,
-    PARTICLE_JUNK,
-} SignCMCColors;
 
 uint8_t Sign_RandomizerHoldsItem(Actor* actor, PlayState* play) {
     const auto signIdentity = ObjectExtension::GetInstance().Get<CheckIdentity>(actor);
@@ -69,40 +60,6 @@ void Sign_RandomizerDrawSetup(void* actor) {
 
     int isNotCMC = !cmc || (requiresStoneAgony && !CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY));
 
-    // Color of the circle for the particles
-    static Color_RGBA8 mainColors[7][3] = {
-        { 250, 185, 40 },  // Major
-        { 0, 0, 0 },       // Skulltula Token
-        { 180, 180, 180 }, // Small Key
-        { 255, 255, 0 },   // Boss Key
-        { 250, 0, 0 },     // Health
-        { 170, 50, 0 },    // Lesser
-        { 255, 255, 255 }  // Junk
-    };
-
-    // Secondary color of the circle for the particles
-    static Color_RGBA8 secColors[7][3] = {
-        { 255, 220, 135 }, // Major
-        { 255, 250, 190 }, // Skulltula Token
-        { 130, 130, 130 }, // Small Key
-        { 0, 200, 255 },   // Boss Key
-        { 0, 0, 255 },     // Health
-        { 250, 75, 0 },    // Lesser
-        { 255, 255, 255 }  // Junk
-    };
-
-    // Color of the faded flares stretching off the particles
-    static Color_RGBA8 flareColors[7][3] = {
-        { 250, 220, 180 }, // Major
-        { 255, 255, 255 }, // Skulltula Token
-        { 100, 100, 100 }, // Small Key
-        { 0, 200, 255 },   // Boss Key
-        { 255, 125, 125 }, // Health
-        { 255, 160, 100 }, // Lesser
-        { 135, 135, 135 }  // Junk
-    };
-
-    s16 colorIndex;
     Color_RGBA8 primColor;
     Color_RGBA8 secColor;
     Color_RGBA8 envColor;
@@ -117,42 +74,11 @@ void Sign_RandomizerDrawSetup(void* actor) {
     getItemCategory = Randomizer_AdjustItemCategory(signItem);
 
     if (isNotCMC) {
-        colorIndex = PARTICLE_MAJOR;
-        Color_RGBA8_Copy(&primColor, mainColors[colorIndex]);
-        Color_RGBA8_Copy(&secColor, secColors[colorIndex]);
-        Color_RGBA8_Copy(&envColor, flareColors[colorIndex]);
-        Sign_RandomizerDraw(signActor, &primColor, &secColor, &envColor);
-        return;
+        getItemCategory = ITEM_CATEGORY_MAJOR;
     }
-
-    // Change particle color for CMC
-    switch (getItemCategory) {
-        case ITEM_CATEGORY_MAJOR:
-            colorIndex = PARTICLE_MAJOR;
-            break;
-        case ITEM_CATEGORY_SKULLTULA_TOKEN:
-            colorIndex = PARTICLE_SKULLTULA_TOKEN;
-            break;
-        case ITEM_CATEGORY_SMALL_KEY:
-            colorIndex = PARTICLE_SMALL_KEY;
-            break;
-        case ITEM_CATEGORY_BOSS_KEY:
-            colorIndex = PARTICLE_BOSS_KEY;
-            break;
-        case ITEM_CATEGORY_HEALTH:
-            colorIndex = PARTICLE_HEALTH;
-            break;
-        case ITEM_CATEGORY_LESSER:
-            colorIndex = PARTICLE_LESSER;
-            break;
-        case ITEM_CATEGORY_JUNK:
-        default:
-            colorIndex = PARTICLE_JUNK;
-            break;
-    }
-    Color_RGBA8_Copy(&primColor, mainColors[colorIndex]);
-    Color_RGBA8_Copy(&secColor, secColors[colorIndex]);
-    Color_RGBA8_Copy(&envColor, flareColors[colorIndex]);
+    primColor = Randomizer_GetParticleCMCColor(getItemCategory, COLOR_PRIMARY);
+    secColor = Randomizer_GetParticleCMCColor(getItemCategory, COLOR_SECONDARY);
+    envColor = Randomizer_GetParticleCMCColor(getItemCategory, COLOR_FLARE);
     Sign_RandomizerDraw(signActor, &primColor, &secColor, &envColor);
 }
 
@@ -267,6 +193,7 @@ locationTable[RC_KF_MIDOS_HOUSE_ARROW_SIGN]                             = Locati
 locationTable[RC_KF_TRAINING_CENTER_ENTRANCE_ARROW_SIGN]                = Location::Sign(RC_KF_TRAINING_CENTER_ENTRANCE_ARROW_SIGN,                 RCQUEST_BOTH,       RCAREA_KOKIRI_FOREST,           SCENE_KOKIRI_FOREST,            TWO_ACTOR_PARAMS(-779, 424),        "Training Center Entrance Arrow Sign",              RHT_SIGN_KOKIRI_FOREST,         ACTOR_EN_A_OBJ,             SpoilerCollectionCheck::RandomizerInf(RAND_INF_KF_TRAINING_CENTER_ENTRANCE_ARROW_SIGN));
 locationTable[RC_KF_INNER_TRAINING_CENTER_ARROW_SIGN]                   = Location::Sign(RC_KF_INNER_TRAINING_CENTER_ARROW_SIGN,                    RCQUEST_BOTH,       RCAREA_KOKIRI_FOREST,           SCENE_KOKIRI_FOREST,            TWO_ACTOR_PARAMS(-924, 928),        "Inner Training Center Arrow Sign",                 RHT_SIGN_KOKIRI_FOREST,         ACTOR_EN_A_OBJ,             SpoilerCollectionCheck::RandomizerInf(RAND_INF_KF_INNER_TRAINING_CENTER_ARROW_SIGN));
 locationTable[RC_KF_KNOW_IT_ALL_BROTHERS_HOUSE_ARROW_SIGN]              = Location::Sign(RC_KF_KNOW_IT_ALL_BROTHERS_HOUSE_ARROW_SIGN,               RCQUEST_BOTH,       RCAREA_KOKIRI_FOREST,           SCENE_KOKIRI_FOREST,            TWO_ACTOR_PARAMS(-1008, 479),       "Know-It-All Brothers House Arrow Sign",            RHT_SIGN_KOKIRI_FOREST,         ACTOR_EN_A_OBJ,             SpoilerCollectionCheck::RandomizerInf(RAND_INF_KF_KNOW_IT_ALL_BROTHERS_HOUSE_ARROW_SIGN));
+locationTable[RC_KF_BOULDER_MAZE_RECTANGLE_SIGN]                        = Location::Sign(RC_KF_BOULDER_MAZE_RECTANGLE_SIGN,                         RCQUEST_BOTH,       RCAREA_KOKIRI_FOREST,           SCENE_KOKIRI_FOREST,            TWO_ACTOR_PARAMS(-273, 2173),       "Boulder Maze Rectangle Sign",                      RHT_SIGN_KOKIRI_FOREST,         ACTOR_EN_KANBAN,            SpoilerCollectionCheck::RandomizerInf(RAND_INF_KF_BOULDER_MAZE_RECTANGLE_SIGN));
 locationTable[RC_KF_LINKS_HOUSE_SIGN]                                   = Location::Sign(RC_KF_LINKS_HOUSE_SIGN,                                    RCQUEST_BOTH,       RCAREA_KOKIRI_FOREST,           SCENE_LINKS_HOUSE,              TWO_ACTOR_PARAMS(78, 116),          "Link's House Sign",                                RHT_SIGN_LINKS_HOUSE,           ACTOR_EN_WONDER_TALK2,      SpoilerCollectionCheck::RandomizerInf(RAND_INF_KF_LINKS_HOUSE_SIGN));
 locationTable[RC_LW_THEATER_RECTANGLE_SIGN]                             = Location::Sign(RC_LW_THEATER_RECTANGLE_SIGN,                              RCQUEST_BOTH,       RCAREA_LOST_WOODS,              SCENE_GROTTOS,                  TWO_ACTOR_PARAMS(3898, 1228),       "Theater Rectangle Sign",                           RHT_SIGN_DEKU_THEATER,          ACTOR_EN_KANBAN,            SpoilerCollectionCheck::RandomizerInf(RAND_INF_LW_THEATER_RECTANGLE_SIGN));
 locationTable[RC_HF_CASTLE_EXIT_ARROW_SIGN]                             = Location::Sign(RC_HF_CASTLE_EXIT_ARROW_SIGN,                              RCQUEST_BOTH,       RCAREA_HYRULE_FIELD,            SCENE_HYRULE_FIELD,             TWO_ACTOR_PARAMS(-130, 2105),       "Castle Exit Arrow Sign",                           RHT_SIGN_HYRULE_FIELD,          ACTOR_EN_A_OBJ,             SpoilerCollectionCheck::RandomizerInf(RAND_INF_HF_CASTLE_EXIT_ARROW_SIGN));
@@ -325,11 +252,14 @@ locationTable[RC_HW_POE_ALTAR]                                          = Locati
 // Dungeon Signs
 locationTable[RC_DODONGOS_CAVERN_TOP_FLOOR_PEDESTAL]                    = Location::Sign(RC_DODONGOS_CAVERN_TOP_FLOOR_PEDESTAL,                     RCQUEST_BOTH,       RCAREA_DODONGOS_CAVERN,         SCENE_DODONGOS_CAVERN,          TWO_ACTOR_PARAMS(578, -929),        "Top Floor Pedestal",                               RHT_SIGN_DODONGOS_CAVERN,       ACTOR_EN_WONDER_TALK2,      SpoilerCollectionCheck::RandomizerInf(RAND_INF_DODONGOS_CAVERN_TOP_FLOOR_PEDESTAL));
 locationTable[RC_SHADOW_TEMPLE_TRUTHSPINNER_RECTANGLE_SIGN]             = Location::Sign(RC_SHADOW_TEMPLE_TRUTHSPINNER_RECTANGLE_SIGN,              RCQUEST_VANILLA,    RCAREA_SHADOW_TEMPLE,           SCENE_SHADOW_TEMPLE,            TWO_ACTOR_PARAMS(910, -192),        "Truthspinner Rectangle Sign",                      RHT_SIGN_SHADOW_TEMPLE,         ACTOR_EN_KANBAN,            SpoilerCollectionCheck::RandomizerInf(RAND_INF_SHADOW_TEMPLE_TRUTHSPINNER_RECTANGLE_SIGN));
+locationTable[RC_SHADOW_TEMPLE_FALLING_SPIKES_RECTANGLE_SIGN]           = Location::Sign(RC_SHADOW_TEMPLE_FALLING_SPIKES_RECTANGLE_SIGN,            RCQUEST_BOTH,       RCAREA_SHADOW_TEMPLE,           SCENE_SHADOW_TEMPLE,            TWO_ACTOR_PARAMS(1132, 4103),       "Falling Spikes Rectangle Sign",                    RHT_SIGN_SHADOW_TEMPLE,         ACTOR_EN_KANBAN,            SpoilerCollectionCheck::RandomizerInf(RAND_INF_SHADOW_TEMPLE_FALLING_SPIKES_RECTANGLE_SIGN));
+locationTable[RC_SPIRIT_TEMPLE_LEFT_SNAKE_STATUE]                       = Location::Sign(RC_SPIRIT_TEMPLE_LEFT_SNAKE_STATUE,                        RCQUEST_BOTH,       RCAREA_SPIRIT_TEMPLE,           SCENE_SPIRIT_TEMPLE,            TWO_ACTOR_PARAMS(-282, 312),        "Left Snake Statue",                                RHT_SIGN_SPIRIT_TEMPLE,         ACTOR_EN_WONDER_TALK2,      SpoilerCollectionCheck::RandomizerInf(RAND_INF_SPIRIT_TEMPLE_LEFT_SNAKE_STATUE));
+locationTable[RC_SPIRIT_TEMPLE_RIGHT_SNAKE_STATUE]                      = Location::Sign(RC_SPIRIT_TEMPLE_RIGHT_SNAKE_STATUE,                       RCQUEST_BOTH,       RCAREA_SPIRIT_TEMPLE,           SCENE_SPIRIT_TEMPLE,            TWO_ACTOR_PARAMS(302, 310),         "Right Snake Statue",                               RHT_SIGN_SPIRIT_TEMPLE,         ACTOR_EN_WONDER_TALK2,      SpoilerCollectionCheck::RandomizerInf(RAND_INF_SPIRIT_TEMPLE_RIGHT_SNAKE_STATUE));
 // MQ Dungeon Signs
 locationTable[RC_SHADOW_TEMPLE_MQ_LOWER_PIT_RECTANGLE_SIGN]             = Location::Sign(RC_SHADOW_TEMPLE_MQ_LOWER_PIT_RECTANGLE_SIGN,              RCQUEST_MQ,         RCAREA_SHADOW_TEMPLE,           SCENE_SHADOW_TEMPLE,            TWO_ACTOR_PARAMS(2893, 2705),       "Lower Pit Rectangle Sign",                         RHT_SIGN_SHADOW_TEMPLE,         ACTOR_EN_KANBAN,            SpoilerCollectionCheck::RandomizerInf(RAND_INF_SHADOW_TEMPLE_MQ_LOWER_PIT_RECTANGLE_SIGN));
 
     // clang-format on
 }
 
-static RegisterShipInitFunc initFunc(RegisterShuffleSigns, { "IS_RANDO" });
+static RegisterShipInitFunc initFunc_ShuffleSigns(RegisterShuffleSigns, { "IS_RANDO" });
 static RegisterShipInitFunc registerSignLocations(Rando::StaticData::RegisterSignLocations);

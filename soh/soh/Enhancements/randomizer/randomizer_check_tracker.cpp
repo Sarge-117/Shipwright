@@ -81,6 +81,9 @@ bool showTrees;
 bool showBushes;
 bool showOverworldSigns;
 bool showDungeonSigns;
+bool showOverworldWonderItems;
+bool showDungeonWonderItems;
+bool showBeggar;
 bool showFrogSongRupees;
 bool showFountainFairies;
 bool showStoneFairies;
@@ -1491,6 +1494,26 @@ void LoadSettings() {
         }
         showTrees = OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_TREES);
         showBushes = OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_BUSHES);
+
+        switch (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_WONDER_ITEMS)) {
+            case RO_SHUFFLE_WONDER_ITEMS_ALL:
+                showOverworldWonderItems = true;
+                showDungeonWonderItems = true;
+                break;
+            case RO_SHUFFLE_WONDER_ITEMS_OVERWORLD:
+                showOverworldWonderItems = true;
+                showDungeonWonderItems = false;
+                break;
+            case RO_SHUFFLE_WONDER_ITEMS_DUNGEONS:
+                showOverworldWonderItems = false;
+                showDungeonWonderItems = true;
+                break;
+            default:
+                showOverworldWonderItems = false;
+                showDungeonWonderItems = false;
+                break;
+        }
+        showBeggar = OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_BEGGAR);
     } else { // Vanilla
         showOverworldTokens = true;
         showDungeonTokens = true;
@@ -1504,6 +1527,9 @@ void LoadSettings() {
         showDungeonSigns = false;
         showTrees = false;
         showBushes = false;
+        showOverworldWonderItems = false;
+        showDungeonWonderItems = false;
+        showBeggar = false;
     }
 
     fortressFast = false;
@@ -1594,6 +1620,7 @@ bool IsCheckShuffled(RandomizerCheck rc) {
                 (showMajorScrubs && (rc == RC_LW_DEKU_SCRUB_NEAR_BRIDGE || // The 3 scrubs that are always randomized
                                      rc == RC_HF_DEKU_SCRUB_GROTTO || rc == RC_LW_DEKU_SCRUB_GROTTO_FRONT))) &&
                (loc->GetRCType() != RCTYPE_MERCHANT || showMerchants) &&
+               (loc->GetRCType() != RCTYPE_BEGGAR || showBeggar) &&
                (loc->GetRCType() != RCTYPE_SONG_LOCATION || showSongs) &&
                (loc->GetRCType() != RCTYPE_BEEHIVE || showBeehives) &&
                (loc->GetRCType() != RCTYPE_OCARINA || showOcarinas) &&
@@ -1624,6 +1651,9 @@ bool IsCheckShuffled(RandomizerCheck rc) {
                (loc->GetRCType() != RCTYPE_SIGN ||
                 (showOverworldSigns && RandomizerCheckObjects::AreaIsOverworld(loc->GetArea())) ||
                 (showDungeonSigns && RandomizerCheckObjects::AreaIsDungeon(loc->GetArea()))) &&
+               (loc->GetRCType() != RCTYPE_WONDER_ITEM ||
+                (showOverworldWonderItems && RandomizerCheckObjects::AreaIsOverworld(loc->GetArea())) ||
+                (showDungeonWonderItems && RandomizerCheckObjects::AreaIsDungeon(loc->GetArea()))) &&
                (loc->GetRCType() != RCTYPE_FISH ||
                 OTRGlobals::Instance->gRandoContext->GetFishsanity()->GetFishLocationIncluded(loc)) &&
                (loc->GetRCType() != RCTYPE_FREESTANDING ||
