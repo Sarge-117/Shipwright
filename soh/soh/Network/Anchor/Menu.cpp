@@ -46,7 +46,10 @@ void AnchorMainMenu(WidgetInfo& info) {
     }
     UIWidgets::PopStyleInput();
 
-    ImGui::Text("Name");
+    ImGui::Text("Name & Color");
+    static Color_RGBA8 defaultColor = { 100, 255, 100, 255 };
+    UIWidgets::CVarColorPicker("##Color", CVAR_REMOTE_ANCHOR("Color"), defaultColor);
+    ImGui::SameLine();
     ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
     if (UIWidgets::InputString("##Name", &anchorName, UIWidgets::InputOptions().Color(THEME_COLOR))) {
         CVarSetString(CVAR_REMOTE_ANCHOR("Name"), anchorName.c_str());
@@ -136,6 +139,24 @@ void AnchorMainMenu(WidgetInfo& info) {
     ImGui::SameLine();
 
     UIWidgets::WindowButton("Toggle Anchor Room Window", CVAR_WINDOW("AnchorRoom"), SohGui::mAnchorRoomWindow);
+
+    ImGui::Spacing();
+
+    bool hideLocations = Anchor::Instance->roomState.showLocationsMode == 0;
+    ImGui::BeginDisabled(hideLocations);
+    UIWidgets::CVarCheckbox(
+        "Show Other Players on Minimap", CVAR_REMOTE_ANCHOR("ShowOtherPlayersOnMinimap"),
+        UIWidgets::CheckboxOptions()
+            .Color(THEME_COLOR)
+            .DefaultValue(true)
+            .Tooltip(!hideLocations
+                         ? "Other players will appear on the minimap in areas where you have the compass. "
+                           "Visibility is restricted according to the Show Locations mode for the room."
+                         : "Cannot show other players because the room's Show Locations mode is set to None."));
+    ImGui::EndDisabled();
+
+    ImGui::Spacing();
+
     if (!SohGui::mAnchorRoomWindow->IsVisible()) {
         SohGui::mAnchorRoomWindow->DrawElement();
     }
