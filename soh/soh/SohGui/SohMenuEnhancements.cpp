@@ -2112,13 +2112,13 @@ void SohMenu::AddMenuEnhancements() {
                      .Format("%d")
                      .Tooltip("Controls likelihood of additional Keese spawns and re-spawns."));
 
-    AddWidget(path, "Keese Can Spawn Random Enemies", WIDGET_CVAR_CHECKBOX)
+    /* AddWidget(path, "Keese Can Spawn Random Enemies", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("KeeseEnemyRandoType"))
         .PreFunc([](WidgetInfo& info) {
             info.options->disabled = !(CVarGetInteger(CVAR_ENHANCEMENT("RandomizedEnemies"), 0) && CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0));
         })
         .Options(
-            CheckboxOptions().Tooltip("With enemy rando enabled, Keese can spawn any random enemy instead of just more Keese."));
+            CheckboxOptions().Tooltip("With enemy rando enabled, Keese can spawn any random enemy instead of just more Keese."));*/
 }
 
 } // namespace SohGui
