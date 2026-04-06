@@ -29,7 +29,7 @@ typedef struct ObjectKankyoEffect {
 
 typedef struct ObjectKankyo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ObjectKankyoEffect effects[64];
+    /* 0x014C */ ObjectKankyoEffect effects[255];
     /* 0x164C */ Vec3f prevEyePos;
     /* 0x1658 */ u8 requiredObjBankIndex;
     /* 0x1659 */ u8 requiredObjectLoaded;

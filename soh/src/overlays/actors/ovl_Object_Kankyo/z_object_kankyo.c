@@ -235,6 +235,8 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
     if (play->envCtx.unk_EE[3] < 64 && (gSaveContext.entranceIndex != ENTR_KOKIRI_FOREST_0 ||
                                         gSaveContext.sceneLayer != 4 || play->envCtx.unk_EE[3])) {
         play->envCtx.unk_EE[3] += 16;
+
+        play->envCtx.unk_EE[3] = 64 + CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0);
     }
 
     for (i = 0; i < play->envCtx.unk_EE[3]; i++) {
@@ -295,7 +297,8 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
                 if (this->effects[i].state == 1) {
                     // the first 32 fairies are invisible until the player stands still
-                    if (i < 32 && !playerMoved && this->effects[i].timer > 256) {
+                    if (i < (64 + CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0))/2 && !playerMoved &&
+                        this->effects[i].timer > 256) {
                         this->effects[i].timer = 0;
                         if (Rand_ZeroOne() < 0.5f) {
                             this->effects[i].angleVel = (s16)(Rand_ZeroOne() * 200.0f) + 200;
@@ -311,14 +314,14 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
                         random = Rand_ZeroOne();
                         if (random < 0.2f) {
-                            sTrailingFairies = 1;
-                        } else if (random < 0.2f) {
+                            sTrailingFairies = 1 + +CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0) / 64;
+                        } else if (random < 0.3f) {
                             // unreachable
-                            sTrailingFairies = 3;
+                            sTrailingFairies = 3 + CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0) / 16;
                         } else if (random < 0.4f) {
-                            sTrailingFairies = 7;
+                            sTrailingFairies = 7 + CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0) / 8;
                         } else {
-                            sTrailingFairies = 15;
+                            sTrailingFairies = 15 + CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0) / 4;
                         }
 
                         if ((i & sTrailingFairies) == 0) {
@@ -526,7 +529,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2) {
 
             Matrix_Scale(this->effects[i].size * alphaScale, this->effects[i].size * alphaScale,
                          this->effects[i].size * alphaScale, MTXMODE_APPLY);
-            if (i < 32) {
+            if (i < (64 + CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0)) / 2) {
                 if (this->effects[i].state != 2) {
                     if (this->effects[i].alpha > 0) {
                         this->effects[i].alpha--;
