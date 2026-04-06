@@ -2092,6 +2092,10 @@ void SohMenu::AddMenuEnhancements() {
         .CVar(CVAR_ENHANCEMENT("RestoreWarpSparkles"))
         .Options(CheckboxOptions().Tooltip("Show warp song scene outro/intro."));
 
+    AddWidget(path, "Extra Forest Magic: %d", WIDGET_CVAR_SLIDER_INT)
+        .CVar(CVAR_SETTING("ExtraForestMagic"))
+        .Options(IntSliderOptions().Min(0).Max(191).DefaultValue(0).Format("%d").Tooltip("The magic of the forest."));
+
     path.column = SECTION_COLUMN_2;
 
     AddWidget(path, "Keese-Sanity", WIDGET_SEPARATOR_TEXT);
