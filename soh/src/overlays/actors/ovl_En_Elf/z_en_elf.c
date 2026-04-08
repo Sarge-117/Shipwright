@@ -1203,7 +1203,7 @@ void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife) {
     envColor.b = this->outerColor.b;
 
     EffectSsKiraKira_SpawnDispersed(play, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor, 1000,
-                                    sparkleLife);
+                                    sparkleLife * 0.0157 * CVarGetInteger(CVAR_SETTING("ExtraForestMagic"), 0));
 }
 
 void func_80A04D90(EnElf* this, PlayState* play) {
