@@ -25,7 +25,6 @@
 #include "item_location.h"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "z64item.h"
-#include "fishsanity.h"
 
 extern "C" {
 #include "variables.h"
@@ -84,6 +83,8 @@ bool showDungeonSigns;
 bool showOverworldWonderItems;
 bool showDungeonWonderItems;
 bool showBeggar;
+bool showIcicles;
+bool showRedIce;
 bool showFrogSongRupees;
 bool showFountainFairies;
 bool showStoneFairies;
@@ -473,14 +474,9 @@ RandomizerCheckArea GetCheckArea() {
     return area;
 }
 
-bool vector_contains_scene(std::vector<SceneID> vec, const int16_t scene) {
-    return std::any_of(vec.begin(), vec.end(), [&](const auto& x) { return x == scene; });
-}
-
-std::vector<SceneID> skipScenes = {
+std::array<SceneID, 4> skipScenes = {
     SCENE_GANON_BOSS,
     SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR,
-    SCENE_GANON_BOSS,
     SCENE_INSIDE_GANONS_CASTLE_COLLAPSE,
     SCENE_GANONS_TOWER_COLLAPSE_INTERIOR,
 };
@@ -657,7 +653,8 @@ void CheckTrackerTransition(uint32_t sceneNum) {
 }
 
 void CheckTrackerItemReceive(GetItemEntry giEntry) {
-    if (!GameInteractor::IsSaveLoaded() || vector_contains_scene(skipScenes, gPlayState->sceneNum)) {
+    if (!GameInteractor::IsSaveLoaded() || std::find(std::begin(skipScenes), std::end(skipScenes),
+                                                     (SceneID)gPlayState->sceneNum) != std::end(skipScenes)) {
         return;
     }
     auto scene = static_cast<SceneID>(gPlayState->sceneNum);
@@ -1514,6 +1511,8 @@ void LoadSettings() {
                 break;
         }
         showBeggar = OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_BEGGAR);
+        showIcicles = OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_ICICLES);
+        showRedIce = OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_RED_ICE);
     } else { // Vanilla
         showOverworldTokens = true;
         showDungeonTokens = true;
@@ -1530,6 +1529,8 @@ void LoadSettings() {
         showOverworldWonderItems = false;
         showDungeonWonderItems = false;
         showBeggar = false;
+        showIcicles = false;
+        showRedIce = false;
     }
 
     fortressFast = false;
@@ -1654,6 +1655,8 @@ bool IsCheckShuffled(RandomizerCheck rc) {
                (loc->GetRCType() != RCTYPE_WONDER_ITEM ||
                 (showOverworldWonderItems && RandomizerCheckObjects::AreaIsOverworld(loc->GetArea())) ||
                 (showDungeonWonderItems && RandomizerCheckObjects::AreaIsDungeon(loc->GetArea()))) &&
+               (loc->GetRCType() != RCTYPE_ICICLE || showIcicles) &&
+               (loc->GetRCType() != RCTYPE_RED_ICE || showRedIce) &&
                (loc->GetRCType() != RCTYPE_FISH ||
                 OTRGlobals::Instance->gRandoContext->GetFishsanity()->GetFishLocationIncluded(loc)) &&
                (loc->GetRCType() != RCTYPE_FREESTANDING ||
