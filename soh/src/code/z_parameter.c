@@ -1712,7 +1712,9 @@ void Interface_InitHorsebackArchery(PlayState* play) {
     gSaveContext.minigameState = 1;
     interfaceCtx->unk_23C = interfaceCtx->unk_240 = interfaceCtx->unk_242 = 0;
     gSaveContext.minigameScore = sHBAScoreTier = 0;
-    interfaceCtx->hbaAmmo = 20;
+    if (GameInteractor_Should(VB_SET_HORSEBACK_ARCHERY_AMMO, true, interfaceCtx)) {
+        interfaceCtx->hbaAmmo = 20;
+    }
 }
 
 void func_800849EC(PlayState* play) {
@@ -1911,7 +1913,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
-            func_8006D0AC(play);
+            Horse_FixLakeHyliaPosition(play);
         }
 
         return Return_Item(item, MOD_NONE, ITEM_NONE);
