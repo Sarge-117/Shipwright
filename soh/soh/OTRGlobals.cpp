@@ -2540,6 +2540,7 @@ bool SoH_HandleConfigDrop(char* filePath) {
             ->ClearBindings();
 
         Rando::Settings::GetInstance()->UpdateAllOptions();
+        SohGui::MarkRandomizerMenusDirty();
         gui->SaveConsoleVariablesNextFrame();
         ShipInit::Init("*");
 
