@@ -2093,7 +2093,7 @@ void SohMenu::AddMenuEnhancements() {
         .Options(CheckboxOptions().Tooltip("Show warp song scene outro/intro."));
 
     AddWidget(path, "Location in Item Notifications", WIDGET_CVAR_CHECKBOX)
-        .CVar(CVAR_ENHANCEMENT("NotificationLocationInfo"))
+        .CVar(CVAR_SETTING("NotificationLocationInfo"))
         .Options(CheckboxOptions().Tooltip("When receiving items from other players in coop, show the item's location in the notification."));
 
     AddWidget(path, "Extra Forest Magic: %d", WIDGET_CVAR_SLIDER_INT)
