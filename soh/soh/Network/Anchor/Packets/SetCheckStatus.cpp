@@ -4,6 +4,7 @@
 #include "soh/OTRGlobals.h"
 #include "soh/Enhancements/randomizer/randomizer_check_tracker.h"
 #include "soh/Enhancements/randomizer/randomizer.h"
+#include "soh/Notification/Notification.h"
 
 static bool isResultOfHandling = false;
 
@@ -55,6 +56,8 @@ void Anchor::HandlePacket_SetCheckStatus(nlohmann::json payload) {
     if (randoContext->GetItemLocation(rc)->GetIsSkipped() != skipped) {
         randoContext->GetItemLocation(rc)->SetIsSkipped(skipped);
     }
+
+    locationMessage = Rando::StaticData::GetLocation(rc)->GetName();
 
     CheckTracker::RecalculateAllAreaTotals();
     CheckTracker::RecalculateAvailableChecks();

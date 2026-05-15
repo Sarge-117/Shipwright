@@ -139,6 +139,8 @@ class Anchor : public Network {
     inline static const std::string UPDATE_ROOM_STATE = "UPDATE_ROOM_STATE";
     inline static const std::string UPDATE_TEAM_STATE = "UPDATE_TEAM_STATE";
 
+    std::string locationMessage;
+
     static Anchor* Instance;
     std::map<uint32_t, AnchorClient> clients;
     RoomState roomState;

@@ -105,6 +105,14 @@ void Window::Draw() {
             ImGui::SameLine();
             ImGui::TextColored(notification.suffixColor, "%s", notification.suffix.c_str());
         }
+        if (!notification.preposition.empty()) {
+            ImGui::SameLine();
+            ImGui::TextColored(notification.messageColor, "%s", notification.preposition.c_str());
+        }
+        if (!notification.info.empty()) {
+            ImGui::SameLine();
+            ImGui::TextColored(notification.infoColor, "%s", notification.info.c_str());
+        }
 
         ImGui::End();
         ImGui::PopStyleVar();

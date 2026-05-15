@@ -48,7 +48,14 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         return;
     }
 
+    const char* icon = nullptr;
+    std::string prefix = "";
     std::string message = "";
+    std::string suffix = "";
+    std::string preposition = "";
+    std::string info = "";
+    bool mute = false;
+    
 
     uint32_t clientId = payload.at("clientId").get<uint32_t>();
     AnchorClient& client = clients[clientId];
@@ -92,6 +99,7 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
 
     if (getItemEntry.getItemCategory != ITEM_CATEGORY_JUNK) {
 
+        prefix = client.name;
         if ((getItemEntry.itemId >= ITEM_SONG_LULLABY && getItemEntry.itemId <= ITEM_SONG_PRELUDE) ||
             (getItemEntry.getItemId >= 0xBB && getItemEntry.getItemId <= 0xC6) || 
             (getItemEntry.objectId == OBJECT_GI_MELODY)){
@@ -99,23 +107,33 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         } else {
             message = "found";
         }
-
         if (getItemEntry.modIndex == MOD_NONE) {
-            Notification::Emit({
-                .itemIcon = GetTextureForItemId(getItemEntry.itemId),
-                .prefix = client.name,
-                .message = message,
-                .suffix = SohUtils::GetItemName(getItemEntry.itemId),
-            });
+            icon = GetTextureForItemId(getItemEntry.itemId);
+            suffix = SohUtils::GetItemName(getItemEntry.itemId);
         } else if (getItemEntry.modIndex == MOD_RANDOMIZER) {
-            Notification::Emit({
-                .prefix = client.name,
-                .message = message,
-                .suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english,
-            });
+            suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english;
         }
+        if (locationMessage != "" && CVarGetInteger(CVAR_SETTING("NotificationLocationInfo"), 0))
+        {
+            preposition = "from";
+            info = locationMessage;
+            locationMessage = "";
+        }
+
         if (getItemEntry.getItemCategory == ITEM_CATEGORY_MAJOR || getItemEntry.getItemCategory == ITEM_CATEGORY_BOSS_KEY) {
             Audio_PlayFanfare_Rando(getItemEntry);
+            mute = true;
         }
+
+        Notification::Emit({
+            .itemIcon = icon,
+            .prefix = prefix,
+            .message = message,
+            .suffix = suffix,
+            .preposition = preposition,
+            .info = info,
+            .mute = mute,
+        });
     }
+    locationMessage = "";
 }

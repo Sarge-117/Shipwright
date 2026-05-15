@@ -16,6 +16,9 @@ struct Options {
     ImVec4 messageColor = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
     std::string suffix = "";
     ImVec4 suffixColor = ImVec4(1.0f, 0.5f, 0.5f, 1.0f);
+    std::string preposition = "";
+    std::string info = "";
+    ImVec4 infoColor = ImVec4(0.2f, 1.0f, 0.2f, 1.0f);
     float remainingTime = 0.0f; // Seconds
     bool mute = false;          // whether notification should make a noise
 };
