@@ -3,6 +3,7 @@
 #include <libultraship/libultraship.h>
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/OTRGlobals.h"
+#include "soh/Notification/Notification.h"
 
 static bool isResultOfHandling = false;
 
@@ -50,6 +51,8 @@ void Anchor::HandlePacket_SetCheckStatus(nlohmann::json payload) {
     if (randoContext->GetItemLocation(rc)->GetIsSkipped() != skipped) {
         randoContext->GetItemLocation(rc)->SetIsSkipped(skipped);
     }
+
+    locationMessage = Rando::StaticData::GetLocation(rc)->GetName();
 
     CheckTracker::RecalculateAllAreaTotals();
     CheckTracker::RecalculateAvailableChecks();
