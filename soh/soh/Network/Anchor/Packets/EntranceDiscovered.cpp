@@ -34,7 +34,7 @@ void Anchor::HandlePacket_EntranceDiscovered(nlohmann::json payload) {
 
 void Anchor::SendPacket_EnterScene(s16 sceneNum) {
     if (!IsSaveLoaded()) {
-        return;
+//        return;
     }
 
     nlohmann::json payload;
