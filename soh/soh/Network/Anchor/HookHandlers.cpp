@@ -125,6 +125,9 @@ void Anchor::RegisterHooks() {
     COND_HOOK(OnSceneFlagSet, isConnected,
               [&](s16 sceneNum, s16 flagType, s16 flag) { SendPacket_SetFlag(sceneNum, flagType, flag); });
 
+    COND_HOOK(OnSceneInit, isConnected,
+              [&](s16 sceneNum) { SendPacket_EnterScene(sceneNum); });
+
     COND_HOOK(OnSceneFlagUnset, isConnected,
               [&](s16 sceneNum, s16 flagType, s16 flag) { SendPacket_UnsetFlag(sceneNum, flagType, flag); });
 
