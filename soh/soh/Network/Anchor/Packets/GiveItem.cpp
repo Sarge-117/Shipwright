@@ -121,7 +121,7 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
             locationMessage = "";
         }
 
-        if (modId == MOD_RANDOMIZER && getItemId == RG_MASTER_SWORD && gPlayState->sceneNum == SCENE_TEMPLE_OF_TIME) {
+        if (suffix == "Master Sword" && info == "Market ToT Master Sword") {
             locationMessage = "";
             return;
         }
