@@ -120,6 +120,11 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
             locationMessage = "";
         }
 
+        if (modId == MOD_RANDOMIZER && getItemId == RG_MASTER_SWORD && gPlayState->sceneNum == SCENE_TEMPLE_OF_TIME) {
+            locationMessage = "";
+            return;
+        }
+
         if (getItemEntry.getItemCategory == ITEM_CATEGORY_MAJOR || getItemEntry.getItemCategory == ITEM_CATEGORY_BOSS_KEY) {
             Audio_PlayFanfare_Rando(getItemEntry);
             mute = true;

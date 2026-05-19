@@ -54,12 +54,31 @@ void Anchor::HandlePacket_EnterScene(nlohmann::json payload) {
     AnchorClient& client = clients[clientId];
 
     s16 sceneNum = payload.at("sceneNum").get<s16>();
+    std::string prefix = client.name;
+    std::string message = "";
 
-    if (sceneNum == SCENE_INSIDE_GANONS_CASTLE) {
+    switch (sceneNum) { 
+    case SCENE_INSIDE_GANONS_CASTLE:
+        message = "entered Ganon's Castle!";
+        break;
+    case SCENE_GANONS_TOWER:
+        message = "entered Ganon's Tower!";
+        break;
+    case SCENE_GANONDORF_BOSS:
+        message = "entered Ganondorf's Lair!";
+        break;
+    case SCENE_GANON_BOSS:
+        message = "is facing Ganon!";
+        break;
+    default:
+        break;
+    }
+
+    if (message != "") {
 
         Notification::Emit({
-            .prefix = client.name,
-            .message = "entered Ganon's Castle!",
+            .prefix = prefix,
+            .message = message,
         });
     }
 }
