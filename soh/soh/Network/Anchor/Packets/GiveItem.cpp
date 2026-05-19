@@ -113,7 +113,8 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         } else if (getItemEntry.modIndex == MOD_RANDOMIZER) {
             suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english;
         }
-        if (locationMessage != "" && CVarGetInteger(CVAR_SETTING("NotificationLocationInfo"), 0))
+
+        if (locationMessage != "")
         {
             preposition = "from";
             info = locationMessage;
@@ -123,6 +124,12 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         if (suffix == "Master Sword" && info == "Market ToT Master Sword") {
             locationMessage = "";
             return;
+        }
+
+        if (!CVarGetInteger(CVAR_SETTING("NotificationLocationInfo"), 0))
+        {
+            preposition = "";
+            info = "";
         }
 
         if (getItemEntry.getItemCategory == ITEM_CATEGORY_MAJOR || getItemEntry.getItemCategory == ITEM_CATEGORY_BOSS_KEY) {

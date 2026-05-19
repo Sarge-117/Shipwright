@@ -33,8 +33,9 @@ void Anchor::HandlePacket_EntranceDiscovered(nlohmann::json payload) {
 }
 
 void Anchor::SendPacket_EnterScene(s16 sceneNum) {
-    if (!IsSaveLoaded()) {
-//        return;
+    if (sceneNum != SCENE_INSIDE_GANONS_CASTLE && sceneNum != SCENE_GANONS_TOWER && sceneNum != SCENE_GANONDORF_BOSS &&
+        sceneNum != SCENE_GANON_BOSS) {
+        return;
     }
 
     nlohmann::json payload;
