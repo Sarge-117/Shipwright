@@ -100,18 +100,22 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
     if (getItemEntry.getItemCategory != ITEM_CATEGORY_JUNK) {
 
         prefix = client.name;
-        if ((getItemEntry.itemId >= ITEM_SONG_LULLABY && getItemEntry.itemId <= ITEM_SONG_PRELUDE) ||
-            (getItemEntry.getItemId >= 0xBB && getItemEntry.getItemId <= 0xC6) || 
-            (getItemEntry.objectId == OBJECT_GI_MELODY)){
-            message = "learned";
-        } else {
-            message = "found";
-        }
+        message = "found";
+
         if (getItemEntry.modIndex == MOD_NONE) {
             icon = GetTextureForItemId(getItemEntry.itemId);
             suffix = SohUtils::GetItemName(getItemEntry.itemId);
+
+            if (getItemEntry.itemId >= ITEM_SONG_LULLABY && getItemEntry.itemId <= ITEM_SONG_PRELUDE) {
+                message = "learned";
+            }
+
         } else if (getItemEntry.modIndex == MOD_RANDOMIZER) {
             suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english;
+
+            if (getItemEntry.getItemId >= 0xBB && getItemEntry.getItemId <= 0xC6) {
+                message = "learned";
+            }
         }
 
         if (locationMessage != "")
