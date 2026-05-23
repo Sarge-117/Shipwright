@@ -109,6 +109,7 @@ class Anchor : public Network {
     void HandlePacket_UpdateRoomState(nlohmann::json payload);
     void HandlePacket_UpdateTeamState(nlohmann::json payload);
     void HandlePacket_EnterScene(nlohmann::json payload);
+    void HandlePacket_PlayerDeath(nlohmann::json payload);
 
   public:
     uint32_t ownClientId;
@@ -138,6 +139,7 @@ class Anchor : public Network {
     inline static const std::string UPDATE_ROOM_STATE = "UPDATE_ROOM_STATE";
     inline static const std::string UPDATE_TEAM_STATE = "UPDATE_TEAM_STATE";
     inline static const std::string ENTER_SCENE = "ENTER_SCENE";
+    inline static const std::string PLAYER_DEATH = "PLAYER_DEATH";
 
     std::string locationMessage;
 
@@ -179,6 +181,7 @@ class Anchor : public Network {
     void SendPacket_UpdateRoomState();
     void SendPacket_UpdateTeamState();
     void SendPacket_EnterScene(s16 sceneNum);
+    void SendPacket_PlayerDeath();
 };
 
 typedef enum {

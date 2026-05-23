@@ -3548,6 +3548,8 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     func_80832224(this);
     Player_PlayVoiceSfx(this, NA_SE_VO_LI_DOWN);
 
+    GameInteractor_ExecuteOnPlayerDeath();
+
     if (this->actor.category == ACTORCAT_PLAYER) {
         func_800F47BC();
 
