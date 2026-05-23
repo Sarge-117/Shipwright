@@ -83,3 +83,35 @@ void Anchor::HandlePacket_EnterScene(nlohmann::json payload) {
         });
     }
 }
+
+void Anchor::SendPacket_PlayerDeath() {
+    if (!IsSaveLoaded()) {
+        return;
+    }
+
+    nlohmann::json payload;
+    payload["type"] = PLAYER_DEATH;
+    payload["quiet"] = true;
+
+    SendJsonToRemote(payload);
+}
+
+void Anchor::HandlePacket_PlayerDeath(nlohmann::json payload) {
+    if (!IsSaveLoaded()) {
+        return;
+    }
+
+    uint32_t clientId = payload.at("clientId").get<uint32_t>();
+    AnchorClient& client = clients[clientId];
+
+    std::string prefix = client.name;
+    std::string message = "died!";
+
+    if (message != "") {
+
+        Notification::Emit({
+            .prefix = prefix,
+            .message = message,
+        });
+    }
+}
