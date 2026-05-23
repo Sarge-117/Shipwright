@@ -68,6 +68,7 @@ typedef struct {
     u8 showLocationsMode; // 0 = none, 1 = team, 2 = all
     u8 teleportMode;      // 0 = off, 1 = team, 2 = all
     u8 syncItemsAndFlags; // 0 = off, 1 = on
+    u8 iceTrapMode;       // 0 = Send to own team, 1 = send to other teams, 2 = send to everyone
 } RoomState;
 
 class Anchor : public Network {

@@ -39,6 +39,15 @@ void Anchor::SendPacket_GiveItem(u16 modId, s16 getItemId) {
     payload["addToQueue"] = true;
     payload["modId"] = modId;
     payload["getItemId"] = getItemId;
+    payload["ownTeamId"] = "";
+
+    if (modId == MOD_RANDOMIZER && getItemId == RG_ICE_TRAP && roomState.iceTrapMode != 0) {
+        payload["targetTeamId"] = "";
+
+        if (roomState.iceTrapMode == 1) {
+            payload["ownTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
+        }
+    }
 
     SendJsonToRemote(payload);
 }
@@ -61,12 +70,35 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
     AnchorClient& client = clients[clientId];
     u16 modId = payload.at("modId").get<u16>();
     u16 getItemId = payload.at("getItemId").get<u16>();
+    std::string ownTeamId = payload["ownTeamId"].get<std::string>();
 
     GetItemEntry getItemEntry;
     if (modId == MOD_NONE) {
         getItemEntry = ItemTableManager::Instance->RetrieveItemEntry(MOD_NONE, getItemId);
     } else {
         getItemEntry = Rando::StaticData::RetrieveItem(static_cast<RandomizerGet>(getItemId)).GetGIEntry_Copy();
+    }
+
+    // For ice traps that only go to opposing teams
+    if (modId == MOD_RANDOMIZER && getItemId == RG_ICE_TRAP && roomState.iceTrapMode == 1) {
+        if (ownTeamId == CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default")) {
+
+            prefix = client.name;
+            message = "found an";
+            suffix = suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english;
+            preposition = "and sent it to opponents!";
+
+            Notification::Emit({
+                .itemIcon = icon,
+                .prefix = prefix,
+                .message = message,
+                .suffix = suffix,
+                .preposition = preposition,
+                .info = info,
+                .mute = mute,
+            });
+            return;
+        }
     }
 
     if (getItemEntry.modIndex == MOD_NONE) {
