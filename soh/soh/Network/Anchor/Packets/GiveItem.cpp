@@ -35,18 +35,18 @@ void Anchor::SendPacket_GiveItem(u16 modId, s16 getItemId) {
 
     nlohmann::json payload;
     payload["type"] = GIVE_ITEM;
-    payload["targetTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
+    //payload["targetTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
     payload["addToQueue"] = true;
     payload["modId"] = modId;
     payload["getItemId"] = getItemId;
     payload["ownTeamId"] = "";
 
-    if (modId == MOD_RANDOMIZER && getItemId == RG_ICE_TRAP && roomState.iceTrapMode != 0) {
-        payload["targetTeamId"] = "";
+    if (modId == MOD_RANDOMIZER && getItemId == RG_ICE_TRAP && roomState.iceTrapMode == 1) {
+        payload["ownTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
+    }
 
-        if (roomState.iceTrapMode == 1) {
-            payload["ownTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
-        }
+    if (!(modId == MOD_RANDOMIZER && getItemId == RG_ICE_TRAP && roomState.iceTrapMode != 0)) {
+        payload["targetTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
     }
 
     SendJsonToRemote(payload);
@@ -137,17 +137,15 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         if (getItemEntry.modIndex == MOD_NONE) {
             icon = GetTextureForItemId(getItemEntry.itemId);
             suffix = SohUtils::GetItemName(getItemEntry.itemId);
-
-            if (getItemEntry.itemId >= ITEM_SONG_LULLABY && getItemEntry.itemId <= ITEM_SONG_PRELUDE) {
-                message = "learned";
-            }
-
         } else if (getItemEntry.modIndex == MOD_RANDOMIZER) {
             suffix = Rando::StaticData::RetrieveItem((RandomizerGet)getItemEntry.getItemId).GetName().english;
+        }
 
-            if (getItemEntry.getItemId >= 0xBB && getItemEntry.getItemId <= 0xC6) {
-                message = "learned";
-            }
+        if (suffix == "Zelda's Lullaby" || suffix == "Epona's Song" || suffix == "Saria's Song" ||
+            suffix == "Sun's Song" || suffix == "Song of Time" || suffix == "Song of Storms" ||
+            suffix == "Minuet of Forest" || suffix == "Bolero of Fire" || suffix == "Serenade of Water" ||
+            suffix == "Nocturne of Shadow" || suffix == "Requiem of Spirit" || suffix == "Prelude of Light") {
+            message = "learned";
         }
 
         if (locationMessage != "")
