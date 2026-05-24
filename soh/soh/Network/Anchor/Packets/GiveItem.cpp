@@ -43,6 +43,17 @@ void Anchor::SendPacket_GiveItem(u16 modId, s16 getItemId) {
 
     if (modId == MOD_RANDOMIZER && getItemId == RG_ICE_TRAP && roomState.iceTrapMode != 0) {
         payload["ownTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
+
+        if (roomState.iceTrapMode == 1) {
+            Notification::Emit({
+                .message = "You sent the trap to your opponents!",
+            });
+        }
+        if (roomState.iceTrapMode == 2) {
+            Notification::Emit({
+                .message = "You sent the trap to everyone!",
+            });
+        }
     }
 
     if (!(modId == MOD_RANDOMIZER && getItemId == RG_ICE_TRAP && roomState.iceTrapMode != 0)) {
