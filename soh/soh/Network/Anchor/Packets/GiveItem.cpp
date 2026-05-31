@@ -178,8 +178,10 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         }
 
         if (getItemEntry.getItemCategory == ITEM_CATEGORY_MAJOR || getItemEntry.getItemCategory == ITEM_CATEGORY_BOSS_KEY) {
-            Audio_PlayFanfare_Rando(getItemEntry);
-            mute = true;
+            if (suffix != "Bombchu (5)") {
+                Audio_PlayFanfare_Rando(getItemEntry);
+                mute = true;
+            }
         }
 
         // For ice traps that are only received by opposing teams
