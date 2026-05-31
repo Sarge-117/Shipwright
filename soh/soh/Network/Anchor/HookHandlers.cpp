@@ -167,6 +167,8 @@ void Anchor::RegisterHooks() {
 
     COND_ID_HOOK(OnBossDefeat, ACTOR_BOSS_GANON2, isConnected, [&](void* refActor) { SendPacket_GameComplete(); });
 
+    COND_HOOK(OnBossDefeat, isConnected, [&](void* refActor) { SendPacket_BossDefeat(refActor); });
+
     COND_HOOK(OnItemReceive, isConnected, [&](GetItemEntry itemEntry) {
         // Handle vanilla dungeon items a bit differently
         if (itemEntry.modIndex == MOD_NONE &&

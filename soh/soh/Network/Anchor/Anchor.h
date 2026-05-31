@@ -69,6 +69,7 @@ typedef struct {
     u8 teleportMode;      // 0 = off, 1 = team, 2 = all
     u8 syncItemsAndFlags; // 0 = off, 1 = on
     u8 iceTrapMode;       // 0 = Send to own team, 1 = send to other teams, 2 = send to everyone
+    u8 bossDefNotifMode;  // 0 = Notify own team, 1 = Notify everyone
 } RoomState;
 
 class Anchor : public Network {
@@ -113,6 +114,7 @@ class Anchor : public Network {
     void HandlePacket_UpdateTeamState(nlohmann::json payload);
     void HandlePacket_EnterScene(nlohmann::json payload);
     void HandlePacket_PlayerDeath(nlohmann::json payload);
+    void HandlePacket_BossDefeat(nlohmann::json payload);
 
   public:
     uint32_t ownClientId;
@@ -143,6 +145,7 @@ class Anchor : public Network {
     inline static const std::string UPDATE_TEAM_STATE = "UPDATE_TEAM_STATE";
     inline static const std::string ENTER_SCENE = "ENTER_SCENE";
     inline static const std::string PLAYER_DEATH = "PLAYER_DEATH";
+    inline static const std::string BOSS_DEFEAT = "BOSS_DEFEAT";
 
     std::string locationMessage;
 
@@ -185,6 +188,7 @@ class Anchor : public Network {
     void SendPacket_UpdateTeamState();
     void SendPacket_EnterScene(s16 sceneNum);
     void SendPacket_PlayerDeath();
+    void SendPacket_BossDefeat(void* refActor);
 };
 
 typedef enum {

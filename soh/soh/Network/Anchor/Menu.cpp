@@ -12,6 +12,7 @@ static const char* pvpModes[3] = { "Off", "On", "On + Friendly Fire" };
 static std::vector<const char*> teleportModes = { "None", "Team Only", "All" };
 static std::vector<const char*> showLocationsModes = { "None", "Team Only", "All" };
 static std::vector<const char*> iceTrapModes = { "Send to Own Team", "Send to Other Teams", "Send to Everyone" };
+static std::vector<const char*> bossDefeatNotifs = { "Team Only", "Everyone" };
 
 void AnchorMainMenu(WidgetInfo& info) {
     auto anchor = Anchor::Instance;
@@ -208,6 +209,13 @@ void AnchorAdminMenu(WidgetInfo& info) {
         anchor->SendPacket_UpdateRoomState();
     }
     if (UIWidgets::CVarCombobox("Ice Trap Behaviour:", CVAR_REMOTE_ANCHOR("RoomSettings.IceTrapMode"), iceTrapModes,
+                                UIWidgets::ComboboxOptions()
+                                    .DefaultIndex(0)
+                                    .LabelPosition(UIWidgets::LabelPositions::Above)
+                                    .Color(THEME_COLOR))) {
+        anchor->SendPacket_UpdateRoomState();
+    }
+    if (UIWidgets::CVarCombobox("Boss Defeat Notifications:", CVAR_REMOTE_ANCHOR("RoomSettings.BossDefeatNotifs"), bossDefeatNotifs,
                                 UIWidgets::ComboboxOptions()
                                     .DefaultIndex(0)
                                     .LabelPosition(UIWidgets::LabelPositions::Above)

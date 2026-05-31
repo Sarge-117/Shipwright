@@ -115,3 +115,79 @@ void Anchor::HandlePacket_PlayerDeath(nlohmann::json payload) {
         });
     }
 }
+
+void Anchor::SendPacket_BossDefeat(void* refActor) {
+    if (!IsSaveLoaded()) {
+        return;
+    }
+
+    Actor* bossActor = (Actor*)refActor;
+
+    if (bossActor->id == ACTOR_BOSS_GANON2) {
+        return;
+    }
+
+    nlohmann::json payload;
+    payload["type"] = BOSS_DEFEAT;
+    payload["bossID"] = bossActor->id;
+
+    if (roomState.bossDefNotifMode == 0) {
+        payload["targetTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
+    }
+
+    SendJsonToRemote(payload);
+}
+
+void Anchor::HandlePacket_BossDefeat(nlohmann::json payload) {
+    if (!IsSaveLoaded()) {
+        return;
+    }
+
+    uint32_t clientId = payload.at("clientId").get<uint32_t>();
+    uint16_t bossId = payload.at("bossID").get<uint16_t>();
+    AnchorClient& client = clients[clientId];
+
+    std::string prefix = client.name;
+    std::string message = "defeated";
+    std::string info = "";
+
+    switch (bossId) { 
+        case ACTOR_BOSS_GOMA:
+            info = "Gohma";
+            break;
+        case ACTOR_BOSS_DODONGO:
+            info = "King Dodongo";
+            break;
+        case ACTOR_BOSS_VA:
+            info = "Barinade";
+            break;
+        case ACTOR_BOSS_GANONDROF:
+            info = "Phantom Ganon";
+            break;
+        case ACTOR_BOSS_FD2:
+            info = "Volvagia";
+            break;
+        case ACTOR_BOSS_MO:
+            info = "Morpha";
+            break;
+        case ACTOR_BOSS_SST:
+            info = "Bongo Bongo";
+            break;
+        case ACTOR_BOSS_TW:
+            info = "Twinrova";
+            break;
+        case ACTOR_BOSS_GANON:
+            info = "Ganondorf";
+            break;
+        default:
+            break;
+    }
+
+    if (message != "") {
+        Notification::Emit({
+            .prefix = prefix,
+            .message = message,
+            .info = info,
+        });
+    }
+}

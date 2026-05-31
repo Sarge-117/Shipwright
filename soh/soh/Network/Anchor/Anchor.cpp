@@ -174,6 +174,8 @@ void Anchor::ProcessIncomingPacketQueue() {
                 HandlePacket_EnterScene(payload);
             else if (packetType == PLAYER_DEATH)
                 HandlePacket_PlayerDeath(payload);
+            else if (packetType == BOSS_DEFEAT)
+                HandlePacket_BossDefeat(payload);
         } catch (const std::exception& e) {
             SPDLOG_ERROR("[Anchor] Exception while processing incoming packet {}", e.what());
             SPDLOG_ERROR("[Anchor] Packet: {}", payload.dump());
