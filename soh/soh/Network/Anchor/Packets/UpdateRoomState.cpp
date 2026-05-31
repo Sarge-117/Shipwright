@@ -25,12 +25,14 @@ nlohmann::json Anchor::PrepRoomState() {
         payload["teleportMode"] = 0;
         payload["syncItemsAndFlags"] = 0;
         payload["iceTrapMode"] = 0;
+        payload["bossDefNotifMode"] = 0;
     } else {
         payload["pvpMode"] = CVarGetInteger(CVAR_REMOTE_ANCHOR("RoomSettings.PvpMode"), 1);
         payload["showLocationsMode"] = CVarGetInteger(CVAR_REMOTE_ANCHOR("RoomSettings.ShowLocationsMode"), 1);
         payload["teleportMode"] = CVarGetInteger(CVAR_REMOTE_ANCHOR("RoomSettings.TeleportMode"), 1);
         payload["syncItemsAndFlags"] = CVarGetInteger(CVAR_REMOTE_ANCHOR("RoomSettings.SyncItemsAndFlags"), 1);
         payload["iceTrapMode"] = CVarGetInteger(CVAR_REMOTE_ANCHOR("RoomSettings.IceTrapMode"), 0);
+        payload["bossDefNotifMode"] = CVarGetInteger(CVAR_REMOTE_ANCHOR("RoomSettings.BossDefeatNotifs"), 0);
     }
 
     return payload;
@@ -55,4 +57,5 @@ void Anchor::HandlePacket_UpdateRoomState(nlohmann::json payload) {
     roomState.teleportMode = payload["state"]["teleportMode"].get<u8>();
     roomState.syncItemsAndFlags = payload["state"]["syncItemsAndFlags"].get<u8>();
     roomState.iceTrapMode = payload["state"]["iceTrapMode"].get<u8>();
+    roomState.bossDefNotifMode = payload["state"]["bossDefNotifMode"].get<u8>();
 }
