@@ -650,6 +650,16 @@ void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
             this->auraType = KEESE_AURA_FIRE;
         } else if (this->actor.params == KEESE_ICE_FLY) {
             this->auraType = KEESE_AURA_ICE;
+        } else if (this->actor.params == KEESE_ELEC_FLY) {
+            this->auraType = KEESE_AURA_ELEC;
+        } else if (this->actor.params == KEESE_WIND_FLY) {
+            this->auraType = KEESE_AURA_WIND;
+        } else if (this->actor.params == KEESE_VOID_FLY) {
+            this->auraType = KEESE_AURA_VOID;
+        } else if (this->actor.params == KEESE_BLOOD_FLY) {
+            this->auraType = KEESE_AURA_BLOOD;
+        } else if (this->actor.params == KEESE_LOVE_FLY) {
+            this->auraType = KEESE_AURA_LOVE;
         }
         EnFirefly_SetupFlyIdle(this);
     }
@@ -781,7 +791,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
         }
         if (!(this->collider.base.atFlags & AT_BOUNCED)) { // If Keese does not hit Link's shield
             if (this->actor.params == KEESE_VOID_FLY) {    // Void Keese cause player to void out
-                Play_TriggerRespawn(play);
+                Play_TriggerVoidOut(play);
                 Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
             }
             if (this->actor.params == KEESE_WIND_FLY) { // Wind Keese cause a large knockback
