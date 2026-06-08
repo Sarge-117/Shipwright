@@ -80,7 +80,13 @@ void AnchorRoomWindow::DrawElement() {
                 ImGui::PopID();
                 continue;
             } else {
-                ImGui::Text("%s", client.name.c_str());
+                if (client.displayAge == 1) {
+                    ImGui::Text("(C) %s", client.name.c_str());
+                } else if (client.displayAge == 0) {
+                    ImGui::Text("(A) %s", client.name.c_str());
+                } else {
+                    ImGui::Text("%s", client.name.c_str());
+                }
             }
 
             if (Anchor::Instance->roomState.showLocationsMode == 2 ||

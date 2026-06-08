@@ -33,6 +33,7 @@ typedef struct {
     s16 sceneNum;
     s8 curRoomNum;
     s32 entranceIndex;
+    u8 displayAge;
 
     // Only available in PLAYER_UPDATE packets
     s32 linkAge;

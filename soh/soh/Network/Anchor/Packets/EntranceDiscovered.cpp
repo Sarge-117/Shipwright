@@ -33,15 +33,17 @@ void Anchor::HandlePacket_EntranceDiscovered(nlohmann::json payload) {
 }
 
 void Anchor::SendPacket_EnterScene(s16 sceneNum) {
-    if (sceneNum != SCENE_INSIDE_GANONS_CASTLE && sceneNum != SCENE_GANONS_TOWER && sceneNum != SCENE_GANONDORF_BOSS &&
+    /* if (sceneNum != SCENE_INSIDE_GANONS_CASTLE && sceneNum != SCENE_GANONS_TOWER &&
+             sceneNum != SCENE_GANONDORF_BOSS &&
         sceneNum != SCENE_GANON_BOSS) {
         return;
-    }
+    }*/
 
     nlohmann::json payload;
     payload["type"] = ENTER_SCENE;
     payload["sceneNum"] = sceneNum;
     payload["quiet"] = true;
+    payload["linkAge"] = gSaveContext.linkAge;
 
     SendJsonToRemote(payload);
 }
@@ -53,6 +55,13 @@ void Anchor::HandlePacket_EnterScene(nlohmann::json payload) {
 
     uint32_t clientId = payload.at("clientId").get<uint32_t>();
     AnchorClient& client = clients[clientId];
+
+    if (payload.value("linkAge", (s32)LINK_AGE_ADULT)== 0) {
+        client.displayAge = 0;
+    }
+    if (payload.value("linkAge", (s32)LINK_AGE_ADULT) == 1) {
+        client.displayAge = 1;
+    }
 
     s16 sceneNum = payload.at("sceneNum").get<s16>();
     std::string prefix = client.name;
