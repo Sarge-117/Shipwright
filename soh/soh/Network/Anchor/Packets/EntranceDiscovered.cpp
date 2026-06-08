@@ -33,17 +33,16 @@ void Anchor::HandlePacket_EntranceDiscovered(nlohmann::json payload) {
 }
 
 void Anchor::SendPacket_EnterScene(s16 sceneNum) {
-    /* if (sceneNum != SCENE_INSIDE_GANONS_CASTLE && sceneNum != SCENE_GANONS_TOWER &&
-             sceneNum != SCENE_GANONDORF_BOSS &&
-        sceneNum != SCENE_GANON_BOSS) {
-        return;
-    }*/
-
     nlohmann::json payload;
     payload["type"] = ENTER_SCENE;
     payload["sceneNum"] = sceneNum;
     payload["quiet"] = true;
     payload["linkAge"] = gSaveContext.linkAge;
+
+    if (sceneNum != SCENE_INSIDE_GANONS_CASTLE && sceneNum != SCENE_GANONS_TOWER && sceneNum != SCENE_GANONDORF_BOSS &&
+        sceneNum != SCENE_GANON_BOSS) {
+        payload["targetTeamId"] = CVarGetString(CVAR_REMOTE_ANCHOR("TeamId"), "default");
+    }
 
     SendJsonToRemote(payload);
 }

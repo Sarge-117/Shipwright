@@ -80,10 +80,14 @@ void AnchorRoomWindow::DrawElement() {
                 ImGui::PopID();
                 continue;
             } else {
-                if (client.displayAge == 1) {
-                    ImGui::Text("(C) %s", client.name.c_str());
-                } else if (client.displayAge == 0) {
-                    ImGui::Text("(A) %s", client.name.c_str());
+                if (client.displayAge == 1 && isOwnTeam && client.isSaveLoaded) {
+                    ImGui::Text("%s", client.name.c_str());
+                    ImGui::SameLine();
+                    ImGui::TextColored(ImVec4(1, 1, 1, 0.5f), " (C)");
+                } else if (client.displayAge == 0 && isOwnTeam && client.isSaveLoaded) {
+                    ImGui::Text("%s", client.name.c_str());
+                    ImGui::SameLine();
+                    ImGui::TextColored(ImVec4(1, 1, 1, 0.5f), " (A)");
                 } else {
                     ImGui::Text("%s", client.name.c_str());
                 }
