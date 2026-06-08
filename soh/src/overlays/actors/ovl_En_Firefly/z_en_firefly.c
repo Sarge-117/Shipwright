@@ -335,6 +335,7 @@ void EnFirefly_SetupFlyAway(EnFirefly* this) {
 void EnFirefly_SetupStunned(EnFirefly* this) {
     this->timer = 80;
     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+    this->collider.elements[0].info.bumper.effect = 0;
     this->auraType = KEESE_AURA_NONE;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
@@ -652,6 +653,7 @@ void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
             this->auraType = KEESE_AURA_ICE;
         } else if (this->actor.params == KEESE_ELEC_FLY) {
             this->auraType = KEESE_AURA_ELEC;
+            this->collider.elements[0].info.bumper.effect = 1;
         } else if (this->actor.params == KEESE_WIND_FLY) {
             this->auraType = KEESE_AURA_WIND;
         } else if (this->actor.params == KEESE_VOID_FLY) {
