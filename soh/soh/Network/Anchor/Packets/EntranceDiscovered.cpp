@@ -48,10 +48,6 @@ void Anchor::SendPacket_EnterScene(s16 sceneNum) {
 }
 
 void Anchor::HandlePacket_EnterScene(nlohmann::json payload) {
-    if (!IsSaveLoaded()) {
-        return;
-    }
-
     uint32_t clientId = payload.at("clientId").get<uint32_t>();
     AnchorClient& client = clients[clientId];
 
