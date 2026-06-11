@@ -519,7 +519,7 @@ void TimeSaverOnVanillaBehaviorHandler(GIVanillaBehavior id, bool* should, va_li
             }
             break;
         case VB_PLAY_DISPEL_BARRIER_CS: {
-            if (CVarGetInteger(CVAR_ENHANCEMENT("TimeSavers.SkipCutscene.OnePoint"), IS_RANDO)) {
+            if (CVarGetInteger(CVAR_ENHANCEMENT("TimeSavers.SkipCutscene.Story"), IS_RANDO)) {
                 static s16 trialEntrances[] = {
                     0,
                     ENTR_INSIDE_GANONS_CASTLE_3,
@@ -871,6 +871,15 @@ void TimeSaverOnVanillaBehaviorHandler(GIVanillaBehavior id, bool* should, va_li
                     Actor_Kill(&ik->actor);
                 }
                 *should = false;
+            }
+            break;
+        }
+        case VB_SHOULD_OSSAN_CANCEL: {
+            // In shop B means cancel, prevent advancing as if mashing A
+            if (CVarGetInteger(CVAR_ENHANCEMENT("SkipText"), 0)) {
+                Input* input = va_arg(args, Input*);
+                if (!*should)
+                    *should = CHECK_BTN_ALL(input->cur.button, BTN_B);
             }
             break;
         }
