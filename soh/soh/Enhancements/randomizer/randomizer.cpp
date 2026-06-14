@@ -1416,6 +1416,18 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 INV_CONTENT(ITEM_NAYRUS_LOVE) = ITEM_ROCS_FEATHER;
             }
             break;
+        case RG_CUSTOM_FLAME_BLUE:
+            Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_BLUE);
+            break;
+        case RG_CUSTOM_FLAME_ORANGE:
+            Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_ORANGE);
+            break;
+        case RG_CUSTOM_FLAME_GREEN:
+            Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_GREEN);
+            break;
+        case RG_CUSTOM_FLAME_PURPLE:
+            Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_PURPLE);
+            break;
         default:
             LUSLOG_WARN("Randomizer_Item_Give didn't have behaviour specified for getItemId=%d", item);
             assert(false);

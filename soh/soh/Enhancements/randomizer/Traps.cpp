@@ -460,6 +460,18 @@ static void InitTrickNames() {
         Text{ "Bottle with Imp Poe", "Flacon avec Spectre", "Flasche (Geist)" },            // "Espectro en una botella"
         Text{ "Bottle with Anti-Fairy", "Flacon avec Tetdoss", "Flasche (Knochenfratze)" }, // "Whisp en una botella"
     };
+    trickNameTable[RG_CUSTOM_FLAME_BLUE] = {
+        Text{ "Blue Flame of Glorpshit"},
+    };
+    trickNameTable[RG_CUSTOM_FLAME_ORANGE] = {
+        Text{ "Orange Flame of Glorpshit"},                
+    };
+    trickNameTable[RG_CUSTOM_FLAME_GREEN] = {
+        Text{ "Green Flame of Glorpshit" },
+    };
+    trickNameTable[RG_CUSTOM_FLAME_PURPLE] = {
+        Text{ "Purple Flame of Glorpshit" },
+    };
 
     trickNameTable[RG_RUTOS_LETTER] = {
         Text{ "Bottle with Maggie's Letter", "Flacon avec lettre de Maggy",

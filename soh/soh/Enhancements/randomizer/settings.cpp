@@ -1402,6 +1402,7 @@ void Settings::CreateOptions() {
     OPT_BOOL(RSK_BLUE_FIRE_ARROWS, "Blue Fire Arrows", CVAR_RANDOMIZER_SETTING("BlueFireArrows"), mOptionDescriptions[RSK_BLUE_FIRE_ARROWS]);
     OPT_BOOL(RSK_SUNLIGHT_ARROWS, "Sunlight Arrows", CVAR_RANDOMIZER_SETTING("SunlightArrows"), mOptionDescriptions[RSK_SUNLIGHT_ARROWS]);
     OPT_BOOL(RSK_ROCS_FEATHER, "Roc's Feather", CVAR_RANDOMIZER_SETTING("RocsFeather"), mOptionDescriptions[RSK_ROCS_FEATHER]);
+    OPT_BOOL(RSK_SHUFFLE_CUSTOM_FLAMES, "Flames of Glombon", CVAR_RANDOMIZER_SETTING("CustomFlames"), mOptionDescriptions[RSK_SHUFFLE_CUSTOM_FLAMES]);
     OPT_U8(RSK_INFINITE_UPGRADES, "Infinite Upgrades", {"Off", "Progressive", "Condensed Progressive"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("InfiniteUpgrades"), mOptionDescriptions[RSK_INFINITE_UPGRADES]);
     OPT_BOOL(RSK_SKELETON_KEY, "Skeleton Key", CVAR_RANDOMIZER_SETTING("SkeletonKey"), mOptionDescriptions[RSK_SKELETON_KEY]);
     OPT_BOOL(RSK_SLINGBOW_BREAK_BEEHIVES, "Slingshot/Bow Can Break Beehives", CVAR_RANDOMIZER_SETTING("SlingBowBeehives"), mOptionDescriptions[RSK_SLINGBOW_BREAK_BEEHIVES]);
@@ -2113,6 +2114,7 @@ void Settings::CreateOptions() {
                                                                                  &mOptions[RSK_SHUFFLE_OPEN_CHEST],
                                                                                  &mOptions[RSK_SHUFFLE_BEAN_SOULS],
                                                                                  &mOptions[RSK_ROCS_FEATHER],
+                                                                                 &mOptions[RSK_SHUFFLE_CUSTOM_FLAMES],
                                                                                  &mOptions[RSK_BOMBCHU_BAG],
                                                                                  &mOptions[RSK_ENABLE_BOMBCHU_DROPS],
                                                                                  &mOptions[RSK_INFINITE_UPGRADES],

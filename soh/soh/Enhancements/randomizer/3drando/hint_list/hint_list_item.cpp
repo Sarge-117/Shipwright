@@ -2139,6 +2139,8 @@ void StaticData::HintTable_Init_Item() {
 
     hintTextTable[RHT_WALLET_INF] = HintText(CustomMessage("an infinite Wallet", /*german*/"die unendliche Geldbörse", /*french*/"une Bourse sans fond"));
 
+    hintTextTable[RHT_CUSTOM_FLAME] = HintText(CustomMessage("a flame of Glombon", /*german*/TODO_TRANSLATE, /*french*/TODO_TRANSLATE));
+
     hintTextTable[RHT_EPONA] = HintText(CustomMessage("Epona", /*german*/"Epona", /*french*/"Epona"),
                                     // /*spanish*/a Epona
                                     {

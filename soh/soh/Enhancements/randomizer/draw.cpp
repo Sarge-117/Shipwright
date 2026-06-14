@@ -31,6 +31,8 @@ extern "C" {
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "objects/object_tw/object_tw.h"
 #include "objects/object_ganon2/object_ganon2.h"
+#include "objects/object_gi_shield_1/object_gi_shield_1.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 extern PlayState* gPlayState;
 extern SaveContext gSaveContext;
 }
@@ -951,6 +953,55 @@ extern "C" void Randomizer_DrawBeanSprout(PlayState* play, GetItemEntry* getItem
     gSPDisplayList(POLY_OPA_DISP++, (Gfx*)gMagicBeanSeedlingDL);
 
     CLOSE_DISPS(play->state.gfxCtx);
+}
+
+bool spawned = false;
+
+extern "C" void Randomizer_DrawCustomFlame(PlayState* play, GetItemEntry* getItemEntry) {
+    // Draw the fire DL but coloured.
+    
+    static Color_RGBA8 sPrimColors[] = {
+        { 0, 170, 255, 255 }, // blue
+        { 255, 200, 0, 255 },   // orange
+        { 170, 255, 0, 255 }, // green 
+        { 255, 170, 255, 255 }, // purple
+    };
+
+    static Color_RGBA8 sEnvColors[] = {
+        { 0, 0, 255, 255 }, // blue
+        { 255, 0, 0, 255 },   // orange
+        { 0, 150, 0, 255 }, // green
+        { 100, 0, 255, 255 }, // purple
+    };
+
+    Color_RGBA8 prim;
+    Color_RGBA8 env;
+
+    prim = sPrimColors[getItemEntry->drawItemId - RG_CUSTOM_FLAME_BLUE];
+    env = sEnvColors[getItemEntry->drawItemId - RG_CUSTOM_FLAME_BLUE];
+    
+    OPEN_DISPS(play->state.gfxCtx);
+
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+   
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               (uintptr_t)Gfx_TwoTexScrollEx(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (play->state.frames * -20) & 511, 32,
+                                             128, 0, 0, 0, -20));
+
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, prim.r, prim.g, prim.b, prim.a);
+    gDPSetEnvColor(POLY_XLU_DISP++, env.r, env.g, env.b, env.a);
+
+    // Matrix_RotateY((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f), MTXMODE_APPLY);
+
+   // Matrix_RotateY(M_PI, MTXMODE_APPLY);
+    Matrix_ReplaceRotation(&play->billboardMtxF);
+    Matrix_Translate(0.0f, -45.0f, 0.0f, MTXMODE_APPLY);
+    Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(play->state.gfxCtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_XLU_DISP++, (Gfx*)gEffFire1DL);
+
+    CLOSE_DISPS(play->state.gfxCtx);
+    
 }
 
 extern "C" void Randomizer_DrawBossSoul(PlayState* play, GetItemEntry* getItemEntry) {

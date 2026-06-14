@@ -457,6 +457,13 @@ void GenerateItemPool() {
         AddItemToPool(RG_SPEAK_ZORA, 2, 1, 1, 1);
     }
 
+    if (ctx->GetOption(RSK_SHUFFLE_CUSTOM_FLAMES)) {
+        AddItemToPool(RG_CUSTOM_FLAME_BLUE, 1, 1, 1, 1);
+        AddItemToPool(RG_CUSTOM_FLAME_ORANGE, 1, 1, 1, 1);
+        AddItemToPool(RG_CUSTOM_FLAME_GREEN, 1, 1, 1, 1);
+        AddItemToPool(RG_CUSTOM_FLAME_PURPLE, 1, 1, 1, 1);
+    }
+
     if (ctx->GetOption(RSK_SHUFFLE_BEEHIVES)) {
         PlaceItemsForType(RCTYPE_BEEHIVE, true, true);
     }
