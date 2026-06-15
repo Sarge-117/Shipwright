@@ -3354,6 +3354,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             objBankIndex = 0;
         }
     }
+    /*
+    if (play->sceneNum == SCENE_ZORAS_FOUNTAIN && IS_RANDO) {
+        objBankIndex = 0;
+    }*/
 
     if ((objBankIndex < 0) ||
         ((dbEntry->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
