@@ -2261,6 +2261,20 @@ void RandomizerAfterSceneCommandsHandler(int16_t sceneNum) {
     if (RAND_GET_OPTION(RSK_SHUFFLE_ENTRANCES)) {
         Entrance_OverrideWeatherState();
     }
+
+    if (sceneNum == SCENE_ZORAS_FOUNTAIN && LINK_IS_CHILD && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES)) {
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_KIBAKO2, -2605.0f,  0.0f, 360.5f, 0, 0, 0, -1);
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 310.5f, 0, 0, 0, 0);
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, -50.0f, 270.5f, 0, 0, 0, 0);
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 50.0f, 270.5f, 0, 0, 0, 0);
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 230.5f, 0, 0, 0, 0);
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 100.0f, 230.5f, 0, 0, 0, 0);
+    }
+    if (sceneNum == SCENE_ZORAS_FOUNTAIN && LINK_IS_ADULT && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES)) {
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 270.5f, 0, 0, 0, 0);
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 230.5f, 0, 0, 0, 0);
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 100.0f, 230.5f, 0, 0, 0, 0);
+    }
 }
 
 void EnSi_DrawRandomizedItem(EnSi* enSi, PlayState* play) {
@@ -2870,6 +2884,13 @@ void RandomizerOnPlayerUpdateHandler() {
             triforcePieceScale = 0.0f;
             GameInteractor::State::TriforceHuntPieceGiven = false;
         }
+    }
+
+    if (gPlayState->sceneNum == SCENE_ZORAS_FOUNTAIN && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) && GET_PLAYER(gPlayState)->actor.world.pos.x < -2850.0f) {
+        gPlayState->nextEntranceIndex = ENTR_ZORAS_RIVER_1;
+        gPlayState->transitionTrigger = TRANS_TRIGGER_START;
+        gPlayState->transitionType = TRANS_TYPE_FADE_WHITE;
+        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
     }
 }
 
