@@ -1677,7 +1677,7 @@ bool IsCheckShuffled(RandomizerCheck rc) {
                (loc->GetRCType() != RCTYPE_SCRUB || showScrubs ||
                 (showMajorScrubs && (rc == RC_LW_DEKU_SCRUB_NEAR_BRIDGE || // The 3 scrubs that are always randomized
                                      rc == RC_HF_DEKU_SCRUB_GROTTO || rc == RC_LW_DEKU_SCRUB_GROTTO_FRONT))) &&
-               ((loc->GetRCType() != RCTYPE_MERCHANT || showMerchants) ||
+               ((loc->GetRCType() != RCTYPE_MERCHANT || (showMerchants && rc != RC_ZR_MAGIC_BEAN_SALESMAN)) ||
                 (rc == RC_ZR_MAGIC_BEAN_SALESMAN && showBeans)) &&
                (loc->GetRCType() != RCTYPE_BEGGAR || showBeggar) &&
                (loc->GetRCType() != RCTYPE_SONG_LOCATION || showSongs) &&
@@ -2298,9 +2298,11 @@ void CheckTrackerSettingsWindow::DrawElement() {
         ImGui::TableHeadersRow();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        SohGui::GetSohMenu()->MenuDrawItem(backgroundColorWidget, ImGui::GetContentRegionAvail().x, THEME_COLOR);
+        SohGui::GetSohMenu()->MenuDrawItem(backgroundColorWidget,
+                                           static_cast<uint32_t>(ImGui::GetContentRegionAvail().x), THEME_COLOR);
 
-        SohGui::GetSohMenu()->MenuDrawItem(windowTypeWidget, ImGui::GetContentRegionAvail().x, THEME_COLOR);
+        SohGui::GetSohMenu()->MenuDrawItem(windowTypeWidget, static_cast<uint32_t>(ImGui::GetContentRegionAvail().x),
+                                           THEME_COLOR);
 
         UIWidgets::CVarSliderFloat("Font Size", CVAR_TRACKER_CHECK("FontSize"),
                                    UIWidgets::FloatSliderOptions()
@@ -2340,17 +2342,22 @@ void CheckTrackerSettingsWindow::DrawElement() {
             }
         }
         ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
-        SohGui::GetSohMenu()->MenuDrawItem(dungeonSpoilerWidget, ImGui::GetContentRegionAvail().x, THEME_COLOR);
+        SohGui::GetSohMenu()->MenuDrawItem(dungeonSpoilerWidget,
+                                           static_cast<uint32_t>(ImGui::GetContentRegionAvail().x), THEME_COLOR);
         ImGui::EndDisabled();
 
-        SohGui::GetSohMenu()->MenuDrawItem(hideUnshuffledShopWidget, ImGui::GetContentRegionAvail().x, THEME_COLOR);
+        SohGui::GetSohMenu()->MenuDrawItem(hideUnshuffledShopWidget,
+                                           static_cast<uint32_t>(ImGui::GetContentRegionAvail().x), THEME_COLOR);
 
-        SohGui::GetSohMenu()->MenuDrawItem(showGSWidget, ImGui::GetContentRegionAvail().x, THEME_COLOR);
+        SohGui::GetSohMenu()->MenuDrawItem(showGSWidget, static_cast<uint32_t>(ImGui::GetContentRegionAvail().x),
+                                           THEME_COLOR);
 
-        SohGui::GetSohMenu()->MenuDrawItem(showLogicWidget, ImGui::GetContentRegionAvail().x, THEME_COLOR);
+        SohGui::GetSohMenu()->MenuDrawItem(showLogicWidget, static_cast<uint32_t>(ImGui::GetContentRegionAvail().x),
+                                           THEME_COLOR);
 
         ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
-        SohGui::GetSohMenu()->MenuDrawItem(checkAvailabilityWidget, ImGui::GetContentRegionAvail().x, THEME_COLOR);
+        SohGui::GetSohMenu()->MenuDrawItem(checkAvailabilityWidget,
+                                           static_cast<uint32_t>(ImGui::GetContentRegionAvail().x), THEME_COLOR);
         ImGui::EndDisabled();
 
         // Filtering settings
