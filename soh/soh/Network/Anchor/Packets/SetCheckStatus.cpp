@@ -2,6 +2,8 @@
 #include <nlohmann/json.hpp>
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/OTRGlobals.h"
+#include "soh/Notification/Notification.h"
+#include "soh/Enhancements/randomizer/randomizerEnums/RandomizerCheck.h"
 #include "soh/Enhancements/randomizer/randomizer_check_tracker.h"
 #include "soh/Enhancements/randomizer/randomizer.h"
 #include "soh/Notification/Notification.h"
