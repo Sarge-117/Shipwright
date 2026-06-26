@@ -8,6 +8,7 @@ extern "C" {
 extern PlayState* gPlayState;
 #include "macros.h"
 #include "src/overlays/actors/ovl_En_Door/z_en_door.h"
+#include "src/overlays/actors/ovl_door_shutter/z_door_shutter.h"
 }
 
 using SceneDoorParamsPair = std::pair<int, int>;
@@ -64,6 +65,16 @@ std::map<SceneDoorParamsPair, RandomizerInf> lookupTable = {
     // clang-format on
 };
 
+using SceneDoorParamsPair = std::pair<int, int>;
+std::map<SceneDoorParamsPair, RandomizerInf> lookupTableShutter = {
+    // clang-format off
+    {{ SCENE_DEKU_TREE,  127 },         RAND_INF_DEKU_DOOR_1_UNLOCKED },
+    {{ SCENE_DODONGOS_CAVERN,  7231 },  RAND_INF_DODONGO_DOOR_1_UNLOCKED },
+    {{ SCENE_JABU_JABU, 4159 },         RAND_INF_JABU_DOOR_1_UNLOCKED },
+    {{ SCENE_ICE_CAVERN,  11348 },      RAND_INF_ICE_DOOR_1_UNLOCKED },
+    // clang-format on
+};
+
 static void OnDoorInit(void* actorRef) {
     EnDoor* enDoor = static_cast<EnDoor*>(actorRef);
     enDoor->randomizerInf = RAND_INF_MAX;
@@ -83,6 +94,23 @@ static void OnDoorInit(void* actorRef) {
     }
 }
 
+void RegisterMoreDungeonKeys() {
+    bool shouldRegister = IS_RANDO && RAND_GET_OPTION(RSK_MORE_DUNGEON_KEYS);
+
+    COND_HOOK(OnDoorShutterInit, shouldRegister, [&](void* actor) {
+        DoorShutter* door = (DoorShutter*)actor;
+        door->randomizerInf = RAND_INF_MAX;
+
+        auto it = lookupTableShutter.find({ gPlayState->sceneNum, door->dyna.actor.params });
+        if (it != lookupTableShutter.end()) {
+            door->randomizerInf = it->second;
+            if (!Flags_GetRandomizerInf(door->randomizerInf)) {
+                door->unlockTimer = 10;
+            }
+        }
+    });
+}
+
 void RegisterLockOverworldDoors() {
     bool shouldRegister = IS_RANDO && RAND_GET_OPTION(RSK_LOCK_OVERWORLD_DOORS);
 
@@ -96,6 +124,7 @@ void RegisterLockOverworldDoors() {
             Flags_SetRandomizerInf(enDoor->randomizerInf);
             *should = false;
         }
+
     });
 
     COND_VB_SHOULD(VB_NOT_HAVE_SMALL_KEY, shouldRegister, {
@@ -130,3 +159,4 @@ void RegisterLockOverworldDoors() {
 }
 
 static RegisterShipInitFunc initFunc(RegisterLockOverworldDoors, { "IS_RANDO" });
+static RegisterShipInitFunc initFunc1(RegisterMoreDungeonKeys, { "IS_RANDO" });

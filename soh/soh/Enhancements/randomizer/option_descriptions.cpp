@@ -850,6 +850,8 @@ void Settings::CreateOptionDescriptions() {
     mOptionDescriptions[RSK_ROCS_FEATHER] =
         "Adds Roc's Feather to the item pool. Roc's Feather is a custom item granting the player a jump on demand. "
         "The jump can also be used when already in mid-air. Roc's Feather is not considered by logic.";
+    mOptionDescriptions[RSK_MORE_DUNGEON_KEYS] =
+        "Adds locked doors and small keys for some dungeons that don't normally have them.";
     mOptionDescriptions[RSK_SLINGBOW_BREAK_BEEHIVES] =
         "Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.";
     mOptionDescriptions[RSK_LOGIC_RULES] =

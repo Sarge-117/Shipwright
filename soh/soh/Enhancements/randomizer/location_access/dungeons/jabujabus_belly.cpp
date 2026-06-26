@@ -38,7 +38,7 @@ void RegionTable_Init_JabuJabusBelly() {
     areaTable[RR_JABU_JABUS_BELLY_HOLES_ROOM] = Region("Jabu Jabus Belly Holes Room", SCENE_JABU_JABU, {}, {}, {
         //Exits
         ENTRANCE(RR_JABU_JABUS_BELLY_LIFT_ROOM,              true),
-        ENTRANCE(RR_JABU_JABUS_BELLY_FORKED_CORRIDOR,        true),
+        ENTRANCE(RR_JABU_JABUS_BELLY_FORKED_CORRIDOR,        logic->HasExtraDungeonKey(RG_JABU_JABU_SMALL_KEY)),
         ENTRANCE(RR_JABU_JABUS_BELLY_HOLES_LOWER_DOOR_LEDGE, true),
         ENTRANCE(RR_JABU_JABUS_BELLY_BIGOCTO_LEDGE,          logic->Get(LOGIC_JABU_NORTH_TENTACLE)),
     });

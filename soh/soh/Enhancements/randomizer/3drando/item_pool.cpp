@@ -425,6 +425,13 @@ void GenerateItemPool() {
         AddItemToPool(RG_SPEAK_ZORA, 2, 1, 1, 1);
     }
 
+    if (ctx->GetOption(RSK_MORE_DUNGEON_KEYS) && ctx->GetOption(RSK_KEYSANITY).IsNot(RO_DUNGEON_ITEM_LOC_VANILLA)) {
+        AddItemToPool(RG_DEKU_TREE_SMALL_KEY, 1, 1, 1, 1, false);
+        AddItemToPool(RG_DODONGOS_CAVERN_SMALL_KEY, 1, 1, 1, 1, false);
+        AddItemToPool(RG_JABU_JABU_SMALL_KEY, 1, 1, 1, 1, false);
+        AddItemToPool(RG_ICE_CAVERN_SMALL_KEY, 1, 1, 1, 1, false);
+    }
+
     if (ctx->GetOption(RSK_SHUFFLE_BEEHIVES)) {
         PlaceItemsForType(RCTYPE_BEEHIVE, true, true);
     }
@@ -693,6 +700,8 @@ void GenerateItemPool() {
             }
         }
     }
+
+    
 
     if (ctx->GetOption(RSK_BOSS_KEYSANITY).Is(RO_DUNGEON_ITEM_LOC_VANILLA)) {
         PlaceVanillaBossKeys();

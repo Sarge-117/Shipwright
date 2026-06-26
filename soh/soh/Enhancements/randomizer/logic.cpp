@@ -211,6 +211,10 @@ bool Logic::HasItem(RandomizerGet itemName) {
         case RG_HYLIA_LAB_KEY:
         case RG_FISHING_HOLE_KEY:
         case RG_RUTOS_LETTER:
+        case RG_DEKU_TREE_SMALL_KEY:
+        case RG_DODONGOS_CAVERN_SMALL_KEY:
+        case RG_JABU_JABU_SMALL_KEY:
+        case RG_ICE_CAVERN_SMALL_KEY:
             return CheckRandoInf(RandoGetToRandInf.at(itemName));
             // Boss Keys
         case RG_FOREST_TEMPLE_BOSS_KEY:
@@ -686,6 +690,18 @@ bool Logic::HasBossSoul(RandomizerGet itemName) {
 // RANDOMISERTODO intergrate into HasItem
 bool Logic::CanOpenOverworldDoor(RandomizerGet key) {
     if (!ctx->GetOption(RSK_LOCK_OVERWORLD_DOORS)) {
+        return true;
+    }
+
+    if (HasItem(RG_SKELETON_KEY)) {
+        return true;
+    }
+
+    return HasItem(key);
+}
+
+bool Logic::HasExtraDungeonKey(RandomizerGet key) {
+    if (!ctx->GetOption(RSK_MORE_DUNGEON_KEYS)) {
         return true;
     }
 
@@ -1851,6 +1867,10 @@ std::map<RandomizerGet, uint32_t> Logic::RandoGetToRandInf = {
     { RG_BACK_TOWER_KEY, RAND_INF_BACK_TOWER_KEY_OBTAINED },
     { RG_HYLIA_LAB_KEY, RAND_INF_HYLIA_LAB_KEY_OBTAINED },
     { RG_FISHING_HOLE_KEY, RAND_INF_FISHING_HOLE_KEY_OBTAINED },
+    { RG_DEKU_TREE_SMALL_KEY, RAND_INF_DEKU_SMALL_KEY_1_FOUND },
+    { RG_DODONGOS_CAVERN_SMALL_KEY, RAND_INF_DODONGO_SMALL_KEY_1_FOUND },
+    { RG_JABU_JABU_SMALL_KEY, RAND_INF_JABU_SMALL_KEY_1_FOUND },
+    { RG_ICE_CAVERN_SMALL_KEY, RAND_INF_ICE_SMALL_KEY_1_FOUND },
 };
 
 std::map<uint32_t, uint32_t> Logic::RandoGetToDungeonScene = {
@@ -2302,6 +2322,10 @@ void Logic::ApplyItemEffect(Item& item, bool state) {
                 case RG_BACK_TOWER_KEY:
                 case RG_HYLIA_LAB_KEY:
                 case RG_FISHING_HOLE_KEY:
+                case RG_DEKU_TREE_SMALL_KEY:
+                case RG_DODONGOS_CAVERN_SMALL_KEY:
+                case RG_JABU_JABU_SMALL_KEY:
+                case RG_ICE_CAVERN_SMALL_KEY:
                     SetRandoInf(RandoGetToRandInf.at(randoGet), state);
                     break;
                 case RG_TRIFORCE_PIECE:
