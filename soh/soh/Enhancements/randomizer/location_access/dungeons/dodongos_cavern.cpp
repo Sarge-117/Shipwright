@@ -40,7 +40,7 @@ void RegionTable_Init_DodongosCavern() {
         ENTRANCE(RR_DODONGOS_CAVERN_SE_CORRIDOR,   AnyAgeTime([]{return logic->CanBreakMudWalls() || logic->HasItem(RG_GORONS_BRACELET);})),
         ENTRANCE(RR_DODONGOS_CAVERN_STAIRS_LOWER,  logic->Get(LOGIC_DC_STAIRS_ROOM_DOOR)),
         ENTRANCE(RR_DODONGOS_CAVERN_FAR_BRIDGE,    logic->Get(LOGIC_DC_LIFT_PLATFORM)),
-        ENTRANCE(RR_DODONGOS_CAVERN_BOSS_AREA,     logic->Get(LOGIC_DC_EYES_LIT)),
+        ENTRANCE(RR_DODONGOS_CAVERN_BOSS_AREA,     logic->Get(LOGIC_DC_EYES_LIT) && logic->HasExtraDungeonKey(RG_DODONGOS_CAVERN_SMALL_KEY)),
         ENTRANCE(RR_DODONGOS_CAVERN_BOSS_ENTRYWAY, false),
     });
 

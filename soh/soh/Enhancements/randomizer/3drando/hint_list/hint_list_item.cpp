@@ -1363,6 +1363,66 @@ void StaticData::HintTable_Init_Item() {
                                                           CustomMessage("a final lockpick", /*german*/"ein finaler Dietrich", /*french*/"un crochet à porte final")});
                                                            // /*spanish*/una apertura portentosa final
 
+    hintTextTable[RHT_DEKU_TREE_SMALL_KEY] = HintText(CustomMessage("a Deku Tree Small Key", /*german*/"ein kleiner Schlüssel von Ganons Schloß", /*french*/"une petite clé du Château de Ganon"),
+                                                          // /*spanish*/una llave pequeña del Castillo de Ganon
+                                                          {
+                                                          CustomMessage("a small key", /*german*/"ein kleiner Schlüssel", /*french*/"une petite clé")
+                                                           // /*spanish*/una llave pequeña
+                                                          }, {
+                                                          CustomMessage("a final tool for unlocking", /*german*/"ein finales Werkzeug zur Entriegelung", /*french*/"un anti-porte final"),
+                                                           // /*spanish*/una clave de una entrada final
+                                                          CustomMessage("a final dungeon pass", /*german*/"ein finaler Labyrinth-Pass", /*french*/"le rêve final d'un prisonnier"),
+                                                           // /*spanish*/un pase de una mazmorra final
+                                                          CustomMessage("a final lock remover", /*german*/"ein finaler Schlossentferner", /*french*/"un efface-serrure final"),
+                                                           // /*spanish*/un destructor de cerraduras final
+                                                          CustomMessage("a final lockpick", /*german*/"ein finaler Dietrich", /*french*/"un crochet à porte final")});
+                                                           // /*spanish*/una apertura portentosa final
+
+    hintTextTable[RHT_DODONGOS_CAVERN_SMALL_KEY] = HintText(CustomMessage("a Dodongo's Cavern Small Key", /*german*/"ein kleiner Schlüssel von Ganons Schloß", /*french*/"une petite clé du Château de Ganon"),
+                                                          // /*spanish*/una llave pequeña del Castillo de Ganon
+                                                          {
+                                                          CustomMessage("a small key", /*german*/"ein kleiner Schlüssel", /*french*/"une petite clé")
+                                                           // /*spanish*/una llave pequeña
+                                                          }, {
+                                                          CustomMessage("a final tool for unlocking", /*german*/"ein finales Werkzeug zur Entriegelung", /*french*/"un anti-porte final"),
+                                                           // /*spanish*/una clave de una entrada final
+                                                          CustomMessage("a final dungeon pass", /*german*/"ein finaler Labyrinth-Pass", /*french*/"le rêve final d'un prisonnier"),
+                                                           // /*spanish*/un pase de una mazmorra final
+                                                          CustomMessage("a final lock remover", /*german*/"ein finaler Schlossentferner", /*french*/"un efface-serrure final"),
+                                                           // /*spanish*/un destructor de cerraduras final
+                                                          CustomMessage("a final lockpick", /*german*/"ein finaler Dietrich", /*french*/"un crochet à porte final")});
+                                                           // /*spanish*/una apertura portentosa final
+
+    hintTextTable[RHT_JABU_JABU_SMALL_KEY] = HintText(CustomMessage("a Jabu-Jabu Small Key", /*german*/"ein kleiner Schlüssel von Ganons Schloß", /*french*/"une petite clé du Château de Ganon"),
+                                                          // /*spanish*/una llave pequeña del Castillo de Ganon
+                                                          {
+                                                          CustomMessage("a small key", /*german*/"ein kleiner Schlüssel", /*french*/"une petite clé")
+                                                           // /*spanish*/una llave pequeña
+                                                          }, {
+                                                          CustomMessage("a final tool for unlocking", /*german*/"ein finales Werkzeug zur Entriegelung", /*french*/"un anti-porte final"),
+                                                           // /*spanish*/una clave de una entrada final
+                                                          CustomMessage("a final dungeon pass", /*german*/"ein finaler Labyrinth-Pass", /*french*/"le rêve final d'un prisonnier"),
+                                                           // /*spanish*/un pase de una mazmorra final
+                                                          CustomMessage("a final lock remover", /*german*/"ein finaler Schlossentferner", /*french*/"un efface-serrure final"),
+                                                           // /*spanish*/un destructor de cerraduras final
+                                                          CustomMessage("a final lockpick", /*german*/"ein finaler Dietrich", /*french*/"un crochet à porte final")});
+                                                           // /*spanish*/una apertura portentosa final
+
+    hintTextTable[RHT_ICE_CAVERN_SMALL_KEY] = HintText(CustomMessage("an Ice Cavern Small Key", /*german*/"ein kleiner Schlüssel von Ganons Schloß", /*french*/"une petite clé du Château de Ganon"),
+                                                          // /*spanish*/una llave pequeña del Castillo de Ganon
+                                                          {
+                                                          CustomMessage("a small key", /*german*/"ein kleiner Schlüssel", /*french*/"une petite clé")
+                                                           // /*spanish*/una llave pequeña
+                                                          }, {
+                                                          CustomMessage("a final tool for unlocking", /*german*/"ein finales Werkzeug zur Entriegelung", /*french*/"un anti-porte final"),
+                                                           // /*spanish*/una clave de una entrada final
+                                                          CustomMessage("a final dungeon pass", /*german*/"ein finaler Labyrinth-Pass", /*french*/"le rêve final d'un prisonnier"),
+                                                           // /*spanish*/un pase de una mazmorra final
+                                                          CustomMessage("a final lock remover", /*german*/"ein finaler Schlossentferner", /*french*/"un efface-serrure final"),
+                                                           // /*spanish*/un destructor de cerraduras final
+                                                          CustomMessage("a final lockpick", /*german*/"ein finaler Dietrich", /*french*/"un crochet à porte final")});
+                                                           // /*spanish*/una apertura portentosa final
+
     hintTextTable[RHT_OVERWORLD_KEY] = HintText(CustomMessage("an Overworld Key", /*german*/"ein Schlüssel der Oberwelt", /*french*/"une clé de l'Overworld"),
                                                 // /*spanish*/una llave del mundo exterior
                                                 {

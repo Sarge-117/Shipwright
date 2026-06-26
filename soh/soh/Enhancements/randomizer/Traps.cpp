@@ -891,6 +891,30 @@ static void InitTrickNames() {
         Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
         Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
     };
+    trickNameTable[RG_DEKU_TREE_SMALL_KEY] = {
+        // TODO_TRANSALTE
+        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+    };
+    trickNameTable[RG_DODONGOS_CAVERN_SMALL_KEY] = {
+        // TODO_TRANSALTE
+        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+    };
+    trickNameTable[RG_JABU_JABU_SMALL_KEY] = {
+        // TODO_TRANSALTE
+        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+    };
+    trickNameTable[RG_ICE_CAVERN_SMALL_KEY] = {
+        // TODO_TRANSALTE
+        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+    };
 
     trickNameTable[RG_FOREST_TEMPLE_KEY_RING] = {
         // TODO_TRANSALTE
