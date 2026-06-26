@@ -678,6 +678,22 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
             return gSaveContext.inventory.dungeonKeys[SCENE_INSIDE_GANONS_CASTLE] < GANONS_CASTLE_SMALL_KEY_MAX
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
+        case RG_DEKU_TREE_SMALL_KEY:
+            return gSaveContext.inventory.dungeonKeys[SCENE_DEKU_TREE] < DEKU_TREE_SMALL_KEY_MAX
+                       ? CAN_OBTAIN
+                       : CANT_OBTAIN_ALREADY_HAVE;
+        case RG_DODONGOS_CAVERN_SMALL_KEY:
+            return gSaveContext.inventory.dungeonKeys[SCENE_DODONGOS_CAVERN] < DODONGOS_CAVERN_SMALL_KEY_MAX
+                       ? CAN_OBTAIN
+                       : CANT_OBTAIN_ALREADY_HAVE;
+        case RG_JABU_JABU_SMALL_KEY:
+            return gSaveContext.inventory.dungeonKeys[SCENE_JABU_JABU] < JABU_JABU_SMALL_KEY_MAX
+                       ? CAN_OBTAIN
+                       : CANT_OBTAIN_ALREADY_HAVE;
+        case RG_ICE_CAVERN_SMALL_KEY:
+            return gSaveContext.inventory.dungeonKeys[SCENE_ICE_CAVERN] < ICE_CAVERN_SMALL_KEY_MAX
+                       ? CAN_OBTAIN
+                       : CANT_OBTAIN_ALREADY_HAVE;
         case RG_TREASURE_GAME_SMALL_KEY:
             return gSaveContext.inventory.dungeonKeys[SCENE_TREASURE_BOX_SHOP] < TREASURE_GAME_SMALL_KEY_MAX
                        ? CAN_OBTAIN
@@ -1162,6 +1178,7 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
 
     // dungeon items
     if ((item >= RG_FOREST_TEMPLE_SMALL_KEY && item <= RG_GANONS_CASTLE_SMALL_KEY) ||
+        (item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_ICE_CAVERN_SMALL_KEY) ||
         (item >= RG_FOREST_TEMPLE_KEY_RING && item <= RG_GANONS_CASTLE_KEY_RING) ||
         (item >= RG_FOREST_TEMPLE_BOSS_KEY && item <= RG_GANONS_CASTLE_BOSS_KEY) ||
         (item >= RG_DEKU_TREE_MAP && item <= RG_ICE_CAVERN_MAP) ||
@@ -1171,14 +1188,17 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
         switch (item) {
             case RG_DEKU_TREE_MAP:
             case RG_DEKU_TREE_COMPASS:
+            case RG_DEKU_TREE_SMALL_KEY:
                 mapIndex = SCENE_DEKU_TREE;
                 break;
             case RG_DODONGOS_CAVERN_MAP:
             case RG_DODONGOS_CAVERN_COMPASS:
+            case RG_DODONGOS_CAVERN_SMALL_KEY:
                 mapIndex = SCENE_DODONGOS_CAVERN;
                 break;
             case RG_JABU_JABUS_BELLY_MAP:
             case RG_JABU_JABUS_BELLY_COMPASS:
+            case RG_JABU_JABU_SMALL_KEY:
                 mapIndex = SCENE_JABU_JABU;
                 break;
             case RG_FOREST_TEMPLE_MAP:
@@ -1230,6 +1250,7 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 break;
             case RG_ICE_CAVERN_MAP:
             case RG_ICE_CAVERN_COMPASS:
+            case RG_ICE_CAVERN_SMALL_KEY:
                 mapIndex = SCENE_ICE_CAVERN;
                 break;
             case RG_GANONS_CASTLE_BOSS_KEY:
@@ -1254,12 +1275,28 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 break;
         }
 
-        if ((item >= RG_FOREST_TEMPLE_SMALL_KEY) && (item <= RG_GANONS_CASTLE_SMALL_KEY)) {
+        if ((item >= RG_FOREST_TEMPLE_SMALL_KEY) && (item <= RG_ICE_CAVERN_SMALL_KEY)) {
             gSaveContext.ship.stats.dungeonKeys[mapIndex]++;
             if (gSaveContext.inventory.dungeonKeys[mapIndex] < 0) {
                 gSaveContext.inventory.dungeonKeys[mapIndex] = 1;
             } else {
                 gSaveContext.inventory.dungeonKeys[mapIndex]++;
+            }
+            switch (item) { 
+                case RG_FOREST_TEMPLE_SMALL_KEY:
+                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_DEKU_SMALL_KEY_1_FOUND));
+                    break;
+                case RG_DODONGOS_CAVERN_SMALL_KEY:
+                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_DODONGO_SMALL_KEY_1_FOUND));
+                    break;
+                case RG_JABU_JABU_SMALL_KEY:
+                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_JABU_SMALL_KEY_1_FOUND));
+                    break;
+                case RG_ICE_CAVERN_SMALL_KEY:
+                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_ICE_SMALL_KEY_1_FOUND));
+                    break;
+                default:
+                    break;
             }
             return Return_Item_Entry(giEntry, RG_NONE);
         }
@@ -1294,6 +1331,10 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
         gSaveContext.inventory.dungeonKeys[SCENE_GERUDO_TRAINING_GROUND] = GERUDO_TRAINING_GROUND_SMALL_KEY_MAX;
         gSaveContext.inventory.dungeonKeys[SCENE_THIEVES_HIDEOUT] = GERUDO_FORTRESS_SMALL_KEY_MAX;
         gSaveContext.inventory.dungeonKeys[SCENE_INSIDE_GANONS_CASTLE] = GANONS_CASTLE_SMALL_KEY_MAX;
+        gSaveContext.inventory.dungeonKeys[SCENE_DEKU_TREE] = DEKU_TREE_SMALL_KEY_MAX;
+        gSaveContext.inventory.dungeonKeys[SCENE_DODONGOS_CAVERN] = DODONGOS_CAVERN_SMALL_KEY_MAX;
+        gSaveContext.inventory.dungeonKeys[SCENE_JABU_JABU] = JABU_JABU_SMALL_KEY_MAX;
+        gSaveContext.inventory.dungeonKeys[SCENE_ICE_CAVERN] = ICE_CAVERN_SMALL_KEY_MAX;
 
         return Return_Item_Entry(giEntry, RG_NONE);
     } else if (item >= RG_GUARD_HOUSE_KEY && item <= RG_FISHING_HOLE_KEY) {
