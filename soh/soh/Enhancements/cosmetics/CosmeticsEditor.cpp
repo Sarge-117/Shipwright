@@ -285,6 +285,11 @@ std::map<std::string, CosmeticOption> cosmeticOptions = {
     //COSMETIC_OPTION("Key.ChestGameEmblem",        "Chest Game Key Emblem",    COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(255, 0,   0,   255), false, true, false),
     COSMETIC_OPTION("Key.Skeleton",                 "Skeleton Key",             COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(255, 255, 170, 255), false, true, false),
 
+    COSMETIC_OPTION("Key.DekuSmallBody",            "Deku Tree Small Key",      COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(255, 255, 255, 255), false, true, false),
+    COSMETIC_OPTION("Key.DodongoSmallBody",         "Dodongo Cavern Small Key", COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(255, 255, 255, 255), false, true, false),
+    COSMETIC_OPTION("Key.JabuSmallBody",            "Jabu-Jabu Small Key",      COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(255, 255, 255, 255), false, true, false),
+    COSMETIC_OPTION("Key.IceCavernSmallBody",       "Ice Cavern Small Key",     COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(255, 255, 255, 255), false, true, false),
+
     COSMETIC_OPTION("HUD.AButton",                  "A Button",                 COSMETICS_GROUP_HUD,          ColorRGBA8( 90,  90, 255, 255), false, true, false),
     COSMETIC_OPTION("HUD.BButton",                  "B Button",                 COSMETICS_GROUP_HUD,          ColorRGBA8(  0, 150,   0, 255), false, true, false),
     COSMETIC_OPTION("HUD.CButtons",                 "C Buttons",                COSMETICS_GROUP_HUD,          ColorRGBA8(255, 160,   0, 255), false, true, false),
@@ -2308,6 +2313,30 @@ void CosmeticsEditorWindow::ApplyDungeonKeyColors() {
     CVarSetInteger(cosmeticOptions["Key.FortSmallBody"].changedCvar, 1);
     cosmeticOptions["Key.FortSmallBody"].currentColor = { 255 / 255.0f, 255 / 255.0f, 255 / 255.0f, 255 / 255.0f };
     ResetColor(cosmeticOptions.at("Key.FortSmallEmblem"));
+
+    // Deku Tree
+    CVarSetColor(cosmeticOptions["Key.DekuSmallBody"].valuesCvar, { 136, 87, 44, 255 });
+    CVarSetInteger(cosmeticOptions["Key.DekuSmallBody"].changedCvar, 1);
+    cosmeticOptions["Key.DekuSmallBody"].currentColor = { 136 / 255.0f, 87 / 255.0f, 44 / 255.0f, 255 / 255.0f };
+    //ResetColor(cosmeticOptions.at("Key.DekuSmallEmblem"));
+
+    // Dodongo's Cavern
+    CVarSetColor(cosmeticOptions["Key.DodongoSmallBody"].valuesCvar, { 203, 115, 57, 255 });
+    CVarSetInteger(cosmeticOptions["Key.DodongoSmallBody"].changedCvar, 1);
+    cosmeticOptions["Key.DodongoSmallBody"].currentColor = { 203 / 255.0f, 115 / 255.0f, 57 / 255.0f, 255 / 255.0f };
+    //ResetColor(cosmeticOptions.at("Key.DodongoSmallEmblem"));
+
+    // Jabu
+    CVarSetColor(cosmeticOptions["Key.JabuSmallBody"].valuesCvar, { 252, 165, 152, 255 });
+    CVarSetInteger(cosmeticOptions["Key.JabuSmallBody"].changedCvar, 1);
+    cosmeticOptions["Key.JabuSmallBody"].currentColor = { 252 / 255.0f, 165 / 255.0f, 152 / 255.0f, 255 / 255.0f };
+    //ResetColor(cosmeticOptions.at("Key.JabuSmallEmblem"));
+
+    // Ice Cavern
+    CVarSetColor(cosmeticOptions["Key.IceCavernSmallBody"].valuesCvar, { 72, 239, 248, 255 });
+    CVarSetInteger(cosmeticOptions["Key.IceCavernSmallBody"].changedCvar, 1);
+    cosmeticOptions["Key.IceCavernSmallBody"].currentColor = { 72 / 255.0f, 239 / 255.0f, 248 / 255.0f, 255 / 255.0f };
+    //ResetColor(cosmeticOptions.at("Key.IceCavernSmallEmblem"));
 }
 
 void CosmeticsEditorWindow::DrawElement() {

@@ -46,7 +46,7 @@ void RegionTable_Init_DekuTree() {
         //Exits
         ENTRANCE(RR_DEKU_TREE_LOBBY,          true),
         ENTRANCE(RR_DEKU_TREE_LOBBY_3F,       logic->HasItem(RG_CLIMB) || logic->CanUse(RG_LONGSHOT)), // precise hookshot atop chest can make it as adult
-        ENTRANCE(RR_DEKU_TREE_2F_MIDDLE_ROOM, true),
+        ENTRANCE(RR_DEKU_TREE_2F_MIDDLE_ROOM, logic->HasExtraDungeonKey(RG_DEKU_TREE_SMALL_KEY)),
     });
 
     areaTable[RR_DEKU_TREE_LOBBY_3F] = Region("Deku Tree Lobby 3F", SCENE_DEKU_TREE, {

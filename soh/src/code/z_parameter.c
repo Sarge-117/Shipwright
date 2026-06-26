@@ -5286,6 +5286,13 @@ void Interface_Draw(PlayState* play) {
                     case SCENE_GANONS_TOWER_COLLAPSE_INTERIOR:
                     case SCENE_INSIDE_GANONS_CASTLE_COLLAPSE:
                     case SCENE_TREASURE_BOX_SHOP:
+                    case SCENE_DEKU_TREE:
+                    case SCENE_DODONGOS_CAVERN:
+                    case SCENE_JABU_JABU:
+                        if (play->sceneNum <= SCENE_JABU_JABU &&
+                            (!Randomizer_GetSettingValue(RSK_MORE_DUNGEON_KEYS) || !IS_RANDO)) {
+                            break;
+                        }
                         if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] >= 0) {
                             s16 X_Margins_SKC;
                             s16 Y_Margins_SKC;

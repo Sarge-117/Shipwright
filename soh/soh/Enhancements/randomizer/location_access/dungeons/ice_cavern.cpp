@@ -197,7 +197,7 @@ void RegionTable_Init_IceCavern() {
     }, {
         //Exits
         ENTRANCE(RR_ICE_CAVERN_AFTER_BLOCK_ROOM, AnyAgeTime([]{return logic->BlueFire();})),
-        ENTRANCE(RR_ICE_CAVERN_FINAL_ROOM, true),
+        ENTRANCE(RR_ICE_CAVERN_FINAL_ROOM, logic->HasExtraDungeonKey(RG_ICE_CAVERN_SMALL_KEY)),
     });
 
     areaTable[RR_ICE_CAVERN_FINAL_ROOM] = Region("Ice Cavern Final Room", SCENE_ICE_CAVERN, {}, {

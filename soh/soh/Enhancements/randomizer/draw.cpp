@@ -37,12 +37,15 @@ extern PlayState* gPlayState;
 extern SaveContext gSaveContext;
 }
 
-const char* SmallBodyCvarValue[10] = {
+const char* SmallBodyCvarValue[14] = {
     CVAR_COSMETIC("Key.ForestSmallBody.Value"), CVAR_COSMETIC("Key.FireSmallBody.Value"),
     CVAR_COSMETIC("Key.WaterSmallBody.Value"),  CVAR_COSMETIC("Key.SpiritSmallBody.Value"),
     CVAR_COSMETIC("Key.ShadowSmallBody.Value"), CVAR_COSMETIC("Key.WellSmallBody.Value"),
     CVAR_COSMETIC("Key.GTGSmallBody.Value"),    CVAR_COSMETIC("Key.FortSmallBody.Value"),
-    CVAR_COSMETIC("Key.GanonsSmallBody.Value"), CVAR_COSMETIC("Key.ChestGameSmallBody.Value"),
+    CVAR_COSMETIC("Key.GanonsSmallBody.Value"), 
+    CVAR_COSMETIC("Key.DekuSmallBody.Value"),   CVAR_COSMETIC("Key.DodongoSmallBody.Value"),
+    CVAR_COSMETIC("Key.JabuSmallBody.Value"),   CVAR_COSMETIC("Key.IceCavernSmallBody.Value"), 
+    CVAR_COSMETIC("Key.ChestGameSmallBody.Value"),
 };
 
 const char* SmallEmblemCvarValue[10] = {
@@ -103,7 +106,7 @@ extern "C" void Randomizer_DrawSmallKey(PlayState* play, GetItemEntry* getItemEn
     Color_RGB8 keyColor = { 255, 255, 255 };
     keyColor = CVarGetColor24(SmallBodyCvarValue[slot], keyColor);
 
-    if (isCustomKeysEnabled) {
+    if (isCustomKeysEnabled && slot <= 10) {
         gDPSetEnvColor(POLY_OPA_DISP++, keyColor.r, keyColor.g, keyColor.b, 255);
         gSPDisplayList(POLY_OPA_DISP++, (Gfx*)gSmallKeyCustomDL);
 

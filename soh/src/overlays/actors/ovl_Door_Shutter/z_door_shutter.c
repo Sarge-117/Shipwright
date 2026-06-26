@@ -272,6 +272,9 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     }
     DoorShutter_SetupAction(this, DoorShutter_SetupType);
     this->styleType = phi_a3;
+
+    GameInteractor_ExecuteOnDoorShutterInit(thisx);
+
     if (this->doorType == SHUTTER_KEY_LOCKED || this->doorType == SHUTTER_BOSS) {
         if (GameInteractor_Should(VB_LOCK_BOSS_DOOR, !Flags_GetSwitch(play, this->dyna.actor.params & 0x3F), this)) {
             this->unlockTimer = 10;
@@ -395,6 +398,7 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
                 gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
                 GameInteractor_ExecuteOnDungeonKeyUsedHooks(gSaveContext.mapIndex);
+                Flags_SetRandomizerInf(this->randomizerInf);
             } else {
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
             }
@@ -776,11 +780,20 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
         }
 
         if (this->unlockTimer != 0) {
-            Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
-            Actor_DrawDoorLock(play, this->unlockTimer,
-                               (this->doorType == SHUTTER_BOSS)
-                                   ? DOORLOCK_BOSS
-                                   : ((this->gfxType == 6) ? DOORLOCK_NORMAL_SPIRIT : DOORLOCK_NORMAL));
+            if (play->sceneNum == SCENE_JABU_JABU) {
+                Matrix_Scale(0.11f, 0.11f, 0.25f, MTXMODE_APPLY);
+                Matrix_Translate(0, -8500.0f, 0, MTXMODE_APPLY);
+            } else {
+                Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
+            }
+            if (play->sceneNum == SCENE_DODONGOS_CAVERN || play->sceneNum == SCENE_JABU_JABU) {
+                Actor_DrawDoorLock(play, this->unlockTimer, DOORLOCK_NORMAL_SPIRIT);
+            } else {
+                Actor_DrawDoorLock(play, this->unlockTimer,
+                                   (this->doorType == SHUTTER_BOSS)
+                                       ? DOORLOCK_BOSS
+                                       : ((this->gfxType == 6) ? DOORLOCK_NORMAL_SPIRIT : DOORLOCK_NORMAL));
+            }
         }
 
         CLOSE_DISPS(play->state.gfxCtx);

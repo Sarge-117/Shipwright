@@ -187,6 +187,19 @@ bool Logic::HasItem(RandomizerGet itemName) {
         case RG_ZORAS_RIVER_BEAN_SOUL:
         case RG_SKELETON_KEY:
         case RG_RUTOS_LETTER:
+            // Extra dungeons keys and custom flames
+        case RG_DEKU_TREE_SMALL_KEY:
+        case RG_DODONGOS_CAVERN_SMALL_KEY:
+        case RG_JABU_JABU_SMALL_KEY:
+        case RG_ICE_CAVERN_SMALL_KEY:
+        case RG_TOMB_SMALL_KEY:
+        case RG_DEKU_TREE_BOSS_KEY:
+        case RG_DODONGOS_CAVERN_BOSS_KEY:
+        case RG_JABU_JABUS_BELLY_BOSS_KEY:
+        case RG_CUSTOM_FLAME_ORANGE:
+        case RG_CUSTOM_FLAME_BLUE:
+        case RG_CUSTOM_FLAME_GREEN:
+        case RG_CUSTOM_FLAME_PURPLE:
             return CheckRandoInf(StaticData::RandoGetToRandInf.at(itemName));
             // Boss Souls
         case RG_GOHMA_SOUL:
@@ -655,6 +668,18 @@ bool Logic::HasProjectile(HasProjectileAge age) {
             (CanUse(RG_HOOKSHOT) || CanUse(RG_FAIRY_BOW))) ||
            (age == HasProjectileAge::Either &&
             (CanUse(RG_FAIRY_SLINGSHOT) || CanUse(RG_BOOMERANG) || CanUse(RG_HOOKSHOT) || CanUse(RG_FAIRY_BOW)));
+}
+
+bool Logic::HasExtraDungeonKey(RandomizerGet key) {
+    if (!ctx->GetOption(RSK_MORE_DUNGEON_KEYS)) {
+        return true;
+    }
+
+    if (HasItem(RG_SKELETON_KEY)) {
+        return true;
+    }
+
+    return HasItem(key);
 }
 
 bool Logic::CanGroundJump(bool hasBombflower) {
@@ -1906,6 +1931,10 @@ std::map<RandomizerGet, uint32_t> StaticData::RandoGetToRandInf = {
     { RG_BACK_TOWER_KEY, RAND_INF_BACK_TOWER_KEY_OBTAINED },
     { RG_HYLIA_LAB_KEY, RAND_INF_HYLIA_LAB_KEY_OBTAINED },
     { RG_FISHING_HOLE_KEY, RAND_INF_FISHING_HOLE_KEY_OBTAINED },
+    { RG_DEKU_TREE_SMALL_KEY, RAND_INF_DEKU_SMALL_KEY_1_FOUND },
+    { RG_DODONGOS_CAVERN_SMALL_KEY, RAND_INF_DODONGO_SMALL_KEY_1_FOUND },
+    { RG_JABU_JABU_SMALL_KEY, RAND_INF_JABU_SMALL_KEY_1_FOUND },
+    { RG_ICE_CAVERN_SMALL_KEY, RAND_INF_ICE_SMALL_KEY_1_FOUND },
 };
 
 std::map<uint32_t, SceneID> Logic::RandoGetToDungeonScene = {
@@ -2367,6 +2396,10 @@ void Logic::ApplyItemEffect(Item& item, bool state) {
                 case RG_BACK_TOWER_KEY:
                 case RG_HYLIA_LAB_KEY:
                 case RG_FISHING_HOLE_KEY:
+                case RG_DEKU_TREE_SMALL_KEY:
+                case RG_DODONGOS_CAVERN_SMALL_KEY:
+                case RG_JABU_JABU_SMALL_KEY:
+                case RG_ICE_CAVERN_SMALL_KEY:
                     SetRandoInf(StaticData::RandoGetToRandInf.at(randoGet), state);
                     break;
                 case RG_TRIFORCE_PIECE:

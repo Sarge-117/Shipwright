@@ -855,6 +855,8 @@ void Settings::CreateOptionDescriptions() {
         "The jump can also be used when already in mid-air. Roc's Feather is not considered by logic.";
     mOptionDescriptions[RSK_SHUFFLE_CUSTOM_FLAMES] =
         "Shuffle the four flames of Glombon into the pool. There is no real point in doing this.";
+    mOptionDescriptions[RSK_MORE_DUNGEON_KEYS] =
+        "Adds locked doors and small keys for some dungeons that don't normally have them.";
     mOptionDescriptions[RSK_SLINGBOW_BREAK_BEEHIVES] =
         "Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.";
     mOptionDescriptions[RSK_LOGIC_RULES] =
