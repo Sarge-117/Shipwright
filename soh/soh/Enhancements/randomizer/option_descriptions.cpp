@@ -853,7 +853,9 @@ void Settings::CreateOptionDescriptions() {
     mOptionDescriptions[RSK_SHUFFLE_CUSTOM_FLAMES] =
         "Shuffle the four flames of Glombon into the pool. There is no real point in doing this.";
     mOptionDescriptions[RSK_MORE_DUNGEON_KEYS] =
-        "Adds locked doors and small keys for some dungeons that don't normally have them.";
+        "EXPERIMENTAL\n\nAdds locked doors and small keys for some dungeons that don't normally have them.\n\n"
+        "This setting ignores key placement settings and key ring settings.\n\n"
+        "Small keys will be placed anywhere in the world.";
     mOptionDescriptions[RSK_SLINGBOW_BREAK_BEEHIVES] =
         "Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.";
     mOptionDescriptions[RSK_LOGIC_RULES] =
