@@ -258,7 +258,7 @@ void RegionTable_Init_DekuTree() {
         ENTRANCE(RR_DEKU_TREE_MQ_1F,              true),
         //Will need canAvoid logic with enemy shuffle
         ENTRANCE(RR_DEKU_TREE_MQ_3F,              logic->HasItem(RG_CLIMB) || logic->CanUse(RG_LONGSHOT)), // precise hookshot atop chest can make it as adult
-        ENTRANCE(RR_DEKU_TREE_MQ_EYE_TARGET_ROOM, logic->Get(LOGIC_DEKU_TREE_MQ_2F_BURNED_WEB)),
+        ENTRANCE(RR_DEKU_TREE_MQ_EYE_TARGET_ROOM, (logic->Get(LOGIC_DEKU_TREE_MQ_2F_BURNED_WEB) && logic->HasExtraDungeonKey(RG_DEKU_TREE_SMALL_KEY))),
     });
 
     areaTable[RR_DEKU_TREE_MQ_3F] = Region("Deku Tree MQ 3F", SCENE_DEKU_TREE, {
