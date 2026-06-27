@@ -405,7 +405,7 @@ void RegionTable_Init_JabuJabusBelly() {
         ENTRANCE(RR_JABU_JABUS_BELLY_MQ_TO_FORK_NORTH_WEST, true),
         ENTRANCE(RR_JABU_JABUS_BELLY_MQ_TO_FORK_NORTH,      logic->BlastOrSmash() && logic->HasItem(RG_POWER_BRACELET)),
         ENTRANCE(RR_JABU_JABUS_BELLY_MQ_FORK_NORTH_EAST,    true),
-        ENTRANCE(RR_JABU_JABUS_BELLY_MQ_FORK_EAST,          AnyAgeTime([]{return logic->CanUse(RG_FAIRY_SLINGSHOT) && logic->CanUse(RG_STICKS);}) || AnyAgeTime([]{return logic->HasFireSource();})),
+        ENTRANCE(RR_JABU_JABUS_BELLY_MQ_FORK_EAST,          (AnyAgeTime([]{return logic->CanUse(RG_FAIRY_SLINGSHOT) && logic->CanUse(RG_STICKS);}) || AnyAgeTime([]{return logic->HasFireSource();}) && logic->HasExtraDungeonKey(RG_JABU_JABU_SMALL_KEY))),
     });
 
     // this handles spawning in tentacle
