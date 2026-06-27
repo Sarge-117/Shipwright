@@ -66,10 +66,12 @@ std::map<SceneDoorParamsPair, RandomizerInf> lookupTable = {
 using SceneDoorParamsPair = std::pair<int, int>;
 std::map<SceneDoorParamsPair, RandomizerInf> lookupTableShutter = {
     // clang-format off
-    {{ SCENE_DEKU_TREE,  127 },         RAND_INF_DEKU_DOOR_1_UNLOCKED },
-    {{ SCENE_DODONGOS_CAVERN,  7231 },  RAND_INF_DODONGO_DOOR_1_UNLOCKED },
-    {{ SCENE_JABU_JABU, 4159 },         RAND_INF_JABU_DOOR_1_UNLOCKED },
-    {{ SCENE_ICE_CAVERN,  11348 },      RAND_INF_ICE_DOOR_1_UNLOCKED },
+    {{ SCENE_DEKU_TREE,  127 },         RAND_INF_DEKU_DOOR_1_UNLOCKED }, // Door to first Deku Scrub room (vanilla)
+    {{ SCENE_DEKU_TREE,  63 },          RAND_INF_DEKU_DOOR_1_UNLOCKED }, // Door to first Deku Scrub room (MQ)
+    {{ SCENE_DODONGOS_CAVERN,  7231 },  RAND_INF_DODONGO_DOOR_1_UNLOCKED }, // Door in giant Dodongo's mouth (vanilla and MQ)
+    {{ SCENE_JABU_JABU, 4159 },         RAND_INF_JABU_DOOR_1_UNLOCKED }, // Door to rear forked hallway (vanilla)
+    {{ SCENE_JABU_JABU, 11327 },        RAND_INF_JABU_DOOR_1_UNLOCKED }, // Door to blue tentacle (MQ)
+    {{ SCENE_ICE_CAVERN,  11348 },      RAND_INF_ICE_DOOR_1_UNLOCKED }, // Final door to miniboss (vanilla and MQ)
     // clang-format on
 };
 
