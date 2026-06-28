@@ -1974,6 +1974,7 @@ void Settings::CreateOptions() {
                                                                               &mOptions[RSK_SHUFFLE_DUNGEON_REWARDS],
                                                                               &mOptions[RSK_GERUDO_KEYS],
                                                                               &mOptions[RSK_SHUFFLE_BOSS_SOULS],
+                                                                              &mOptions[RSK_MORE_DUNGEON_KEYS],
                                                                           },
                                                                           WidgetContainerType::SECTION);
     mOptionGroups[RSG_MENU_COLUMN_DUNGEON_ITEMS] =
@@ -2120,7 +2121,6 @@ void Settings::CreateOptions() {
                                                                                  &mOptions[RSK_ENABLE_BOMBCHU_DROPS],
                                                                                  &mOptions[RSK_INFINITE_UPGRADES],
                                                                                  &mOptions[RSK_SKELETON_KEY],
-                                                                                 &mOptions[RSK_MORE_DUNGEON_KEYS],
                                                                              },
                                                                              WidgetContainerType::SECTION);
     mOptionGroups[RSG_MENU_COLUMN_ADDITIONAL_ITEMS] =
