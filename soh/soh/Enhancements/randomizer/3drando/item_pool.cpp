@@ -456,18 +456,18 @@ void GenerateItemPool() {
         AddItemToPool(RG_SPEAK_KOKIRI, 2, 1, 1, 1);
         AddItemToPool(RG_SPEAK_ZORA, 2, 1, 1, 1);
     }
-    
+
     if (ctx->GetOption(RSK_SHUFFLE_CUSTOM_FLAMES)) {
-        AddFixedItemToPool(RG_CUSTOM_FLAME_BLUE, 1, false);
-        AddFixedItemToPool(RG_CUSTOM_FLAME_ORANGE, 1, false);
-        AddFixedItemToPool(RG_CUSTOM_FLAME_GREEN, 1, false);
-        AddFixedItemToPool(RG_CUSTOM_FLAME_PURPLE, 1, false);
+        AddItemToPool(RG_CUSTOM_FLAME_BLUE, 1, 1, 1, 1);
+        AddItemToPool(RG_CUSTOM_FLAME_ORANGE, 1, 1, 1, 1);
+        AddItemToPool(RG_CUSTOM_FLAME_GREEN, 1, 1, 1, 1);
+        AddItemToPool(RG_CUSTOM_FLAME_PURPLE, 1, 1, 1, 1);
     }
-    if (ctx->GetOption(RSK_MORE_DUNGEON_KEYS)) {
-        AddFixedItemToPool(RG_DEKU_TREE_SMALL_KEY, 1, false);
-        AddFixedItemToPool(RG_DODONGOS_CAVERN_SMALL_KEY, 1, false);
-        AddFixedItemToPool(RG_JABU_JABU_SMALL_KEY, 1, false);
-        AddFixedItemToPool(RG_ICE_CAVERN_SMALL_KEY, 1, false);
+    if (ctx->GetOption(RSK_MORE_DUNGEON_KEYS) && ctx->GetOption(RSK_KEYSANITY).IsNot(RO_DUNGEON_ITEM_LOC_VANILLA)) {
+        AddItemToPool(RG_DEKU_TREE_SMALL_KEY, 1, 1, 1, 1, false);
+        AddItemToPool(RG_DODONGOS_CAVERN_SMALL_KEY, 1, 1, 1, 1, false);
+        AddItemToPool(RG_JABU_JABU_SMALL_KEY, 1, 1, 1, 1, false);
+        AddItemToPool(RG_ICE_CAVERN_SMALL_KEY, 1, 1, 1, 1, false);
     }
 
     if (ctx->GetOption(RSK_SHUFFLE_BEEHIVES)) {
