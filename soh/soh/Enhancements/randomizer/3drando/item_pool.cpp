@@ -426,10 +426,10 @@ void GenerateItemPool() {
     }
 
     if (ctx->GetOption(RSK_SHUFFLE_CUSTOM_FLAMES)) {
-        AddItemToPool(RG_CUSTOM_FLAME_BLUE, 1, 1, 1, 1);
-        AddItemToPool(RG_CUSTOM_FLAME_ORANGE, 1, 1, 1, 1);
-        AddItemToPool(RG_CUSTOM_FLAME_GREEN, 1, 1, 1, 1);
-        AddItemToPool(RG_CUSTOM_FLAME_PURPLE, 1, 1, 1, 1);
+        AddFixedItemToPool(RG_CUSTOM_FLAME_BLUE, 1, true);
+        AddFixedItemToPool(RG_CUSTOM_FLAME_ORANGE, 1, true);
+        AddFixedItemToPool(RG_CUSTOM_FLAME_GREEN, 1, true);
+        AddFixedItemToPool(RG_CUSTOM_FLAME_PURPLE, 1, true);
     }
     if (ctx->GetOption(RSK_MORE_DUNGEON_KEYS) && ctx->GetOption(RSK_KEYSANITY).IsNot(RO_DUNGEON_ITEM_LOC_VANILLA)) {
         AddItemToPool(RG_DEKU_TREE_SMALL_KEY, 1, 1, 1, 1, false);
