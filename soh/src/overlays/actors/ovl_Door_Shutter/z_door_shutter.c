@@ -393,9 +393,11 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
         if (this->unlockTimer != 0) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
             if (this->doorType != SHUTTER_BOSS) {
-                gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
+                if (play->sceneNum != SCENE_ROYAL_FAMILYS_TOMB) { // To avoid consuming a dodongo's cavern key when unlocking the door
+                    gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
+                    GameInteractor_ExecuteOnDungeonKeyUsedHooks(gSaveContext.mapIndex);
+                }
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
-                GameInteractor_ExecuteOnDungeonKeyUsedHooks(gSaveContext.mapIndex);
                 Flags_SetRandomizerInf(this->randomizerInf);
             } else {
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
@@ -408,6 +410,18 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
             Player* player = GET_PLAYER(play);
 
             if (this->unlockTimer != 0) {
+                if (IS_RANDO && play->sceneNum == SCENE_ROYAL_FAMILYS_TOMB) {
+                    if (Flags_GetRandomizerInf(RAND_INF_TOMB_SMALL_KEY_FOUND)) {
+                        player->doorTimer = 10;
+                        player->doorType = PLAYER_DOORTYPE_SLIDING;
+                        player->doorDirection = doorDirection;
+                        player->doorActor = &this->dyna.actor;
+                        return;
+                    } else {
+                        player->naviTextId = -0x203;
+                        return;
+                    }
+                }
                 if (this->doorType == SHUTTER_BOSS) {
                     if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, gSaveContext.mapIndex)) {
                         player->naviTextId = -0x204;
