@@ -179,9 +179,10 @@ extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEnt
     bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 1);
     s16 slot = getItemEntry->drawItemId - RG_FOREST_TEMPLE_BOSS_KEY;
 
-    std::string CvarValue[6] = {
+    std::string CvarValue[7] = {
         "gCosmetics.Key.ForestBoss", "gCosmetics.Key.FireBoss",   "gCosmetics.Key.WaterBoss",
         "gCosmetics.Key.SpiritBoss", "gCosmetics.Key.ShadowBoss", "gCosmetics.Key.GanonsBoss",
+        "gCosmetics.Key.DodongosBoss",
     };
 
     Gfx* CustomdLists[] = {

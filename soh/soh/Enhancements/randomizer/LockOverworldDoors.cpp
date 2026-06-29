@@ -71,6 +71,7 @@ std::map<SceneDoorParamsPair, RandomizerInf> lookupTableShutter = {
     {{ SCENE_DEKU_TREE,  127 },          RAND_INF_DEKU_DOOR_1_UNLOCKED }, // Door to first Deku Scrub room (vanilla)
     {{ SCENE_DEKU_TREE,  63 },           RAND_INF_DEKU_DOOR_1_UNLOCKED }, // Door to first Deku Scrub room (MQ)
     {{ SCENE_DODONGOS_CAVERN,  7231 },   RAND_INF_DODONGO_DOOR_1_UNLOCKED }, // Door in giant Dodongo's mouth (vanilla and MQ)
+    {{ SCENE_DODONGOS_CAVERN,  20640 },  RAND_INF_DODONGO_DOOR_BOSS_UNLOCKED }, // Door in giant Dodongo's mouth (vanilla and MQ)
     {{ SCENE_JABU_JABU, 4159 },          RAND_INF_JABU_DOOR_1_UNLOCKED }, // Door to rear forked hallway (vanilla)
     {{ SCENE_JABU_JABU, 11327 },         RAND_INF_JABU_DOOR_1_UNLOCKED }, // Door to blue tentacle (MQ)
     {{ SCENE_ICE_CAVERN,  11348 },       RAND_INF_ICE_DOOR_1_UNLOCKED }, // Final door to miniboss (vanilla and MQ)
@@ -112,6 +113,13 @@ void RegisterMoreDungeonKeys() {
             }
             if (gPlayState->sceneNum == SCENE_ROYAL_FAMILYS_TOMB) {
                 door->doorType = SHUTTER; // Remove the bars - it will be locked by a key instead of barred based on room clear
+            }
+            if (gPlayState->sceneNum == SCENE_DODONGOS_CAVERN && door->dyna.actor.params == 20640) {
+                door->doorType = SHUTTER_BOSS; // Remove the bars - it will be locked by a key instead of barred based on room clear
+                if (Flags_GetRandomizerInf(door->randomizerInf)) {
+                    door->doorType = SHUTTER;
+                    door->unlockTimer = 0;
+                }
             }
         }
     });
