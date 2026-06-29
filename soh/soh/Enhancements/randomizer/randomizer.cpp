@@ -585,6 +585,8 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
             return !CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, SCENE_SHADOW_TEMPLE) ? CAN_OBTAIN : CANT_OBTAIN_ALREADY_HAVE;
         case RG_GANONS_CASTLE_BOSS_KEY:
             return !CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, SCENE_GANONS_TOWER) ? CAN_OBTAIN : CANT_OBTAIN_ALREADY_HAVE;
+        case RG_DODONGOS_CAVERN_BOSS_KEY:
+            return !CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, SCENE_DODONGOS_CAVERN) ? CAN_OBTAIN : CANT_OBTAIN_ALREADY_HAVE;
         case RG_FOREST_TEMPLE_SMALL_KEY:
             return OTRGlobals::Instance->gRandoContext->GetDungeon(Rando::FOREST_TEMPLE)
                                ->GetTotalSmallKeys(&gSaveContext) < FOREST_TEMPLE_SMALL_KEY_MAX
@@ -1257,7 +1259,7 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
     if ((item >= RG_FOREST_TEMPLE_SMALL_KEY && item <= RG_GANONS_CASTLE_SMALL_KEY) ||
         (item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_ICE_CAVERN_SMALL_KEY) ||
         (item >= RG_FOREST_TEMPLE_KEY_RING && item <= RG_GANONS_CASTLE_KEY_RING) ||
-        (item >= RG_FOREST_TEMPLE_BOSS_KEY && item <= RG_GANONS_CASTLE_BOSS_KEY) ||
+        (item >= RG_FOREST_TEMPLE_BOSS_KEY && item <= RG_DODONGOS_CAVERN_BOSS_KEY) ||
         (item >= RG_DEKU_TREE_MAP && item <= RG_ICE_CAVERN_MAP) ||
         (item >= RG_DEKU_TREE_COMPASS && item <= RG_ICE_CAVERN_COMPASS)) {
         u16 mapIndex = gSaveContext.mapIndex;
@@ -1272,6 +1274,7 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             case RG_DODONGOS_CAVERN_MAP:
             case RG_DODONGOS_CAVERN_COMPASS:
             case RG_DODONGOS_CAVERN_SMALL_KEY:
+            case RG_DODONGOS_CAVERN_BOSS_KEY:
                 mapIndex = SCENE_DODONGOS_CAVERN;
                 numOfKeysOnKeyring = DODONGOS_CAVERN_SMALL_KEY_MAX;
                 break;

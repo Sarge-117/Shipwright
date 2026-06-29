@@ -403,6 +403,7 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
                 Flags_SetRandomizerInf(this->randomizerInf);
             } else {
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
+                Flags_SetRandomizerInf(this->randomizerInf);
             }
         }
     } else {
@@ -800,7 +801,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
             } else {
                 Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
             }
-            if (play->sceneNum == SCENE_DODONGOS_CAVERN || play->sceneNum == SCENE_JABU_JABU) {
+            if ((play->sceneNum == SCENE_DODONGOS_CAVERN || play->sceneNum == SCENE_JABU_JABU) && this->doorType != SHUTTER_BOSS) {
                 Actor_DrawDoorLock(play, this->unlockTimer, DOORLOCK_NORMAL_SPIRIT);
             } else {
                 Actor_DrawDoorLock(play, this->unlockTimer,

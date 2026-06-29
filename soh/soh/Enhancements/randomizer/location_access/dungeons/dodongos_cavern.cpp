@@ -261,7 +261,7 @@ void RegionTable_Init_DodongosCavern() {
         //Exits
         ENTRANCE(RR_DODONGOS_CAVERN_LOBBY,         true),
         ENTRANCE(RR_DODONGOS_CAVERN_BACK_ROOM,     AnyAgeTime([]{return logic->CanBreakMudWalls();})),
-        ENTRANCE(RR_DODONGOS_CAVERN_BOSS_ENTRYWAY, logic->HasItem(RG_POWER_BRACELET)),
+        ENTRANCE(RR_DODONGOS_CAVERN_BOSS_ENTRYWAY, RAND_GET_OPTION(RSK_MORE_DUNGEON_KEYS) ? logic->HasExtraDungeonKey(RG_DODONGOS_CAVERN_BOSS_KEY) : logic->HasItem(RG_POWER_BRACELET)),
     });
 
     areaTable[RR_DODONGOS_CAVERN_BACK_ROOM] = Region("Dodongos Cavern Back Room", SCENE_DODONGOS_CAVERN, {}, {
@@ -654,7 +654,7 @@ void RegionTable_Init_DodongosCavern() {
         //Exits
         ENTRANCE(RR_DODONGOS_CAVERN_MQ_BEHIND_MOUTH,     true),
         ENTRANCE(RR_DODONGOS_CAVERN_MQ_BACK_BEHIND_FIRE, true),
-        ENTRANCE(RR_DODONGOS_CAVERN_BOSS_ENTRYWAY,       logic->HasItem(RG_POWER_BRACELET)),
+        ENTRANCE(RR_DODONGOS_CAVERN_BOSS_ENTRYWAY,       RAND_GET_OPTION(RSK_MORE_DUNGEON_KEYS) ? logic->HasExtraDungeonKey(RG_DODONGOS_CAVERN_BOSS_KEY) : logic->HasItem(RG_POWER_BRACELET)),
     });
 
 #pragma endregion
