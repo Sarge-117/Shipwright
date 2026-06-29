@@ -436,6 +436,7 @@ void GenerateItemPool() {
         AddItemToPool(RG_DODONGOS_CAVERN_SMALL_KEY, 2, 1, 1, 1, false);
         AddItemToPool(RG_JABU_JABU_SMALL_KEY, 2, 1, 1, 1, false);
         AddItemToPool(RG_ICE_CAVERN_SMALL_KEY, 2, 1, 1, 1, false);
+        AddItemToPool(RG_TOMB_SMALL_KEY, 2, 1, 1, 1, false);
     }
 
     if (ctx->GetOption(RSK_SHUFFLE_BEEHIVES)) {

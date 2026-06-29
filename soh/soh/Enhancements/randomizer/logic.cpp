@@ -215,6 +215,7 @@ bool Logic::HasItem(RandomizerGet itemName) {
         case RG_DODONGOS_CAVERN_SMALL_KEY:
         case RG_JABU_JABU_SMALL_KEY:
         case RG_ICE_CAVERN_SMALL_KEY:
+        case RG_TOMB_SMALL_KEY:
             return CheckRandoInf(RandoGetToRandInf.at(itemName));
             // Boss Keys
         case RG_FOREST_TEMPLE_BOSS_KEY:
@@ -1871,6 +1872,7 @@ std::map<RandomizerGet, uint32_t> Logic::RandoGetToRandInf = {
     { RG_DODONGOS_CAVERN_SMALL_KEY, RAND_INF_DODONGO_SMALL_KEY_1_FOUND },
     { RG_JABU_JABU_SMALL_KEY, RAND_INF_JABU_SMALL_KEY_1_FOUND },
     { RG_ICE_CAVERN_SMALL_KEY, RAND_INF_ICE_SMALL_KEY_1_FOUND },
+    { RG_TOMB_SMALL_KEY, RAND_INF_TOMB_SMALL_KEY_FOUND },
 };
 
 std::map<uint32_t, uint32_t> Logic::RandoGetToDungeonScene = {
@@ -2326,6 +2328,7 @@ void Logic::ApplyItemEffect(Item& item, bool state) {
                 case RG_DODONGOS_CAVERN_SMALL_KEY:
                 case RG_JABU_JABU_SMALL_KEY:
                 case RG_ICE_CAVERN_SMALL_KEY:
+                case RG_TOMB_SMALL_KEY:
                     SetRandoInf(RandoGetToRandInf.at(randoGet), state);
                     break;
                 case RG_TRIFORCE_PIECE:
