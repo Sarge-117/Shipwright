@@ -648,6 +648,10 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
             return gSaveContext.inventory.dungeonKeys[SCENE_ICE_CAVERN] < ICE_CAVERN_SMALL_KEY_MAX
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
+        case RG_TOMB_SMALL_KEY:
+            return !Flags_GetRandomizerInf(RAND_INF_TOMB_SMALL_KEY_FOUND)
+                       ? CAN_OBTAIN
+                       : CANT_OBTAIN_ALREADY_HAVE;
         case RG_TREASURE_GAME_SMALL_KEY:
             // I assume this cannot be easily manipulated?
             return gSaveContext.inventory.dungeonKeys[SCENE_TREASURE_BOX_SHOP] < TREASURE_GAME_SMALL_KEY_MAX
@@ -1244,6 +1248,11 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
         }
     }
 
+    if (item == RG_TOMB_SMALL_KEY) {
+        Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_TOMB_SMALL_KEY_FOUND));
+        return Return_Item_Entry(giEntry, RG_NONE);
+    }
+
     // dungeon items
     if ((item >= RG_FOREST_TEMPLE_SMALL_KEY && item <= RG_GANONS_CASTLE_SMALL_KEY) ||
         (item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_ICE_CAVERN_SMALL_KEY) ||
@@ -1258,16 +1267,19 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             case RG_DEKU_TREE_COMPASS:
             case RG_DEKU_TREE_SMALL_KEY:
                 mapIndex = SCENE_DEKU_TREE;
+                numOfKeysOnKeyring = DEKU_TREE_SMALL_KEY_MAX;
                 break;
             case RG_DODONGOS_CAVERN_MAP:
             case RG_DODONGOS_CAVERN_COMPASS:
             case RG_DODONGOS_CAVERN_SMALL_KEY:
                 mapIndex = SCENE_DODONGOS_CAVERN;
+                numOfKeysOnKeyring = DODONGOS_CAVERN_SMALL_KEY_MAX;
                 break;
             case RG_JABU_JABUS_BELLY_MAP:
             case RG_JABU_JABUS_BELLY_COMPASS:
             case RG_JABU_JABU_SMALL_KEY:
                 mapIndex = SCENE_JABU_JABU;
+                numOfKeysOnKeyring = JABU_JABU_SMALL_KEY_MAX;
                 break;
             case RG_FOREST_TEMPLE_MAP:
             case RG_FOREST_TEMPLE_COMPASS:
@@ -1320,6 +1332,7 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             case RG_ICE_CAVERN_COMPASS:
             case RG_ICE_CAVERN_SMALL_KEY:
                 mapIndex = SCENE_ICE_CAVERN;
+                numOfKeysOnKeyring = ICE_CAVERN_SMALL_KEY_MAX;
                 break;
             case RG_GANONS_CASTLE_BOSS_KEY:
                 mapIndex = SCENE_GANONS_TOWER;

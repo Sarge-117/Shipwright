@@ -85,7 +85,7 @@ void RegionTable_Init_Graveyard() {
     areaTable[RR_GRAVEYARD_COMPOSERS_GRAVE] = Region("Graveyard Composers Grave", SCENE_ROYAL_FAMILYS_TOMB, {}, {
         //Locations
         LOCATION(RC_GRAVEYARD_ROYAL_FAMILYS_TOMB_CHEST,     logic->HasFireSource() && logic->HasItem(RG_OPEN_CHEST)),
-        LOCATION(RC_SONG_FROM_ROYAL_FAMILYS_TOMB,           logic->CanUseProjectile() || logic->CanJumpslash()),
+        LOCATION(RC_SONG_FROM_ROYAL_FAMILYS_TOMB,           ((logic->CanUseProjectile() || logic->CanJumpslash()) && logic->HasExtraDungeonKey(RG_TOMB_SMALL_KEY))),
         LOCATION(RC_GRAVEYARD_ROYAL_FAMILYS_TOMB_SUN_FAIRY, logic->CanUse(RG_SUNS_SONG)),
     }, {
         //Exits

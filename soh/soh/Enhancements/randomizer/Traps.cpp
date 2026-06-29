@@ -920,6 +920,12 @@ static void InitTrickNames() {
         Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
         Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
     };
+    trickNameTable[RG_TOMB_SMALL_KEY] = {
+        // TODO_TRANSALTE
+        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+    };
 
     trickNameTable[RG_FOREST_TEMPLE_KEY_RING] = {
         // TODO_TRANSALTE

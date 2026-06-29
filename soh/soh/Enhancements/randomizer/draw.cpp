@@ -37,7 +37,7 @@ extern PlayState* gPlayState;
 extern SaveContext gSaveContext;
 }
 
-const char* SmallBodyCvarValue[14] = {
+const char* SmallBodyCvarValue[15] = {
     CVAR_COSMETIC("Key.ForestSmallBody.Value"), CVAR_COSMETIC("Key.FireSmallBody.Value"),
     CVAR_COSMETIC("Key.WaterSmallBody.Value"),  CVAR_COSMETIC("Key.SpiritSmallBody.Value"),
     CVAR_COSMETIC("Key.ShadowSmallBody.Value"), CVAR_COSMETIC("Key.WellSmallBody.Value"),
@@ -45,7 +45,7 @@ const char* SmallBodyCvarValue[14] = {
     CVAR_COSMETIC("Key.GanonsSmallBody.Value"), 
     CVAR_COSMETIC("Key.DekuSmallBody.Value"),   CVAR_COSMETIC("Key.DodongoSmallBody.Value"),
     CVAR_COSMETIC("Key.JabuSmallBody.Value"),   CVAR_COSMETIC("Key.IceCavernSmallBody.Value"), 
-    CVAR_COSMETIC("Key.ChestGameSmallBody.Value"),
+    CVAR_COSMETIC("Key.TombSmallBody.Value"),   CVAR_COSMETIC("Key.ChestGameSmallBody.Value"),
 };
 
 const char* SmallEmblemCvarValue[10] = {
