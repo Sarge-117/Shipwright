@@ -2726,6 +2726,9 @@ std::unordered_map<s32, SpecialRespawnInfo> swimSpecialRespawnInfo = {
 
 f32 triforcePieceScale;
 
+int32_t debugFlagCheckNew[122] = { 0 };
+int32_t debugFlagCheckPrev[122] = { 0 };
+
 void RandomizerOnPlayerUpdateHandler() {
     if ((GET_PLAYER(gPlayState)->stateFlags1 & PLAYER_STATE1_IN_WATER) && !Flags_GetRandomizerInf(RAND_INF_CAN_SWIM) &&
         CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS) != EQUIP_VALUE_BOOTS_IRON) {
@@ -2799,6 +2802,24 @@ void RandomizerOnPlayerUpdateHandler() {
         gPlayState->transitionType = TRANS_TYPE_FADE_WHITE;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
     }
+
+    // debug
+    for (int i = RAND_INF_SHOP_ITEMS_KF_SHOP_ITEM_1; i <= RAND_INF_SHOP_ITEMS_MARKET_BOMBCHU_SHOP_ITEM_8; i++)
+    {
+        debugFlagCheckNew[i] = Flags_GetRandomizerInf((RandomizerInf)i);
+
+        if (debugFlagCheckNew[i] != debugFlagCheckPrev[i]) {
+            SPDLOG_WARN("Flag {} changed!", i);
+            debugFlagCheckPrev[i] = debugFlagCheckNew[i];
+
+            Notification::Emit({
+                .prefix = "Shop flag changed!",
+                .message = std::to_string(i),
+                .info = "!!!!!!!!!!!",
+            });
+        }
+    }
+    
 }
 
 void RandomizerOnSceneSpawnActorsHandler() {
