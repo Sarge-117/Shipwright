@@ -2728,8 +2728,6 @@ f32 triforcePieceScale;
 
 int32_t debugFlagCheckNew[122] = { 0 };
 int32_t debugFlagCheckPrev[122] = { 0 };
-int32_t debugFlagMaxNew = 0;
-int32_t debugFlagMaxPrev = 0;
 
 void RandomizerOnPlayerUpdateHandler() {
     if ((GET_PLAYER(gPlayState)->stateFlags1 & PLAYER_STATE1_IN_WATER) && !Flags_GetRandomizerInf(RAND_INF_CAN_SWIM) &&
@@ -2821,19 +2819,7 @@ void RandomizerOnPlayerUpdateHandler() {
             });
         }
     }
-
-    debugFlagMaxNew = Flags_GetRandomizerInf(RAND_INF_MAX);
-
-    if (debugFlagMaxNew != debugFlagMaxPrev) {
-        SPDLOG_WARN("Flag RAND_INF_MAX changed!");
-        debugFlagMaxPrev = debugFlagMaxNew;
-
-        Notification::Emit({
-            .prefix = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RAND_INF_MAX",
-            .message = "",
-            .info = "was changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-        });
-    }
+    
 }
 
 void RandomizerOnSceneSpawnActorsHandler() {
