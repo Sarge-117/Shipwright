@@ -400,10 +400,14 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
                     GameInteractor_ExecuteOnDungeonKeyUsedHooks(gSaveContext.mapIndex);
                 }
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
-                Flags_SetRandomizerInf(this->randomizerInf);
+                if (this->randomizerInf < RAND_INF_MAX) {
+                    Flags_SetRandomizerInf(this->randomizerInf);
+                }
             } else {
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
-                Flags_SetRandomizerInf(this->randomizerInf);
+                if (this->randomizerInf < RAND_INF_MAX) {
+                    Flags_SetRandomizerInf(this->randomizerInf);
+                }
             }
         }
     } else {
