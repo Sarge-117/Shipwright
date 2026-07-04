@@ -116,7 +116,9 @@ class Logic {
     bool CanShield();
     bool CanUseProjectile();
     bool CanBuildRainbowBridge();
-    bool CanTriggerLACS();
+    bool CanTriggerGBK();
+    bool CanTriggerGanonsSoul();
+    bool CanTriggerWincon();
     bool IsFireLoopLocked();
     bool ReachScarecrow();
     bool ReachDistantScarecrow();
@@ -145,6 +147,7 @@ class Logic {
     void SetRandoInf(uint32_t flag, bool state);
     bool CheckEventChkInf(int32_t flag);
     uint8_t GetGSCount();
+    uint8_t GetTriforcePieceCount();
     void SetEventChkInf(int32_t flag, bool state);
     uint8_t GetAmmo(uint32_t item);
     void SetAmmo(uint32_t item, uint8_t count);
