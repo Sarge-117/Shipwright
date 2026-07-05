@@ -85,7 +85,7 @@ Color_RGB8 MapOrCompassColor[10] = {
 extern "C" u8 Randomizer_GetSettingValue(RandomizerSettingKey randoSettingKey);
 
 extern "C" void Randomizer_DrawSmallKey(PlayState* play, GetItemEntry* getItemEntry) {
-    bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 1);
+    bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 0);
     int slot = getItemEntry->drawItemId - RG_FOREST_TEMPLE_SMALL_KEY;
 
     Gfx* customIconDLs[] = {
@@ -106,7 +106,7 @@ extern "C" void Randomizer_DrawSmallKey(PlayState* play, GetItemEntry* getItemEn
     Color_RGB8 keyColor = { 255, 255, 255 };
     keyColor = CVarGetColor24(SmallBodyCvarValue[slot], keyColor);
 
-    if (isCustomKeysEnabled && slot <= 10) {
+    if (isCustomKeysEnabled && !Randomizer_GetSettingValue(RSK_MORE_DUNGEON_KEYS)) {
         gDPSetEnvColor(POLY_OPA_DISP++, keyColor.r, keyColor.g, keyColor.b, 255);
         gSPDisplayList(POLY_OPA_DISP++, (Gfx*)gSmallKeyCustomDL);
 
@@ -170,7 +170,7 @@ extern "C" void Randomizer_DrawCompass(PlayState* play, GetItemEntry* getItemEnt
 }
 
 extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEntry) {
-    bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 1);
+    bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 0);
     s16 slot = getItemEntry->drawItemId - RG_FOREST_TEMPLE_BOSS_KEY;
 
     std::string CvarValue[9] = {
@@ -195,7 +195,7 @@ extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEnt
     // Supposed to use CVAR_COSMETIC but I can't figure out the syntax
     keyColor = CVarGetColor24((CvarValue[slot] + "Body.Value").c_str(), keyColor);
 
-    if (isCustomKeysEnabled && slot < 6) {
+    if (isCustomKeysEnabled && !Randomizer_GetSettingValue(RSK_MORE_DUNGEON_KEYS)) {
         gDPSetEnvColor(POLY_OPA_DISP++, keyColor.r, keyColor.g, keyColor.b, 255);
         gSPDisplayList(POLY_OPA_DISP++, (Gfx*)gBossKeyCustomDL);
     } else {
@@ -217,7 +217,7 @@ extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEnt
     Color_RGB8 gemColor = { 255, 0, 0 };
     gemColor = CVarGetColor24((CvarValue[slot] + "Gem.Value").c_str(), gemColor);
 
-    if (isCustomKeysEnabled) {
+    if (isCustomKeysEnabled && !Randomizer_GetSettingValue(RSK_MORE_DUNGEON_KEYS)) {
         gDPSetEnvColor(POLY_XLU_DISP++, gemColor.r, gemColor.g, gemColor.b, 255);
         gSPDisplayList(POLY_XLU_DISP++, CustomdLists[slot]);
     } else {
@@ -230,12 +230,11 @@ extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEnt
             gSPDisplayList(POLY_XLU_DISP++, (Gfx*)gGiBossKeyGemDL);
         }
     }
-
     CLOSE_DISPS(play->state.gfxCtx);
 }
 
 extern "C" void Randomizer_DrawKeyRing(PlayState* play, GetItemEntry* getItemEntry) {
-    bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 1);
+    bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 0);
     int slot = getItemEntry->drawItemId - RG_FOREST_TEMPLE_KEY_RING;
 
     Gfx* CustomIconDLs[] = {
@@ -280,7 +279,7 @@ extern "C" void Randomizer_DrawKeyRing(PlayState* play, GetItemEntry* getItemEnt
     Color_RGB8 keyColor = { 255, 255, 255 };
     keyColor = CVarGetColor24(SmallBodyCvarValue[slot], keyColor);
 
-    if (isCustomKeysEnabled) {
+    if (isCustomKeysEnabled && !Randomizer_GetSettingValue(RSK_MORE_DUNGEON_KEYS)) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, (char*)__FILE__, __LINE__),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
 
