@@ -302,6 +302,13 @@ static std::map<std::string, CosmeticOption> cosmeticOptions = {
     COSMETIC_OPTION("Key.GanonsSmallEmblem",        "Ganons Small Key Emblem",  COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(80,  80,  80,  255), false, true, false),
     COSMETIC_OPTION("Key.GanonsBossBody",           "Ganons Boss Key Body",     COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 255, 0,   255), false, true, false),
     COSMETIC_OPTION("Key.GanonsBossGem",            "Ganons Boss Key Gem",      COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 0,   0,   255), false, true, false),
+    
+    COSMETIC_OPTION("Key.DekuBossBody",             "Deku Boss Key Body",       COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 255, 0,   255), false, true, false),
+    COSMETIC_OPTION("Key.DekuBossGem",              "Deku Boss Key Gem",        COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 0,   0,   255), false, true, false),
+    COSMETIC_OPTION("Key.DodongosBossBody",         "Dodongo Boss Key Body",    COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 255, 0,   255), false, true, false),
+    COSMETIC_OPTION("Key.DodongosBossGem",          "Dodongo Boss Key Gem",     COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 0,   0,   255), false, true, false),
+    COSMETIC_OPTION("Key.JabuBossBody",             "Jabu Boss Key Body",       COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 255, 0,   255), false, true, false),
+    COSMETIC_OPTION("Key.JabuBossGem",              "Jabu Boss Key Gem",        COSMETICS_GROUP_BOSS_KEYS,    ColorRGBA8(255, 0,   0,   255), false, true, false),
 
     COSMETIC_OPTION("Key.WellSmallBody",            "Well Small Key",           COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(255, 255, 255, 255), false, true, false),
     COSMETIC_OPTION("Key.WellSmallEmblem",          "Well Small Key Emblem",    COSMETICS_GROUP_SMALL_KEYS,   ColorRGBA8(227, 110, 255, 255), false, true, false),
@@ -2407,17 +2414,32 @@ void CosmeticsEditorWindow::ApplyDungeonKeyColors() {
     cosmeticOptions["Key.DekuSmallBody"].currentColor = { 136 / 255.0f, 87 / 255.0f, 44 / 255.0f, 255 / 255.0f };
     //ResetColor(cosmeticOptions.at("Key.DekuSmallEmblem"));
 
+    ResetColor(cosmeticOptions.at("Key.DekuBossBody"));
+    CVarSetColor(cosmeticOptions["Key.DekuBossGem"].valuesCvar, { 136, 87, 44, 255 });
+    CVarSetInteger(cosmeticOptions["Key.DekuBossGem"].changedCvar, 1);
+    cosmeticOptions["Key.DekuBossGem"].currentColor = { 136 / 255.0f, 87 / 255.0f, 44 / 255.0f, 255 / 255.0f };
+
     // Dodongo's Cavern
     CVarSetColor(cosmeticOptions["Key.DodongoSmallBody"].valuesCvar, { 203, 115, 57, 255 });
     CVarSetInteger(cosmeticOptions["Key.DodongoSmallBody"].changedCvar, 1);
     cosmeticOptions["Key.DodongoSmallBody"].currentColor = { 203 / 255.0f, 115 / 255.0f, 57 / 255.0f, 255 / 255.0f };
     //ResetColor(cosmeticOptions.at("Key.DodongoSmallEmblem"));
 
+    ResetColor(cosmeticOptions.at("Key.DodongosBossBody"));
+    CVarSetColor(cosmeticOptions["Key.DodongosBossGem"].valuesCvar, { 203, 115, 57, 255 });
+    CVarSetInteger(cosmeticOptions["Key.DodongosBossGem"].changedCvar, 1);
+    cosmeticOptions["Key.DodongosBossGem"].currentColor = { 203 / 255.0f, 115 / 255.0f, 57 / 255.0f, 255 / 255.0f };
+
     // Jabu
     CVarSetColor(cosmeticOptions["Key.JabuSmallBody"].valuesCvar, { 252, 165, 152, 255 });
     CVarSetInteger(cosmeticOptions["Key.JabuSmallBody"].changedCvar, 1);
     cosmeticOptions["Key.JabuSmallBody"].currentColor = { 252 / 255.0f, 165 / 255.0f, 152 / 255.0f, 255 / 255.0f };
     //ResetColor(cosmeticOptions.at("Key.JabuSmallEmblem"));
+
+    ResetColor(cosmeticOptions.at("Key.JabuBossBody"));
+    CVarSetColor(cosmeticOptions["Key.JabuBossGem"].valuesCvar, { 252, 165, 152, 255 });
+    CVarSetInteger(cosmeticOptions["Key.JabuBossGem"].changedCvar, 1);
+    cosmeticOptions["Key.JabuBossGem"].currentColor = { 252 / 255.0f, 165 / 255.0f, 152 / 255.0f, 255 / 255.0f };
 
     // Ice Cavern
     CVarSetColor(cosmeticOptions["Key.IceCavernSmallBody"].valuesCvar, { 72, 239, 248, 255 });
