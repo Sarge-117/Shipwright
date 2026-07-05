@@ -213,7 +213,7 @@ void RegionTable_Init_DekuTree() {
     }, {
         //Exits
         ENTRANCE(RR_DEKU_TREE_BASEMENT_UPPER, logic->HasItem(RG_CLIMB) && (logic->HasItem(RG_BRONZE_SCALE) || logic->CanUse(RG_HOOKSHOT))),
-        ENTRANCE(RR_DEKU_TREE_BOSS_ENTRYWAY,  AnyAgeTime([]{return logic->CanReflectNuts();})),
+        ENTRANCE(RR_DEKU_TREE_BOSS_ENTRYWAY,  RAND_GET_OPTION(RSK_MORE_DUNGEON_KEYS) ? logic->HasExtraDungeonKey(RG_DEKU_TREE_BOSS_KEY) : AnyAgeTime([]{return logic->CanReflectNuts();})),
     });
 
 #pragma endregion
@@ -489,7 +489,7 @@ void RegionTable_Init_DekuTree() {
     }, {
         //Exits
         ENTRANCE(RR_DEKU_TREE_MQ_BASEMENT_LEDGE, logic->HasItem(RG_CLIMB) && (logic->HasItem(RG_BRONZE_SCALE) || logic->CanUse(RG_HOOKSHOT))),
-        ENTRANCE(RR_DEKU_TREE_BOSS_ENTRYWAY,     AnyAgeTime([]{return logic->CanReflectNuts();})),
+        ENTRANCE(RR_DEKU_TREE_BOSS_ENTRYWAY,     RAND_GET_OPTION(RSK_MORE_DUNGEON_KEYS) ? logic->HasExtraDungeonKey(RG_DEKU_TREE_BOSS_KEY) : AnyAgeTime([]{return logic->CanReflectNuts();})),
     });
 
 #pragma endregion
