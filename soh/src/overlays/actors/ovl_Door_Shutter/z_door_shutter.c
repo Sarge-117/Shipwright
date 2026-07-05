@@ -209,6 +209,12 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, PlayState* play) {
     }
     this->gfxType = (doorType == SHUTTER) ? temp_t0->index1 : temp_t0->index2;
 
+    if (Flags_GetRandomizerInf(RAND_INF_DEKU_DOOR_BOSS_UNLOCKED) && IS_RANDO) {
+        if (this->unlockTimer == 0 && play->sceneNum == SCENE_DEKU_TREE && this->dyna.actor.params == 4223) {
+            this->gfxType = temp_t0->index2;
+        }
+    }
+
     if (doorType == SHUTTER_FRONT_CLEAR) {
         if (!Flags_GetClear(play, this->dyna.actor.room)) {
             DoorShutter_SetupAction(this, DoorShutter_WaitClear);
@@ -243,6 +249,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     this->dyna.actor.home.pos.z = this->dyna.actor.shape.yOffset;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     this->doorType = (this->dyna.actor.params >> 6) & 0xF;
+    this->jabuScale = 1.0f;
     phi_a3 = D_80998224[this->doorType];
     if (phi_a3 < 0) {
         ShutterSceneInfo* phi_v1;
@@ -695,17 +702,19 @@ Gfx* func_80997838(PlayState* play, DoorShutter* this, Gfx* p) {
     f32 angle = 0.0f;
     f32 yScale = this->jabuDoorClosedAmount * 0.01f;
     s32 i;
+    f32 scale = this->jabuScale;
 
     Matrix_Get(&mtx);
     for (i = 0; i < ARRAY_COUNT(sJabuDoorDLists); i++) {
         Matrix_RotateZ(angle, MTXMODE_APPLY);
         if (i % 2 == 0) {
-            Matrix_Translate(0.0f, 800.0f, 0.0f, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, 800.0f*scale, 0.0f, MTXMODE_APPLY);
         } else if (i == 1 || i == 7) {
-            Matrix_Translate(0.0f, 848.52f, 0.0f, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, 848.52f*scale, 0.0f, MTXMODE_APPLY);
         } else {
-            Matrix_Translate(0.0f, 989.94f, 0.0f, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, 989.94f*scale, 0.0f, MTXMODE_APPLY);
         }
+        Matrix_Scale(1.0f*scale, yScale*scale, 1.0f*scale, MTXMODE_APPLY);
         if (this->jabuDoorClosedAmount != 100) {
             Matrix_Scale(1.0f, yScale, 1.0f, MTXMODE_APPLY);
         }
@@ -800,11 +809,25 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
 
         if (this->unlockTimer != 0) {
             if (play->sceneNum == SCENE_JABU_JABU) {
-                Matrix_Scale(0.11f, 0.11f, 0.25f, MTXMODE_APPLY);
+                if (this->dyna.actor.params == 189 || this->dyna.actor.params == 148 /*MQ*/) {
+                    Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
+                } else {
+                    Matrix_Scale(0.11f, 0.11f, 0.25f, MTXMODE_APPLY);
+                }
                 Matrix_Translate(0, -8500.0f, 0, MTXMODE_APPLY);
+            } else if (play->sceneNum == SCENE_DODONGOS_CAVERN) {
+                Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
+            } else if (play->sceneNum == SCENE_DEKU_TREE) {
+                if (this->dyna.actor.params == 4223) {
+                    Matrix_Scale(0.007f, 0.007f, 0.024f, MTXMODE_APPLY);
+                    Matrix_Translate(0, -500.0f, 0, MTXMODE_APPLY);
+                } else {
+                    Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
+                }
             } else {
                 Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
             }
+
             if ((play->sceneNum == SCENE_DODONGOS_CAVERN || play->sceneNum == SCENE_JABU_JABU) && this->doorType != SHUTTER_BOSS) {
                 Actor_DrawDoorLock(play, this->unlockTimer, DOORLOCK_NORMAL_SPIRIT);
             } else {
@@ -814,7 +837,6 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
                                        : ((this->gfxType == 6) ? DOORLOCK_NORMAL_SPIRIT : DOORLOCK_NORMAL));
             }
         }
-
         CLOSE_DISPS(play->state.gfxCtx);
     }
 }

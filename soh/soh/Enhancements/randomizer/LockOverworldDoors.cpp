@@ -7,6 +7,9 @@ extern "C" {
 extern PlayState* gPlayState;
 #include "src/overlays/actors/ovl_En_Door/z_en_door.h"
 #include "src/overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
+#include "src/overlays/actors/ovl_En_Hintnuts/z_en_hintnuts.h"
+#include "src/overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
+#include "src/overlays/actors/ovl_Bg_Bdan_Switch/z_bg_bdan_switch.h"
 }
 
 using SceneDoorParamsPair = std::pair<int, int>;
@@ -68,10 +71,13 @@ std::map<SceneDoorParamsPair, RandomizerInf> lookupTableShutter = {
     // clang-format off
     {{ SCENE_DEKU_TREE,  127 },          RAND_INF_DEKU_DOOR_1_UNLOCKED }, // Door to first Deku Scrub room (vanilla)
     {{ SCENE_DEKU_TREE,  63 },           RAND_INF_DEKU_DOOR_1_UNLOCKED }, // Door to first Deku Scrub room (MQ)
+    {{ SCENE_DEKU_TREE,  4223 },         RAND_INF_DEKU_DOOR_BOSS_UNLOCKED }, // Deku boss door (vanilla and MQ)
     {{ SCENE_DODONGOS_CAVERN,  7231 },   RAND_INF_DODONGO_DOOR_1_UNLOCKED }, // Door in giant Dodongo's mouth (vanilla and MQ)
-    {{ SCENE_DODONGOS_CAVERN,  20640 },  RAND_INF_DODONGO_DOOR_BOSS_UNLOCKED }, // Door in giant Dodongo's mouth (vanilla and MQ)
+    {{ SCENE_DODONGOS_CAVERN,  20640 },  RAND_INF_DODONGO_DOOR_BOSS_UNLOCKED }, // Dodongo boss door (vanilla and MQ)
     {{ SCENE_JABU_JABU, 4159 },          RAND_INF_JABU_DOOR_1_UNLOCKED }, // Door to rear forked hallway (vanilla)
     {{ SCENE_JABU_JABU, 11327 },         RAND_INF_JABU_DOOR_1_UNLOCKED }, // Door to blue tentacle (MQ)
+    {{ SCENE_JABU_JABU, 189 },           RAND_INF_JABU_DOOR_BOSS_UNLOCKED }, // Jabu boss door
+    {{ SCENE_JABU_JABU, 148 },           RAND_INF_JABU_DOOR_BOSS_UNLOCKED }, // Jabu boss door (MQ)
     {{ SCENE_ICE_CAVERN,  11348 },       RAND_INF_ICE_DOOR_1_UNLOCKED }, // Final door to miniboss (vanilla and MQ)
     {{ SCENE_ROYAL_FAMILYS_TOMB,  1089 },RAND_INF_TOMB_DOOR_UNLOCKED }, // The only door in Royal Family's Tomb
     // clang-format on
@@ -93,6 +99,34 @@ static void OnDoorInit(void* actorRef) {
                 enDoor->lockTimer = 10;
             }
         }
+    }
+}
+
+static void OnHintnutsInit(void* actorRef) {
+    EnHintnuts* hintnuts = static_cast<EnHintnuts*>(actorRef);
+
+    if (gPlayState->sceneNum == SCENE_DEKU_TREE && IS_RANDO && gPlayState->roomCtx.curRoom.num == 9 &&
+        hintnuts->actor.room == 9) {
+        hintnuts->actor.home.pos.y -= 500.0f;
+        hintnuts->actor.world.pos.y -= 500.0f;
+    }
+}
+
+static void OnSwitchInit(void* actorRef) {
+    ObjSwitch* objSwitch = static_cast<ObjSwitch*>(actorRef);
+
+    if (gPlayState->sceneNum == SCENE_DODONGOS_CAVERN && IS_RANDO && gPlayState->roomCtx.curRoom.num == 7 && objSwitch->dyna.actor.room == 7) {
+        objSwitch->dyna.actor.home.pos.y -= 500.0f;
+        objSwitch->dyna.actor.world.pos.y -= 500.0f;
+    }
+}
+
+static void OnJabuSwitchInit(void* actorRef) {
+    BgBdanSwitch* objSwitch = static_cast<BgBdanSwitch*>(actorRef);
+
+    if (gPlayState->sceneNum == SCENE_JABU_JABU && IS_RANDO && gPlayState->roomCtx.curRoom.num == 5 && objSwitch->dyna.actor.room == 5) {
+        objSwitch->dyna.actor.home.pos.y += 500.0f;
+        objSwitch->dyna.actor.world.pos.y += 500.0f;
     }
 }
 
@@ -119,8 +153,34 @@ void RegisterMoreDungeonKeys() {
                     door->unlockTimer = 0;
                 }
             }
+            if (gPlayState->sceneNum == SCENE_DEKU_TREE && door->dyna.actor.params == 4223) {
+                door->doorType = SHUTTER_BOSS; // Remove the bars - it will be locked by a key instead of barred based on room clear
+                if (Flags_GetRandomizerInf(door->randomizerInf)) {
+                    door->doorType = SHUTTER;
+                    door->gfxType == 1;
+                    door->styleType = 2;
+                    door->unlockTimer = 0;
+                }
+            }
+            if (gPlayState->sceneNum == SCENE_JABU_JABU && (door->dyna.actor.params == 189 || door->dyna.actor.params == 148 /*MQ*/)) {
+                door->doorType = SHUTTER_BOSS; // Remove the bars - it will be locked by a key instead of barred based on room clear
+                door->jabuDoorClosedAmount = 100;
+                if (Flags_GetRandomizerInf(door->randomizerInf)) {
+                    door->doorType = SHUTTER;
+                    door->unlockTimer = 0;
+                    door->jabuDoorClosedAmount = 100;
+                } else {
+                    door->jabuScale = 0.1f;
+                }
+            }
         }
     });
+
+    COND_ID_HOOK(OnActorInit, ACTOR_EN_HINTNUTS, shouldRegister, OnHintnutsInit);
+
+    COND_ID_HOOK(OnActorInit, ACTOR_OBJ_SWITCH, shouldRegister, OnSwitchInit);
+
+    COND_ID_HOOK(OnActorInit, ACTOR_BG_BDAN_SWITCH, shouldRegister, OnJabuSwitchInit);
 }
 
 void RegisterLockOverworldDoors() {

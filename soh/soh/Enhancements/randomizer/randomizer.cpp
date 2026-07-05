@@ -1367,7 +1367,7 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 gSaveContext.inventory.dungeonKeys[mapIndex]++;
             }
             switch (item) { 
-                case RG_FOREST_TEMPLE_SMALL_KEY:
+                case RG_DEKU_TREE_SMALL_KEY:
                     Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_DEKU_SMALL_KEY_1_FOUND));
                     break;
                 case RG_DODONGOS_CAVERN_SMALL_KEY:
