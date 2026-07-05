@@ -173,10 +173,10 @@ extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEnt
     bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 1);
     s16 slot = getItemEntry->drawItemId - RG_FOREST_TEMPLE_BOSS_KEY;
 
-    std::string CvarValue[7] = {
+    std::string CvarValue[9] = {
         "gCosmetics.Key.ForestBoss", "gCosmetics.Key.FireBoss",   "gCosmetics.Key.WaterBoss",
         "gCosmetics.Key.SpiritBoss", "gCosmetics.Key.ShadowBoss", "gCosmetics.Key.GanonsBoss",
-        "gCosmetics.Key.DodongosBoss",
+        "gCosmetics.Key.DekuBoss", "gCosmetics.Key.DodongosBoss", "gCosmetics.Key.JabuBoss"
     };
 
     Gfx* CustomdLists[] = {
@@ -195,7 +195,7 @@ extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEnt
     // Supposed to use CVAR_COSMETIC but I can't figure out the syntax
     keyColor = CVarGetColor24((CvarValue[slot] + "Body.Value").c_str(), keyColor);
 
-    if (isCustomKeysEnabled) {
+    if (isCustomKeysEnabled && slot < 6) {
         gDPSetEnvColor(POLY_OPA_DISP++, keyColor.r, keyColor.g, keyColor.b, 255);
         gSPDisplayList(POLY_OPA_DISP++, (Gfx*)gBossKeyCustomDL);
     } else {

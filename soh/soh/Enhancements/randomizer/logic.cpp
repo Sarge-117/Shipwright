@@ -1936,7 +1936,9 @@ std::map<RandomizerGet, uint32_t> StaticData::RandoGetToRandInf = {
     { RG_JABU_JABU_SMALL_KEY, RAND_INF_JABU_SMALL_KEY_1_FOUND },
     { RG_ICE_CAVERN_SMALL_KEY, RAND_INF_ICE_SMALL_KEY_1_FOUND },
     { RG_TOMB_SMALL_KEY, RAND_INF_TOMB_SMALL_KEY_FOUND },
+    { RG_DEKU_TREE_BOSS_KEY, RAND_INF_DEKU_BOSS_KEY_FOUND },
     { RG_DODONGOS_CAVERN_BOSS_KEY, RAND_INF_DODONGO_BOSS_KEY_FOUND },
+    { RG_JABU_JABUS_BELLY_BOSS_KEY, RAND_INF_JABU_BOSS_KEY_FOUND },
 };
 
 std::map<uint32_t, SceneID> Logic::RandoGetToDungeonScene = {
@@ -2403,7 +2405,9 @@ void Logic::ApplyItemEffect(Item& item, bool state) {
                 case RG_JABU_JABU_SMALL_KEY:
                 case RG_ICE_CAVERN_SMALL_KEY:
                 case RG_TOMB_SMALL_KEY:
+                case RG_DEKU_TREE_BOSS_KEY:
                 case RG_DODONGOS_CAVERN_BOSS_KEY:
+                case RG_JABU_JABUS_BELLY_BOSS_KEY:
                     SetRandoInf(StaticData::RandoGetToRandInf.at(randoGet), state);
                     break;
                 case RG_TRIFORCE_PIECE:

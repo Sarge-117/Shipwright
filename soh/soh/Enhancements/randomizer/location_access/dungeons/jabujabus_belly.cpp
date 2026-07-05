@@ -252,9 +252,9 @@ void RegionTable_Init_JabuJabusBelly() {
     }, {
         //Exits
         ENTRANCE(RR_JABU_JABUS_BELLY_LIFT_ROOM,     true),
-        ENTRANCE(RR_JABU_JABUS_BELLY_BOSS_ENTRYWAY, (logic->HasItem(RG_CLIMB) && logic->CanUse(RG_BOOMERANG)) ||
+        ENTRANCE(RR_JABU_JABUS_BELLY_BOSS_ENTRYWAY, RAND_GET_OPTION(RSK_MORE_DUNGEON_KEYS) ? logic->HasExtraDungeonKey(RG_JABU_JABUS_BELLY_BOSS_KEY) : ((logic->HasItem(RG_CLIMB) && logic->CanUse(RG_BOOMERANG)) ||
                                                     (ctx->GetTrickOption(RT_JABU_NEAR_BOSS_RANGED) && (logic->CanUse(logic->HasItem(RG_CLIMB) ? RG_HOOKSHOT : RG_LONGSHOT) || logic->CanUse(RG_FAIRY_BOW) || logic->CanUse(RG_FAIRY_SLINGSHOT))) ||
-                                                    (ctx->GetTrickOption(RT_JABU_NEAR_BOSS_EXPLOSIVES) && (logic->CanUse(RG_BOMBCHU_5) || (logic->CanUse(RG_HOVER_BOOTS) && logic->CanUse(RG_BOMB_BAG) && logic->HasItem(RG_CLIMB))))),
+                                                    (ctx->GetTrickOption(RT_JABU_NEAR_BOSS_EXPLOSIVES) && (logic->CanUse(RG_BOMBCHU_5) || (logic->CanUse(RG_HOVER_BOOTS) && logic->CanUse(RG_BOMB_BAG) && logic->HasItem(RG_CLIMB)))))),
     });
 
 #pragma endregion
@@ -585,7 +585,7 @@ void RegionTable_Init_JabuJabusBelly() {
     }, {
         //Exits
         ENTRANCE(RR_JABU_JABUS_BELLY_MQ_TO_NEAR_BOSS_ROOM, true),
-        ENTRANCE(RR_JABU_JABUS_BELLY_BOSS_ENTRYWAY,        AnyAgeTime([]{return logic->CanUse(RG_FAIRY_SLINGSHOT);})),
+        ENTRANCE(RR_JABU_JABUS_BELLY_BOSS_ENTRYWAY,                     RAND_GET_OPTION(RSK_MORE_DUNGEON_KEYS) ? logic->HasExtraDungeonKey(RG_JABU_JABUS_BELLY_BOSS_KEY) :AnyAgeTime([]{return logic->CanUse(RG_FAIRY_SLINGSHOT);})),
     });
 
 #pragma endregion
