@@ -674,9 +674,10 @@ static BetterSceneSelectEntry sBetterScenes[] = {
         { "キンク゛ト゛ト゛ンコ゛のへや　から", "From King Dodongo", "Von Koenig Dodongo", "Depuis le Repaire du Roi Dodongo", ENTR_DODONGOS_CAVERN_BOSS_DOOR, 1 },
         { "キンク゛ト゛ト゛ンコ゛のへや", "King Dodongo's Lair", "Koenig Dodongos Kampf", "Repaire du Roi Dodongo", ENTR_DODONGOS_CAVERN_BOSS_ENTRANCE, 0 },
     }},
-    { "34:シ゛ャフ゛シ゛ャフ゛さまのおなか", "34:Jabu Jabu", "34:Jabu-Jabu", "34:Jabu-Jabu", Select_LoadGame, 2, {
+    { "34:シ゛ャフ゛シ゛ャフ゛さまのおなか", "34:Jabu Jabu", "34:Jabu-Jabu", "34:Jabu-Jabu", Select_LoadGame, 3, {
         { "いりく゛ち", "Entrance", "Eingang", "Entree", ENTR_JABU_JABU_ENTRANCE, 1 },
         { "ハ゛リネート゛のへや", "Barinade's Lair", "Barinades Kampf", "Repaire de Barinade", ENTR_JABU_JABU_BOSS_ENTRANCE, 0 },
+        { "ハ゛リネート゛のへや", "From Barinade's Lair", "Barinades Kampf", "Repaire de Barinade", ENTR_JABU_JABU_BOSS_DOOR, 0 },
     }},
     { "35:もりのしんて゛ん", "35:Forest Temple", "35:Waldtempel", "35:Temple de la Foret", Select_LoadGame, 4, {
         { "いりく゛ち", "Entrance", "Eingang", "Entree", ENTR_FOREST_TEMPLE_ENTRANCE, 1 },

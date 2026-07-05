@@ -8,7 +8,6 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "vt.h"
 #include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"
-#include "soh/OTRGlobals.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -300,11 +299,6 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 1.0f;
-    }
-
-    if (Randomizer_GetSettingValue(RSK_MORE_DUNGEON_KEYS) && play->sceneNum == SCENE_DODONGOS_CAVERN && IS_RANDO &&
-        play->roomCtx.curRoom.num == 7 && this->dyna.actor.room == 7) {
-        this->dyna.actor.world.pos.y = this->dyna.actor.world.pos.y - 500.0f;
     }
 
     Actor_SetFocus(&this->dyna.actor, sHeights[type]);
