@@ -2275,6 +2275,10 @@ void RandomizerAfterSceneCommandsHandler(int16_t sceneNum) {
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 230.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 100.0f, 230.5f, 0, 0, 0, 0);
     }
+
+    if (sceneNum == SCENE_GERUDO_VALLEY && CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0)) {
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_FIREFLY, -325.0f, -2000.0f, -1300.0f, 0, 0, 0, 2);
+    }
 }
 
 void EnSi_DrawRandomizedItem(EnSi* enSi, PlayState* play) {

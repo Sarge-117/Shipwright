@@ -160,6 +160,13 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     if (CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0)) {
         this->onFire = false;
 
+        // Spawn a void keese at the bottom of Gerudo Valley so you can use him as a shortcut back up
+        if (play->sceneNum == SCENE_GERUDO_VALLEY && this->actor.world.pos.y < -1990.0f && this->actor.world.pos.y > -2010.0f) {
+            rnd = 0.940f;
+            rnd2 = 0.999f;
+            rnd3 = 0.999f;
+        }
+
         if (rnd < 0.050) { // Invis Keese (rare)
             this->actor.params = KEESE_NORMAL_FLY;
             this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
