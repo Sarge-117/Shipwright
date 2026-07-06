@@ -400,7 +400,9 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
         DoorShutter_SetupAction(this, DoorShutter_Open);
         this->dyna.actor.velocity.y = 0.0f;
         if (this->unlockTimer != 0) {
-            Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+            if (play->sceneNum != SCENE_ICE_CAVERN) {
+                Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+            }
             if (this->doorType != SHUTTER_BOSS) {
                 if (play->sceneNum != SCENE_ROYAL_FAMILYS_TOMB) { // To avoid consuming a dodongo's cavern key when unlocking the door
                     gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
