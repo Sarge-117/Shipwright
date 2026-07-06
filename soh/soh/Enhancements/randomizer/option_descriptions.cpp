@@ -851,9 +851,9 @@ void Settings::CreateOptionDescriptions() {
         "Adds Roc's Feather to the item pool. Roc's Feather is a custom item granting the player a jump on demand. "
         "The jump can also be used when already in mid-air. Roc's Feather is not considered by logic.";
     mOptionDescriptions[RSK_MORE_DUNGEON_KEYS] =
-        "EXPERIMENTAL\n\nAdds locked doors and small keys for some dungeons that don't normally have them.\n\n"
+        "EXPERIMENTAL\n\nAdds locked doors and keys for some dungeons that don't normally have them.\n\n"
         "This setting ignores key placement settings and key ring settings.\n\n"
-        "Small keys will be placed anywhere in the world.";
+        "Keys will be placed anywhere in the world.\n\nNot compatible with custom key models.";
     mOptionDescriptions[RSK_SLINGBOW_BREAK_BEEHIVES] =
         "Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.";
     mOptionDescriptions[RSK_LOGIC_RULES] =
