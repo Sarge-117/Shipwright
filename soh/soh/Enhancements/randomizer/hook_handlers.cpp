@@ -2004,6 +2004,10 @@ void RandomizerAfterSceneCommandsHandler(int16_t sceneNum) {
     if (RAND_GET_OPTION(RSK_SHUFFLE_ENTRANCES)) {
         Entrance_OverrideWeatherState();
     }
+    
+    if (sceneNum == SCENE_GERUDO_VALLEY && CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0)) {
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_FIREFLY, -325.0f, -2000.0f, -1300.0f, 0, 0, 0, 2);
+    }
 }
 
 void EnSi_DrawRandomizedItem(EnSi* enSi, PlayState* play) {
