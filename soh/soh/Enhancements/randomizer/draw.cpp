@@ -47,10 +47,10 @@ const char* SmallBodyCvarValue[15] = {
     CVAR_COSMETIC("Key.WaterSmallBody.Value"),  CVAR_COSMETIC("Key.SpiritSmallBody.Value"),
     CVAR_COSMETIC("Key.ShadowSmallBody.Value"), CVAR_COSMETIC("Key.WellSmallBody.Value"),
     CVAR_COSMETIC("Key.GTGSmallBody.Value"),    CVAR_COSMETIC("Key.FortSmallBody.Value"),
-    CVAR_COSMETIC("Key.GanonsSmallBody.Value"), 
+    CVAR_COSMETIC("Key.GanonsSmallBody.Value"), CVAR_COSMETIC("Key.ChestGameSmallBody.Value"),
     CVAR_COSMETIC("Key.DekuSmallBody.Value"),   CVAR_COSMETIC("Key.DodongoSmallBody.Value"),
     CVAR_COSMETIC("Key.JabuSmallBody.Value"),   CVAR_COSMETIC("Key.IceCavernSmallBody.Value"), 
-    CVAR_COSMETIC("Key.TombSmallBody.Value"),   CVAR_COSMETIC("Key.ChestGameSmallBody.Value"),
+    CVAR_COSMETIC("Key.TombSmallBody.Value"),   
 };
 
 const char* SmallEmblemCvarValue[10] = {
@@ -92,6 +92,10 @@ extern "C" u8 Randomizer_GetSettingValue(RandomizerSettingKey randoSettingKey);
 extern "C" void Randomizer_DrawSmallKey(PlayState* play, GetItemEntry* getItemEntry) {
     bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 0);
     int slot = getItemEntry->drawItemId - RG_FOREST_TEMPLE_SMALL_KEY;
+
+    if (getItemEntry->drawItemId >= RG_DEKU_TREE_SMALL_KEY && getItemEntry->drawItemId <= RG_TOMB_SMALL_KEY) {
+        slot = getItemEntry->drawItemId - RG_DEKU_TREE_SMALL_KEY + 10;
+    }
 
     Gfx* customIconDLs[] = {
         (Gfx*)gSmallKeyIconForestTempleDL,         (Gfx*)gSmallKeyIconFireTempleDL,
@@ -177,6 +181,10 @@ extern "C" void Randomizer_DrawCompass(PlayState* play, GetItemEntry* getItemEnt
 extern "C" void Randomizer_DrawBossKey(PlayState* play, GetItemEntry* getItemEntry) {
     bool isCustomKeysEnabled = CVarGetInteger(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"), 0);
     s16 slot = getItemEntry->drawItemId - RG_FOREST_TEMPLE_BOSS_KEY;
+
+    if (getItemEntry->drawItemId >= RG_DEKU_TREE_BOSS_KEY && getItemEntry->drawItemId <= RG_JABU_JABUS_BELLY_BOSS_KEY) {
+        slot = getItemEntry->drawItemId - RG_DEKU_TREE_BOSS_KEY + 6;
+    }
 
     std::string CvarValue[9] = {
         "gCosmetics.Key.ForestBoss", "gCosmetics.Key.FireBoss",   "gCosmetics.Key.WaterBoss",

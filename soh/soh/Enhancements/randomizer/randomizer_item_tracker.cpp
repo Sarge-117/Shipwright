@@ -60,6 +60,7 @@ static WidgetInfo bossSoulsTracking;
 static WidgetInfo jabberNutsTracking;
 static WidgetInfo ocarinaButtonTracking;
 static WidgetInfo overworldKeysTracking;
+static WidgetInfo extraDungeonKeysTracking;
 static WidgetInfo fishingPoleTracking;
 static WidgetInfo personalNotesWiget;
 static WidgetInfo hookshotIdentWidget;
@@ -228,6 +229,17 @@ std::vector<ItemTrackerItem> overworldKeyItems = {
     ITEM_TRACKER_ITEM_CUSTOM(RG_FISHING_HOLE_KEY, ITEM_KEY_SMALL, ITEM_KEY_SMALL, 0, DrawItem),
 };
 
+std::vector<ItemTrackerItem> extraDungeonKeyItems = {
+    ITEM_TRACKER_ITEM_CUSTOM(RG_DEKU_TREE_SMALL_KEY, ITEM_KEY_SMALL, ITEM_KEY_SMALL, 0, DrawItem),
+    ITEM_TRACKER_ITEM_CUSTOM(RG_DODONGOS_CAVERN_SMALL_KEY, ITEM_KEY_SMALL, ITEM_KEY_SMALL, 0, DrawItem),
+    ITEM_TRACKER_ITEM_CUSTOM(RG_JABU_JABU_SMALL_KEY, ITEM_KEY_SMALL, ITEM_KEY_SMALL, 0, DrawItem),
+    ITEM_TRACKER_ITEM_CUSTOM(RG_ICE_CAVERN_SMALL_KEY, ITEM_KEY_SMALL, ITEM_KEY_SMALL, 0, DrawItem),
+    ITEM_TRACKER_ITEM_CUSTOM(RG_TOMB_SMALL_KEY, ITEM_KEY_SMALL, ITEM_KEY_SMALL, 0, DrawItem),
+    ITEM_TRACKER_ITEM_CUSTOM(RG_DEKU_TREE_BOSS_KEY, ITEM_KEY_BOSS, ITEM_KEY_BOSS, 0, DrawItem),
+    ITEM_TRACKER_ITEM_CUSTOM(RG_DODONGOS_CAVERN_BOSS_KEY, ITEM_KEY_BOSS, ITEM_KEY_BOSS, 0, DrawItem),
+    ITEM_TRACKER_ITEM_CUSTOM(RG_JABU_JABUS_BELLY_BOSS_KEY, ITEM_KEY_BOSS, ITEM_KEY_BOSS, 0, DrawItem),
+};
+
 std::vector<ItemTrackerItem> fishingPoleItems = { ITEM_TRACKER_ITEM(ITEM_FISHING_POLE, 0, DrawItem) };
 
 std::vector<ItemTrackerDungeon> itemTrackerDungeonsWithMapsHorizontal = {
@@ -345,6 +357,17 @@ std::map<uint16_t, std::string> itemTrackerOverworldKeyShortNames = {
     { RG_BACK_TOWER_KEY, "TOWER" },
     { RG_HYLIA_LAB_KEY, "LAB" },
     { RG_FISHING_HOLE_KEY, "FISH" },
+};
+
+std::map<uint16_t, std::string> itemTrackerExtraDungeonKeyShortNames = {
+    { RG_DEKU_TREE_BOSS_KEY, "" },
+    { RG_DODONGOS_CAVERN_BOSS_KEY, "" },
+    { RG_JABU_JABUS_BELLY_BOSS_KEY, "" },
+    { RG_DEKU_TREE_SMALL_KEY, "DEKU" },
+    { RG_DODONGOS_CAVERN_SMALL_KEY, "DCVN" },
+    { RG_JABU_JABU_SMALL_KEY, "JABU" },
+    { RG_ICE_CAVERN_SMALL_KEY, "ICE" },
+    { RG_TOMB_SMALL_KEY, "TOMB" },
 };
 
 std::vector<ItemTrackerItem> dungeonItems = {};
@@ -1184,6 +1207,46 @@ void DrawItem(ItemTrackerItem item) {
             hasItem = Flags_GetRandomizerInf(RAND_INF_FISHING_HOLE_KEY_OBTAINED);
             itemName = "Fishing Hole Key";
             break;
+        case RG_DEKU_TREE_SMALL_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_DEKU_SMALL_KEY_1_FOUND);
+            itemName = "Deku Tree Small Key";
+            break;
+        case RG_DODONGOS_CAVERN_SMALL_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_DODONGO_SMALL_KEY_1_FOUND);
+            itemName = "Dodongo's Cavern Small Key";
+            break;
+        case RG_JABU_JABU_SMALL_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_JABU_SMALL_KEY_1_FOUND);
+            itemName = "Jabu-Jabu's Belly Small Key";
+            break;
+        case RG_ICE_CAVERN_SMALL_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_ICE_SMALL_KEY_1_FOUND);
+            itemName = "Ice Cavern Small Key";
+            break;
+        case RG_TOMB_SMALL_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_TOMB_SMALL_KEY_FOUND);
+            itemName = "Royal Family's Tomb Small Key";
+            break;
+        case RG_DEKU_TREE_BOSS_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_DEKU_BOSS_KEY_FOUND);
+            itemName = "Deku Tree Boss Key";
+            break;
+        case RG_DODONGOS_CAVERN_BOSS_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_DODONGO_BOSS_KEY_FOUND);
+            itemName = "Dodongo's Cavern Boss Key";
+            break;
+        case RG_JABU_JABUS_BELLY_BOSS_KEY:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_JABU_BOSS_KEY_FOUND);
+            itemName = "Jabu-Jabu's Belly Boss Key";
+            break;
         case RG_BRONZE_SCALE:
             actualItemId = item.id;
             hasItem = Flags_GetRandomizerInf(RAND_INF_CAN_SWIM);
@@ -1240,7 +1303,18 @@ void DrawItem(ItemTrackerItem item) {
         std::string bossName = itemTrackerBossShortNames[item.id];
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(bossName.c_str()).x / 2), p.y - (iconSize + 13)));
-        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
+        if (((gSaveContext.sceneFlags[SCENE_DEKU_TREE_BOSS].clear & 2) && item.id == RG_GOHMA_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_DODONGOS_CAVERN_BOSS].clear & 2) && item.id == RG_KING_DODONGO_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_JABU_JABU_BOSS].clear & 2) && item.id == RG_BARINADE_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_FOREST_TEMPLE_BOSS].clear & 2) && item.id == RG_PHANTOM_GANON_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_FIRE_TEMPLE_BOSS].clear & 2) && item.id == RG_VOLVAGIA_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_WATER_TEMPLE_BOSS].clear & 2) && item.id == RG_MORPHA_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_SPIRIT_TEMPLE_BOSS].clear & 2) && item.id == RG_TWINROVA_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_SHADOW_TEMPLE_BOSS].clear & 2) && item.id == RG_BONGO_BONGO_SOUL)) {
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_RED);
+        } else {
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
+        }
         ImGui::Text("%s", bossName.c_str());
         ImGui::PopStyleColor();
     }
@@ -1272,6 +1346,18 @@ void DrawItem(ItemTrackerItem item) {
                                          p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
         ImGui::Text("%s", overworldKeyName.c_str());
+        ImGui::PopStyleColor();
+    }
+
+    if ((item.id >= RG_DEKU_TREE_BOSS_KEY && item.id <= RG_JABU_JABUS_BELLY_BOSS_KEY) ||
+        item.id >= RG_DEKU_TREE_SMALL_KEY && item.id <= RG_TOMB_SMALL_KEY) {
+        ImVec2 p = ImGui::GetCursorScreenPos();
+        std::string extraDungeonKeyName = itemTrackerExtraDungeonKeyShortNames[item.id];
+        ImGui::SetCursorScreenPos(ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(extraDungeonKeyName.c_str()).x / 2),
+                                         p.y - (iconSize + 13)));
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
+        
+        ImGui::Text("%s", extraDungeonKeyName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1789,6 +1875,27 @@ void UpdateVectors() {
         mainWindowItems.insert(mainWindowItems.end(), overworldKeyItems.begin(), overworldKeyItems.end());
     }
 
+    // If we're adding extra dungeon keys to the main window...
+    if (CVarGetInteger(CVAR_TRACKER_ITEM("DisplayType.ExtraDungeonKeys"), SECTION_DISPLAY_HIDDEN) ==
+        SECTION_DISPLAY_MAIN_WINDOW) {
+        //...add empty items on the main window to get the keys on their own row.
+        while (mainWindowItems.size() % 6) {
+            mainWindowItems.push_back(ITEM_TRACKER_ITEM(ITEM_NONE, 0, DrawItem));
+        }
+
+        // Add extra dungeon keys
+        mainWindowItems.push_back(extraDungeonKeyItems.at(0));
+        mainWindowItems.push_back(extraDungeonKeyItems.at(1));
+        mainWindowItems.push_back(extraDungeonKeyItems.at(2));
+        mainWindowItems.push_back(extraDungeonKeyItems.at(3));
+        mainWindowItems.push_back(extraDungeonKeyItems.at(4));
+        mainWindowItems.push_back(ITEM_TRACKER_ITEM(ITEM_NONE, 0, DrawItem));
+        mainWindowItems.push_back(extraDungeonKeyItems.at(5));
+        mainWindowItems.push_back(extraDungeonKeyItems.at(6));
+        mainWindowItems.push_back(extraDungeonKeyItems.at(7));
+        //mainWindowItems.insert(mainWindowItems.end(), extraDungeonKeyItems.begin(), extraDungeonKeyItems.end());
+    }
+
     shouldUpdateVectors = false;
 }
 
@@ -1978,6 +2085,13 @@ void ItemTrackerWindow::DrawElement() {
             SECTION_DISPLAY_SEPARATE) {
             BeginFloatingWindows("Overworld Key Tracker");
             DrawItemsInRows(overworldKeyItems);
+            EndFloatingWindows();
+        }
+
+        if (CVarGetInteger(CVAR_TRACKER_ITEM("DisplayType.ExtraDungeonKeys"), SECTION_DISPLAY_HIDDEN) ==
+            SECTION_DISPLAY_SEPARATE) {
+            BeginFloatingWindows("Extra Dungeon Key Tracker");
+            DrawItemsInRows(extraDungeonKeyItems, 5);
             EndFloatingWindows();
         }
 
@@ -2187,6 +2301,7 @@ void ItemTrackerSettingsWindow::DrawElement() {
         SohGui::mSohMenu->MenuDrawItem(jabberNutsTracking, 250, THEME_COLOR);
         SohGui::mSohMenu->MenuDrawItem(ocarinaButtonTracking, 250, THEME_COLOR);
         SohGui::mSohMenu->MenuDrawItem(overworldKeysTracking, 250, THEME_COLOR);
+        SohGui::mSohMenu->MenuDrawItem(extraDungeonKeysTracking, 250, THEME_COLOR);
         SohGui::mSohMenu->MenuDrawItem(fishingPoleTracking, 250, THEME_COLOR);
 
         if (CVarCombobox("Total Checks", CVAR_TRACKER_ITEM("TotalChecks.DisplayType"), minimalDisplayTypes,
@@ -2370,6 +2485,19 @@ void RegisterItemTrackerWidgets() {
     ;
     SohGui::mSohMenu->AddSearchWidget(
         { overworldKeysTracking, "Randomizer", "Item Tracker", "General Settings", "icon" });
+
+    extraDungeonKeysTracking = { .name = "Extra Dungeon Keys", .type = WidgetType::WIDGET_CVAR_COMBOBOX };
+    extraDungeonKeysTracking.CVar(CVAR_TRACKER_ITEM("DisplayType.ExtraDungeonKeys"))
+        .Options(ComboboxOptions()
+                     .DefaultIndex(SECTION_DISPLAY_HIDDEN)
+                     .ComponentAlignment(ComponentAlignments::Right)
+                     .LabelPosition(LabelPositions::Far)
+                     .Color(THEME_COLOR)
+                     .ComboMap(displayTypes))
+        .Callback([](WidgetInfo& info) { shouldUpdateVectors = true; });
+    ;
+    SohGui::mSohMenu->AddSearchWidget(
+        { extraDungeonKeysTracking, "Randomizer", "Item Tracker", "General Settings", "icon" });
 
     fishingPoleTracking = { .name = "Fishing Pole", .type = WidgetType::WIDGET_CVAR_COMBOBOX };
     fishingPoleTracking.CVar(CVAR_TRACKER_ITEM("DisplayType.FishingPole"))
