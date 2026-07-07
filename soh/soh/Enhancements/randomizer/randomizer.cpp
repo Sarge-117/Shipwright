@@ -1263,7 +1263,8 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
     if ((item >= RG_FOREST_TEMPLE_SMALL_KEY && item <= RG_GANONS_CASTLE_SMALL_KEY) ||
         (item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_ICE_CAVERN_SMALL_KEY) ||
         (item >= RG_FOREST_TEMPLE_KEY_RING && item <= RG_GANONS_CASTLE_KEY_RING) ||
-        (item >= RG_FOREST_TEMPLE_BOSS_KEY && item <= RG_JABU_JABUS_BELLY_BOSS_KEY) ||
+        (item >= RG_FOREST_TEMPLE_BOSS_KEY && item <= RG_GANONS_CASTLE_BOSS_KEY) ||
+        (item >= RG_DEKU_TREE_BOSS_KEY && item <= RG_JABU_JABUS_BELLY_BOSS_KEY) ||
         (item >= RG_DEKU_TREE_MAP && item <= RG_ICE_CAVERN_MAP) ||
         (item >= RG_DEKU_TREE_COMPASS && item <= RG_ICE_CAVERN_COMPASS)) {
         u16 mapIndex = gSaveContext.mapIndex;
@@ -1365,7 +1366,22 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 break;
         }
 
-        if ((item >= RG_FOREST_TEMPLE_SMALL_KEY) && (item <= RG_ICE_CAVERN_SMALL_KEY)) {
+        switch (item) {
+            case RG_DEKU_TREE_BOSS_KEY:
+                Flags_SetRandomizerInf(RAND_INF_DEKU_BOSS_KEY_FOUND);
+                break;
+            case RG_DODONGOS_CAVERN_BOSS_KEY:
+                Flags_SetRandomizerInf(RAND_INF_DODONGO_BOSS_KEY_FOUND);
+                break;
+            case RG_JABU_JABUS_BELLY_BOSS_KEY:
+                Flags_SetRandomizerInf(RAND_INF_JABU_BOSS_KEY_FOUND);
+                break;
+            default:
+                break;
+        }
+
+        if ((item >= RG_FOREST_TEMPLE_SMALL_KEY && item <= RG_GANONS_CASTLE_SMALL_KEY) || 
+            (item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_ICE_CAVERN_SMALL_KEY)) {
             gSaveContext.ship.stats.dungeonKeys[mapIndex]++;
             if (gSaveContext.inventory.dungeonKeys[mapIndex] < 0) {
                 gSaveContext.inventory.dungeonKeys[mapIndex] = 1;
