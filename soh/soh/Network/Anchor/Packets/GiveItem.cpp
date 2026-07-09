@@ -178,7 +178,7 @@ void Anchor::HandlePacket_GiveItem(nlohmann::json payload) {
         }
 
         if (getItemEntry.getItemCategory == ITEM_CATEGORY_MAJOR || getItemEntry.getItemCategory == ITEM_CATEGORY_BOSS_KEY) {
-            if (suffix != "Bombchu (5)") {
+            if (suffix != "Bombchu (5)" && suffix != "Bottle with Blue Fire") {
                 Audio_PlayFanfare_Rando(getItemEntry);
                 mute = true;
             }
