@@ -1309,7 +1309,7 @@ void DrawItem(ItemTrackerItem item) {
             ((gSaveContext.sceneFlags[SCENE_FOREST_TEMPLE_BOSS].clear & 2) && item.id == RG_PHANTOM_GANON_SOUL) ||
             ((gSaveContext.sceneFlags[SCENE_FIRE_TEMPLE_BOSS].clear & 2) && item.id == RG_VOLVAGIA_SOUL) ||
             ((gSaveContext.sceneFlags[SCENE_WATER_TEMPLE_BOSS].clear & 2) && item.id == RG_MORPHA_SOUL) ||
-            ((gSaveContext.sceneFlags[SCENE_SPIRIT_TEMPLE_BOSS].clear & 2) && item.id == RG_TWINROVA_SOUL) ||
+            ((gSaveContext.sceneFlags[SCENE_SPIRIT_TEMPLE_BOSS].clear & 8) && item.id == RG_TWINROVA_SOUL) ||
             ((gSaveContext.sceneFlags[SCENE_SHADOW_TEMPLE_BOSS].clear & 2) && item.id == RG_BONGO_BONGO_SOUL)) {
             ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_RED);
         } else {
