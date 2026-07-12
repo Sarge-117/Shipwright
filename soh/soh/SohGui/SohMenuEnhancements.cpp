@@ -2096,6 +2096,16 @@ void SohMenu::AddMenuEnhancements() {
         .CVar(CVAR_SETTING("NotificationLocationInfo"))
         .Options(CheckboxOptions().Tooltip("When receiving items from other players in coop, show the item's location in the notification."));
 
+    AddWidget(path, "DMT Shortcut to Kakariko", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_SETTING("DMTshortcutKak"))
+        .Options(CheckboxOptions().Tooltip("Adds a hidden shortcut to Kakariko from Death Mountain Trail. Not compatible with overworld entrance shuffle.")
+            .DefaultValue(true));
+
+    AddWidget(path, "ZF Shortcut to ZR", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_SETTING("ZFshortcutZR"))
+        .Options(CheckboxOptions().Tooltip("Adds a shortcut to Zora's River from Zora's Fountain. Not compatible with overworld entrance shuffle.")
+            .DefaultValue(true));
+
     AddWidget(path, "Extra Forest Magic: %d", WIDGET_CVAR_SLIDER_INT)
         .CVar(CVAR_SETTING("ExtraForestMagic"))
         .Options(IntSliderOptions().Min(0).Max(191).DefaultValue(0).Format("%d").Tooltip("The magic of the forest."));
