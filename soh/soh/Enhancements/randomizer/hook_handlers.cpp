@@ -2803,10 +2803,26 @@ void RandomizerOnPlayerUpdateHandler() {
         && GET_PLAYER(gPlayState)->actor.world.pos.x < -2850.0f && GET_PLAYER(gPlayState)->actor.world.pos.z > -360.0f 
         && GET_PLAYER(gPlayState)->actor.world.pos.z < 549.0f && GET_PLAYER(gPlayState)->actor.world.pos.y < 200.0f 
         && CVarGetInteger(CVAR_SETTING("ZFshortcutZR"), 1)) {
+
         gPlayState->nextEntranceIndex = ENTR_ZORAS_RIVER_1;
         gPlayState->transitionTrigger = TRANS_TRIGGER_START;
         gPlayState->transitionType = TRANS_TYPE_FADE_WHITE;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
+    }
+
+    if (gPlayState->sceneNum == SCENE_DEATH_MOUNTAIN_TRAIL && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) &&
+        GET_PLAYER(gPlayState)->actor.world.pos.x > -655.0f && GET_PLAYER(gPlayState)->actor.world.pos.y < 1050.0f &&
+        GET_PLAYER(gPlayState)->actor.world.pos.z > 600.0f && CVarGetInteger(CVAR_SETTING("DMTshortcutKak"), 1)) {
+
+        gPlayState->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_GUARD_GATE;
+        gPlayState->transitionTrigger = TRANS_TRIGGER_START;
+        if (IS_DAY) {
+            gPlayState->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
+        } else {
+            gPlayState->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
+        }
     }
 }
 

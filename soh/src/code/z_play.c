@@ -2154,21 +2154,6 @@ void Play_LoadToLastEntrance(PlayState* play) {
 }
 
 void Play_TriggerRespawn(PlayState* play) {
-    // DMT shortcut to Kak: Jumping off the ledge towards Kak takes you straight there
-    // (But not if overworld entrances are shuffled)
-    if (play->sceneNum == SCENE_DEATH_MOUNTAIN_TRAIL &&
-        !Randomizer_GetSettingValue(RSK_SHUFFLE_OVERWORLD_ENTRANCES) &&
-        GET_PLAYER(play)->actor.world.pos.x > -655.0f &&
-        GET_PLAYER(play)->actor.world.pos.y < 1000.0f &&
-        GET_PLAYER(play)->actor.world.pos.z > 600.0f) {
-
-        gPlayState->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_GUARD_GATE;
-        gPlayState->transitionTrigger = TRANS_TRIGGER_START;
-        gPlayState->transitionType = TRANS_TYPE_INSTANT;
-        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK_FAST;
-        
-        return;
-    }
     Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
     Play_LoadToLastEntrance(play);
 }
