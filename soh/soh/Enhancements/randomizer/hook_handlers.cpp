@@ -2899,8 +2899,13 @@ void RandomizerOnPlayerUpdateHandler() {
 
         gPlayState->nextEntranceIndex = ENTR_ZORAS_RIVER_1;
         gPlayState->transitionTrigger = TRANS_TRIGGER_START;
-        gPlayState->transitionType = TRANS_TYPE_FADE_WHITE;
-        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
+        if (IS_DAY) {
+            gPlayState->transitionType = TRANS_TYPE_FADE_WHITE;
+            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
+        } else {
+            gPlayState->transitionType = TRANS_TYPE_FADE_BLACK;
+            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
+        }
     }
 
     if (gPlayState->sceneNum == SCENE_DEATH_MOUNTAIN_TRAIL && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) &&
