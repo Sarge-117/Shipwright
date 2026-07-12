@@ -2166,15 +2166,17 @@ void RandomizerAfterSceneCommandsHandler(int16_t sceneNum) {
         Entrance_OverrideWeatherState();
     }
 
-    if (sceneNum == SCENE_ZORAS_FOUNTAIN && LINK_IS_CHILD && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES)) {
-        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_KIBAKO2, -2605.0f,  0.0f, 360.5f, 0, 0, 0, -1);
+    if (sceneNum == SCENE_ZORAS_FOUNTAIN && LINK_IS_CHILD && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) 
+    && CVarGetInteger(CVAR_SETTING("ZFshortcutZR"), 1)) {
+        Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f,  -50.0f, 350.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 310.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, -50.0f, 270.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 50.0f, 270.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 230.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 100.0f, 230.5f, 0, 0, 0, 0);
     }
-    if (sceneNum == SCENE_ZORAS_FOUNTAIN && LINK_IS_ADULT && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES)) {
+    if (sceneNum == SCENE_ZORAS_FOUNTAIN && LINK_IS_ADULT && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) &&
+        CVarGetInteger(CVAR_SETTING("ZFshortcutZR"), 1)) {
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 270.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 230.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 100.0f, 230.5f, 0, 0, 0, 0);
@@ -2797,7 +2799,10 @@ void RandomizerOnPlayerUpdateHandler() {
         }
     }
 
-    if (gPlayState->sceneNum == SCENE_ZORAS_FOUNTAIN && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) && GET_PLAYER(gPlayState)->actor.world.pos.x < -2850.0f) {
+    if (gPlayState->sceneNum == SCENE_ZORAS_FOUNTAIN && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) 
+        && GET_PLAYER(gPlayState)->actor.world.pos.x < -2850.0f && GET_PLAYER(gPlayState)->actor.world.pos.z > -360.0f 
+        && GET_PLAYER(gPlayState)->actor.world.pos.z < 549.0f && GET_PLAYER(gPlayState)->actor.world.pos.y < 200.0f 
+        && CVarGetInteger(CVAR_SETTING("ZFshortcutZR"), 1)) {
         gPlayState->nextEntranceIndex = ENTR_ZORAS_RIVER_1;
         gPlayState->transitionTrigger = TRANS_TRIGGER_START;
         gPlayState->transitionType = TRANS_TYPE_FADE_WHITE;
