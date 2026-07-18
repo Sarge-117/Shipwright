@@ -137,6 +137,8 @@ RANDO_ENUM_ITEM(RCTYPE_SIGN)                       // Signs
 RANDO_ENUM_ITEM(RCTYPE_BEGGAR)                     // Beggar
 RANDO_ENUM_ITEM(RCTYPE_ICICLE)                     // Icicles
 RANDO_ENUM_ITEM(RCTYPE_RED_ICE)                    // Red Ice
+RANDO_ENUM_ITEM(RCTYPE_BONUS_CHEST)                // Extra chests added with Prelude scene editor
+RANDO_ENUM_ITEM(RCTYPE_BONUS_CHEST_BLUE_FIRE_ARROW)// Extra chests added with Prelude scene editor - requires blue fire arrows
 RANDO_ENUM_END(RandomizerCheckType)
 
 RANDO_ENUM_BEGIN(RandomizerCheckQuest)

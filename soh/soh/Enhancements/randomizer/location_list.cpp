@@ -1025,3 +1025,21 @@ Location* Rando::StaticData::GetLocation(RandomizerCheck locKey) {
 std::array<Location, RC_MAX>& Rando::StaticData::GetLocationTable() {
     return locationTable;
 }
+
+void Rando::StaticData::RegisterBonusChests() {
+    static bool registered = false;
+    if (registered)
+        return;
+    registered = true;
+    // clang-format off
+    locationTable[RC_GV_OCTOROK_GROTTO_BONUS_CHEST_1] =            Location::Chest(RC_GV_OCTOROK_GROTTO_BONUS_CHEST_1,          RCQUEST_BOTH,    RCTYPE_BONUS_CHEST,           RCAREA_GERUDO_VALLEY,        ACTOR_EN_BOX,         SCENE_GROTTOS,                  0x59b2,                        18, "GV Hidden Extra Chest 1",                        RHT_BONUS_CHESTS,              RG_BLUE_RUPEE);
+    locationTable[RC_GV_OCTOROK_GROTTO_BONUS_CHEST_2] =            Location::Chest(RC_GV_OCTOROK_GROTTO_BONUS_CHEST_2,          RCQUEST_BOTH,    RCTYPE_BONUS_CHEST,           RCAREA_GERUDO_VALLEY,        ACTOR_EN_BOX,         SCENE_GROTTOS,                  0x59b3,                        19, "GV Hidden Extra Chest 2",                        RHT_BONUS_CHESTS,              RG_BLUE_RUPEE);
+    locationTable[RC_SFM_WOLFOS_GROTTO_BONUS_CHEST_1] =            Location::Chest(RC_SFM_WOLFOS_GROTTO_BONUS_CHEST_1,          RCQUEST_BOTH,    RCTYPE_BONUS_CHEST,           RCAREA_SACRED_FOREST_MEADOW, ACTOR_EN_BOX,         SCENE_GROTTOS,                  0x59d6,                        22, "SFM Hidden Extra Chest 1",                       RHT_BONUS_CHESTS,              RG_RED_RUPEE);
+    locationTable[RC_SFM_WOLFOS_GROTTO_BONUS_CHEST_2] =            Location::Chest(RC_SFM_WOLFOS_GROTTO_BONUS_CHEST_2,          RCQUEST_BOTH,    RCTYPE_BONUS_CHEST,           RCAREA_SACRED_FOREST_MEADOW, ACTOR_EN_BOX,         SCENE_GROTTOS,                  0x59d5,                        21, "SFM Hidden Extra Chest 2",                       RHT_BONUS_CHESTS,              RG_RED_RUPEE);
+    locationTable[RC_WASTELAND_BONUS_CHEST_1] =                    Location::Chest(RC_WASTELAND_BONUS_CHEST_1,                  RCQUEST_BOTH,    RCTYPE_BONUS_CHEST_BLUE_FIRE_ARROW,    RCAREA_WASTELAND,            ACTOR_EN_BOX,         SCENE_HAUNTED_WASTELAND,        0x59c1,                         1, "Wasteland Hidden Extra Chest 1",                 RHT_BONUS_CHESTS,              RG_RED_RUPEE);
+    locationTable[RC_WASTELAND_BONUS_CHEST_2] =                    Location::Chest(RC_WASTELAND_BONUS_CHEST_2,                  RCQUEST_BOTH,    RCTYPE_BONUS_CHEST_BLUE_FIRE_ARROW,    RCAREA_WASTELAND,            ACTOR_EN_BOX,         SCENE_HAUNTED_WASTELAND,        0x59c2,                         2, "Wasteland Hidden Extra Chest 2",                 RHT_BONUS_CHESTS,              RG_RED_RUPEE);
+    locationTable[RC_WASTELAND_BONUS_CHEST_3] =                    Location::Chest(RC_WASTELAND_BONUS_CHEST_3,                  RCQUEST_BOTH,    RCTYPE_BONUS_CHEST,           RCAREA_WASTELAND,            ACTOR_EN_BOX,         SCENE_HAUNTED_WASTELAND,        0x59c3,                         3, "Wasteland Hidden Extra Chest 3",                 RHT_BONUS_CHESTS,              RG_RED_RUPEE);
+    // clang-format-on
+}
+
+static RegisterShipInitFunc registerBonusChests(Rando::StaticData::RegisterBonusChests);

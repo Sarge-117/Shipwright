@@ -856,6 +856,9 @@ void Settings::CreateOptionDescriptions() {
         "EXPERIMENTAL\n\nAdds locked doors and keys for some dungeons that don't normally have them.\n\n"
         "This setting ignores key placement settings and key ring settings.\n\n"
         "Keys will be placed anywhere in the world.\n\nNot compatible with custom key models.";
+    mOptionDescriptions[RSK_SHUFFLE_BONUS_CHESTS] =
+        "EXPERIMENTAL\n\nAdds chests to some locations that don't normally have them.\n\n"
+        "Requires Sarge's custom scenes mod to work! Enable it under Settings -> Mod Menu.";
     mOptionDescriptions[RSK_SLINGBOW_BREAK_BEEHIVES] =
         "Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.";
     mOptionDescriptions[RSK_LOGIC_RULES] =

@@ -34,6 +34,9 @@ void RegionTable_Init_HauntedWasteland() {
         LOCATION(RC_HW_AFTER_QUICKSAND_CRATE_3,    logic->CanBreakCrates()),
         LOCATION(RC_HW_CARPET_SALESMAN_ARROW_SIGN, logic->CanRead()),
         LOCATION(RC_HW_POE_ALTAR,                  logic->CanRead()),
+        LOCATION(RC_WASTELAND_BONUS_CHEST_1,       logic->CanUse(RG_LONGSHOT) && logic->CanUse(RG_ICE_ARROWS)),
+        LOCATION(RC_WASTELAND_BONUS_CHEST_2,       logic->CanUse(RG_LONGSHOT) && logic->CanUse(RG_ICE_ARROWS)),
+        LOCATION(RC_WASTELAND_BONUS_CHEST_3,       logic->CanUse(RG_LONGSHOT)),
     }, {
         //Exits
         ENTRANCE(RR_WASTELAND_NEAR_COLOSSUS, ctx->GetTrickOption(RT_LENS_HW) || logic->CanUse(RG_LENS_OF_TRUTH)),
