@@ -2477,6 +2477,8 @@ void StaticData::HintTable_Init_Exclude_Overworld() {
                                                         /*german*/ "Man erzählt sich, daß das #Schmelzen von rotem Eis in Zoras Reich# #[[1]]# gäbe.",
                                                         /*french*/ "Selon moi, #faire fondre la glace rouge dans le Domaine Zora# donne #[[1]]#.", {QM_RED, QM_GREEN}));
 
+    hintTextTable[RHT_BONUS_CHESTS] = HintText(CustomMessage("They say that a #hidden extra chest# contains #[[1]]#.", {QM_RED, QM_GREEN}));//TODO_TRANSLATE
+
     // clang-format on
 }
 } // namespace Rando

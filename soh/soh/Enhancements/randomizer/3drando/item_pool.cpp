@@ -446,6 +446,13 @@ void GenerateItemPool() {
         PlaceItemsForType(RCTYPE_BEEHIVE, true, true);
     }
 
+    if (ctx->GetOption(RSK_SHUFFLE_BONUS_CHESTS)) {
+        PlaceItemsForType(RCTYPE_BONUS_CHEST, true, true);
+        if (ctx->GetOption(RSK_BLUE_FIRE_ARROWS)) {
+            PlaceItemsForType(RCTYPE_BONUS_CHEST_BLUE_FIRE_ARROW, true, true);
+        }
+    }
+
     // Shuffle Pots
     bool overworldPotsActive = ctx->GetOption(RSK_SHUFFLE_POTS).Is(RO_SHUFFLE_POTS_OVERWORLD) ||
                                ctx->GetOption(RSK_SHUFFLE_POTS).Is(RO_SHUFFLE_POTS_ALL);

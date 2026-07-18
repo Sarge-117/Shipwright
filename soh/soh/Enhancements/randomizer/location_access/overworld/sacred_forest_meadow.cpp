@@ -84,7 +84,9 @@ void RegionTable_Init_SacredForestMeadow() {
 
     areaTable[RR_SFM_WOLFOS_GROTTO] = Region("SFM Wolfos Grotto", SCENE_GROTTOS, {}, {
         //Locations
-        LOCATION(RC_SFM_WOLFOS_GROTTO_CHEST, logic->CanKillEnemy(RE_WOLFOS, ED_CLOSE, true, 2) && logic->HasItem(RG_OPEN_CHEST)),
+        LOCATION(RC_SFM_WOLFOS_GROTTO_CHEST,         logic->CanKillEnemy(RE_WOLFOS, ED_CLOSE, true, 2) && logic->HasItem(RG_OPEN_CHEST)),
+        LOCATION(RC_SFM_WOLFOS_GROTTO_BONUS_CHEST_1, logic->CanKillEnemy(RE_WOLFOS, ED_CLOSE, true, 2) && logic->HasItem(RG_OPEN_CHEST) && logic->CanUse(RG_LONGSHOT)),
+        LOCATION(RC_SFM_WOLFOS_GROTTO_BONUS_CHEST_2, logic->CanKillEnemy(RE_WOLFOS, ED_CLOSE, true, 2) && logic->HasItem(RG_OPEN_CHEST) && logic->CanUse(RG_LONGSHOT)),
     }, {
         //Exits
         ENTRANCE(RR_SFM_ENTRYWAY, true),
