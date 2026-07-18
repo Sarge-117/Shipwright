@@ -855,6 +855,7 @@ void Settings::CreateOptions() {
     OPT_U8(RSK_SHUFFLE_WEIRD_EGG, "Shuffle Weird Egg", {"Vanilla", "Shuffled", "Skip Waking Talon"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShuffleWeirdEgg"), mOptionDescriptions[RSK_SHUFFLE_WEIRD_EGG], WIDGET_CVAR_COMBOBOX, RO_WEIRD_EGG_VANILLA);
     OPT_BOOL(RSK_SHUFFLE_ZELDAS_LETTER, "Shuffle Zelda's Letter", CVAR_RANDOMIZER_SETTING("ShuffleZeldasLetter"), mOptionDescriptions[RSK_SHUFFLE_ZELDAS_LETTER]);
     OPT_BOOL(RSK_SHUFFLE_GERUDO_MEMBERSHIP_CARD, "Shuffle Gerudo Membership Card", CVAR_RANDOMIZER_SETTING("ShuffleGerudoToken"), mOptionDescriptions[RSK_SHUFFLE_GERUDO_MEMBERSHIP_CARD]);
+    OPT_BOOL(RSK_SHUFFLE_BONUS_CHESTS, "Shuffle Bonus Chests", CVAR_RANDOMIZER_SETTING("ShuffleBonusChests"), mOptionDescriptions[RSK_SHUFFLE_BONUS_CHESTS]);
     OPT_U8(RSK_SHUFFLE_POTS, "Shuffle Pots", {"Off", "Dungeons", "Overworld", "All Pots"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShufflePots"), mOptionDescriptions[RSK_SHUFFLE_POTS], WIDGET_CVAR_COMBOBOX, RO_SHUFFLE_POTS_OFF);
     OPT_U8(RSK_SHUFFLE_GRASS, "Shuffle Grass", {"Off", "Dungeons", "Overworld", "All Grass"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShuffleGrass"), mOptionDescriptions[RSK_SHUFFLE_GRASS], WIDGET_CVAR_COMBOBOX, RO_SHUFFLE_GRASS_OFF);
     OPT_U8(RSK_SHUFFLE_CRATES, "Shuffle Crates", {"Off", "Dungeons", "Overworld", "All Crates"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShuffleCrates"), mOptionDescriptions[RSK_SHUFFLE_CRATES], WIDGET_CVAR_COMBOBOX, RO_SHUFFLE_CRATES_OFF);
@@ -2028,6 +2029,7 @@ void Settings::CreateOptions() {
                                   &mOptions[RSK_SHUFFLE_WEIRD_EGG],
                                   &mOptions[RSK_SHUFFLE_ZELDAS_LETTER],
                                   &mOptions[RSK_SHUFFLE_GERUDO_MEMBERSHIP_CARD],
+                                  &mOptions[RSK_SHUFFLE_BONUS_CHESTS],
                                   &mOptions[RSK_FISHSANITY],
                                   &mOptions[RSK_FISHSANITY_POND_COUNT],
                                   &mOptions[RSK_FISHSANITY_AGE_SPLIT],
