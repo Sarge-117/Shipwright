@@ -2165,7 +2165,7 @@ void RandomizerAfterSceneCommandsHandler(int16_t sceneNum) {
     if (RAND_GET_OPTION(RSK_SHUFFLE_ENTRANCES)) {
         Entrance_OverrideWeatherState();
     }
-
+    /*
     if (sceneNum == SCENE_ZORAS_FOUNTAIN && LINK_IS_CHILD && !RAND_GET_OPTION(RSK_SHUFFLE_OVERWORLD_ENTRANCES) 
     && CVarGetInteger(CVAR_SETTING("ZFshortcutZR"), 1)) {
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f,  -50.0f, 350.5f, 0, 0, 0, 0);
@@ -2180,7 +2180,7 @@ void RandomizerAfterSceneCommandsHandler(int16_t sceneNum) {
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 270.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 0.0f, 230.5f, 0, 0, 0, 0);
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_OBJ_HSBLOCK, -2615.0f, 100.0f, 230.5f, 0, 0, 0, 0);
-    }
+    }*/
 
     if (sceneNum == SCENE_GERUDO_VALLEY && CVarGetInteger(CVAR_ENHANCEMENT("KeeseSanity"), 0)) {
         Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_FIREFLY, -325.0f, -2000.0f, -1300.0f, 0, 0, 0, 2);
