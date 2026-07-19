@@ -222,6 +222,7 @@ void RegionTable_Init_KokiriForest() {
         LOCATION(RC_KF_SARIAS_TOP_RIGHT_HEART,    true),
         LOCATION(RC_KF_SARIAS_BOTTOM_LEFT_HEART,  true),
         LOCATION(RC_KF_SARIAS_BOTTOM_RIGHT_HEART, true),
+        LOCATION(RC_KF_SARIAS_HOUSE_BONUS_CHEST,  logic->HasItem(RG_OPEN_CHEST)),
     }, {
         //Exits
         ENTRANCE(RR_KOKIRI_FOREST, true),
@@ -229,8 +230,9 @@ void RegionTable_Init_KokiriForest() {
 
     areaTable[RR_KF_HOUSE_OF_TWINS] = Region("KF House of Twins", SCENE_TWINS_HOUSE, {}, {
         //Locations
-        LOCATION(RC_KF_TWINS_HOUSE_POT_1, logic->CanBreakPots()),
-        LOCATION(RC_KF_TWINS_HOUSE_POT_2, logic->CanBreakPots()),
+        LOCATION(RC_KF_TWINS_HOUSE_POT_1,        logic->CanBreakPots()),
+        LOCATION(RC_KF_TWINS_HOUSE_POT_2,        logic->CanBreakPots()),
+        LOCATION(RC_KF_TWINS_HOUSE_BONUS_CHEST,  logic->HasItem(RG_OPEN_CHEST)),
     }, {
         //Exits
         ENTRANCE(RR_KOKIRI_FOREST, true),
@@ -238,8 +240,9 @@ void RegionTable_Init_KokiriForest() {
 
     areaTable[RR_KF_KNOW_IT_ALL_HOUSE] = Region("KF Know It All House", SCENE_KNOW_IT_ALL_BROS_HOUSE, {}, {
         // Locations
-        LOCATION(RC_KF_BROTHERS_HOUSE_POT_1, logic->CanBreakPots()),
-        LOCATION(RC_KF_BROTHERS_HOUSE_POT_2, logic->CanBreakPots()),
+        LOCATION(RC_KF_BROTHERS_HOUSE_POT_1,           logic->CanBreakPots()),
+        LOCATION(RC_KF_BROTHERS_HOUSE_POT_2,           logic->CanBreakPots()),
+        LOCATION(RC_KF_BROTHERS_HOUSE_BONUS_CHEST,     logic->HasItem(RG_OPEN_CHEST)),
     }, {
         //Exits
         ENTRANCE(RR_KOKIRI_FOREST, true),
