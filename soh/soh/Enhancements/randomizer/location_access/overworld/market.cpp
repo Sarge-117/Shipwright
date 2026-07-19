@@ -159,8 +159,9 @@ void RegionTable_Init_Market() {
         EVENT_ACCESS(LOGIC_BORROW_RIGHT_MASKS, ctx->GetOption(RSK_MASK_QUEST).Is(RO_MASK_QUEST_COMPLETED) && logic->HasItem(RG_SPEAK_HYLIAN) && logic->Get(LOGIC_CAN_BORROW_MASKS)),
     }, {
         //Locations
-        LOCATION(RC_MASK_SHOP_HINT,    true),
-        LOCATION(RC_MK_MASK_SHOP_SIGN, logic->CanRead()),
+        LOCATION(RC_MASK_SHOP_HINT,           true),
+        LOCATION(RC_MK_MASK_SHOP_SIGN,        logic->CanRead()),
+        LOCATION(RC_MK_MASK_SHOP_BONUS_CHEST, logic->HasItem(RG_OPEN_CHEST)),
     }, {
         //Exits
         ENTRANCE(RR_THE_MARKET, true),
@@ -247,9 +248,10 @@ void RegionTable_Init_Market() {
 
     areaTable[RR_MARKET_MAN_IN_GREEN_HOUSE] = Region("Market Man in Green House", SCENE_BACK_ALLEY_HOUSE, {}, {
         // Locations
-        LOCATION(RC_MK_BACK_ALLEY_HOUSE_POT_1, logic->CanBreakPots()),
-        LOCATION(RC_MK_BACK_ALLEY_HOUSE_POT_2, logic->CanBreakPots()),
-        LOCATION(RC_MK_BACK_ALLEY_HOUSE_POT_3, logic->CanBreakPots()),
+        LOCATION(RC_MK_BACK_ALLEY_HOUSE_POT_1,       logic->CanBreakPots()),
+        LOCATION(RC_MK_BACK_ALLEY_HOUSE_POT_2,       logic->CanBreakPots()),
+        LOCATION(RC_MK_BACK_ALLEY_HOUSE_POT_3,       logic->CanBreakPots()),
+        LOCATION(RC_MK_BACK_ALLEY_HOUSE_BONUS_CHEST, logic->HasItem(RG_OPEN_CHEST)),
     }, {
         //Exits
         ENTRANCE(RR_MARKET_BACK_ALLEY, true),
