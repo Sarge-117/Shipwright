@@ -368,6 +368,7 @@ void RegionTable_Init_DeathMountainCrater() {
         LOCATION(RC_DMC_ROCK_BY_FIRE_TEMPLE_5,          logic->IsAdult),
         // RANDOTODO: A number of tricks to reach this: sidehop jumpslash or hookshot + jumpslash from bridge platform, chu+shield damage boost
         LOCATION(RC_DMC_WONDER_BENEATH_BRIDGE_PLATFORM, logic->IsAdult && (logic->CanUse(RG_LONGSHOT) || logic->CanUse(RG_HOVER_BOOTS))),
+        LOCATION(RC_DMC_BONUS_CHEST_2,                  logic->IsAdult && logic->HasItem(RG_OPEN_CHEST) && (logic->CanUse(RG_LONGSHOT) || logic->CanUse(RG_HOVER_BOOTS))),
     }, {});
 
 
@@ -380,6 +381,7 @@ void RegionTable_Init_DeathMountainCrater() {
         LOCATION(RC_DMC_DISTANT_PLATFORM_GREEN_RUPEE_5, logic->IsAdult),
         LOCATION(RC_DMC_DISTANT_PLATFORM_GREEN_RUPEE_6, logic->IsAdult),
         LOCATION(RC_DMC_DISTANT_PLATFORM_RED_RUPEE,     logic->IsAdult),
+        LOCATION(RC_DMC_BONUS_CHEST_1,                  logic->IsAdult && logic->HasItem(RG_OPEN_CHEST)),
     }, {});
 
     areaTable[RR_DMC_TEMPLE_EXIT] = Region("DMC Temple Exit", SCENE_DEATH_MOUNTAIN_CRATER, {}, {}, {
