@@ -138,7 +138,11 @@ void RegionTable_Init_GerudoValley() {
         ENTRANCE(RR_GV_CRATE_LEDGE,        (ctx->GetTrickOption(RT_DAMAGE_BOOST_SIMPLE) && logic->HasExplosives()) || (ctx->GetTrickOption(RT_GV_CRATE_HOVERS) && logic->TakeDamage() && logic->CanUse(RG_HOVER_BOOTS) && (logic->CanUse(RG_MASTER_SWORD) || logic->CanUse(RG_BIGGORON_SWORD)))),
     });
 
-    areaTable[RR_GV_CARPENTER_TENT] = Region("GV Carpenter Tent", SCENE_CARPENTERS_TENT, {}, {}, {
+    areaTable[RR_GV_CARPENTER_TENT] = Region("GV Carpenter Tent", SCENE_CARPENTERS_TENT, {}, {
+        //Locations
+        LOCATION(RC_GV_CARPENTER_TENT_BONUS_CHEST_1, logic->HasItem(RG_OPEN_CHEST)),
+        LOCATION(RC_GV_CARPENTER_TENT_BONUS_CHEST_2, logic->HasItem(RG_OPEN_CHEST)),
+    }, {
         //Exits
         ENTRANCE(RR_GV_FORTRESS_SIDE, true),
     });
