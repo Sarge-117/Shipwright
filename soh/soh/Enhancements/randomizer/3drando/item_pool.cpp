@@ -483,6 +483,9 @@ void GenerateItemPool() {
         if (ctx->GetOption(RSK_BLUE_FIRE_ARROWS)) {
             PlaceItemsForType(RCTYPE_BONUS_CHEST_BLUE_FIRE_ARROW, true, true);
         }
+        if (ctx->GetOption(RSK_SHUFFLE_CUSTOM_FLAMES)) {
+            PlaceItemsForType(RCTYPE_BONUS_CHEST_GLOMBON, true, true);
+        }
     }
 
     // Shuffle Pots

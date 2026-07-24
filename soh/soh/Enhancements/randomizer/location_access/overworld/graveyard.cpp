@@ -69,6 +69,13 @@ void RegionTable_Init_Graveyard() {
         LOCATION(RC_GRAVEYARD_SHIELD_GRAVE_FAIRY_6, true),
         LOCATION(RC_GRAVEYARD_SHIELD_GRAVE_FAIRY_7, true),
         LOCATION(RC_GRAVEYARD_SHIELD_GRAVE_FAIRY_8, true),
+
+        LOCATION(RC_GRAVEYARD_GLOMBON_CHEST_1,    logic->HasCustomFlame(RG_CUSTOM_FLAME_ORANGE) && logic->HasItem(RG_OPEN_CHEST) && logic->CanUse(RG_ZELDAS_LULLABY) && logic->CanUse(RG_HOOKSHOT)),
+        LOCATION(RC_GRAVEYARD_GLOMBON_CHEST_2,    logic->HasCustomFlame(RG_CUSTOM_FLAME_BLUE) && logic->HasItem(RG_OPEN_CHEST) && logic->CanUse(RG_ZELDAS_LULLABY) && logic->CanUse(RG_HOOKSHOT)),
+        LOCATION(RC_GRAVEYARD_GLOMBON_CHEST_3,    logic->HasCustomFlame(RG_CUSTOM_FLAME_GREEN) && logic->HasItem(RG_OPEN_CHEST) && logic->CanUse(RG_ZELDAS_LULLABY) && logic->CanUse(RG_HOOKSHOT)),
+        LOCATION(RC_GRAVEYARD_GLOMBON_CHEST_4,    logic->HasCustomFlame(RG_CUSTOM_FLAME_PURPLE) && logic->HasItem(RG_OPEN_CHEST) && logic->CanUse(RG_ZELDAS_LULLABY) && logic->CanUse(RG_HOOKSHOT)),
+        LOCATION(RC_GRAVEYARD_GLOMBON_CHEST_5,    logic->HasCustomFlame(RG_CUSTOM_FLAME_ORANGE) && logic->HasCustomFlame(RG_CUSTOM_FLAME_BLUE) && logic->HasCustomFlame(RG_CUSTOM_FLAME_GREEN) && logic->HasCustomFlame(RG_CUSTOM_FLAME_PURPLE) 
+                                               && logic->HasItem(RG_OPEN_CHEST) && logic->CanUse(RG_ZELDAS_LULLABY) && logic->CanUse(RG_HOOKSHOT)),
     }, {
         //Exits
         ENTRANCE(RR_GRAVEYARD_SHIELD_GRAVE, true),

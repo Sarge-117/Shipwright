@@ -44,6 +44,7 @@ class Logic {
     bool BAllowed();
     bool SmallKeys(SceneID scene, uint8_t requiredAmount);
     bool HasExtraDungeonKey(RandomizerGet itemName);
+    bool HasCustomFlame(RandomizerGet itemName);
     bool CanGroundJump(bool hasBombflower = false);
     bool CanGroundJumpslash(bool hasBombflower = false);
     bool CanMiddairGroundJump(bool hasBombflower = false);

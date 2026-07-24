@@ -1493,15 +1493,31 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             break;
         case RG_CUSTOM_FLAME_BLUE:
             Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_BLUE);
+            if (play->sceneNum == SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN && RAND_GET_OPTION(RSK_SHUFFLE_BONUS_CHESTS)) {
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -323.0f,  280.0f, -793.0f, 0, 32768.0f, 0, 0x59c2);
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -323.0f,  355.0f, -876.0f, 0,     0.0f, 0, 0x0007);
+            }
             break;
         case RG_CUSTOM_FLAME_ORANGE:
             Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_ORANGE);
+            if (play->sceneNum == SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN && RAND_GET_OPTION(RSK_SHUFFLE_BONUS_CHESTS)) {
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -392.0f,  260.0f, -674.0f, 0, 32768.0f, 0, 0x59c1);
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -392.0f,  335.0f, -761.0f, 0,     0.0f, 0, 0x0000);
+            }
             break;
         case RG_CUSTOM_FLAME_GREEN:
             Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_GREEN);
+            if (play->sceneNum == SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN && RAND_GET_OPTION(RSK_SHUFFLE_BONUS_CHESTS)) {
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -121.0f,  280.0f, -793.0f, 0, 32768.0f, 0, 0x59c3);
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -121.0f,  355.0f, -876.0f, 0,     0.0f, 0, 0x0003);
+            }
             break;
         case RG_CUSTOM_FLAME_PURPLE:
             Flags_SetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_PURPLE);
+            if (play->sceneNum == SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN && RAND_GET_OPTION(RSK_SHUFFLE_BONUS_CHESTS)) {
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,    -52.0f,  260.0f, -674.0f, 0.0f, 32768.0f, 0.0f, 0x59c4);
+                Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT,  -52.0f,  335.0f, -761.0f, 0.0f,     0.0f, 0.0f, 0x000d);
+            }
             break;
         default:
             LUSLOG_WARN("Randomizer_Item_Give didn't have behaviour specified for getItemId=%d", item);
