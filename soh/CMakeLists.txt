@@ -135,7 +135,6 @@ source_group("include" FILES ${Header_Files__include})
 file(GLOB_RECURSE soh__ RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "soh/*.c" "soh/*.cpp" "soh/*.h" "soh/*.hpp")
 
 # Add specific files that don't match the pattern
-list(APPEND soh__ ${CMAKE_CURRENT_SOURCE_DIR}/soh/Enhancements/savestates_extern.inc)
 list(APPEND soh__ ${CMAKE_CURRENT_SOURCE_DIR}/soh/Enhancements/speechsynthesizer/DarwinSpeechSynthesizer.mm)
 
 # Create source groups that match the real file directory paths
@@ -421,6 +420,7 @@ if(MSVC)
                 /Gy;
             >
             /W3;
+            /WX;
             /bigobj;
             /sdl-;
             /permissive-;
@@ -443,6 +443,7 @@ if(MSVC)
             /MP;
             /sdl-;
             /W3;
+            /WX;
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
             ${DEFAULT_CXX_EXCEPTION_HANDLING}
         )
@@ -713,6 +714,33 @@ else()
         Threads::Threads
     )
 endif()
+
+if(USE_ASAN)
+    target_compile_options(libultraship PRIVATE -fsanitize=address)
+    target_link_options(libultraship PRIVATE -fsanitize=address)
+    target_compile_options(soh PRIVATE -fsanitize=address)
+    target_link_options(soh PRIVATE -fsanitize=address)
+    target_link_options(ZAPD PRIVATE -fsanitize=address)
+    target_link_options(OTRExporter PRIVATE -fsanitize=address)
+    target_compile_options(ZAPD PRIVATE -fsanitize=address)
+    target_compile_options(OTRExporter PRIVATE -fsanitize=address)
+    if (MSVC)
+        target_compile_definitions(ImGui PRIVATE _DISABLE_VECTOR_ANNOTATION)
+        target_compile_definitions(ImGui PRIVATE _DISABLE_STRING_ANNOTATION)
+        target_compile_definitions(libultraship PRIVATE _DISABLE_VECTOR_ANNOTATION)
+        target_compile_definitions(libultraship PRIVATE _DISABLE_STRING_ANNOTATION)
+
+        target_compile_definitions(soh PRIVATE _DISABLE_VECTOR_ANNOTATION)
+        target_compile_definitions(soh PRIVATE _DISABLE_STRING_ANNOTATION)
+        target_compile_options(libultraship PRIVATE $<$<CONFIG:Debug>:/Zi;>)
+        target_compile_options(soh PRIVATE $<$<CONFIG:Debug>:/Zi;>)
+        # The default stack size on Windows is 1MB. ASAN uses a lot more stack so boost it to 16
+        set_target_properties(soh PROPERTIES
+                LINK_FLAGS "/STACK:16777216"
+        )
+    endif()
+endif()
+
 
 if(NOT CMAKE_SYSTEM_NAME MATCHES "Darwin|NintendoSwitch|CafeOS")
 INSTALL(TARGETS soh DESTINATION . COMPONENT ship)
