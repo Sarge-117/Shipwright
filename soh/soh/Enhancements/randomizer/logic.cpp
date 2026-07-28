@@ -187,18 +187,6 @@ bool Logic::HasItem(RandomizerGet itemName) {
         case RG_ZORAS_RIVER_BEAN_SOUL:
         case RG_SKELETON_KEY:
         case RG_RUTOS_LETTER:
-        case RG_DEKU_TREE_SMALL_KEY:
-        case RG_DODONGOS_CAVERN_SMALL_KEY:
-        case RG_JABU_JABU_SMALL_KEY:
-        case RG_ICE_CAVERN_SMALL_KEY:
-        case RG_TOMB_SMALL_KEY:
-        case RG_DEKU_TREE_BOSS_KEY:
-        case RG_DODONGOS_CAVERN_BOSS_KEY:
-        case RG_JABU_JABUS_BELLY_BOSS_KEY:
-        case RG_CUSTOM_FLAME_ORANGE:
-        case RG_CUSTOM_FLAME_BLUE:
-        case RG_CUSTOM_FLAME_GREEN:
-        case RG_CUSTOM_FLAME_PURPLE:
             return CheckRandoInf(StaticData::RandoGetToRandInf.at(itemName));
             // Boss Souls
         case RG_GOHMA_SOUL:
@@ -238,9 +226,22 @@ bool Logic::HasItem(RandomizerGet itemName) {
         case RG_BACK_TOWER_KEY:
         case RG_HYLIA_LAB_KEY:
         case RG_FISHING_HOLE_KEY:
+        case RG_RUTOS_LETTER:
+        case RG_DEKU_TREE_SMALL_KEY:
+        case RG_DODONGOS_CAVERN_SMALL_KEY:
+        case RG_JABU_JABU_SMALL_KEY:
+        case RG_ICE_CAVERN_SMALL_KEY:
+        case RG_TOMB_SMALL_KEY:
+        case RG_DEKU_TREE_BOSS_KEY:
+        case RG_DODONGOS_CAVERN_BOSS_KEY:
+        case RG_JABU_JABUS_BELLY_BOSS_KEY:
+        case RG_CUSTOM_FLAME_ORANGE:
+        case RG_CUSTOM_FLAME_BLUE:
+        case RG_CUSTOM_FLAME_GREEN:
+        case RG_CUSTOM_FLAME_PURPLE:
+            return CheckRandoInf(RandoGetToRandInf.at(itemName));
             return !ctx->GetOption(RSK_LOCK_OVERWORLD_DOORS) || HasItem(RG_SKELETON_KEY) ||
                    CheckRandoInf(StaticData::RandoGetToRandInf.at(itemName));
-            
             // Boss Keys
         case RG_FOREST_TEMPLE_BOSS_KEY:
         case RG_FIRE_TEMPLE_BOSS_KEY:

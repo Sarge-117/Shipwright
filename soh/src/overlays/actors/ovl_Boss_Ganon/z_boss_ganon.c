@@ -118,7 +118,6 @@ static EnGanonMant* sCape;
 static s32 sSeed1;
 static s32 sSeed3;
 static s32 sSeed2;
-u8 sBossGanonAttackCount = 0;
 
 static BossGanon* sGanondorf;
 
