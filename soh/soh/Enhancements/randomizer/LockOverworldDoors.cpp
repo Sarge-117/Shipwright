@@ -159,7 +159,6 @@ void RegisterMoreDungeonKeys() {
                 door->doorType = SHUTTER_BOSS; // Remove the bars - it will be locked by a key instead of barred based on room clear
                 if (Flags_GetRandomizerInf(door->randomizerInf)) {
                     door->doorType = SHUTTER;
-                    door->gfxType == 1;
                     door->styleType = 2;
                     door->unlockTimer = 0;
                 }

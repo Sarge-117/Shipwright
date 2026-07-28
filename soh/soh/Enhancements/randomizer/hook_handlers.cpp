@@ -2192,24 +2192,24 @@ void RandomizerAfterSceneCommandsHandler(int16_t sceneNum) {
 
     if (sceneNum == SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN && RAND_GET_OPTION(RSK_SHUFFLE_CUSTOM_FLAMES) && IS_RANDO && RAND_GET_OPTION(RSK_SHUFFLE_BONUS_CHESTS)) {
         if (Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_ORANGE)) {
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -392.0f,  260.0f, -674.0f, 0, 32768.0f, 0, 0x59c1);
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -392.0f,  335.0f, -761.0f, 0,     0.0f, 0, 0x0000);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -392.0f,  260.0f, -674.0f, 0, 32767, 0, 0x59c1);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -392.0f,  335.0f, -761.0f, 0,     0, 0, 0x0000);
         }
         if (Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_BLUE)) {
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -323.0f,  280.0f, -793.0f, 0, 32768.0f, 0, 0x59c2);
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -323.0f,  355.0f, -876.0f, 0,     0.0f, 0, 0x0007);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -323.0f,  280.0f, -793.0f, 0, 32767, 0, 0x59c2);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -323.0f,  355.0f, -876.0f, 0,     0, 0, 0x0007);
         }
         if (Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_GREEN)) {
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -121.0f,  280.0f, -793.0f, 0, 32768.0f, 0, 0x59c3);
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -121.0f,  355.0f, -876.0f, 0,     0.0f, 0, 0x0003);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,   -121.0f,  280.0f, -793.0f, 0, 32767, 0, 0x59c3);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT, -121.0f,  355.0f, -876.0f, 0,     0, 0, 0x0003);
         }
         if (Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_PURPLE)) {
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,    -52.0f,  260.0f, -674.0f, 0.0f, 32768.0f, 0.0f, 0x59c4);
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT,  -52.0f,  335.0f, -761.0f, 0.0f,     0.0f, 0.0f, 0x000d);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX,    -52.0f,  260.0f, -674.0f, 0, 32767, 0, 0x59c4);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_LIGHT,  -52.0f,  335.0f, -761.0f, 0,     0, 0, 0x000d);
         }
         if (Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_PURPLE) && Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_GREEN) &&
             Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_BLUE) && Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_ORANGE)) {
-            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX, -222.0f, 300.0f, -883.0f, 0, 32768.0f, 0, 0x0aa5);
+            Actor_Spawn(&gPlayState->actorCtx, gPlayState, ACTOR_EN_BOX, -222.0f, 300.0f, -883.0f, 0, 32767, 0, 0x0aa5);
         }
     }
 }
