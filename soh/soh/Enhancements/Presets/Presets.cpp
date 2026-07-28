@@ -2,7 +2,9 @@
 #include <string>
 #include <fstream>
 #include <ship/config/Config.h>
+#include <libultraship/classes.h>
 #include <nlohmann/json.hpp>
+#include <libultraship/libultraship.h>
 #include <ship/resource/type/Json.h>
 #include "soh/OTRGlobals.h"
 #include "soh/util.h"
@@ -106,7 +108,8 @@ void applyPreset(std::string presetName, std::vector<PresetSection> includeSecti
     auto& info = presets[presetName];
     for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
         if (info.apply[i] && info.presetValues["blocks"].contains(blockInfo[i].names[1])) {
-            if (!includeSections.empty() && !SohUtils::Contains(i, includeSections)) {
+            if (!includeSections.empty() &&
+                std::find(includeSections.begin(), includeSections.end(), i) == includeSections.end()) {
                 continue;
             }
             if (i == PRESET_SECTION_TRACKERS) {

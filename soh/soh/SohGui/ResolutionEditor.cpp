@@ -1,5 +1,6 @@
 #include "ResolutionEditor.h"
 #include <imgui.h>
+#include <libultraship/libultraship.h>
 
 #include "soh/SohGui/UIWidgets.hpp"
 #include <fast/Fast3dWindow.h>
@@ -405,7 +406,7 @@ void RegisterResolutionWidgets() {
         .RaceDisable(false);
     // Error/Warning display
     mSohMenu
-        ->AddWidget(path, ICON_FA_EXCLAMATION_TRIANGLE " Significant frame rate (FPS) drops may be occurring.",
+        ->AddWidget(path, ICON_FA_EXCLAMATION_TRIANGLE " Significant frame rate (FPS) drops may be occuring.",
                     WIDGET_TEXT)
         .RaceDisable(false)
         .PreFunc(

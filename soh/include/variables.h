@@ -77,7 +77,7 @@ extern "C"
 	extern u8 D_8011FB34;
 	extern u8 D_8011FB38;
 	extern u8 gSkyboxBlendingEnabled;
-	extern u16 gTimeSpeed;
+	extern u16 gTimeIncrement;
 	extern struct_8011FC1C D_8011FC1C[][9];
 	extern SkyboxFile gSkyboxFiles[];
 	extern s32 gZeldaArenaLogSeverity;
@@ -150,10 +150,9 @@ extern "C"
 	extern u8 gUsedChannelsPerBank[4][7];
 	extern u8 gMorphaTransposeTable[16];
 	extern u8* gFrogsSongPtr;
-	extern OcarinaNote* gScarecrowLongSongPtr;
+	extern OcarinaNote* gScarecrowCustomSongPtr;
 	extern u8* gScarecrowSpawnSongPtr;
-	extern OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20];
-	extern OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX];
+	extern OcarinaSongInfo gOcarinaSongNotes[];
 	extern SoundParams* gSoundParams[7];
 	extern char D_80133390[];
 	extern char D_80133398[];

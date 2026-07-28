@@ -8,7 +8,6 @@
 #include <array>
 #include <string>
 #include <vector>
-#include <spdlog/spdlog.h>
 
 extern "C" {
 #include "functions.h"

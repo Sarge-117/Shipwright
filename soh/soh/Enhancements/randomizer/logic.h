@@ -1,5 +1,6 @@
 #pragma once
 
+#include "randomizerTypes.h"
 #include "SeedContext.h"
 #include <stdint.h>
 
@@ -16,6 +17,8 @@ enum class GlitchType {
     EquipSwapDins,
     EquipSwap,
 };
+
+const std::vector<uint8_t>& GetDungeonSmallKeyDoors(const SceneID sceneId);
 
 class Logic {
   public:
@@ -46,12 +49,11 @@ class Logic {
     bool CanOpenOverworldDoor(RandomizerGet itemName);
     bool HasExtraDungeonKey(RandomizerGet itemName);
     bool HasCustomFlame(RandomizerGet itemName);
-    bool SmallKeys(SceneID scene, uint8_t requiredAmount);
+    bool SmallKeys(s16 scene, uint8_t requiredAmount);
     bool CanGroundJump(bool hasBombflower = false);
     bool CanGroundJumpslash(bool hasBombflower = false);
     bool CanMiddairGroundJump(bool hasBombflower = false);
     bool CanOpenUnderwaterChest();
-    bool CanOpenLargeChest();
     bool CanDoGlitch(GlitchType glitch);
     bool CanEquipSwap(RandomizerGet itemName);
     bool CanKillEnemy(RandomizerEnemy enemy, EnemyDistance distance = ED_CLOSE, bool wallOrFloor = true,
@@ -119,9 +121,7 @@ class Logic {
     bool CanShield();
     bool CanUseProjectile();
     bool CanBuildRainbowBridge();
-    bool CanTriggerGBK();
-    bool CanTriggerGanonsSoul();
-    bool CanTriggerWincon();
+    bool CanTriggerLACS();
     bool IsFireLoopLocked();
     bool ReachScarecrow();
     bool ReachDistantScarecrow();
@@ -142,7 +142,8 @@ class Logic {
     bool CheckEquipment(uint32_t item);
     bool CheckQuestItem(uint32_t item);
     void SetQuestItem(uint32_t item, bool state);
-    int8_t GetSmallKeyCount(SceneID sceneId);
+    int8_t GetUsedSmallKeyCount(SceneID sceneId);
+    uint8_t GetSmallKeyCount(uint32_t dungeonIndex);
     void SetSmallKeyCount(uint32_t dungeonIndex, uint8_t count);
     bool CheckDungeonItem(uint32_t item, uint32_t dungeonIndex);
     void SetDungeonItem(uint32_t item, uint32_t dungeonIndex, bool state);
@@ -150,7 +151,6 @@ class Logic {
     void SetRandoInf(uint32_t flag, bool state);
     bool CheckEventChkInf(int32_t flag);
     uint8_t GetGSCount();
-    uint8_t GetTriforcePieceCount();
     void SetEventChkInf(int32_t flag, bool state);
     uint8_t GetAmmo(uint32_t item);
     void SetAmmo(uint32_t item, uint8_t count);
@@ -159,8 +159,9 @@ class Logic {
     void InitSaveContext();
     void NewSaveContext();
     static std::map<uint32_t, uint32_t> RandoGetToQuestItem;
-    static std::map<uint32_t, SceneID> RandoGetToDungeonScene;
+    static std::map<uint32_t, uint32_t> RandoGetToDungeonScene;
     static std::map<RandomizerGet, uint32_t> RandoGetToEquipFlag;
+    static std::map<RandomizerGet, uint32_t> RandoGetToRandInf;
     bool IsReverseAccessPossible();
     bool DMCUpperToPots();
     bool DMCPotsToPad();

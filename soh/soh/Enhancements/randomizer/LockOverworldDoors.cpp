@@ -1,3 +1,4 @@
+#include <libultraship/libultraship.h>
 #include "soh/OTRGlobals.h"
 #include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"
 #include "soh/Enhancements/randomizer/SeedContext.h"
@@ -5,6 +6,7 @@
 
 extern "C" {
 extern PlayState* gPlayState;
+#include "macros.h"
 #include "src/overlays/actors/ovl_En_Door/z_en_door.h"
 #include "src/overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "src/overlays/actors/ovl_En_Hintnuts/z_en_hintnuts.h"

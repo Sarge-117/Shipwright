@@ -5,12 +5,11 @@
 #include "item_pool.hpp"
 #include "starting_inventory.hpp"
 #include "hints.hpp"
-#include "../rng.h"
+#include "random.hpp"
 #include "shops.hpp"
 #include "pool_functions.hpp"
 #include "soh/Enhancements/randomizer/static_data.h"
 #include "soh/Enhancements/debugger/performanceTimer.h"
-#include "soh/util.h"
 
 #include <vector>
 #include <list>
@@ -231,6 +230,16 @@ void ProcessExits(Region* region, GetAccessibleLocationsStruct& gals, Randomizer
 // Get the max number of tokens that can possibly be useful
 static int GetMaxGSCount() {
     auto ctx = Rando::Context::GetInstance();
+    // If bridge or LACS is set to tokens, get how many are required
+    int maxBridge = 0;
+    int maxLACS = 0;
+    if (ctx->GetOption(RSK_RAINBOW_BRIDGE).Is(RO_BRIDGE_TOKENS)) {
+        maxBridge = ctx->GetOption(RSK_RAINBOW_BRIDGE_TOKEN_COUNT).Get();
+    }
+    if (ctx->GetOption(RSK_GANONS_BOSS_KEY).Is(RO_GANON_BOSS_KEY_LACS_TOKENS)) {
+        maxLACS = ctx->GetOption(RSK_LACS_TOKEN_COUNT).Get();
+    }
+    maxBridge = std::max(maxBridge, maxLACS);
     // Get the max amount of GS which could be useful from token reward locations
     int maxUseful = 0;
     // If the highest advancement item is a token, we know it is useless since it won't lead to an otherwise useful item
@@ -253,21 +262,8 @@ static int GetMaxGSCount() {
                ctx->GetItemLocation(RC_KAK_10_GOLD_SKULLTULA_REWARD)->GetPlacedItem().GetItemType() != ITEMTYPE_TOKEN) {
         maxUseful = 10;
     }
-    // If bridge, GBK, Ganon's Soul, or win condition is set to tokens, get how many are required
-    if (ctx->GetOption(RSK_RAINBOW_BRIDGE).Is(RO_BRIDGE_TOKENS)) {
-        maxUseful = std::max(maxUseful, (int)ctx->GetOption(RSK_RAINBOW_BRIDGE_TOKEN_COUNT).Get());
-    }
-    if (ctx->GetOption(RSK_GANONS_BOSS_KEY).Is(RO_GANON_BOSS_KEY_TOKENS)) {
-        maxUseful = std::max(maxUseful, (int)ctx->GetOption(RSK_GBK_TOKEN_COUNT).Get());
-    }
-    if (ctx->GetOption(RSK_GANONS_SOUL).Is(RO_GANONS_SOUL_TOKENS)) {
-        maxUseful = std::max(maxUseful, (int)ctx->GetOption(RSK_GANONS_SOUL_TOKEN_COUNT).Get());
-    }
-    if (ctx->GetOption(RSK_WINCON).Is(RO_WINCON_TOKENS)) {
-        maxUseful = std::max(maxUseful, (int)ctx->GetOption(RSK_WINCON_TOKEN_COUNT).Get());
-    }
     // Return max of the two possible reasons tokens could be important, minus the tokens in the starting inventory
-    return maxUseful - ctx->GetOption(RSK_STARTING_SKULLTULA_TOKEN).Get();
+    return std::max(maxUseful, maxBridge) - ctx->GetOption(RSK_STARTING_SKULLTULA_TOKEN).Get();
 }
 
 std::string GetShopItemBaseName(std::string itemName) {
@@ -373,12 +369,12 @@ void AddToPlaythrough(LocationAccess& locPair, GetAccessibleLocationsStruct& gal
         if (!exclude) {
             gals.itemSphere.push_back(loc);
         }
-        // Triforce has been found, seed is beatable, nothing else in this or future spheres matters
-        if (location->GetPlacedRandomizerGet() == RG_TRIFORCE) {
-            gals.itemSphere.clear();
-            gals.itemSphere.push_back(loc);
-            ctx->playthroughBeatable = true;
-        }
+    }
+    // Triforce has been found, seed is beatable, nothing else in this or future spheres matters
+    else if (location->GetPlacedRandomizerGet() == RG_TRIFORCE) {
+        gals.itemSphere.clear();
+        gals.itemSphere.push_back(loc);
+        ctx->playthroughBeatable = true;
     }
 }
 
@@ -1078,13 +1074,13 @@ static void RandomizeOwnDungeon(const Rando::DungeonInfo* dungeon) {
             FilterAndEraseFromPool(itemPool, [dungeon](const RandomizerGet i) {
                 return (i == dungeon->GetSmallKey()) || (i == dungeon->GetKeyRing());
             });
-        SohUtils::AppendVector(dungeonItems, dungeonSmallKeys);
+        AddElementsToPool(dungeonItems, dungeonSmallKeys);
     }
     if (ctx->GetOption(RSK_SHUFFLE_DUNGEON_REWARDS).Is(RO_DUNGEON_REWARDS_OWN_DUNGEON) &&
         dungeon->GetReward() != RG_NONE) {
         std::vector<RandomizerGet> dungeonReward =
             FilterAndEraseFromPool(itemPool, [dungeon](const RandomizerGet i) { return (i == dungeon->GetReward()); });
-        SohUtils::AppendVector(dungeonItems, dungeonReward);
+        AddElementsToPool(dungeonItems, dungeonReward);
     }
 
     if ((ctx->GetOption(RSK_BOSS_KEYSANITY).Is(RO_DUNGEON_ITEM_LOC_OWN_DUNGEON) &&
@@ -1093,7 +1089,7 @@ static void RandomizeOwnDungeon(const Rando::DungeonInfo* dungeon) {
          dungeon->GetBossKey() == RG_GANONS_CASTLE_BOSS_KEY)) {
         auto dungeonBossKey =
             FilterAndEraseFromPool(itemPool, [dungeon](const RandomizerGet i) { return i == dungeon->GetBossKey(); });
-        SohUtils::AppendVector(dungeonItems, dungeonBossKey);
+        AddElementsToPool(dungeonItems, dungeonBossKey);
     }
 
     // randomize boss key, small keys, and rewards together for even distribution
@@ -1132,75 +1128,67 @@ static void RandomizeDungeonItems() {
             auto dungeonKeys = FilterAndEraseFromPool(itemPool, [dungeon](const RandomizerGet i) {
                 return (i == dungeon->GetSmallKey()) || (i == dungeon->GetKeyRing());
             });
-            SohUtils::AppendVector(anyDungeonItems, dungeonKeys);
+            AddElementsToPool(anyDungeonItems, dungeonKeys);
         } else if (ctx->GetOption(RSK_KEYSANITY).Is(RO_DUNGEON_ITEM_LOC_OVERWORLD)) {
             auto dungeonKeys = FilterAndEraseFromPool(itemPool, [dungeon](const RandomizerGet i) {
                 return (i == dungeon->GetSmallKey()) || (i == dungeon->GetKeyRing());
             });
-            SohUtils::AppendVector(overworldItems, dungeonKeys);
+            AddElementsToPool(overworldItems, dungeonKeys);
         }
 
         if (ctx->GetOption(RSK_BOSS_KEYSANITY).Is(RO_DUNGEON_ITEM_LOC_ANY_DUNGEON) &&
             dungeon->GetBossKey() != RG_GANONS_CASTLE_BOSS_KEY) {
             auto bossKey = FilterAndEraseFromPool(
                 itemPool, [dungeon](const RandomizerGet i) { return i == dungeon->GetBossKey(); });
-            SohUtils::AppendVector(anyDungeonItems, bossKey);
+            AddElementsToPool(anyDungeonItems, bossKey);
         } else if (ctx->GetOption(RSK_BOSS_KEYSANITY).Is(RO_DUNGEON_ITEM_LOC_OVERWORLD) &&
                    dungeon->GetBossKey() != RG_GANONS_CASTLE_BOSS_KEY) {
             auto bossKey = FilterAndEraseFromPool(
                 itemPool, [dungeon](const RandomizerGet i) { return i == dungeon->GetBossKey(); });
-            SohUtils::AppendVector(overworldItems, bossKey);
+            AddElementsToPool(overworldItems, bossKey);
         }
 
         if (ctx->GetOption(RSK_GANONS_BOSS_KEY).Is(RO_GANON_BOSS_KEY_ANY_DUNGEON)) {
             auto ganonBossKey =
                 FilterAndEraseFromPool(itemPool, [](const auto i) { return i == RG_GANONS_CASTLE_BOSS_KEY; });
-            SohUtils::AppendVector(anyDungeonItems, ganonBossKey);
+            AddElementsToPool(anyDungeonItems, ganonBossKey);
         } else if (ctx->GetOption(RSK_GANONS_BOSS_KEY).Is(RO_GANON_BOSS_KEY_OVERWORLD)) {
             auto ganonBossKey =
                 FilterAndEraseFromPool(itemPool, [](const auto i) { return i == RG_GANONS_CASTLE_BOSS_KEY; });
-            SohUtils::AppendVector(overworldItems, ganonBossKey);
+            AddElementsToPool(overworldItems, ganonBossKey);
         }
-    }
-
-    if (ctx->GetOption(RSK_GANONS_SOUL).Is(RO_GANONS_SOUL_ANY_DUNGEON)) {
-        auto ganonSoul = FilterAndEraseFromPool(itemPool, [](const auto i) { return i == RG_GANON_SOUL; });
-        SohUtils::AppendVector(anyDungeonItems, ganonSoul);
-    } else if (ctx->GetOption(RSK_GANONS_SOUL).Is(RO_GANONS_SOUL_OVERWORLD)) {
-        auto ganonSoul = FilterAndEraseFromPool(itemPool, [](const auto i) { return i == RG_GANON_SOUL; });
-        SohUtils::AppendVector(overworldItems, ganonSoul);
     }
 
     if (ctx->GetOption(RSK_GERUDO_KEYS).Is(RO_GERUDO_KEYS_ANY_DUNGEON)) {
         auto gerudoKeys = FilterAndEraseFromPool(itemPool, [](const auto i) {
             return i == RG_GERUDO_FORTRESS_SMALL_KEY || i == RG_GERUDO_FORTRESS_KEY_RING;
         });
-        SohUtils::AppendVector(anyDungeonItems, gerudoKeys);
+        AddElementsToPool(anyDungeonItems, gerudoKeys);
     } else if (ctx->GetOption(RSK_GERUDO_KEYS).Is(RO_GERUDO_KEYS_OVERWORLD)) {
         auto gerudoKeys = FilterAndEraseFromPool(itemPool, [](const auto i) {
             return i == RG_GERUDO_FORTRESS_SMALL_KEY || i == RG_GERUDO_FORTRESS_KEY_RING;
         });
-        SohUtils::AppendVector(overworldItems, gerudoKeys);
+        AddElementsToPool(overworldItems, gerudoKeys);
     }
 
     if (ctx->GetOption(RSK_SHUFFLE_DUNGEON_REWARDS).Is(RO_DUNGEON_REWARDS_ANY_DUNGEON)) {
         auto rewards = FilterAndEraseFromPool(itemPool, [](const auto i) {
             return Rando::StaticData::RetrieveItem(i).GetItemType() == ITEMTYPE_DUNGEONREWARD;
         });
-        SohUtils::AppendVector(anyDungeonItems, rewards);
+        AddElementsToPool(anyDungeonItems, rewards);
     } else if (ctx->GetOption(RSK_SHUFFLE_DUNGEON_REWARDS).Is(RO_DUNGEON_REWARDS_OVERWORLD)) {
         auto rewards = FilterAndEraseFromPool(itemPool, [](const auto i) {
             return Rando::StaticData::RetrieveItem(i).GetItemType() == ITEMTYPE_DUNGEONREWARD;
         });
-        SohUtils::AppendVector(overworldItems, rewards);
+        AddElementsToPool(overworldItems, rewards);
     }
 
     if (ctx->GetOption(RSK_TRIFORCE_HUNT_PIECES_LOCATION).Is(RO_TRIFORCE_HUNT_LOCATION_ANY_DUNGEON)) {
         auto triforcePieces = FilterAndEraseFromPool(itemPool, [](const auto i) { return i == RG_TRIFORCE_PIECE; });
-        SohUtils::AppendVector(anyDungeonItems, triforcePieces);
+        AddElementsToPool(anyDungeonItems, triforcePieces);
     } else if (ctx->GetOption(RSK_TRIFORCE_HUNT_PIECES_LOCATION).Is(RO_TRIFORCE_HUNT_LOCATION_OVERWORLD)) {
         auto triforcePieces = FilterAndEraseFromPool(itemPool, [](const auto i) { return i == RG_TRIFORCE_PIECE; });
-        SohUtils::AppendVector(overworldItems, triforcePieces);
+        AddElementsToPool(overworldItems, triforcePieces);
     }
 
     // Randomize Any Dungeon and Overworld pools
@@ -1234,7 +1222,7 @@ static void RandomizeLinksPocket() {
         // select a random one
         RandomizerGet startingItem = RandomElement(advancementItems, true);
         // add the others back
-        SohUtils::AppendVector(itemPool, advancementItems);
+        AddElementsToPool(itemPool, advancementItems);
 
         ctx->PlaceItemInLocation(RC_LINKS_POCKET, startingItem);
     } else if (ctx->GetOption(RSK_LINKS_POCKET).Is(RO_LINKS_POCKET_NOTHING)) {
@@ -1291,7 +1279,7 @@ int Fill() {
         // Temporarily add shop items to the itemPool so that entrance randomization
         // can validate the world using deku/hylian shields
         StartPerformanceTimer(PT_ENTRANCE_SHUFFLE);
-        SohUtils::AppendVector(itemPool, GetMinVanillaShopItems(8)); // assume worst case shopsanity 7
+        AddElementsToPool(itemPool, GetMinVanillaShopItems(8)); // assume worst case shopsanity 7
         if (ctx->GetOption(RSK_SHUFFLE_ENTRANCES)) {
             SPDLOG_INFO("Shuffling Entrances...");
             if (ctx->GetEntranceShuffler()->ShuffleAllEntrances() == ENTRANCE_SHUFFLE_FAILURE) {

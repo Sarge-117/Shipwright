@@ -1,4 +1,5 @@
 #include "Anchor.h"
+#include <libultraship/libultraship.h>
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/SohGui/SohMenu.h"
 #include "soh/util.h"

@@ -3,6 +3,7 @@
 #ifdef __cplusplus
 
 #include <nlohmann/json.hpp>
+#include <libultraship/libultraship.h>
 #include "Anchor.h"
 
 extern "C" {

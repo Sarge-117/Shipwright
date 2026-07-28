@@ -1,5 +1,7 @@
 #include "CrowdControl.h"
 #include "CrowdControlTypes.h"
+#include <libultraship/bridge.h>
+#include <libultraship/libultraship.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/fmt.h>
@@ -7,7 +9,9 @@
 
 extern "C" {
 #include <z64.h>
+#include "variables.h"
 #include "functions.h"
+#include "macros.h"
 extern PlayState* gPlayState;
 }
 

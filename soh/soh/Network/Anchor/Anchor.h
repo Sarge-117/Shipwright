@@ -3,9 +3,7 @@
 #ifdef __cplusplus
 
 #include "soh/Network/Network.h"
-#include <libultraship/bridge/consolevariablebridge.h>
-#include <ship/window/gui/GuiWindow.h>
-#include <spdlog/spdlog.h>
+#include <libultraship/libultraship.h>
 #include <queue>
 #include <mutex>
 

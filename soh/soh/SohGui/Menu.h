@@ -1,10 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <libultraship/libultra.h>
-#include <ship/audio/Audio.h>
-#include <ship/window/gui/GuiWindow.h>
-#include <fast/Fast3dWindow.h>
+#include <libultraship/libultraship.h>
+#include <fast/backends/gfx_rendering_api.h>
 #include "MenuTypes.h"
 
 namespace Ship {

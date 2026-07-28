@@ -3,6 +3,7 @@
 #include "randomizer_item_tracker.h"
 #include "randomizerTypes.h"
 #include "soh/OTRGlobals.h"
+#include "soh/cvar_prefixes.h"
 #include "soh/SaveManager.h"
 #include "soh/ResourceManagerHelpers.h"
 #include "soh/SohGui/UIWidgets.hpp"
@@ -17,15 +18,14 @@
 #include "soh/ObjectExtension/ObjectExtension.h"
 #include "overlays/actors/ovl_En_GirlA/z_en_girla.h"
 
-#include <array>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <set>
+#include <libultraship/libultraship.h>
 #include <libultraship/controller/controldeck/ControlDeck.h>
 #include "location.h"
 #include "item_location.h"
-#include "randomizer_check_objects.h"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "z64item.h"
 
@@ -72,7 +72,6 @@ bool showKokiriSword;
 bool showMasterSword;
 bool showHyruleLoach;
 bool showWeirdEgg;
-bool showZeldasLetter;
 bool showGerudoCard;
 bool showOverworldPots;
 bool showDungeonPots;
@@ -314,7 +313,7 @@ bool IsCheckHidden(RandomizerCheck rc) {
     bool available = itemLocation->IsAvailable();
     bool skipped = itemLocation->GetIsSkipped();
     bool obtained = itemLocation->HasObtained();
-    bool seen = status == RCSHOW_SEEN_OR_HINTED || status == RCSHOW_IDENTIFIED;
+    bool seen = status == RCSHOW_SEEN || status == RCSHOW_IDENTIFIED;
     bool scummed = status == RCSHOW_SCUMMED;
     bool unchecked = status == RCSHOW_UNCHECKED;
 
@@ -511,77 +510,11 @@ void SetShopSeen(uint32_t sceneNum, bool prices) {
     bool statusChanged = false;
     for (int i = start; i < start + 8; i++) {
         if (OTRGlobals::Instance->gRandoContext->GetItemLocation(i)->GetCheckStatus() == RCSHOW_UNCHECKED) {
-            OTRGlobals::Instance->gRandoContext->GetItemLocation(i)->SetCheckStatus(RCSHOW_SEEN_OR_HINTED);
+            OTRGlobals::Instance->gRandoContext->GetItemLocation(i)->SetCheckStatus(RCSHOW_SEEN);
             statusChanged = true;
         }
     }
     if (statusChanged) {
-        SaveManager::Instance->SaveSection(gSaveContext.fileNum, sectionId, true);
-    }
-}
-
-// Items share hint text keys: all six jabber nuts are "the ability to speak".
-// Counted once on first use.
-static bool HintNamesItemUniquely(RandomizerGet rg) {
-    static const auto keyUses = [] {
-        std::array<uint16_t, RHT_MAX> uses{};
-        for (const auto& item : Rando::StaticData::GetItemTable()) {
-            uses[item.GetHintKey()]++;
-        }
-        return uses;
-    }();
-    return keyUses[Rando::StaticData::RetrieveItem(rg).GetHintKey()] == 1;
-}
-
-// Only HINT_TYPE_ITEM hints name a check's item outright; other types stay
-// ambiguous. Marks Seen, not Identified, since hints never state a price.
-static bool ApplyItemHintToChecks(RandomizerHint hintKey) {
-    // Ambiguous/obscure hints reuse the same phrase across items (all four swords are
-    // just "a sword"), so only clear hints are safe to mark - skip anything else
-    if (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_HINT_CLARITY) != RO_HINT_CLARITY_CLEAR) {
-        return false;
-    }
-
-    if (hintKey == RH_NONE) {
-        return false;
-    }
-
-    // The hint-revealed hook can fire for hints the seed has disabled.
-    auto hint = OTRGlobals::Instance->gRandoContext->GetHint(hintKey);
-    if (!hint->IsEnabled() || hint->GetHintType() != HINT_TYPE_ITEM) {
-        return false;
-    }
-
-    // Loop over hinted locations, apply the ones which are unambiguous
-    bool changed = false;
-    for (RandomizerCheck rc : hint->GetHintedLocations()) {
-        if (rc == RC_UNKNOWN_CHECK) {
-            continue;
-        }
-        auto loc = OTRGlobals::Instance->gRandoContext->GetItemLocation(rc);
-        // Ice traps hint, and display, as their disguise.
-        RandomizerGet named = loc->GetPlacedRandomizerGet();
-        auto& overrides = OTRGlobals::Instance->gRandoContext->overrides;
-        if (named == RG_ICE_TRAP && overrides.contains(rc)) {
-            named = overrides[rc].LooksLike();
-        }
-        if (!HintNamesItemUniquely(named)) {
-            // The hint could mean several items, no spoilers!
-            continue;
-        }
-        if (loc->GetCheckStatus() == RCSHOW_UNCHECKED) {
-            loc->SetCheckStatus(RCSHOW_SEEN_OR_HINTED);
-            changed = true;
-        }
-    }
-    return changed;
-}
-
-void CheckTrackerHintRevealed(RandomizerHint hintKey) {
-    if (!GameInteractor::IsSaveLoaded() || !IS_RANDO) {
-        return;
-    }
-    if (ApplyItemHintToChecks(hintKey)) {
         SaveManager::Instance->SaveSection(gSaveContext.fileNum, sectionId, true);
     }
 }
@@ -693,7 +626,7 @@ void CheckTrackerShopSlotChange(uint8_t cursorSlot, int16_t basePrice) {
         slot = RC_KAK_BAZAAR_ITEM_1 + cursorSlot;
     }
     auto status = OTRGlobals::Instance->gRandoContext->GetItemLocation(slot)->GetCheckStatus();
-    if (status == RCSHOW_SEEN_OR_HINTED) {
+    if (status == RCSHOW_SEEN) {
         OTRGlobals::Instance->gRandoContext->GetItemLocation(slot)->SetCheckStatus(RCSHOW_IDENTIFIED);
         SaveManager::Instance->SaveSection(gSaveContext.fileNum, sectionId, true);
         RecalculateAvailableChecks();
@@ -935,11 +868,9 @@ void CheckTrackerFlagSet(int16_t flagType, int32_t flag) {
 }
 
 void CheckTrackerDialogMessage() {
-    // These dialogues state the price, so a Seen check upgrades to Identified.
     auto identifyCheck = [](RandomizerCheck rc) {
         auto loc = OTRGlobals::Instance->gRandoContext->GetItemLocation(rc);
-        RandomizerCheckStatus status = loc->GetCheckStatus();
-        if (status == RCSHOW_UNCHECKED || status == RCSHOW_SEEN_OR_HINTED) {
+        if (loc->GetCheckStatus() == RCSHOW_UNCHECKED) {
             loc->SetCheckStatus(RCSHOW_IDENTIFIED);
             RecalculateAvailableChecks();
         }
@@ -1388,14 +1319,13 @@ bool ShouldShowCheck(RandomizerCheck check) {
                           Rando::StaticData::GetLocation(check)->GetName() + " " +
                           RandomizerCheckObjects::GetRCAreaName(Rando::StaticData::GetLocation(check)->GetArea()));
     if (itemLoc->HasObtained() || itemLoc->GetCheckStatus() == RCSHOW_SCUMMED ||
-        (!mystery &&
-         (itemLoc->GetCheckStatus() == RCSHOW_IDENTIFIED || itemLoc->GetCheckStatus() == RCSHOW_SEEN_OR_HINTED) &&
+        (!mystery && (itemLoc->GetCheckStatus() == RCSHOW_IDENTIFIED || itemLoc->GetCheckStatus() == RCSHOW_SEEN) &&
          itemLoc->GetPlacedRandomizerGet() != RG_ICE_TRAP)) {
         search += " " + itemLoc->GetPlacedItemName().GetForLanguage(gSaveContext.language);
     } else if (itemLoc->GetCheckStatus() == RCSHOW_IDENTIFIED && !mystery) {
         search +=
             OTRGlobals::Instance->gRandoContext->overrides[check].GetTrickName().GetForLanguage(gSaveContext.language);
-    } else if (itemLoc->GetCheckStatus() == RCSHOW_SEEN_OR_HINTED && !mystery) {
+    } else if (itemLoc->GetCheckStatus() == RCSHOW_SEEN && !mystery) {
         search += Rando::StaticData::RetrieveItem(OTRGlobals::Instance->gRandoContext->overrides[check].LooksLike())
                       .GetName()
                       .GetForLanguage(gSaveContext.language);
@@ -1444,11 +1374,8 @@ void LoadSettings() {
     showHyruleLoach =
         IS_RANDO ? OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_FISHSANITY) == RO_FISHSANITY_HYRULE_LOACH
                  : false;
-    showWeirdEgg = IS_RANDO ? OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_WEIRD_EGG) ==
-                                  RO_WEIRD_EGG_SHUFFLED
-                            : true;
-    showZeldasLetter =
-        IS_RANDO ? OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_ZELDAS_LETTER) == RO_GENERIC_YES
+    showWeirdEgg =
+        IS_RANDO ? OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_WEIRD_EGG) == RO_GENERIC_YES
                  : true;
     showGerudoCard = IS_RANDO ? OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(
                                     RSK_SHUFFLE_GERUDO_MEMBERSHIP_CARD) == RO_GENERIC_YES
@@ -1707,23 +1634,23 @@ void LoadSettings() {
     }
 
     switch (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_GANONS_BOSS_KEY)) {
-        case RO_GANON_BOSS_KEY_STONES:
-            Rando::Context::GetInstance()->GBKCondition(RO_CHECK_TRIGGER_STONES);
+        case RO_GANON_BOSS_KEY_LACS_STONES:
+            Rando::Context::GetInstance()->LACSCondition(RO_LACS_STONES);
             break;
-        case RO_GANON_BOSS_KEY_MEDALLIONS:
-            Rando::Context::GetInstance()->GBKCondition(RO_CHECK_TRIGGER_MEDALLIONS);
+        case RO_GANON_BOSS_KEY_LACS_MEDALLIONS:
+            Rando::Context::GetInstance()->LACSCondition(RO_LACS_MEDALLIONS);
             break;
-        case RO_GANON_BOSS_KEY_REWARDS:
-            Rando::Context::GetInstance()->GBKCondition(RO_CHECK_TRIGGER_REWARDS);
+        case RO_GANON_BOSS_KEY_LACS_REWARDS:
+            Rando::Context::GetInstance()->LACSCondition(RO_LACS_REWARDS);
             break;
-        case RO_GANON_BOSS_KEY_DUNGEONS:
-            Rando::Context::GetInstance()->GBKCondition(RO_CHECK_TRIGGER_DUNGEONS);
+        case RO_GANON_BOSS_KEY_LACS_DUNGEONS:
+            Rando::Context::GetInstance()->LACSCondition(RO_LACS_DUNGEONS);
             break;
-        case RO_GANON_BOSS_KEY_TOKENS:
-            Rando::Context::GetInstance()->GBKCondition(RO_CHECK_TRIGGER_TOKENS);
+        case RO_GANON_BOSS_KEY_LACS_TOKENS:
+            Rando::Context::GetInstance()->LACSCondition(RO_LACS_TOKENS);
             break;
         default:
-            Rando::Context::GetInstance()->GBKCondition(RO_CHECK_TRIGGER_NONE);
+            Rando::Context::GetInstance()->LACSCondition(RO_LACS_VANILLA);
             break;
     }
 }
@@ -1739,13 +1666,14 @@ bool IsCheckShuffled(RandomizerCheck rc) {
                (loc->GetRCType() != RCTYPE_STATIC_HINT) &&  // TODO: Don't show hints until tracker supports them
                (loc->GetRCType() != RCTYPE_CHEST_GAME) &&   // don't show non final reward chest game checks until we
                                                             // support shuffling them
-               (rc != RC_HC_ZELDAS_LETTER || showZeldasLetter) && (rc != RC_LINKS_POCKET || showLinksPocket) &&
+               (rc != RC_HC_ZELDAS_LETTER) &&               // don't show zeldas letter until we support shuffling it
+               (rc != RC_LINKS_POCKET || showLinksPocket) &&
                OTRGlobals::Instance->gRandoContext->IsQuestOfLocationActive(rc) &&
                (loc->GetRCType() != RCTYPE_SHOP ||
                 (showShops &&
                  OTRGlobals::Instance->gRandomizer->IdentifyShopItem(loc->GetScene(), loc->GetActorParams() + 1)
                          .enGirlAShopItem == 50)) &&
-               (rc != RC_WINCON) && (rc != RC_GANON) &&
+               (rc != RC_TRIFORCE_COMPLETED) && (rc != RC_GANON) &&
                (loc->GetRCType() != RCTYPE_SCRUB || showScrubs ||
                 (showMajorScrubs && (rc == RC_LW_DEKU_SCRUB_NEAR_BRIDGE || // The 3 scrubs that are always randomized
                                      rc == RC_HF_DEKU_SCRUB_GROTTO || rc == RC_LW_DEKU_SCRUB_GROTTO_FRONT))) &&
@@ -2007,7 +1935,7 @@ void DrawLocation(RandomizerCheck rc) {
                 ? Color_Skipped_Extra
                 : Color_Skipped_Main;
         extraColor = Color_Skipped_Extra;
-    } else if (status == RCSHOW_SEEN_OR_HINTED || status == RCSHOW_IDENTIFIED) {
+    } else if (status == RCSHOW_SEEN || status == RCSHOW_IDENTIFIED) {
         if (!showHidden && hideSeen) {
             return;
         }
@@ -2050,7 +1978,7 @@ void DrawLocation(RandomizerCheck rc) {
     // Draw button - for Skipped/Seen/Scummed/Unchecked only
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 4.0f, 3.0f });
     float sz = ImGui::GetFrameHeight();
-    if (status == RCSHOW_UNCHECKED || status == RCSHOW_SEEN_OR_HINTED || status == RCSHOW_IDENTIFIED ||
+    if (status == RCSHOW_UNCHECKED || status == RCSHOW_SEEN || status == RCSHOW_IDENTIFIED ||
         status == RCSHOW_SCUMMED || skipped) {
         if (UIWidgets::StateButton(std::to_string(rc).c_str(), skipped ? ICON_FA_PLUS : ICON_FA_TIMES, ImVec2(sz, sz),
                                    UIWidgets::ButtonOptions().Color(THEME_COLOR))) {
@@ -2121,7 +2049,7 @@ void DrawLocation(RandomizerCheck rc) {
                 }
                 break;
             case RCSHOW_IDENTIFIED:
-            case RCSHOW_SEEN_OR_HINTED:
+            case RCSHOW_SEEN:
                 if (IS_RANDO) {
                     const auto checkType = loc->GetRCType();
                     const bool hideMerchantName =
@@ -2146,7 +2074,7 @@ void DrawLocation(RandomizerCheck rc) {
                     } else if (revealItemName) {
                         txt = itemLoc->GetPlacedItem().GetName().GetForLanguage(gSaveContext.language);
                     }
-                    if (itemLoc->CanBePurchased() && IsVisibleInCheckTracker(rc) && status == RCSHOW_IDENTIFIED) {
+                    if (IsVisibleInCheckTracker(rc) && status == RCSHOW_IDENTIFIED) {
                         auto price = OTRGlobals::Instance->gRandoContext->GetItemLocation(rc)->GetPrice();
                         txt = !txt.empty() ? fmt::format("{} - {}", txt, price) : fmt::format("{}", price);
                     }
@@ -2347,10 +2275,10 @@ void RecalculateAvailableChecks(RandomizerRegion startingRegion /* = RR_ROOT */,
     availableChecksStartingAgeTime = startingAgeTime;
 }
 
-void LoadFromPreset(const nlohmann::json& info) {
+void LoadFromPreset(nlohmann::json info) {
     presetLoaded = true;
-    presetPos = { info.at("pos").at("x"), info.at("pos").at("y") };
-    presetSize = { info.at("size").at("width"), info.at("size").at("height") };
+    presetPos = { info["pos"]["x"], info["pos"]["y"] };
+    presetSize = { info["size"]["width"], info["size"]["height"] };
 }
 
 void CheckTrackerWindow::Draw() {
@@ -2514,7 +2442,6 @@ void CheckTrackerWindow::InitElement() {
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnSceneFlagSet>(CheckTrackerSceneFlagSet);
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnFlagSet>(CheckTrackerFlagSet);
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnDialogMessage>(CheckTrackerDialogMessage);
-    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnRandoHintRevealed>(CheckTrackerHintRevealed);
 }
 
 void CheckTrackerWindow::UpdateElement() {

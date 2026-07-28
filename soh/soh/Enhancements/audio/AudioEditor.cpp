@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <libultraship/libultraship.h>
 #include <functions.h>
 #include "soh/ShipUtils.h"
 #include "soh/OTRGlobals.h"
@@ -13,6 +14,7 @@
 #include "soh/SohGui/SohGui.hpp"
 #include "AudioCollection.h"
 #include "soh/Enhancements/enhancementTypes.h"
+#include "soh/ShipUtils.h"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/Enhancements/randomizer/SeedContext.h"
 
@@ -238,8 +240,8 @@ void DrawPreviewButton(uint16_t sequenceId, std::string sfxKey, SeqType sequence
                 if (sequenceType == SEQ_SFX || sequenceType == SEQ_VOICE) {
                     Audio_PlaySoundGeneral(sequenceId, &pos, 4, &freqScale, &freqScale, &reverbAdd);
                 } else if (sequenceType == SEQ_INSTRUMENT) {
-                    AudioOcarina_SetInstrument(sequenceId - INSTRUMENT_OFFSET);
-                    AudioOcarina_SetPlaybackSong(9, 1);
+                    Audio_OcaSetInstrument(sequenceId - INSTRUMENT_OFFSET);
+                    Audio_OcaSetSongPlayback(9, 1);
                 } else {
                     // TODO: Cant do both here, so have to click preview button twice
                     PreviewSequence(sequenceId);
@@ -408,8 +410,7 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
 
             if (validSequences.size()) {
                 auto it = validSequences.begin();
-                const auto& seqData =
-                    *std::next(it, ShipUtils::Random(0, static_cast<uint32_t>(validSequences.size())));
+                const auto& seqData = *std::next(it, ShipUtils::Random(0, validSequences.size()));
                 CVarSetInteger(cvarKey.c_str(), seqData->sequenceId);
                 if (locked) {
                     CVarClear(cvarLockKey.c_str());

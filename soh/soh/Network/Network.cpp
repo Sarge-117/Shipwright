@@ -1,5 +1,6 @@
 #include "Network.h"
 #include <spdlog/spdlog.h>
+#include <libultraship/libultraship.h>
 
 // MARK: - Public
 
@@ -48,7 +49,7 @@ void Network::ProcessOutgoingPackets() {
 
 void Network::SendDataToRemote(const char* payload) {
     SPDLOG_DEBUG("[Network] Sending data: {}", payload);
-    SDLNet_TCP_Send(networkSocket, payload, static_cast<int>(strlen(payload) + 1));
+    SDLNet_TCP_Send(networkSocket, payload, strlen(payload) + 1);
 }
 
 void Network::SendJsonToRemote(nlohmann::json payload) {
