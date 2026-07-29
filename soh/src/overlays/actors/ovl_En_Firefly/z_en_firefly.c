@@ -804,7 +804,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
                 Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
             }
             if (this->actor.params == KEESE_WIND_FLY) { // Wind Keese cause a large knockback
-                func_8002F71C(play, &this->actor, (350.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, (350.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
                               this->actor.world.rot.y, 8.0f);
             }
             if (this->actor.params == KEESE_BLOOD_FLY) { // Blood Keese take a large percentage of Link's health, but can't kill him
