@@ -1187,6 +1187,10 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             gSaveContext.inventory.dungeonKeys[SCENE_GERUDO_TRAINING_GROUND] = GERUDO_TRAINING_GROUND_SMALL_KEY_MAX;
             gSaveContext.inventory.dungeonKeys[SCENE_THIEVES_HIDEOUT] = GERUDO_FORTRESS_SMALL_KEY_MAX;
             gSaveContext.inventory.dungeonKeys[SCENE_INSIDE_GANONS_CASTLE] = GANONS_CASTLE_SMALL_KEY_MAX;
+            gSaveContext.inventory.dungeonKeys[SCENE_DEKU_TREE] = DEKU_TREE_SMALL_KEY_MAX;
+            gSaveContext.inventory.dungeonKeys[SCENE_DODONGOS_CAVERN] = DODONGOS_CAVERN_SMALL_KEY_MAX;
+            gSaveContext.inventory.dungeonKeys[SCENE_JABU_JABU] = JABU_JABU_SMALL_KEY_MAX;
+            gSaveContext.inventory.dungeonKeys[SCENE_ICE_CAVERN] = ICE_CAVERN_SMALL_KEY_MAX;
         } else if (item >= RG_KEATON_MASK && item <= RG_MASK_OF_TRUTH) {
             if (!ChildTradeSlotOccupied()) {
                 INV_CONTENT(ITEM_TRADE_CHILD) = (int)ITEM_MASK_KEATON + (item - RG_KEATON_MASK);
