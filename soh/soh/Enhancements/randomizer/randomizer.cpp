@@ -1100,7 +1100,9 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
     // if it's an item that just sets a randomizerInf, set it
     if (Rando::StaticData::RandoGetToRandInf.find(item) != Rando::StaticData::RandoGetToRandInf.end()) {
         Flags_SetRandomizerInf((RandomizerInf)Rando::StaticData::RandoGetToRandInf.find(item)->second);
-        return Return_Item_Entry(giEntry, RG_NONE);
+        if (!(item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_JABU_JABUS_BELLY_BOSS_KEY)) {
+            return Return_Item_Entry(giEntry, RG_NONE);
+        }
     }
 
     // bottle items
@@ -1144,11 +1146,6 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 return Return_Item_Entry(giEntry, RG_NONE);
             }
         }
-    }
-
-    if (item == RG_TOMB_SMALL_KEY) {
-        Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_TOMB_SMALL_KEY_FOUND));
-        return Return_Item_Entry(giEntry, RG_NONE);
     }
 
     // dungeon items
@@ -1258,20 +1255,6 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 break;
         }
 
-        switch (item) {
-            case RG_DEKU_TREE_BOSS_KEY:
-                Flags_SetRandomizerInf(RAND_INF_DEKU_BOSS_KEY_FOUND);
-                break;
-            case RG_DODONGOS_CAVERN_BOSS_KEY:
-                Flags_SetRandomizerInf(RAND_INF_DODONGO_BOSS_KEY_FOUND);
-                break;
-            case RG_JABU_JABUS_BELLY_BOSS_KEY:
-                Flags_SetRandomizerInf(RAND_INF_JABU_BOSS_KEY_FOUND);
-                break;
-            default:
-                break;
-        }
-
         if ((item >= RG_FOREST_TEMPLE_SMALL_KEY && item <= RG_GANONS_CASTLE_SMALL_KEY) || 
             (item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_ICE_CAVERN_SMALL_KEY)) {
             gSaveContext.ship.stats.dungeonKeys[mapIndex]++;
@@ -1279,22 +1262,6 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
                 gSaveContext.inventory.dungeonKeys[mapIndex] = 1;
             } else {
                 gSaveContext.inventory.dungeonKeys[mapIndex]++;
-            }
-            switch (item) { 
-                case RG_DEKU_TREE_SMALL_KEY:
-                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_DEKU_SMALL_KEY_1_FOUND));
-                    break;
-                case RG_DODONGOS_CAVERN_SMALL_KEY:
-                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_DODONGO_SMALL_KEY_1_FOUND));
-                    break;
-                case RG_JABU_JABU_SMALL_KEY:
-                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_JABU_SMALL_KEY_1_FOUND));
-                    break;
-                case RG_ICE_CAVERN_SMALL_KEY:
-                    Flags_SetRandomizerInf((RandomizerInf)((int)RAND_INF_ICE_SMALL_KEY_1_FOUND));
-                    break;
-                default:
-                    break;
             }
             return Return_Item_Entry(giEntry, RG_NONE);
         }

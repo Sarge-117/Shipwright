@@ -33,6 +33,10 @@
          : std::vector<uint8_t>{ 1, 2, 3, 4 })
 #define GANONS_CASTLE_SMALL_KEY_MAX (ResourceMgr_IsSceneMasterQuest(SCENE_INSIDE_GANONS_CASTLE) ? 3 : 2)
 #define TREASURE_GAME_SMALL_KEY_MAX 6
+#define DEKU_TREE_SMALL_KEY_MAX 1
+#define DODONGOS_CAVERN_SMALL_KEY_MAX 1
+#define JABU_JABU_SMALL_KEY_MAX 1
+#define ICE_CAVERN_SMALL_KEY_MAX 1
 
 class Randomizer {
   private:

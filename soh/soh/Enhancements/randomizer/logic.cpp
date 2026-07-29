@@ -185,9 +185,10 @@ bool Logic::HasItem(RandomizerGet itemName) {
         case RG_LOST_WOODS_BRIDGE_BEAN_SOUL:
         case RG_LOST_WOODS_BEAN_SOUL:
         case RG_ZORAS_RIVER_BEAN_SOUL:
+
         case RG_SKELETON_KEY:
         case RG_RUTOS_LETTER:
-        case RG_RUTOS_LETTER:
+            // Extra dungeons keys and custom flames
         case RG_DEKU_TREE_SMALL_KEY:
         case RG_DODONGOS_CAVERN_SMALL_KEY:
         case RG_JABU_JABU_SMALL_KEY:
