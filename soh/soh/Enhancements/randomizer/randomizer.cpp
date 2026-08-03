@@ -1212,6 +1212,10 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             Rupees_ChangeBy(1);
         }
 
+        if (item == RG_TOMB_SMALL_KEY) {
+            return Return_Item_Entry(giEntry, RG_NONE);
+        }
+
         if (!(item >= RG_DEKU_TREE_SMALL_KEY && item <= RG_JABU_JABUS_BELLY_BOSS_KEY)) {
             return Return_Item_Entry(giEntry, RG_NONE);
         }
