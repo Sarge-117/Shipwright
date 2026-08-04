@@ -100,6 +100,10 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         }
     }
 
+    if (play->sceneNum == SCENE_SUTARU) { // Fireless Temple
+        objectInfo = &sDoorInfo[0];
+    }
+
     // Due to Object_GetIndex always returning 0, doors always use the OBJECT_GAMEPLAY_FIELD_KEEP door.
     if (i >= ARRAY_COUNT(sDoorInfo) - 2 && Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
         objectInfo++;
@@ -287,7 +291,7 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->animStyle])) {
             Audio_PlayActorSound2(&this->actor,
                                   (play->sceneNum == SCENE_SHADOW_TEMPLE ||
-                                   play->sceneNum == SCENE_BOTTOM_OF_THE_WELL || play->sceneNum == SCENE_FIRE_TEMPLE)
+                                   play->sceneNum == SCENE_BOTTOM_OF_THE_WELL || play->sceneNum == SCENE_FIRE_TEMPLE || play->sceneNum == SCENE_SUTARU)
                                       ? NA_SE_EV_IRON_DOOR_OPEN
                                       : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {

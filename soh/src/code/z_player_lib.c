@@ -928,6 +928,10 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     TextTriggerEntry* triggerEntry;
     s32 envHazard;
 
+    if (play->sceneNum == SCENE_SUTARU) { // Fireless Temple
+        return PLAYER_ENV_HAZARD_NONE;
+    }
+
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
         envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
     } else if ((this->underwaterTimer > 80) &&

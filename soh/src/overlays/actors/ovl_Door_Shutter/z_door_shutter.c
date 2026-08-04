@@ -209,6 +209,10 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, PlayState* play) {
     }
     this->gfxType = (doorType == SHUTTER) ? temp_t0->index1 : temp_t0->index2;
 
+    if (play->sceneNum == SCENE_SUTARU) { // Fireless Temple
+        this->gfxType = 9;
+    }
+
     if (Flags_GetRandomizerInf(RAND_INF_DEKU_DOOR_BOSS_UNLOCKED) && IS_RANDO) {
         if (this->unlockTimer == 0 && play->sceneNum == SCENE_DEKU_TREE && this->dyna.actor.params == 4223) {
             this->gfxType = temp_t0->index2;
