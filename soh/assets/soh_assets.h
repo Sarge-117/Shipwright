@@ -458,6 +458,18 @@ static const ALIGN_ASSET(2) char gSunIconTex[] = dgSunIcon;
 #define dgNaviIcon "__OTR__textures/parameter_static/gNavi"
 static const ALIGN_ASSET(2) char gNaviIconTex[] = dgNaviIcon;
 
+#define dgCustomFlameOrangeTex "__OTR__textures/parameter_static/gCustomFlameOrangeTex"
+static const ALIGN_ASSET(2) char gCustomFlameOrangeTex[] = dgCustomFlameOrangeTex;
+
+#define dgCustomFlameBlueTex "__OTR__textures/parameter_static/gCustomFlameBlueTex"
+static const ALIGN_ASSET(2) char gCustomFlameBlueTex[] = dgCustomFlameBlueTex;
+
+#define dgCustomFlameGreenTex "__OTR__textures/parameter_static/gCustomFlameGreenTex"
+static const ALIGN_ASSET(2) char gCustomFlameGreenTex[] = dgCustomFlameGreenTex;
+
+#define dgCustomFlamePurpleTex "__OTR__textures/parameter_static/gCustomFlamePurpleTex"
+static const ALIGN_ASSET(2) char gCustomFlamePurpleTex[] = dgCustomFlamePurpleTex;
+
 #define dgFileSelMQButtonTex "__OTR__textures/title_static/gFileSelMQButtonTex"
 static const ALIGN_ASSET(2) char gFileSelMQButtonTex[] = dgFileSelMQButtonTex;
 

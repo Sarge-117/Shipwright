@@ -162,6 +162,10 @@ std::map<uint32_t, ItemMapEntry> customItemsMapping = {
         RG_POWER_BRACELET,
         { RG_POWER_BRACELET, "RG_POWER_BRACELET", "RG_POWER_BRACELET_Faded", gGrabTex },
     },
+    { RG_CUSTOM_FLAME_ORANGE, { RG_CUSTOM_FLAME_ORANGE, "RG_CUSTOM_FLAME_ORANGE", "RG_CUSTOM_FLAME_ORANGE_Faded", gCustomFlameOrangeTex } },
+    { RG_CUSTOM_FLAME_BLUE, { RG_CUSTOM_FLAME_BLUE, "RG_CUSTOM_FLAME_BLUE", "RG_CUSTOM_FLAME_BLUE_Faded", gCustomFlameBlueTex } },
+    { RG_CUSTOM_FLAME_GREEN, { RG_CUSTOM_FLAME_GREEN, "RG_CUSTOM_FLAME_GREEN", "RG_CUSTOM_FLAME_GREEN_Faded", gCustomFlameGreenTex } },
+    { RG_CUSTOM_FLAME_PURPLE, { RG_CUSTOM_FLAME_PURPLE, "RG_CUSTOM_FLAME_PURPLE", "RG_CUSTOM_FLAME_PURPLE_Faded", gCustomFlamePurpleTex } },
 };
 
 std::map<uint32_t, ItemMapEntry> jabbernutMapping = {

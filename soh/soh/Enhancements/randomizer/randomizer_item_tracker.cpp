@@ -60,6 +60,7 @@ static WidgetInfo jabberNutsTracking;
 static WidgetInfo ocarinaButtonTracking;
 static WidgetInfo overworldKeysTracking;
 static WidgetInfo extraDungeonKeysTracking;
+static WidgetInfo customFlamesTracking;
 static WidgetInfo fishingPoleTracking;
 static WidgetInfo personalNotesWiget;
 static WidgetInfo hookshotIdentWidget;
@@ -240,6 +241,13 @@ std::vector<ItemTrackerItem> extraDungeonKeyItems = {
     ITEM_TRACKER_ITEM_CUSTOM(RG_JABU_JABUS_BELLY_BOSS_KEY, ITEM_KEY_BOSS, ITEM_KEY_BOSS, 0, DrawItem),
 };
 
+std::vector<ItemTrackerItem> customFlameItems = {
+    ITEM_TRACKER_ITEM(RG_CUSTOM_FLAME_ORANGE, 0, DrawItem),
+    ITEM_TRACKER_ITEM(RG_CUSTOM_FLAME_BLUE, 0, DrawItem),
+    ITEM_TRACKER_ITEM(RG_CUSTOM_FLAME_GREEN, 0, DrawItem),
+    ITEM_TRACKER_ITEM(RG_CUSTOM_FLAME_PURPLE, 0, DrawItem),
+};
+
 std::vector<ItemTrackerItem> fishingPoleItems = { ITEM_TRACKER_ITEM(ITEM_FISHING_POLE, 0, DrawItem) };
 
 std::vector<ItemTrackerDungeon> itemTrackerDungeonsWithMapsHorizontal = {
@@ -368,6 +376,13 @@ std::map<uint16_t, std::string> itemTrackerExtraDungeonKeyShortNames = {
     { RG_JABU_JABU_SMALL_KEY, "JABU" },
     { RG_ICE_CAVERN_SMALL_KEY, "ICE" },
     { RG_TOMB_SMALL_KEY, "TOMB" },
+};
+
+std::map<uint16_t, std::string> itemTrackerCustomFlameShortNames = {
+    { RG_CUSTOM_FLAME_ORANGE, "" },
+    { RG_CUSTOM_FLAME_BLUE, "" },
+    { RG_CUSTOM_FLAME_GREEN, "" },
+    { RG_CUSTOM_FLAME_PURPLE, "" },
 };
 
 std::vector<ItemTrackerItem> dungeonItems = {};
@@ -657,6 +672,8 @@ ItemTrackerNumbers GetItemCurrentAndMax(ItemTrackerItem item) {
 #define IM_COL_WHITE IM_COL32(255, 255, 255, 255)
 #define IM_COL_RED IM_COL32(255, 0, 0, 255)
 #define IM_COL_GREEN IM_COL32(0, 255, 0, 255)
+#define IM_COL_BLUE IM_COL32(0, 0, 255, 255)
+#define IM_COL_ORANGE IM_COL32(255, 165, 0, 255)
 #define IM_COL_GRAY IM_COL32(155, 155, 155, 255)
 #define IM_COL_PURPLE IM_COL32(180, 90, 200, 255)
 #define IM_COL_LIGHT_YELLOW IM_COL32(255, 255, 130, 255)
@@ -1265,6 +1282,26 @@ void DrawItem(ItemTrackerItem item) {
             hasItem = Flags_GetRandomizerInf(RAND_INF_JABU_BOSS_KEY_FOUND);
             itemName = "Jabu-Jabu's Belly Boss Key";
             break;
+        case RG_CUSTOM_FLAME_ORANGE:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_ORANGE);
+            itemName = "Orange Flame of Glombon";
+            break;
+        case RG_CUSTOM_FLAME_BLUE:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_BLUE);
+            itemName = "Blue Flame of Glombon";
+            break;
+        case RG_CUSTOM_FLAME_GREEN:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_GREEN);
+            itemName = "Green Flame of Glombon";
+            break;
+        case RG_CUSTOM_FLAME_PURPLE:
+            actualItemId = item.id;
+            hasItem = Flags_GetRandomizerInf(RAND_INF_HAS_FOUND_CUSTOM_FLAME_PURPLE);
+            itemName = "Purple Flame of Glombon";
+            break;
         case RG_BRONZE_SCALE:
             actualItemId = item.id;
             hasItem = Flags_GetRandomizerInf(RAND_INF_CAN_SWIM);
@@ -1300,9 +1337,15 @@ void DrawItem(ItemTrackerItem item) {
 
     ImGui::BeginGroup();
 
-    ImGui::Image(std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui())
-                     ->GetTextureByName(hasItem && IsValidSaveFile() ? item.name : item.nameFaded),
-                 ImVec2(iconSize, iconSize), ImVec2(0, 0), ImVec2(1, 1));
+    if (item.id >= RG_CUSTOM_FLAME_BLUE && item.id <= RG_CUSTOM_FLAME_PURPLE) {
+        ImGui::Image(std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui())
+                         ->GetTextureByName(hasItem && IsValidSaveFile() ? item.name : item.nameFaded),
+                     ImVec2(iconSize, iconSize*2), ImVec2(0, 0), ImVec2(1, 1));
+    } else {
+        ImGui::Image(std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui())
+                         ->GetTextureByName(hasItem && IsValidSaveFile() ? item.name : item.nameFaded),
+                     ImVec2(iconSize, iconSize), ImVec2(0, 0), ImVec2(1, 1));
+    }
 
     DrawItemCount(item, false);
 
@@ -1403,6 +1446,16 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
         
         ImGui::Text("%s", extraDungeonKeyName.c_str());
+        ImGui::PopStyleColor();
+    }
+
+    if (item.id >= RG_CUSTOM_FLAME_BLUE && item.id <= RG_CUSTOM_FLAME_PURPLE) {
+        ImVec2 p = ImGui::GetCursorScreenPos();
+        std::string customFlameName = itemTrackerCustomFlameShortNames[item.id];
+        ImGui::SetCursorScreenPos(ImVec2(
+            p.x + (iconSize / 2) - (ImGui::CalcTextSize(customFlameName.c_str()).x / 2), p.y - (iconSize + 13)));
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
+        ImGui::Text("%s", customFlameName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1971,6 +2024,21 @@ void UpdateVectors() {
         //mainWindowItems.insert(mainWindowItems.end(), extraDungeonKeyItems.begin(), extraDungeonKeyItems.end());
     }
 
+    // If we're adding extra dungeon keys to the main window...
+    if (CVarGetInteger(CVAR_TRACKER_ITEM("DisplayType.CustomFlames"), SECTION_DISPLAY_HIDDEN) ==
+        SECTION_DISPLAY_MAIN_WINDOW) {
+        //...add empty items on the main window to get the keys on their own row.
+        while (mainWindowItems.size() % 6) {
+            mainWindowItems.push_back(ITEM_TRACKER_ITEM(ITEM_NONE, 0, DrawItem));
+        }
+
+        // Add extra dungeon keys
+        mainWindowItems.push_back(customFlameItems.at(0));
+        mainWindowItems.push_back(customFlameItems.at(1));
+        mainWindowItems.push_back(customFlameItems.at(2));
+        mainWindowItems.push_back(customFlameItems.at(3));
+    }
+
     shouldUpdateVectors = false;
 }
 
@@ -2167,6 +2235,13 @@ void ItemTrackerWindow::DrawElement() {
             SECTION_DISPLAY_SEPARATE) {
             BeginFloatingWindows("Extra Dungeon Key Tracker");
             DrawItemsInRows(extraDungeonKeyItems, 5);
+            EndFloatingWindows();
+        }
+
+        if (CVarGetInteger(CVAR_TRACKER_ITEM("DisplayType.CustomFlames"), SECTION_DISPLAY_HIDDEN) ==
+            SECTION_DISPLAY_SEPARATE) {
+            BeginFloatingWindows("Flames of Glombon Tracker");
+            DrawItemsInRows(customFlameItems, 4);
             EndFloatingWindows();
         }
 
@@ -2377,6 +2452,7 @@ void ItemTrackerSettingsWindow::DrawElement() {
         SohGui::mSohMenu->MenuDrawItem(ocarinaButtonTracking, 250, THEME_COLOR);
         SohGui::mSohMenu->MenuDrawItem(overworldKeysTracking, 250, THEME_COLOR);
         SohGui::mSohMenu->MenuDrawItem(extraDungeonKeysTracking, 250, THEME_COLOR);
+        SohGui::mSohMenu->MenuDrawItem(customFlamesTracking, 250, THEME_COLOR);
         SohGui::mSohMenu->MenuDrawItem(fishingPoleTracking, 250, THEME_COLOR);
 
         if (CVarCombobox("Total Checks", CVAR_TRACKER_ITEM("TotalChecks.DisplayType"), minimalDisplayTypes,
@@ -2574,6 +2650,19 @@ void RegisterItemTrackerWidgets() {
     ;
     SohGui::mSohMenu->AddSearchWidget(
         { extraDungeonKeysTracking, "Randomizer", "Item Tracker", "General Settings", "icon" });
+
+    customFlamesTracking = { .name = "Flames of Glombon", .type = WidgetType::WIDGET_CVAR_COMBOBOX };
+    customFlamesTracking.CVar(CVAR_TRACKER_ITEM("DisplayType.CustomFlames"))
+        .Options(ComboboxOptions()
+                     .DefaultIndex(SECTION_DISPLAY_HIDDEN)
+                     .ComponentAlignment(ComponentAlignments::Right)
+                     .LabelPosition(LabelPositions::Far)
+                     .Color(THEME_COLOR)
+                     .ComboMap(displayTypes))
+        .Callback([](WidgetInfo& info) { shouldUpdateVectors = true; });
+    ;
+    SohGui::mSohMenu->AddSearchWidget(
+        { customFlamesTracking, "Randomizer", "Item Tracker", "General Settings", "icon" });
 
     fishingPoleTracking = { .name = "Fishing Pole", .type = WidgetType::WIDGET_CVAR_COMBOBOX };
     fishingPoleTracking.CVar(CVAR_TRACKER_ITEM("DisplayType.FishingPole"))
