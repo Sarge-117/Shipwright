@@ -1272,6 +1272,18 @@ void DrawItem(ItemTrackerItem item) {
         item.id == RG_FISHING_HOLE_KEY && Flags_GetRandomizerInf(RAND_INF_FISHING_HOLE_UNLOCKED)) {
 
         DrawName(item.displayName, IM_COL_GREEN);
+
+    } else if (((gSaveContext.sceneFlags[SCENE_DEKU_TREE_BOSS].clear & 2) && item.id == RG_GOHMA_SOUL) ||
+               ((gSaveContext.sceneFlags[SCENE_DODONGOS_CAVERN_BOSS].clear & 2) && item.id == RG_KING_DODONGO_SOUL) ||
+               ((gSaveContext.sceneFlags[SCENE_JABU_JABU_BOSS].clear & 2) && item.id == RG_BARINADE_SOUL) ||
+               ((gSaveContext.sceneFlags[SCENE_FOREST_TEMPLE_BOSS].clear & 2) && item.id == RG_PHANTOM_GANON_SOUL) ||
+               ((gSaveContext.sceneFlags[SCENE_FIRE_TEMPLE_BOSS].clear & 2) && item.id == RG_VOLVAGIA_SOUL) ||
+               ((gSaveContext.sceneFlags[SCENE_WATER_TEMPLE_BOSS].clear & 2) && item.id == RG_MORPHA_SOUL) ||
+               ((gSaveContext.sceneFlags[SCENE_SPIRIT_TEMPLE_BOSS].clear & 8) && item.id == RG_TWINROVA_SOUL) ||
+               ((gSaveContext.sceneFlags[SCENE_SHADOW_TEMPLE_BOSS].clear & 2) && item.id == RG_BONGO_BONGO_SOUL)) {
+
+        DrawName(item.displayName, IM_COL_RED);
+
     } else if (item.displayName != "") {
         DrawName(item.displayName, item.kind == ITEM_KIND_DUMMY ? IM_COL_GREEN : IM_COL_WHITE);
     }
