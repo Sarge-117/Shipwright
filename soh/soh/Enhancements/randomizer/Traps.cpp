@@ -605,16 +605,16 @@ static void InitTrickNames() {
           Text{ "a ", "un ", "eine " } }, // "Whisp en una botella"
     };
     trickNameTable[RG_CUSTOM_FLAME_BLUE] = {
-        Text{ "Blue Flame of Glorpshit"},
+        { Text{ "Blue Flame of Glorpshit", }, Text{ "the ", "la ", "das " } },
     };
     trickNameTable[RG_CUSTOM_FLAME_ORANGE] = {
-        Text{ "Orange Flame of Glorpshit"},                
+        { Text{ "Orange Flame of Glorpshit", }, Text{ "the ", "la ", "das " } },                
     };
     trickNameTable[RG_CUSTOM_FLAME_GREEN] = {
-        Text{ "Green Flame of Glorpshit" },
+        { Text{ "Green Flame of Glorpshit", }, Text{ "the ", "la ", "das " } },
     };
     trickNameTable[RG_CUSTOM_FLAME_PURPLE] = {
-        Text{ "Purple Flame of Glorpshit" },
+        { Text{ "Purple Flame of Glorpshit", }, Text{ "the ", "la ", "das " } },
     };
 
     trickNameTable[RG_RUTOS_LETTER] = {
@@ -1160,33 +1160,48 @@ static void InitTrickNames() {
     };
     trickNameTable[RG_DEKU_TREE_SMALL_KEY] = {
         // TODO_TRANSALTE
-        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
-        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
-        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+        { Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+          Text{ "a ", "un ", "einen " } },
     };
     trickNameTable[RG_DODONGOS_CAVERN_SMALL_KEY] = {
         // TODO_TRANSALTE
-        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
-        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
-        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+        { Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+          Text{ "a ", "un ", "einen " } },
     };
     trickNameTable[RG_JABU_JABU_SMALL_KEY] = {
         // TODO_TRANSALTE
-        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
-        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
-        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+        { Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+          Text{ "a ", "un ", "einen " } },
     };
     trickNameTable[RG_ICE_CAVERN_SMALL_KEY] = {
         // TODO_TRANSALTE
-        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
-        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
-        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+        { Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+          Text{ "a ", "un ", "einen " } },
     };
     trickNameTable[RG_TOMB_SMALL_KEY] = {
         // TODO_TRANSALTE
-        Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
-        Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
-        Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+        { Text{ "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi", "Hyrule Castle Salmon Koi" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Onox's Castle Small Key", "Onox's Castle Small Key", "Onox's Castle Small Key" },
+          Text{ "a ", "un ", "einen " } },
+        { Text{ "Vaati's Palace Small Key", "Vaati's Palace Small Key", "Vaati's Palace Small Key" },
+          Text{ "a ", "un ", "einen " } },
     };
 
     trickNameTable[RG_FOREST_TEMPLE_KEY_RING] = {
