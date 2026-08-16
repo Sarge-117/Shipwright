@@ -1246,7 +1246,33 @@ void DrawItem(ItemTrackerItem item) {
 
     DrawItemCount(item, hideMax);
 
-    if (item.displayName != "") {
+    if (item.id == RG_GUARD_HOUSE_KEY && Flags_GetRandomizerInf(RAND_INF_GUARD_HOUSE_UNLOCKED) ||
+        item.id == RG_MARKET_BAZAAR_KEY && Flags_GetRandomizerInf(RAND_INF_MARKET_BAZAAR_UNLOCKED) ||
+        item.id == RG_MARKET_POTION_SHOP_KEY && Flags_GetRandomizerInf(RAND_INF_MARKET_POTION_SHOP_UNLOCKED) ||
+        item.id == RG_MASK_SHOP_KEY && Flags_GetRandomizerInf(RAND_INF_MASK_SHOP_UNLOCKED) ||
+        item.id == RG_MARKET_SHOOTING_GALLERY_KEY && Flags_GetRandomizerInf(RAND_INF_MARKET_SHOOTING_GALLERY_UNLOCKED) ||
+        item.id == RG_BOMBCHU_BOWLING_KEY && Flags_GetRandomizerInf(RAND_INF_BOMBCHU_BOWLING_UNLOCKED) ||
+        item.id == RG_TREASURE_CHEST_GAME_BUILDING_KEY && Flags_GetRandomizerInf(RAND_INF_TREASURE_CHEST_GAME_BUILDING_UNLOCKED) ||
+        item.id == RG_BOMBCHU_SHOP_KEY && Flags_GetRandomizerInf(RAND_INF_BOMBCHU_SHOP_UNLOCKED) ||
+        item.id == RG_RICHARDS_HOUSE_KEY && Flags_GetRandomizerInf(RAND_INF_RICHARDS_HOUSE_UNLOCKED) ||
+        item.id == RG_ALLEY_HOUSE_KEY && Flags_GetRandomizerInf(RAND_INF_ALLEY_HOUSE_UNLOCKED) ||
+        item.id == RG_KAK_BAZAAR_KEY && Flags_GetRandomizerInf(RAND_INF_KAK_BAZAAR_UNLOCKED) ||
+        item.id == RG_KAK_POTION_SHOP_KEY && Flags_GetRandomizerInf(RAND_INF_KAK_POTION_SHOP_UNLOCKED) ||
+        item.id == RG_BOSS_HOUSE_KEY && Flags_GetRandomizerInf(RAND_INF_BOSS_HOUSE_UNLOCKED) ||
+        item.id == RG_GRANNYS_POTION_SHOP_KEY && Flags_GetRandomizerInf(RAND_INF_GRANNYS_POTION_SHOP_UNLOCKED) ||
+        item.id == RG_SKULLTULA_HOUSE_KEY && Flags_GetRandomizerInf(RAND_INF_SKULLTULA_HOUSE_UNLOCKED) ||
+        item.id == RG_IMPAS_HOUSE_KEY && Flags_GetRandomizerInf(RAND_INF_IMPAS_HOUSE_UNLOCKED) ||
+        item.id == RG_WINDMILL_KEY && Flags_GetRandomizerInf(RAND_INF_WINDMILL_UNLOCKED) ||
+        item.id == RG_KAK_SHOOTING_GALLERY_KEY && Flags_GetRandomizerInf(RAND_INF_KAK_SHOOTING_GALLERY_UNLOCKED) ||
+        item.id == RG_DAMPES_HUT_KEY && Flags_GetRandomizerInf(RAND_INF_DAMPES_HUT_UNLOCKED) ||
+        item.id == RG_TALONS_HOUSE_KEY && Flags_GetRandomizerInf(RAND_INF_TALONS_HOUSE_UNLOCKED) ||
+        item.id == RG_STABLES_KEY && Flags_GetRandomizerInf(RAND_INF_STABLES_UNLOCKED) ||
+        item.id == RG_BACK_TOWER_KEY && Flags_GetRandomizerInf(RAND_INF_BACK_TOWER_UNLOCKED) ||
+        item.id == RG_HYLIA_LAB_KEY && Flags_GetRandomizerInf(RAND_INF_HYLIA_LAB_UNLOCKED) ||
+        item.id == RG_FISHING_HOLE_KEY && Flags_GetRandomizerInf(RAND_INF_FISHING_HOLE_UNLOCKED)) {
+
+        DrawName(item.displayName, IM_COL_GREEN);
+    } else if (item.displayName != "") {
         DrawName(item.displayName, item.kind == ITEM_KIND_DUMMY ? IM_COL_GREEN : IM_COL_WHITE);
     }
 
