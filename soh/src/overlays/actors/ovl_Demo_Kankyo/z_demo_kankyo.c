@@ -794,8 +794,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                 this->unk_150[i].unk_0.y = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
                 this->unk_150[i].unk_0.z = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
                 this->unk_150[i].unk_23 = 0;
-
-                this->unk_150[i].unk_22++; // Restore sparkles
+                this->unk_150[i].unk_22++;
 
             case 1:
                 if (this->actor.params == DEMOKANKYO_WARP_OUT) {
