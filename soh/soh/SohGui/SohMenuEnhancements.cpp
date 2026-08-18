@@ -457,7 +457,7 @@ void SohMenu::AddMenuEnhancements() {
         .Options(CheckboxOptions().DefaultValue(IS_RANDO));
     AddWidget(path, "Skip Warp Cutscenes", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("WarpSongSkipAnimation"))
-        .Options(CheckboxOptions().DefaultValue(IS_RANDO).Tooltip(
+        .Options(CheckboxOptions().DefaultValue(0).Tooltip(
             "Warp songs skip the departure and arrival cutscenes, fading immediately to the destination."));
     AddWidget(path, "Skip Boss Introductions", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("TimeSavers.SkipCutscene.BossIntro"))
@@ -2133,10 +2133,6 @@ void SohMenu::AddMenuEnhancements() {
     AddWidget(path, "Use Items From Inventory", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("ItemUseFromInventory"))
         .Options(CheckboxOptions().Tooltip("Allows some items to be used once by pressing A on the Inventory Subscreen."));
-
-    AddWidget(path, "Restore Warp Sparkles", WIDGET_CVAR_CHECKBOX)
-        .CVar(CVAR_ENHANCEMENT("RestoreWarpSparkles"))
-        .Options(CheckboxOptions().Tooltip("Show warp song scene outro/intro."));
 
     AddWidget(path, "Location in Item Notifications", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_SETTING("NotificationLocationInfo"))

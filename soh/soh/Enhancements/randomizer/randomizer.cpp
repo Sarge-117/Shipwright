@@ -610,34 +610,25 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
         }
-        case RG_GANONS_CASTLE_SMALL_KEY:
-            return OTRGlobals::Instance->gRandoContext->GetDungeon(Rando::GANONS_CASTLE)
-                               ->GetTotalSmallKeys(&gSaveContext) < GANONS_CASTLE_SMALL_KEY_MAX
-                       ? CAN_OBTAIN
-                       : CANT_OBTAIN_ALREADY_HAVE;
+
         case RG_DEKU_TREE_SMALL_KEY:
-            return gSaveContext.inventory.dungeonKeys[SCENE_DEKU_TREE] < DEKU_TREE_SMALL_KEY_MAX
+            return gSaveContext.inventory.dungeonKeys[SCENE_DEKU_TREE] < 1
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
         case RG_DODONGOS_CAVERN_SMALL_KEY:
-            return gSaveContext.inventory.dungeonKeys[SCENE_DODONGOS_CAVERN] < DODONGOS_CAVERN_SMALL_KEY_MAX
+            return gSaveContext.inventory.dungeonKeys[SCENE_DODONGOS_CAVERN] < 1
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
         case RG_JABU_JABU_SMALL_KEY:
-            return gSaveContext.inventory.dungeonKeys[SCENE_JABU_JABU] < JABU_JABU_SMALL_KEY_MAX
+            return gSaveContext.inventory.dungeonKeys[SCENE_JABU_JABU] < 1
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
         case RG_ICE_CAVERN_SMALL_KEY:
-            return gSaveContext.inventory.dungeonKeys[SCENE_ICE_CAVERN] < ICE_CAVERN_SMALL_KEY_MAX
+            return gSaveContext.inventory.dungeonKeys[SCENE_ICE_CAVERN] < 1
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
         case RG_TOMB_SMALL_KEY:
             return !Flags_GetRandomizerInf(RAND_INF_TOMB_SMALL_KEY_FOUND)
-                       ? CAN_OBTAIN
-                       : CANT_OBTAIN_ALREADY_HAVE;
-        case RG_TREASURE_GAME_SMALL_KEY:
-            // I assume this cannot be easily manipulated?
-            return gSaveContext.inventory.dungeonKeys[SCENE_TREASURE_BOX_SHOP] < TREASURE_GAME_SMALL_KEY_MAX
                        ? CAN_OBTAIN
                        : CANT_OBTAIN_ALREADY_HAVE;
 
@@ -1301,21 +1292,18 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             case RG_DEKU_TREE_SMALL_KEY:
             case RG_DEKU_TREE_BOSS_KEY:
                 mapIndex = SCENE_DEKU_TREE;
-                numOfKeysOnKeyring = DEKU_TREE_SMALL_KEY_MAX;
                 break;
             case RG_DODONGOS_CAVERN_MAP:
             case RG_DODONGOS_CAVERN_COMPASS:
             case RG_DODONGOS_CAVERN_SMALL_KEY:
             case RG_DODONGOS_CAVERN_BOSS_KEY:
                 mapIndex = SCENE_DODONGOS_CAVERN;
-                numOfKeysOnKeyring = DODONGOS_CAVERN_SMALL_KEY_MAX;
                 break;
             case RG_JABU_JABUS_BELLY_MAP:
             case RG_JABU_JABUS_BELLY_COMPASS:
             case RG_JABU_JABU_SMALL_KEY:
             case RG_JABU_JABUS_BELLY_BOSS_KEY:
                 mapIndex = SCENE_JABU_JABU;
-                numOfKeysOnKeyring = JABU_JABU_SMALL_KEY_MAX;
                 break;
             case RG_FOREST_TEMPLE_MAP:
             case RG_FOREST_TEMPLE_COMPASS:
@@ -1362,7 +1350,6 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             case RG_ICE_CAVERN_COMPASS:
             case RG_ICE_CAVERN_SMALL_KEY:
                 mapIndex = SCENE_ICE_CAVERN;
-                numOfKeysOnKeyring = ICE_CAVERN_SMALL_KEY_MAX;
                 break;
             case RG_GANONS_CASTLE_BOSS_KEY:
                 mapIndex = SCENE_GANONS_TOWER;

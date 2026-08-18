@@ -760,6 +760,12 @@ void SohMenu::AddMenuRandomizer() {
         .Options(CheckboxOptions()
                      .Tooltip("When obtaining Rupees, randomize what the Rupee is called in the textbox.")
                      .DefaultValue(true));
+    AddWidget(path, "Use Custom Key Models", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_RANDOMIZER_ENHANCEMENT("CustomKeyModels"))
+        .Options(
+            CheckboxOptions()
+                .Tooltip("Use custom graphics for Dungeon Keys, Big and Small, so that they can be easily told apart.")
+                .DefaultValue(false));
     AddWidget(path, "Map & Compass Colors Match Dungeon", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_RANDOMIZER_ENHANCEMENT("ColoredMapsAndCompasses"))
         .Options(

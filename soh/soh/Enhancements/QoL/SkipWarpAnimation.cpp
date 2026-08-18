@@ -34,4 +34,4 @@ static void RegisterSkipWarpHooks() {
     });
 }
 
-static RegisterShipInitFunc initFunc(RegisterSkipWarpHooks, { CVAR_SKIP_WARP_NAME, "IS_RANDO" });
+static RegisterShipInitFunc initFunc(RegisterSkipWarpHooks, { CVAR_SKIP_WARP_NAME, "0" });
