@@ -179,6 +179,9 @@ void TimeSaverOnVanillaBehaviorHandler(GIVanillaBehavior id, bool* should, va_li
                     CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                     !Flags_GetEventChkInf(EVENTCHKINF_RETURNED_TO_TEMPLE_OF_TIME_WITH_ALL_MEDALLIONS)) {
                     Flags_SetEventChkInf(EVENTCHKINF_RETURNED_TO_TEMPLE_OF_TIME_WITH_ALL_MEDALLIONS);
+                    if (!IS_RANDO) {
+                        gSaveContext.dayTime = gSaveContext.skyboxTime = 0x2aaa;
+                    }
                     if (GameInteractor_Should(VB_GIVE_ITEM_LIGHT_ARROW, true)) {
                         Item_Give(gPlayState, ITEM_ARROW_LIGHT);
                     }
@@ -438,7 +441,9 @@ void TimeSaverOnVanillaBehaviorHandler(GIVanillaBehavior id, bool* should, va_li
 
             // If it's near a jailed carpenter, skip it along with introduction of Gerudo mini-boss
             if (gPlayState->sceneNum == SCENE_THIEVES_HIDEOUT &&
-                CVarGetInteger(CVAR_ENHANCEMENT("TimeSavers.SkipCutscene.BossIntro"), IS_RANDO)) {
+                CVarGetInteger(CVAR_ENHANCEMENT("TimeSavers.SkipCutscene.BossIntro"), IS_RANDO) &&
+                (!IS_RANDO || !RAND_GET_OPTION(RSK_SHUFFLE_SPEAK) ||
+                 Flags_GetRandomizerInf(RAND_INF_CAN_SPEAK_HYLIAN))) {
                 EnWonderTalk2* enWonderTalk = va_arg(args, EnWonderTalk2*);
                 EnDaiku* enDaiku =
                     (EnDaiku*)Actor_FindNearby(gPlayState, &enWonderTalk->actor, ACTOR_EN_DAIKU, ACTORCAT_NPC, 999.0f);
@@ -513,6 +518,9 @@ void TimeSaverOnVanillaBehaviorHandler(GIVanillaBehavior id, bool* should, va_li
                     Flags_SetEventChkInf(EVENTCHKINF_ENTERED_MASTER_SWORD_CHAMBER);
                     Flags_SetEventChkInf(EVENTCHKINF_SHEIK_SPAWNED_AT_MASTER_SWORD_PEDESTAL);
                     Flags_SetEventChkInf(EVENTCHKINF_TIME_TRAVELED_TO_ADULT);
+                    if (!IS_RANDO) {
+                        gSaveContext.dayTime = gSaveContext.skyboxTime = 0x8000;
+                    }
                     if (GameInteractor_Should(VB_GIVE_ITEM_LIGHT_MEDALLION, true)) {
                         Item_Give(gPlayState, ITEM_MEDALLION_LIGHT);
                     }

@@ -1,19 +1,17 @@
-#include "randomizer.h"
-#include <nlohmann/json.hpp>
+#include <atomic>
 #include <fstream>
-#include <variables.h>
-#include <macros.h>
-#include <functions.h>
+#include <sstream>
+#include <tuple>
+
+#include <nlohmann/json.hpp>
+#include <ship/window/FileDropMgr.h>
+
+#include "randomizer.h"
 #include "3drando/menu.hpp"
 #include "soh/ResourceManagerHelpers.h"
 #include "soh/SohGui/SohGui.hpp"
-#include <imgui.h>
-#include "../../../src/overlays/actors/ovl_En_GirlA/z_en_girla.h"
 #include "randomizer_check_objects.h"
-#include <sstream>
-#include <tuple>
 #include "soh/OTRGlobals.h"
-#include <ship/window/FileDropMgr.h>
 #include "static_data.h"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "settings.h"
@@ -25,8 +23,11 @@
 #include "logic.h"
 
 extern "C" {
+#include <variables.h>
+#include <macros.h>
+#include <functions.h>
+#include "../../../src/overlays/actors/ovl_En_GirlA/z_en_girla.h"
 #include "src/overlays/actors/ovl_Obj_Bean/z_obj_bean.h"
-
 extern void func_80B8FE00(ObjBean*); // trigger planting
 extern PlayState* gPlayState;
 }
@@ -43,7 +44,7 @@ std::unordered_map<std::string, HintType> SpoilerfileHintTypeNameToEnum;
 std::set<RandomizerCheck> excludedLocations;
 std::set<RandomizerCheck> spoilerExcludedLocations;
 
-bool generated;
+static std::atomic<bool> randoGenerating;
 
 bool Rando_HandleSpoilerDrop(char* filePath) {
     if (SohUtils::IsStringEmpty(filePath)) {
@@ -436,8 +437,6 @@ ItemObtainability Randomizer::GetItemObtainabilityFromRandomizerGet(RandomizerGe
             } else {
                 return Flags_GetRandomizerInf(RAND_INF_OBTAINED_NAYRUS_LOVE) ? CANT_OBTAIN_ALREADY_HAVE : CAN_OBTAIN;
             }
-        case RG_ROCS_FEATHER:
-            return Flags_GetRandomizerInf(RAND_INF_OBTAINED_ROCS_FEATHER) ? CANT_OBTAIN_ALREADY_HAVE : CAN_OBTAIN;
 
         // Bottles
         case RG_EMPTY_BOTTLE:
@@ -955,8 +954,6 @@ RandomizerCheck Randomizer::GetCheckFromRandomizerInf(RandomizerInf randomizerIn
 std::thread randoThread;
 
 void GenerateRandomizerImgui(std::string seed = "") {
-    CVarSetInteger(CVAR_GENERAL("RandoGenerating"), 1);
-    Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     auto ctx = Rando::Context::GetInstance();
     // RANDOTODO proper UI for selecting if a spoiler loaded should be used for settings
     Rando::Settings::GetInstance()->SetAllToContext();
@@ -992,32 +989,32 @@ void GenerateRandomizerImgui(std::string seed = "") {
     }
 
     Rando::Context::GetInstance()->SetSeedGenerated(GenerateRandomizer(excludedLocations, enabledTricks, seed));
-    CVarSetInteger(CVAR_GENERAL("RandoGenerating"), 0);
     Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
 
-    generated = true;
-
     GameInteractor::Instance->ExecuteHooks<GameInteractor::OnGenerationCompletion>();
+
+    randoGenerating = false;
+}
+
+bool IsRandoGenerating() {
+    return randoGenerating;
 }
 
 bool GenerateRandomizer(std::string seed /*= ""*/) {
-    if (generated) {
-        generated = false;
-        randoThread.join();
+    if (randoGenerating) {
+        return false;
     }
-    if (CVarGetInteger(CVAR_GENERAL("RandoGenerating"), 0) == 0) {
-        randoThread = std::thread(&GenerateRandomizerImgui, seed);
-        return true;
-    }
-    return false;
+    WaitForRandoGeneration();
+    randoGenerating = true;
+    randoThread = std::thread(&GenerateRandomizerImgui, seed);
+    return true;
 }
 
 static bool locationsTabOpen = false;
 static bool tricksTabOpen = false;
 
-void JoinRandoGenerationThread() {
-    if (generated) {
-        generated = false;
+void WaitForRandoGeneration() {
+    if (randoThread.joinable()) {
         randoThread.join();
     }
 }
@@ -1193,7 +1190,6 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
     if (Rando::StaticData::RandoGetToRandInf.find(item) != Rando::StaticData::RandoGetToRandInf.end()) {
         Flags_SetRandomizerInf((RandomizerInf)Rando::StaticData::RandoGetToRandInf.find(item)->second);
         if (item == RG_SKELETON_KEY) {
-            Flags_SetRandomizerInf(RAND_INF_HAS_SKELETON_KEY);
             // This isn't technically necessary, because keys will no longer be consumed,
             // but for the player's sanity we display that they _have_ keys.
             for (Rando::DungeonInfo* dungeon : Rando::Context::GetInstance()->GetDungeons()->GetDungeonList()) {
@@ -1217,6 +1213,10 @@ extern "C" u16 Randomizer_Item_Give(PlayState* play, GetItemEntry giEntry) {
             Flags_SetRandomizerInf(RAND_INF_CHILD_TRADES_HAS_LETTER_ZELDA);
             if (!ChildTradeSlotOccupied()) {
                 INV_CONTENT(ITEM_TRADE_CHILD) = ITEM_LETTER_ZELDA;
+            }
+        } else if (item == RG_ROCS_FEATHER) {
+            if (INV_CONTENT(ITEM_NAYRUS_LOVE) == ITEM_NONE) {
+                INV_CONTENT(ITEM_NAYRUS_LOVE) = ITEM_ROCS_FEATHER;
             }
         } else if (item == RG_CHILD_WALLET &&
                    OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_FULL_WALLETS)) {

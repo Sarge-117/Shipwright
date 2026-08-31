@@ -1,15 +1,14 @@
-#include "soh/OTRGlobals.h"
-#include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"
+#include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/Enhancements/randomizer/SeedContext.h"
 #include "soh/ShipInit.hpp"
 
 extern "C" {
-extern PlayState* gPlayState;
 #include "src/overlays/actors/ovl_En_Door/z_en_door.h"
 #include "src/overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "src/overlays/actors/ovl_En_Hintnuts/z_en_hintnuts.h"
 #include "src/overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
 #include "src/overlays/actors/ovl_Bg_Bdan_Switch/z_bg_bdan_switch.h"
+extern PlayState* gPlayState;
 }
 
 using SceneDoorParamsPair = std::pair<int, int>;

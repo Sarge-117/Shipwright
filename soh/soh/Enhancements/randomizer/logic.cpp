@@ -1,19 +1,19 @@
+#include <spdlog/spdlog.h>
+
 #include "logic.h"
 #include "bean_patches.h"
 #include "../debugger/performanceTimer.h"
-
-#include <vector>
-
 #include "soh/OTRGlobals.h"
 #include "randomizer.h"
 #include "dungeon.h"
 #include "SeedContext.h"
+#include "randomizer.h"
+#include "location_access.h"
+
+extern "C" {
 #include "macros.h"
 #include "variables.h"
-#include "randomizer.h"
-#include <spdlog/spdlog.h>
-#include <ship/utils/StringHelper.h>
-#include "location_access.h"
+}
 
 extern "C" PlayState* gPlayState;
 
@@ -124,30 +124,22 @@ bool Logic::HasItem(RandomizerGet itemName) {
         case RG_DOUBLE_DEFENSE:
             return GetSaveContext()->isDoubleDefenseAcquired;
             // Masks
+        case RG_KEATON_MASK:
+            return CheckRandoInf(RAND_INF_CHILD_TRADES_HAS_MASK_KEATON) ||
+                   (!ctx->GetOption(RSK_SHUFFLE_MASKS) && Get(LOGIC_CAN_BORROW_MASKS));
         case RG_SKULL_MASK:
-            switch (ctx->GetOption(RSK_MASK_QUEST).Get()) {
-                case RO_MASK_QUEST_VANILLA:
-                    return Get(LOGIC_BORROW_SKULL_MASK);
-                case RO_MASK_QUEST_COMPLETED:
-                    return Get(LOGIC_KAKARIKO_GATE_OPEN);
-                case RO_MASK_QUEST_SHUFFLE:
-                    return CheckRandoInf(RAND_INF_CHILD_TRADES_HAS_MASK_SKULL);
-                default:
-                    assert(false);
-                    return false;
-            }
+            return CheckRandoInf(RAND_INF_CHILD_TRADES_HAS_MASK_SKULL) ||
+                   (!ctx->GetOption(RSK_SHUFFLE_MASKS) && Get(LOGIC_CAN_BORROW_MASKS) && Get(LOGIC_SOLD_KEATON_MASK));
+        case RG_SPOOKY_MASK:
+            return CheckRandoInf(RAND_INF_CHILD_TRADES_HAS_MASK_SPOOKY) ||
+                   (!ctx->GetOption(RSK_SHUFFLE_MASKS) && Get(LOGIC_CAN_BORROW_MASKS) && Get(LOGIC_SOLD_SKULL_MASK));
+        case RG_BUNNY_HOOD:
+            return CheckRandoInf(RAND_INF_CHILD_TRADES_HAS_MASK_BUNNY) ||
+                   (!ctx->GetOption(RSK_SHUFFLE_MASKS) && Get(LOGIC_CAN_BORROW_MASKS) && Get(LOGIC_SOLD_SPOOKY_MASK));
         case RG_MASK_OF_TRUTH:
-            switch (ctx->GetOption(RSK_MASK_QUEST).Get()) {
-                case RO_MASK_QUEST_VANILLA:
-                    return Get(LOGIC_BORROW_RIGHT_MASKS);
-                case RO_MASK_QUEST_COMPLETED:
-                    return Get(LOGIC_KAKARIKO_GATE_OPEN);
-                case RO_MASK_QUEST_SHUFFLE:
-                    return CheckRandoInf(RAND_INF_CHILD_TRADES_HAS_MASK_TRUTH);
-                default:
-                    assert(false);
-                    return false;
-            }
+            return CheckRandoInf(RAND_INF_CHILD_TRADES_HAS_MASK_TRUTH) ||
+                   (!ctx->GetOption(RSK_SHUFFLE_MASKS) && Get(LOGIC_CAN_BORROW_MASKS) && Get(LOGIC_SOLD_KEATON_MASK) &&
+                    Get(LOGIC_SOLD_SKULL_MASK) && Get(LOGIC_SOLD_SPOOKY_MASK) && Get(LOGIC_SOLD_BUNNY_HOOD));
         case RG_POWER_BRACELET:
         case RG_CHILD_WALLET:
         case RG_FISHING_POLE:
@@ -1992,6 +1984,7 @@ std::map<RandomizerGet, uint32_t> StaticData::RandoGetToRandInf = {
     { RG_SPEAK_KOKIRI, RAND_INF_CAN_SPEAK_KOKIRI },
     { RG_SPEAK_ZORA, RAND_INF_CAN_SPEAK_ZORA },
     { RG_FISHING_POLE, RAND_INF_FISHING_POLE_FOUND },
+    { RG_ROCS_FEATHER, RAND_INF_OBTAINED_ROCS_FEATHER },
     { RG_GUARD_HOUSE_KEY, RAND_INF_GUARD_HOUSE_KEY_OBTAINED },
     { RG_MARKET_BAZAAR_KEY, RAND_INF_MARKET_BAZAAR_KEY_OBTAINED },
     { RG_MARKET_POTION_SHOP_KEY, RAND_INF_MARKET_POTION_SHOP_KEY_OBTAINED },
@@ -2519,7 +2512,9 @@ void Logic::ApplyItemEffect(Item& item, bool state) {
                 case RG_BOMBCHU_5:
                 case RG_BOMBCHU_10:
                 case RG_BOMBCHU_20:
-                    SetInventory(ITEM_BOMBCHU, (!state ? ITEM_NONE : ITEM_BOMBCHU));
+                    if (ctx->GetOption(RSK_BOMBCHU_BAG).Is(RO_BOMBCHU_BAG_NONE)) {
+                        SetInventory(ITEM_BOMBCHU, (!state ? ITEM_NONE : ITEM_BOMBCHU));
+                    }
                     break;
                 default:
                     break;
@@ -2640,13 +2635,13 @@ void Logic::ApplyItemEffect(Item& item, bool state) {
                     break;
                 case RG_DEKU_STICK_1:
                 case RG_BUY_DEKU_STICK_1:
-                case RG_STICKS:
                     SetInventory(ITEM_STICK, (!state ? ITEM_NONE : ITEM_STICK));
                     break;
-                case RG_BOMBCHU_5:
-                case RG_BOMBCHU_10:
-                case RG_BOMBCHU_20:
-                    SetInventory(ITEM_BOMBCHU, (!state ? ITEM_NONE : ITEM_BOMBCHU));
+                case RG_BUY_BOMBCHUS_10:
+                case RG_BUY_BOMBCHUS_20:
+                    if (ctx->GetOption(RSK_BOMBCHU_BAG).Is(RO_BOMBCHU_BAG_NONE)) {
+                        SetInventory(ITEM_BOMBCHU, (!state ? ITEM_NONE : ITEM_BOMBCHU));
+                    }
                     break;
                 default:
                     break;

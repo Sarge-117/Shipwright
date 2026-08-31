@@ -5,9 +5,9 @@
 #include "soh/Enhancements/randomizer/randomizerTypes.h"
 #include "soh/Enhancements/randomizer/bean_patches.h"
 #include "soh/Enhancements/randomizer/dungeon.h"
+#include "soh/Enhancements/randomizer/fishsanity.h"
 #include "soh/Enhancements/randomizer/static_data.h"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
-#include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"
 #include "soh/SohGui/ImGuiUtils.h"
 #include "soh/Notification/Notification.h"
 #include "soh/SaveManager.h"
@@ -2473,8 +2473,7 @@ void RandomizerOnActorInitHandler(void* actorRef) {
         }
     }
 
-    if (actor->id == ACTOR_EN_OSSAN && actor->params == OSSAN_TYPE_MASK &&
-        RAND_GET_OPTION(RSK_MASK_QUEST).Is(RO_MASK_QUEST_SHUFFLE)) {
+    if (actor->id == ACTOR_EN_OSSAN && actor->params == OSSAN_TYPE_MASK && RAND_GET_OPTION(RSK_SHUFFLE_MASKS)) {
         Actor_Kill(actor);
     }
 
@@ -2991,7 +2990,7 @@ static void RandomizerRegisterHooks() {
             RandomizerOnKaleidoscopeUpdateHandler);
 
         if (RAND_GET_OPTION(RSK_FISHSANITY).IsNot(RO_FISHSANITY_OFF)) {
-            OTRGlobals::Instance->gRandoContext->GetFishsanity()->InitializeFromSave();
+            Rando::Fishsanity::InitializeFromSave();
         }
     });
 }
