@@ -2052,14 +2052,14 @@ void ItemTrackerWindow::DrawElement() {
             SECTION_DISPLAY_SEPARATE) {
             BeginFloatingWindows("Extra Dungeon Key Tracker");
             DrawItemsInRows(extraDungeonKeyItems, 5);
-            EndFloatingWindows();
+            Trackers::EndFloatWindows();
         }
 
         if (CVarGetInteger(CVAR_TRACKER_ITEM("DisplayType.CustomFlames"), SECTION_DISPLAY_HIDDEN) ==
             SECTION_DISPLAY_SEPARATE) {
             BeginFloatingWindows("Flames of Glombon Tracker");
             DrawItemsInRows(customFlameItems, 4);
-            EndFloatingWindows();
+            Trackers::EndFloatWindows();
         }
 
         if (CVarGetInteger(CVAR_TRACKER_ITEM("DisplayType.SilverRupees"), SECTION_DISPLAY_HIDDEN) ==

@@ -12,6 +12,8 @@ extern "C" {
 #include "functions.h"
 #include "variables.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_gi_key/object_gi_key.h"
+#include "objects/object_gi_bosskey/object_gi_bosskey.h"
 #include "objects/object_gi_compass/object_gi_compass.h"
 #include "objects/object_gi_map/object_gi_map.h"
 #include "objects/object_gi_hearts/object_gi_hearts.h"

@@ -859,7 +859,7 @@ void Settings::CreateOptions() {
     OPT_U8(RSK_SHUFFLE_WEIRD_EGG, {"Vanilla", "Shuffled", "Skip Waking Talon"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShuffleWeirdEgg"), WIDGET_CVAR_COMBOBOX, RO_WEIRD_EGG_VANILLA);
     OPT_BOOL(RSK_SHUFFLE_ZELDAS_LETTER, CVAR_RANDOMIZER_SETTING("ShuffleZeldasLetter"));
     OPT_BOOL(RSK_SHUFFLE_GERUDO_MEMBERSHIP_CARD, CVAR_RANDOMIZER_SETTING("ShuffleGerudoToken"));
-    OPT_BOOL(RSK_SHUFFLE_BONUS_CHESTS, "Shuffle Bonus Chests", CVAR_RANDOMIZER_SETTING("ShuffleBonusChests"), mOptionDescriptions[RSK_SHUFFLE_BONUS_CHESTS]);
+    OPT_BOOL(RSK_SHUFFLE_BONUS_CHESTS, CVAR_RANDOMIZER_SETTING("ShuffleBonusChests"));
     OPT_U8(RSK_SHUFFLE_POTS, {"Off", "Dungeons", "Overworld", "All Pots"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShufflePots"), WIDGET_CVAR_COMBOBOX, RO_SHUFFLE_POTS_OFF);
     OPT_U8(RSK_SHUFFLE_GRASS, {"Off", "Dungeons", "Overworld", "All Grass"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShuffleGrass"), WIDGET_CVAR_COMBOBOX, RO_SHUFFLE_GRASS_OFF);
     OPT_U8(RSK_SHUFFLE_CRATES, {"Off", "Dungeons", "Overworld", "All Crates"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("ShuffleCrates"), WIDGET_CVAR_COMBOBOX, RO_SHUFFLE_CRATES_OFF);
@@ -1398,8 +1398,8 @@ void Settings::CreateOptions() {
     OPT_BOOL(RSK_BLUE_FIRE_ARROWS, CVAR_RANDOMIZER_SETTING("BlueFireArrows"));
     OPT_BOOL(RSK_SUNLIGHT_ARROWS, CVAR_RANDOMIZER_SETTING("SunlightArrows"));
     OPT_BOOL(RSK_ROCS_FEATHER, CVAR_RANDOMIZER_SETTING("RocsFeather"));
-    OPT_BOOL(RSK_SHUFFLE_CUSTOM_FLAMES, "Flames of Glombon", CVAR_RANDOMIZER_SETTING("CustomFlames"), mOptionDescriptions[RSK_SHUFFLE_CUSTOM_FLAMES]);
-    OPT_BOOL(RSK_MORE_DUNGEON_KEYS, "More Dungeon Keys", CVAR_RANDOMIZER_SETTING("MoreDungeonKeys"), mOptionDescriptions[RSK_MORE_DUNGEON_KEYS]);
+    OPT_BOOL(RSK_SHUFFLE_CUSTOM_FLAMES, CVAR_RANDOMIZER_SETTING("CustomFlames"));
+    OPT_BOOL(RSK_MORE_DUNGEON_KEYS, CVAR_RANDOMIZER_SETTING("MoreDungeonKeys"));
     OPT_U8(RSK_INFINITE_UPGRADES, {"Off", "Progressive", "Condensed Progressive"}, OptionCategory::Setting, CVAR_RANDOMIZER_SETTING("InfiniteUpgrades"));
     OPT_BOOL(RSK_SKELETON_KEY, CVAR_RANDOMIZER_SETTING("SkeletonKey"));
     OPT_BOOL(RSK_SLINGBOW_BREAK_BEEHIVES, CVAR_RANDOMIZER_SETTING("SlingBowBeehives"));
